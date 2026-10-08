@@ -1,0 +1,12 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# Reconstructed records are versioned losslessly in condition archives.
+experiments/20261009_likelihood_initialization/final/jobs/
+experiments/20261009_likelihood_initialization/pilot_v2/jobs/
+
+# Fresh reruns and temporary inspection outputs
+experiments/**/reproduced_*/
+experiments/**/qa/
