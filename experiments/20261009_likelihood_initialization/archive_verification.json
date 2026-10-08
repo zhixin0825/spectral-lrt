@@ -1,0 +1,52 @@
+{
+  "dataset": "sbm_likelihood_init_20261009",
+  "verified_on": "2026-10-09",
+  "scope": "GitHub archive preparation; no model fitting rerun",
+  "totals": {
+    "graphs": 747,
+    "record_files": 1494,
+    "archives": 45,
+    "uncompressed_bytes": 65355180,
+    "archive_bytes": 46765395
+  },
+  "split_counts": {
+    "final": {
+      "graphs": 720,
+      "record_files": 1440,
+      "uncompressed_bytes": 63560537,
+      "archives": 36
+    },
+    "pilot_v2": {
+      "graphs": 27,
+      "record_files": 54,
+      "uncompressed_bytes": 1794643,
+      "archives": 9
+    }
+  },
+  "largest_archive_bytes": 1629378,
+  "checks": {
+    "all_archived_records_byte_identical_to_originals": true,
+    "fresh_restore_records": 1494,
+    "idempotent_restore_retained_files": 1494,
+    "conflict_rejected_before_any_writes": true,
+    "symlink_destination_rejected": true,
+    "unsafe_or_unexpected_path_cases_rejected": 7,
+    "corrupted_archive_bytes_rejected": true,
+    "all_existing_python_sources_unchanged": true
+  },
+  "unchanged_source_sha256": {
+    "experiment.py": "bcc3f3953de935ce815b3a9c361cc21bc93a3545a816ed068bab97cf2abe5871",
+    "poisson_gaussian.py": "4b2aeffbd307700d6a85cdfac18ef25be5a0aa47bc828702cca680d381d3548e",
+    "analyze_results.py": "adf5a1f7f3f0293f2f46819fc87d10fa6dc4eccee2121314f48d7cde28ca2c72",
+    "build_report.py": "d6d32e8393bf43d7174db7a017c5b0ca897d59dc6081f3f342ce821bebdea7d2",
+    "package_results.py": "006b57f386c4d8b6db8e2fdade6aa9d59b589b3e95fc46d62e1810c1807179fa",
+    "audit_final.py": "f09f20c22b28ec61f49956ffd970a63a61dbee3af6f93923d536305d478521a7",
+    "pilot_diagnostics.py": "23d1db7c1766387f57b3a18c8aca6a9b7a990bd585b9399696df0497927086b9"
+  },
+  "notes": [
+    "All original per-graph JSON/NPZ bytes were compared directly to the source records.",
+    "SHA256 checks establish integrity relative to this versioned manifest; they are not a digital signature.",
+    "Temporary extraction and failure-case test files were deleted after verification.",
+    "Benchmark algorithms were copied byte-for-byte; only archival documentation and restore utilities were added."
+  ]
+}

@@ -1,0 +1,95 @@
+Independent audit of frozen SBM likelihood-initialization experiments
+===================================================================
+
+Scope and completeness
+----------------------
+720/720 jobs complete: 6 models x 6 degree levels x 20 paired graph seeds.
+n=1800, degrees 4,6,12,24,64,96, final seeds100:120, six restarts per method.
+36 complete model/degree conditions. Zero failed records and zero duplicated
+method/stage records. Audit uses only final/, never pilot outputs. Algorithms
+were not changed or tuned by this audit. Independent reproducible analysis:
+audit_final.py; detailed CSVs and metadata: final_audit/.
+
+Same-feature comparisons
+------------------------
+KMeans/GMM arms use identical feature matrices and the same per-restart center
+seeds. Full GMM versus KMeans on standardized spectral coordinates has lower
+condition-mean error in 25/36 conditions, a tie in1, and higher error in10.
+Full GMM on neighbor+degree features is better in25, tied in3, worse in8.
+Poisson-Gaussian (PG) versus neighborhood+degree KMeans is better in27, tied in3,
+worse in6. PG uses a different seeding/model specification, so this last
+comparison isolates equal available information, not objective alone.
+
+Selected genuine gains against the neighborhood+degree KMeans baseline:
+- K3 heterogeneous, d=24: 10.050% -> PG7.519%; paired difference -2.531 percentage
+  points, descriptive95%CI[-2.879,-2.182]pp;20/20 paired graph wins.
+- K3 heterogeneous, d=12: 19.928% -> PG18.750%; difference -1.178pp,
+  CI[-1.736,-0.620]pp;16/20 wins.
+- K3 heterogeneous, d=6:43.722% -> PG34.583%; difference -9.139pp,
+  CI[-12.022,-6.256]pp;17/20 wins.
+- K3 equal-degree, d=24:3.475% -> full GMM2.411% or PG2.425%; each20/20 wins.
+- K4 hierarchical, d=96:3.131% -> PG2.197%; difference -0.933pp,
+  CI[-1.099,-0.768]pp;20/20 wins.
+
+Counterexamples to uniform improvement:
+- K3 equal-degree,d=4: neighborhood+degree KMeans54.356%,PG62.389%.
+- K3 disassortative,d=6: same baseline40.478%,PG47.736%.
+- K4 hierarchical,d=24: same baseline27.200%,PG28.594%.
+- K2 symmetric,d=6: classic-U KMeans15.553%,PG20.669%,full GMM(spec)32.747%.
+- K4 equal-degree,d=24: ASE KMeans6.811%,RRE KMeans6.803%,PG12.842%; a large
+  gain over the poorer neighborhood+degree KMeans33.725% would hide this.
+
+Geometry control must not be mistaken for a strong standard baseline
+-------------------------------------------------------------------
+At K2,d=96, the standardized spectral+degree KMeans arm has45.781% mean error,
+whereas classic U, ASE, RRE, and full GMM recover all graphs exactly. On seed100,
+true communities have mean degrees96.151 and95.789. The bad KMeans partition
+instead has means104.000 and88.721. Standardizing the leading-eigenvector
+fluctuation and appending standardized degree approximately duplicates noise.
+In the illustrative feature model(G,S,G),G standard normal and S independent
+equiprobable+/-1, true-community KMeans cost is2, while degree-sign splitting
+cost is3-4/pi=1.72676. Thus enormous GMM gains on this representation do not
+establish gains over a well-scaled conventional spectral initializer.
+
+Decoder failure is a separate, material result
+----------------------------------------------
+The common unguarded empirical centroid-inverse decoder is not reliable on
+these finite-n experiments. It can destroy an already excellent initialization.
+K3 heterogeneous,d=64: PG initial error0.6778%, decoded58.1639%.19/20 graphs
+select a negative empirical eigenvalue among top3 by absolute value, although
+population C is positive definite. This indicates a weak signal direction has
+been displaced by noise. Mean centroid condition number572.5,max3001.1; inferred
+counts are negative46.16% of the time. At d=96 all selected eigenvalues are
+positive, mean condition1.1606, initial error0.0528%,decoded0.1278%.
+Other examples: K4 equal-degree,d=64 PG0.1694% -> decoded45.5694%; K4 hierarchical,
+d=96 PG2.1972% -> decoded56.3889%. These are not evidence against an asymptotic
+theorem under genuine signal-subspace separation, but they preclude claiming
+this frozen decoder empirically attains the oracle LRT here. No guard was tuned
+post hoc, and these unfavorable results remain in the report.
+
+Diagnostics
+-----------
+Across720 selected restarts per method:
+- KMeans variants: all meet iteration limit convergence criterion.
+- Full GMM(spec):9 nonconverged; full GMM(spec+degree):1; full GMM(neighbor+degree):
+  23; tied GMM:1. No selected GMM likelihood-decrease flags.
+- PG: all720 converge;17 selected runs stop at tiny numerical plateaus, with
+  no substantial numerical-decrease status. No empty hard clusters.
+- Raw Bernoulli VEM:2 nonconverged,149 empty hard-cluster outputs,174 outputs
+  with a hard cluster smaller than1%n. These are hard-label diagnostics, not
+  proof that fitted soft mixture weights are zero.
+- Spectral Bernoulli-shaped surrogate:8 nonconverged,79 empty hard-cluster
+  outputs,98 small-cluster outputs,99 decoder fallbacks.
+- Total decoder fallbacks107 across all8640 method/job combinations. Successful
+  numerical completion is not evidence of a statistically safe inverse.
+
+Interpretation constraints
+---------------------------
+The Gaussian and Poisson-Gaussian objectives are working/composite likelihoods,
+not the original graph likelihood. The signed low-rank Bernoulli-shaped arm is
+explicitly a surrogate. Only raw Bernoulli VEM reads original edges. No method
+uses truth for restarting or fitting. Intervals are descriptive paired t
+intervals with no multiplicity correction. Fixed n and a finite d grid do not
+verify asymptotic error exponents; only d4,d6 are numerically below log1800.
+Convergence diagnostics refer to selected restarts; complete trajectories of
+all unsuccessful restarts are not saved by the runner.

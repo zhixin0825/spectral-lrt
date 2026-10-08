@@ -1,0 +1,198 @@
+{
+  "completed_jobs": 720,
+  "expected_jobs": 720,
+  "all_complete": true,
+  "duplicate_method_stage_records": 0,
+  "failed_records": 0,
+  "completed_conditions": 36,
+  "metadata_unique_shapes": [
+    [
+      1800,
+      2
+    ],
+    [
+      1800,
+      3
+    ],
+    [
+      1800,
+      4
+    ]
+  ],
+  "feature_and_seeding_comparisons": [
+    [
+      "gmm_full_spec",
+      "km_spec",
+      "same_features_and_center_seeds"
+    ],
+    [
+      "gmm_tied_spec",
+      "km_spec",
+      "same_features_and_center_seeds"
+    ],
+    [
+      "gmm_full_spec_degree",
+      "km_spec_degree",
+      "same_features_and_center_seeds"
+    ],
+    [
+      "gmm_full_neighbor_degree",
+      "km_neighbor_degree",
+      "same_features_and_center_seeds"
+    ],
+    [
+      "poisson_gaussian",
+      "km_neighbor_degree",
+      "same_information_different_model_and_seeding"
+    ],
+    [
+      "gmm_full_spec",
+      "km_classic_U",
+      "different_geometry_same_spectral_information"
+    ],
+    [
+      "poisson_gaussian",
+      "km_classic_U",
+      "different_geometry_degree_augmented"
+    ],
+    [
+      "spectral_bernoulli_surrogate",
+      "km_classic_U",
+      "different_objective_degree_augmented"
+    ],
+    [
+      "raw_bernoulli_vem",
+      "km_classic_U",
+      "additional_original_edge_information"
+    ]
+  ],
+  "initial_diagnostics": [
+    {
+      "method": "gmm_full_neighbor_degree",
+      "repetitions": 720,
+      "not_converged": 23,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "gmm_full_spec",
+      "repetitions": 720,
+      "not_converged": 9,
+      "empty_cluster": 0,
+      "small_cluster": 1,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "gmm_full_spec_degree",
+      "repetitions": 720,
+      "not_converged": 1,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "gmm_tied_spec",
+      "repetitions": 720,
+      "not_converged": 1,
+      "empty_cluster": 0,
+      "small_cluster": 3,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_ASE",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 1,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_RRE",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 1,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_classic_U",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 1,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_neighbor_degree",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_spec",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "km_spec_degree",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "poisson_gaussian",
+      "repetitions": 720,
+      "not_converged": 0,
+      "empty_cluster": 0,
+      "small_cluster": 0,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 17.0
+    },
+    {
+      "method": "raw_bernoulli_vem",
+      "repetitions": 720,
+      "not_converged": 2,
+      "empty_cluster": 149,
+      "small_cluster": 174,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    },
+    {
+      "method": "spectral_bernoulli_surrogate",
+      "repetitions": 720,
+      "not_converged": 8,
+      "empty_cluster": 79,
+      "small_cluster": 98,
+      "monotonicity_decreases": 0.0,
+      "numerical_rejections": 0.0
+    }
+  ],
+  "fallback_total": 107,
+  "notes": [
+    "Paired CI is descriptive, unadjusted for multiple comparisons.",
+    "Positive delta means first method has higher error.",
+    "Do not average currently completed jobs as representative of all models: scheduler is ordered by model and degree.",
+    "Comparisons using poor standardized/degree-duplicated L2 geometry do not establish superiority to classic U/ASE/RRE clustering.",
+    "d=4,6 are numerically below log(1800); d=12,24,64,96 are above. Fixed n grid does not verify asymptotic exponents.",
+    "Monotonicity and convergence diagnostics cover only each method's selected restart; all restart trajectories are not saved.",
+    "The raw Bernoulli VEM arm reads A; compressed-only arms must not be selected using its objective."
+  ]
+}

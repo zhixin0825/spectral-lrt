@@ -1,0 +1,9 @@
+# Reproducible benchmark environment: CPython 3.12.14.
+# Different BLAS/eigensolver platforms can alter near-degenerate subspaces
+# and local optimizer trajectories. Frozen predictions are supplied as well.
+numpy==2.3.5
+scipy==1.17.0
+pandas==2.2.3
+scikit-learn==1.8.0
+matplotlib==3.10.8
+threadpoolctl==3.6.0

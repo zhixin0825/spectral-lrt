@@ -1,0 +1,1209 @@
+% !TeX program = xelatex
+% Compile twice: xelatex sbm_spectral_lrt_20261009.tex
+% Requires XeLaTeX, xeCJK, and Noto Serif CJK TC or the Fandol fonts.
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\IfFontExistsTF{Noto Serif CJK TC}{
+  \setCJKmainfont{Noto Serif CJK TC}[
+    BoldFont={Noto Serif CJK TC Bold},ItalicFont={Noto Serif CJK TC},
+    BoldItalicFont={Noto Serif CJK TC Bold}]
+  \setCJKsansfont{Noto Serif CJK TC}[BoldFont={Noto Serif CJK TC Bold}]
+  \setCJKmonofont{Noto Serif CJK TC}
+}{
+  \setCJKmainfont{FandolSong-Regular.otf}[
+    BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]
+  \setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]
+  \setCJKmonofont{FandolSong-Regular.otf}
+}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  unicode=true,colorlinks=true,linkcolor=blue!45!black,
+  citecolor=blue!45!black,urlcolor=blue!45!black,
+  pdftitle={稀疏 SBM 的譜信息與局部似然比檢驗},
+  pdfauthor={研究討論整理稿},
+  pdfsubject={Degree、LOO、譜壓縮、區塊連邊計數與 LRT 錯誤指數}
+}
+\renewcommand{\contentsname}{目錄}
+\renewcommand{\refname}{參考文獻}
+\renewcommand{\abstractname}{摘要}
+\renewcommand{\proofname}{證明}
+\newtheoremstyle{zhplain}{8pt}{8pt}{\normalfont}{}{\bfseries}{。}{0.5em}{}
+\theoremstyle{zhplain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{remark}[theorem]{註}
+\numberwithin{equation}{section}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\logit}{\operatorname{logit}}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Frob}{\mathrm{F}}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cS}{\mathcal S}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newtcolorbox{resultbox}{
+  breakable,colback=blue!3,colframe=blue!38!black,
+  boxrule=.45pt,arc=1.5mm,left=8pt,right=8pt,top=6pt,bottom=6pt}
+\setlist{itemsep=3pt,topsep=6pt,leftmargin=2em}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{3pt}
+\linespread{1.12}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 稀疏 SBM：譜信息與 LRT}
+\fancyhead[R]{\small 研究稿 v0.1}
+\fancyfoot[C]{\small \thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\setcounter{tocdepth}{2}
+\title{\bfseries 稀疏 SBM 的譜信息與局部似然比檢驗\\[7pt]
+  \large Degree 保留、LOO 還原與 \(L^2\) 壓縮的統計意義}
+\author{研究討論整理稿 \quad v0.1}
+\date{2026 年 10 月 9 日}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+本文整理一條從正則化譜信息還原 SBM 區塊連邊計數、再進行局部似然比檢驗的路線。
+對固定社區數、正元素滿秩連接矩陣，以及平均度與 \(d_n\) 同階、
+\(d_n\to\infty\)、\(d_n=o(\log n)\) 的模型，考慮保留原始 degree
+及一次全圖正則化矩陣的前 \(k\) 個信號特徵對。
+利用 eigen-equation 可直接取得節點連接向量對譜基底的點積；
+以估計社區中心反解後，得到區塊連邊計數及 plug-in LLR。
+證明先在獨立 leave-one-out（LOO）訓練圖上建立 LLR 的大偏差等價，
+再以截斷譜行能量控制全圖與 LOO 的差異。
+得到的結論是局部分類錯誤的領先指數與原始資料 oracle LRT 相同。
+最後說明：SVD 的 \(L^2\) 目標用於估計可容納充分統計量的子空間，
+而對數概率權重在解碼後施加，兩者並不衝突。
+\end{abstract}
+
+\begin{resultbox}
+\textbf{本稿的結論與範圍。}
+本文記錄本次討論中的推導；正則化集中工具引用文獻 \cite{LLV}，
+全圖截斷能量與 LOO 橋接則在文中展開。
+結論是 \(R_{\mathrm{spec}}=\exp\{-d_n I+o(d_n)\}\)，
+不等同於 \(R_{\mathrm{spec}}/R_{\mathrm{oracle}}\to1\)，
+也不宣稱整個參數實驗的 Fisher information 或 Le Cam 意義下的無損。
+平均度有界、社區數增長、連接矩陣隨 \(n\) 退化及零連接概率不在本稿定理範圍。
+\end{resultbox}
+
+\clearpage
+\tableofcontents
+\newpage
+
+\section{模型、保存的統計量與主要結論}
+\label{sec:model}
+
+\subsection{SBM 與局部檢驗}
+令 \(A\in\{0,1\}^{n\times n}\) 為無自環、無向圖的 adjacency matrix。
+給定社區標籤 \(z=(z_1,\ldots,z_n)\)，上三角元素獨立，且
+\begin{equation}
+ A_{ij}\mid z\sim\operatorname{Bernoulli}(B_{n,z_i z_j}),
+ \qquad B_n=\rho_n C,\qquad \rho_n=\frac{d_n}{n}.
+ \label{eq:model}
+\end{equation}
+假設 \(k\) 固定，\(C\in\R^{k\times k}\) 固定、對稱、滿秩，且
+\[
+ 0<c_-\le C_{ab}\le c_+<\infty,\qquad
+ \pi_{a,n}:=\frac{n_a}{n}\longrightarrow\pi_a>0.
+\]
+另假設
+\begin{equation}
+ d_n\longrightarrow\infty,\qquad d_n=o(\log n).
+ \label{eq:sparsity}
+\end{equation}
+以下簡寫 \(d=d_n\)、\(B=B_n\)。常數 \(K,c>0\) 可依賴
+\(C,k,\min_a\pi_a\) 及固定的概率階數 \(r\)，不依賴 \(n\)；
+不同公式中的常數可不同。
+
+令 \(Z\in\{0,1\}^{n\times k}\) 為社區指示矩陣。區分
+\begin{equation}
+ P=\E[A\mid z],
+ \qquad
+ P_0=\rho_n ZCZ^\top,
+ \qquad
+ P=P_0-\diag(\rho_n C_{z_i z_i}).
+ \label{eq:hollow}
+\end{equation}
+因此 \(\norm{P-P_0}_{\op}=O(\rho_n)\)；\(P_0\) 才是精確的秩 \(k\) 比較矩陣。
+
+局部二元檢驗固定其餘標籤 \(z_{-i}\)，比較
+\(H_a:z_i=a\) 與 \(H_b:z_i=b\)。
+oracle 可使用 \(z_{-i},B\) 及全部原始連邊 \(A_{i,-i}\)。
+即使研究等分社區，這個局部比較也允許候選模型的社區人數相差 \(1\)；
+不把精確總人數當成決定最後一個標籤的額外信息。
+未知標籤算法的輸出按共同社區排列評估，排列以其餘節點對齊；
+對齊只用於定義損失，不是算法的輸入。
+
+\subsection{Regularization 與譜信息}
+記
+\[
+ D_i=\sum_jA_{ij},\qquad
+ \bar D=\frac1n\sum_iD_i,\qquad
+ \tau=2\bar D,
+\]
+\begin{equation}
+ w_i=\min\{1,\tau/D_i\},\qquad
+ W=\diag(w_1,\ldots,w_n),\qquad M=WAW.
+ \label{eq:weights}
+\end{equation}
+\(D_i=0\) 時取 \(w_i=1\)。若全圖沒有邊，算法任意輸出；
+這個事件的概率在本模型下為 \(\exp\{-\Theta(nd)\}\)。
+
+令 \(MU=U\Lambda\)、\(U^\top U=I_k\)，取 \(M\) 的
+\textbf{絕對值最大的 \(k\) 個特徵值}及其特徵向量。
+一般對稱滿秩 \(C\) 可以有負特徵值，不能一律只取代數最大的 \(k\) 個。
+保存的資料為
+\[
+ \cS(A)=(D,U,\Lambda),\qquad D=(D_1,\ldots,D_n)^\top.
+\]
+給定 \(D\)，即可重新計算 \(W\)。
+
+\subsection{錯誤指數}
+對 \(a\ne b\)，定義
+\begin{equation}
+ I_{ab}=
+ \max_{0\le s\le1}\sum_{c=1}^k\pi_c
+ \left\{(1-s)C_{ac}+sC_{bc}
+             -C_{ac}^{\,1-s}C_{bc}^{\,s}\right\}.
+ \label{eq:chernoff-rate}
+\end{equation}
+滿秩保證各行不同，所以 \(I_{ab}>0\)。
+
+\begin{theorem}[Degree 加單次全圖譜信息的局部 LRT 指數]
+\label{thm:main}
+在上述假設下，第 \ref{sec:algorithm} 節的算法只使用 \(\cS(A)\)。
+對任一固定節點及候選社區 \(a,b\)，其 pairwise 分數檢驗在等先驗下的風險滿足
+\begin{equation}
+ R_{\mathrm{spec},ab}
+   =\exp\{-dI_{ab}+o(d)\},
+ \qquad
+ \frac{-\log R_{\mathrm{spec},ab}}
+      {-\log R_{\mathrm{oracle},ab}}\longrightarrow1.
+ \label{eq:main-risk}
+\end{equation}
+固定正先驗只改變 \(O(1)\) 的閾值，不改變此結論。
+固定 \(k\) 的多社區分類可用有限個 pairwise 比較；
+相應整體平均錯誤的領先指數由最難區分的一對社區控制。
+\end{theorem}
+
+主要的強誤差結論為：對每個固定 \(\varepsilon>0\)，在 \(H_a,H_b\) 任一假設下，
+\begin{equation}
+ \limsup_{n\to\infty}\frac1d
+ \log\PP\!\left(
+   |\widehat L_i^{ab}-L_i^{ab}|>\varepsilon d
+ \right)=-\infty.
+ \label{eq:exp-equivalence}
+\end{equation}
+這是速度 \(d\) 的大偏差等價，嚴格強於普通的 \(o_P(d)\)。
+
+\section{只用保存資料的算法}
+\label{sec:algorithm}
+
+\subsection{初始社區與社區譜中心}
+對 \(\sqrt n\,WU\) 的行做固定近似比的 \(k\)-means
+（全局最優亦可），得到初始指示矩陣 \(\hat Z\)。
+令 \(\hat z_a\) 為其第 \(a\) 列，並定義
+\begin{equation}
+ \hat n_a=\one^\top\hat z_a,\qquad
+ \hat\pi_a=\hat n_a/n,\qquad
+ \hat H=\diag(\hat n_1,\ldots,\hat n_k)^{-1}\hat Z^\top WU.
+ \label{eq:centroid}
+\end{equation}
+\(\hat H\) 的第 \(a\) 行是估計社區 \(a\) 的平均譜特徵。
+這一步只要求初始誤分比例 \(o(1)\)。
+
+\subsection{反解區塊連邊計數}
+由 eigen-equation 有精確恆等式
+\begin{equation}
+ AWU=W^{-1}U\Lambda.
+ \label{eq:eigen-identity}
+\end{equation}
+右側可由 \(\cS(A)\) 計算，提供每個節點連接向量對譜基底的點積。
+令
+\begin{equation}
+ \hat N^{(0)}=W^{-1}U\Lambda\hat H^{-1},
+ \qquad
+ \hat N=\hat N^{(0)}
+       +(D-\hat N^{(0)}\one_k)\hat\pi^\top.
+ \label{eq:counts-estimator}
+\end{equation}
+則 \(\hat N\one_k=D\) 精確成立。
+若理想基底滿足 \(WU=ZH\)，便有
+\[
+ W^{-1}U\Lambda=AWU=AZH,\qquad
+ W^{-1}U\Lambda H^{-1}=AZ.
+\]
+而 \((AZ)_{ic}\) 正是節點 \(i\) 連到 block \(c\) 的邊數。
+
+\subsection{連接概率估計與 plug-in LLR}
+令 \(M_k=U\Lambda U^\top\)、\(w=(w_j)_{j=1}^n\)，取
+\begin{equation}
+ \hat B_{ab}
+   =\frac{\hat z_a^\top M_k\hat z_b}
+          {(\hat z_a^\top w)(\hat z_b^\top w)}.
+ \label{eq:B-estimator}
+\end{equation}
+分母補回社區平均減權。對角的無自環修正是漸近可忽略的；
+本式不需另外估計 \(\rho_n\)。
+
+記 \(\hat m_c^{(-i)}=\hat n_c-\one\{\hat z_i=c\}\)，定義
+\begin{equation}
+ \widehat S_i(a)=
+ \sum_{c=1}^k
+ \left\{\hat N_{ic}\log\hat B_{ac}
+ +(\hat m_c^{(-i)}-\hat N_{ic})\log(1-\hat B_{ac})\right\}.
+ \label{eq:score}
+\end{equation}
+輸出使分數最大的社區；pairwise 分數為
+\(\widehat L_i^{ab}=\widehat S_i(a)-\widehat S_i(b)\)。
+\(\hat N_{ic}\) 可以非整數或帶符號；式 \eqref{eq:score}
+是重建的線性 likelihood score，不宣稱它是某組實際 Bernoulli 樣本的概率。
+若某估計社區為空、\(\hat H\) 不可逆或 \(\hat B\notin(0,1)^{k\times k}\)，
+任意定義輸出即可；以下好事件上，這些情況最終不會發生。
+
+\begin{resultbox}
+\textbf{實際輸入。}
+算法中所有量均由 \(D,U,\Lambda\) 得到。
+LOO 特徵和坐標截斷只在證明中使用；實際算法不需要保存額外的 LOO 投影。
+需要保留的是逐節點的譜行波動，不能在反解前把每個初始社區內的行全部平均掉。
+\end{resultbox}
+
+\section{正則化集中、初始一致性與參數估計}
+\label{sec:concentration}
+
+\subsection{適用於兩倍平均 degree 門檻的集中界}
+\begin{lemma}[中心化加權噪音]
+\label{lem:noise}
+對任意固定 \(r>0\)，存在 \(K_r\)，使
+\[
+ \PP\!\left\{\norm{W(A-P)W}_{\op}>K_r\sqrt d\right\}
+ =O(n^{-r}).
+\]
+相同結論適用於刪去固定數目節點後、重新計算權重的訓練圖。
+\end{lemma}
+\begin{proof}
+設 \(d_{\max}=n\max_{ij}P_{ij}\asymp d\)，並引入只供證明的權重
+\[
+ t_j=\min\{1,4d_{\max}/D_j\},\qquad T=\diag(t_j).
+\]
+它只修改 \(S=\{j:D_j>4d_{\max}\}\) 的關聯邊。
+以概率 \(1-e^{-cn}\)，有 \(|S|\le10n/d_{\max}\)。
+事實上，若存在大小 \(s=\lceil10n/d_{\max}\rceil\) 的此類子集，
+其 degree 總和大於 \(4sd_{\max}\)，期望不超過 \(sd_{\max}\)。
+degree 總和是係數為 \(1\) 或 \(2\) 的獨立 Bernoulli 和，
+Bernstein 給 \(e^{-csd_{\max}}\)；子集數的對數
+\(O(s\log(en/s))=O(n\log d/d)=o(n)\)，可由 union bound 吸收。
+
+\(TAT\) 的最大加權 degree 不超過 \(4d_{\max}\)。
+Le--Levina--Vershynin 的正則化集中定理 \cite[Theorem 2.1]{LLV}
+允許資料依賴的這類減權，因此
+\[
+ \norm{TAT-P}_{\op}\le K_r\sqrt{d_{\max}}
+\]
+以概率 \(1-O(n^{-r})\) 成立。
+每個 \(P\) 行的 Euclidean norm 至多 \(d_{\max}/\sqrt n\)，所以
+\[
+ \norm{(I-T)P}_{\op}
+ \le \norm{(I-T)P}_{\Frob}
+ \le d_{\max}\sqrt{|S|/n}=O(\sqrt d).
+\]
+由
+\(P-TPT=(I-T)P+TP(I-T)\)，得到
+\(\norm{T(A-P)T}_{\op}=O(\sqrt d)\)。
+
+另一方面，\(\bar D\le2d_{\max}\) 的失敗概率為 \(e^{-cnd}\)。
+在此事件上 \(W\le T\) 逐項成立，令 \(R=WT^{-1}\)，則 \(\norm R_{\op}\le1\)，
+並且
+\[
+ W(A-P)W=R\,T(A-P)T\,R.
+\]
+左右乘收縮矩陣即得結論。這一步處理了 \(2\bar D\) 可能壓縮
+整個高平均 degree 社區、而非只壓縮極少節點的情形。
+\end{proof}
+
+\subsection{信號間隔及秩 \texorpdfstring{\(k\)}{k} 重建}
+記 \(Q=Z^\top W^2Z\)。每個社區至少一半節點滿足
+\(D_j\le2n\bar D/n_a\)，否則其 degree 總和超過全圖總和。
+這些節點滿足 \(w_j\ge n_a/n\)，因此
+\[
+ Q_{aa}\ge\frac{n_a}{2}\left(\frac{n_a}{n}\right)^2\ge cn.
+\]
+對 \(\bar D>0\)，這是確定性結論。因 \(C\) 滿秩，
+\begin{equation}
+ \sigma_k(WP_0W)\ge cd.
+ \label{eq:signal-gap}
+\end{equation}
+引理 \ref{lem:noise} 和 \eqref{eq:hollow} 給
+\(\norm{M-WP_0W}_{\op}\le K_r\sqrt d\)。
+按特徵值絕對值截斷及最佳秩 \(k\) 逼近不等式，得到
+\begin{equation}
+ \norm{M_k-WP_0W}_{\op}\le K_r\sqrt d.
+ \label{eq:rankk-noise}
+\end{equation}
+這裡 \(WP_0W\) 是隨機代數比較矩陣，不是 \(\E[M\mid W]\)。
+
+母體信號空間的一組正交基為
+\[
+ U_0=WZQ^{-1/2}O,\qquad O^\top O=I_k.
+\]
+殘差／子空間擾動界由 \eqref{eq:signal-gap} 給
+\begin{equation}
+ \inf_{O^\top O=I_k}
+ \norm{U-WZQ^{-1/2}O}_{\Frob}=O(d^{-1/2}).
+ \label{eq:subspace}
+\end{equation}
+因 \(Q_{aa}\ge cn\)，母體基底的每行 norm 都不超過 \(K/\sqrt n\)。
+
+\subsection{社區內權重與中心的一致性}
+定義有限樣本母體量
+\[
+ \kappa_{a,n}=\sum_b\pi_{b,n}C_{ab},\quad
+ \bar\kappa_n=\sum_a\pi_{a,n}\kappa_{a,n},\quad
+ \gamma_{a,n}=\min\{1,2\bar\kappa_n/\kappa_{a,n}\}.
+\]
+其值均被正的常數上下控制。取 \(\delta_n=d^{-1/8}\)。
+對壞點集合
+\(\{j:|D_j-\E D_j|>\delta_n d\}\)，若至少有 \(2m\) 個壞點，
+其中 \(m=\lceil Kn/d\rceil\)，便能選出 \(m\) 個偏差同號的節點。
+對其 degree 總和用 Bernstein，union bound 的對數上界為
+\[
+ -cm\delta_n^2d+O(m\log(en/m)).
+\]
+因 \(\delta_n^2d=d^{3/4}\gg\log d\)，
+壞點比例為 \(O(1/d)\) 的失敗概率至多
+\(\exp\{-cn\delta_n^2\}=o(n^{-r})\)。
+全圖平均 degree 亦以更強概率集中。
+在其餘節點上，cap 函數的比較給
+\(|w_j-\gamma_{z_j,n}|\le K\delta_n\)，因此
+\begin{equation}
+ \frac1n\sum_j(w_j-\gamma_{z_j,n})^2=O(\delta_n^2).
+ \label{eq:weight-consistency}
+\end{equation}
+
+結合 \eqref{eq:subspace}，存在正交 \(O\)，使
+\begin{equation}
+ \frac1n\norm{\sqrt n\,WU-ZT_{0,n}}_{\Frob}^2=o(1),
+ \quad
+ T_{0,n}=
+ \diag\!\left(\frac{\gamma_{a,n}}{\sqrt{\pi_{a,n}}}\right)O.
+ \label{eq:centroid-consistency}
+\end{equation}
+上述 \(o(1)\) 可在失敗概率 \(O(n^{-r})\) 的好事件上取為確定性的界。
+\(T_{0,n}\) 可逆且條件數有界，行中心彼此分離。
+固定近似比 \(k\)-means 的目標值不超過理想中心目標值的固定倍數，
+因此初始誤分比例為 \(o(1)\)，估計中心在共同排列下亦一致。
+
+\subsection{只從譜資料估計連接概率}
+對真實社區向量 \(z_a,z_b\)，精確地有
+\[
+ z_a^\top WP_0Wz_b
+   =\rho_n C_{ab}(z_a^\top w)(z_b^\top w).
+\]
+估計社區只有 \(o(n)\) 個錯誤，且 \(0<w_j\le1\)，
+故每個估計社區的加權組成只有 \(o(1)\) 的污染比例，
+其加權大小仍為 \(\Theta(n)\)。
+\eqref{eq:rankk-noise} 對分子帶來的誤差最多為 \(O(n\sqrt d)\)，
+除以 \(\Theta(n^2)\) 後是 \(O(\rho_n/\sqrt d)\)。
+所以
+\begin{equation}
+ \max_{a,b}\left|\frac{\hat B_{ab}}{\rho_n}-C_{ab}\right|=o(1).
+ \label{eq:parameter-consistency}
+\end{equation}
+同樣的結論成立於 LOO 訓練圖。
+
+\section{獨立 LOO 投影與 LLR 的大偏差等價}
+\label{sec:loo}
+
+\subsection{訓練圖及有限範圍的譜坐標}
+固定節點 \(i\)，令 \(J=[n]\setminus\{i\}\)，用 \(A_{JJ}\) 重新計算
+\[
+ D_j^{(i)}=D_j-A_{ij},\qquad
+ \tau_i=\frac{2}{n-1}\left(\sum_jD_j-2D_i\right),\qquad
+ w_j^{(i)}=\min\{1,\tau_i/D_j^{(i)}\}.
+\]
+當 \(D_j^{(i)}=0\) 時仍取 \(w_j^{(i)}=1\)。
+訓練矩陣為 \(M^{(i)}=W^{(i)}A_{JJ}W^{(i)}\)，
+其信號特徵向量在第 \(i\) 行補零後記為 \(U^{(i)}\in\R^{n\times k}\)，
+訓練部分記為 \(U_J^{(i)}\in\R^{(n-1)\times k}\)。
+所有這些量都獨立於 \(A_{iJ}\)。
+
+對固定、足夠大的 \(R\)，令
+\[
+ f_t(v)=v\min\{1,t/\norm v\},\qquad t=R/\sqrt n,
+ \quad V^{(i)}=f_t(U^{(i)}),
+ \quad F_j^{(i)}=\sqrt n\,w_j^{(i)}V_j^{(i)},\quad j\in J.
+\]
+\(f_t\) 按行作用，且 \(f_t(0)=0\)。
+其 Euclidean 非擴張性與正交等變性為
+\begin{equation}
+ \norm{f_t(X)-f_t(Y)}_{\Frob}\le\norm{X-Y}_{\Frob},
+ \qquad f_t(XO)=f_t(X)O.
+ \label{eq:clip-properties}
+\end{equation}
+母體基底的行 norm 不超過 \(K/\sqrt n\)；取 \(R\) 超過此常數，
+截斷不增加對母體基底的誤差。
+對 \(F_j^{(i)}\) 的行作初始聚類並取各估計社區的行均值，
+記所得 \(k\times k\) 中心矩陣為 \(\hat T_i\)，比例向量為 \(\hat\pi^{(i)}\)。
+第 \ref{sec:concentration} 節給出其一致性與一致可逆性。
+
+定義
+\begin{align}
+ g_j&=F_j^{(i)}\hat T_i^{-1}
+   +\bigl(1-F_j^{(i)}\hat T_i^{-1}\one_k\bigr)(\hat\pi^{(i)})^\top,
+ \label{eq:g-coefficient}\\
+ \hat N_i^{\mathrm{LOO}}
+   &=\sum_{j\in J}A_{ij}g_j.
+ \label{eq:loo-count}
+\end{align}
+在訓練好事件上，社區名字適當對齊後，
+\begin{equation}
+ g_j\one_k=1,\qquad
+ \max_j\norm{g_j}\le K_R,\qquad
+ \frac1n\sum_{j\in J}\norm{g_j-e_{z_j}^\top}^2=o(1).
+ \label{eq:g-consistency}
+\end{equation}
+LOO 參數估計用訓練圖的未截斷 \(M_k^{(i)}\) 及估計社區，
+仍滿足 \eqref{eq:parameter-consistency}。
+
+\subsection{LLR 誤差的條件矩母函數}
+真實連邊計數為 \(N_{ic}=\sum_{j\in J:z_j=c}A_{ij}\)，
+\(m_c=|\{j\in J:z_j=c\}|\)。
+定義
+\begin{align}
+ \ell_c^{ab}
+ &=\logit(B_{ac})-\logit(B_{bc}),\\
+ \kappa_{ab}
+ &=\sum_c m_c\log\frac{1-B_{ac}}{1-B_{bc}},\\
+ L_i^{ab}
+ &=\kappa_{ab}+\sum_{j\in J}A_{ij}\ell_{z_j}^{ab}.
+ \label{eq:true-LLR}
+\end{align}
+LOO plug-in 分數同樣可寫成
+\(\hat\kappa_{ab}+\sum_{j\in J}A_{ij}\hat\ell_j^{ab}\)，
+其中 \(\hat\ell_j^{ab}\) 是 \(g_j\) 與估計 logit 對比向量的點積。
+其差記為
+\begin{equation}
+ \Delta_i=b_i+\sum_{j\in J}A_{ij}e_j.
+ \label{eq:LLR-difference}
+\end{equation}
+由正元素假設、\eqref{eq:g-consistency} 與參數一致性，
+條件於訓練好事件，有確定性界
+\begin{equation}
+ |b_i|=o(d),\qquad
+ \max_j|e_j|\le K_R,\qquad
+ \sum_j|e_j|=o(n).
+ \label{eq:LLR-coefficients}
+\end{equation}
+最後一項由 Cauchy--Schwarz 得到。
+截距誤差則由 \(o(n)\) 個社區人數誤差乘上 \(O(\rho_n)\)，
+以及 \(n\) 個 \(o(\rho_n)\) 參數誤差所控制。
+
+對任意固定 \(u>0\)，條件於訓練圖後 \(A_{ij}\) 獨立，
+且在 \(H_a,H_b\) 任一假設下其成功概率不超過 \(K\rho_n\)。
+因此
+\begin{align}
+ \log\E[e^{u|\Delta_i|}\mid A_{JJ}]
+ &\le u|b_i|+\sum_{j\in J}p_{hj}(e^{u|e_j|}-1)\notag\\
+ &\le o(d)+K_{R,u}\rho_n\sum_{j\in J}|e_j|=o(d).
+ \label{eq:mgf}
+\end{align}
+對固定 \(\varepsilon>0\)，Markov 給
+\(\PP(|\Delta_i|>\varepsilon d\mid A_{JJ})
+\le e^{-u\varepsilon d+o(d)}\)。
+先取 \(n\to\infty\)，再讓固定 \(u\) 任意大。
+由 \eqref{eq:sparsity}，訓練失敗概率 \(O(n^{-r})\)
+滿足 \(d^{-1}\log n^{-r}\to-\infty\)。
+故
+\begin{equation}
+ \limsup_{n\to\infty}\frac1d
+ \log\PP\!\left(
+ |\hat L_i^{\mathrm{LOO},ab}-L_i^{ab}|>\varepsilon d
+ \right)=-\infty.
+ \label{eq:loo-exponential}
+\end{equation}
+這裡不使用 Gaussian 近似；控制的是 Bernoulli 和本身的矩母函數。
+
+\section{全圖譜向量的截斷行能量}
+\label{sec:row-tail}
+
+\subsection{好事件與 LOO 權重擾動}
+固定所需概率階數 \(r\)。令 \(\cE\) 包含全圖、
+所有刪去一個節點的圖及需要的刪去兩個節點的圖之
+平均 degree、中心化加權噪音、信號間隔與權重平均一致性條件。
+在單圖界取更大的固定階數（例如 \(r+4\)），
+union bound 給 \(\PP(\cE^c)=O(n^{-r})\)。
+條件只依賴圖、真實區塊及譜旋轉不變量，故在真實社區內置換不變。
+聚類一致性是這些條件的推論，無需把某種 \(k\)-means tie-breaking
+規則放進事件定義。
+
+對 \(j\in J\)，令
+\[
+ (G_i)_{jj}=w_j^{(i)}/w_j-1,
+\]
+並令其第 \(i\) 個對角元為零。
+注意
+\(\tau_i-\tau=2(\bar D-2D_i)/(n-1)\)。
+對 cap 函數比較分母與門檻的變化，得到
+\begin{equation}
+ |(G_i)_{jj}|
+ \le K\left\{
+ \frac{A_{ij}}{\max(\tau,D_j)}
+ +\frac{d+D_i}{nd}\right\},
+ \qquad \norm{G_i}_{\op}\le K/d.
+ \label{eq:weight-LOO-perturbation}
+\end{equation}
+
+\begin{lemma}[作用於全圖基底的 LOO 擾動界]
+\label{lem:LOO-DK}
+在 \(\cE\) 上，存在正交矩陣 \(O_i\)，使
+\begin{equation}
+ \norm{U-U^{(i)}O_i}_{\Frob}
+ \le K\norm{U_{i\cdot}}+K\norm{G_iU}_{\Frob}.
+ \label{eq:LOO-DK}
+\end{equation}
+\end{lemma}
+\begin{proof}
+按第 \(i\) 行分塊，寫
+\[
+ M=\begin{pmatrix}0&m_i^\top\\m_i&B_i\end{pmatrix},
+ \qquad U=\begin{pmatrix}u_i\\U_J\end{pmatrix}.
+\]
+有 \(\norm{m_i}^2\le w_i^2D_i\le\tau\)、
+\(\norm{B_i}_{\op}\le\tau\)，以及
+\(B_iU_J=U_J\Lambda-m_i u_i\)。
+LOO 的下方矩陣為 \((I+G_i)B_i(I+G_i)\)；
+本段分塊公式中的 \(G_i\) 表示其 \(J\times J\) 子矩陣。
+把它與全圖相減並作用於 \(U\)，第 \(i\) 行為 \(-u_i\Lambda\)，
+其餘行為
+\[
+ -m_i u_i+
+ G_i(U_J\Lambda-m_i u_i)+B_iG_iU_J+G_iB_iG_iU_J.
+\]
+其 Frobenius norm 被
+\(Kd(\norm{u_i}+\norm{G_iU}_{\Frob})\) 控制。
+全圖信號特徵值與 LOO 非信號特徵值相隔 \(cd\)。
+對補空間上的 Sylvester 方程使用此間隔，
+再作正交 Procrustes 對齊，即得 \eqref{eq:LOO-DK}。
+關鍵是右側 \(G_i\) 乘上同一個全圖 \(U\)，不是不同的 LOO tails。
+\end{proof}
+
+\subsection{同一門檻下的能量遞推}
+固定足夠大的 \(R\)，令
+\[
+ t=R/\sqrt n,\qquad
+ V=f_t(U),\qquad T_U=U-V,\qquad
+ H_R(U)=\sum_j\norm{U_{j\cdot}}^2\one\{\norm{U_{j\cdot}}>t\}.
+\]
+則 \(\norm{T_U}_{\Frob}^2\le H_R(U)\)。
+在本節令
+\[
+ E=W(A-P)W,\qquad
+ \beta_i=w_i\left(\sqrt{D_i}+\frac{Kd}{\sqrt n}\right).
+\]
+有 \(\beta_i\le K\sqrt d\)，且
+\(\norm{w_i(A_{iJ}-P_{iJ})}_2\le\beta_i\)。
+
+\begin{lemma}[減權擾動的可求和界]
+\label{lem:weighted-tail}
+在 \(\cE\) 上，
+\begin{align}
+ \frac{\beta_i}{d}\norm{G_iV}_{\Frob}&\le Kt/d,
+ \label{eq:bounded-perturbation}\\
+ \sum_i\beta_i^2\norm{G_iT_U}_{\Frob}^2
+ &\le K\norm{T_U}_{\Frob}^2.
+ \label{eq:summable-perturbation}
+\end{align}
+\end{lemma}
+\begin{proof}
+因每行 \(\norm{V_j}\le t\)、\(\norm V_{\Frob}\le\sqrt k\)，
+式 \eqref{eq:weight-LOO-perturbation} 給
+\[
+ \norm{G_iV}_{\Frob}
+ \le Kt\frac{\sqrt{D_i}}d
+       +K\frac{d+D_i}{nd}.
+\]
+乘上 \(\beta_i/d\)，使用 \(w_iD_i\le Kd\)、\(D_i\le n\)，
+即得第一式。
+第二式交換 \(i,j\) 的求和順序。對固定 \(j\)，局部項滿足
+\[
+ \sum_i\frac{\beta_i^2A_{ij}}{\max(\tau,D_j)^2}\le K.
+\]
+其中 degree 部分可直接用
+\[
+ \sum_i\frac{w_i^2D_iA_{ij}}{\max(\tau,D_j)^2}
+ \le\frac{\tau D_j}{\max(\tau,D_j)^2}\le1,
+\]
+而 \(d^2/n\) 部分至多 \(Kd/n\)。
+全局平均度變化的係數可估為
+\[
+ \sum_i\frac{w_i^2(D_i+d^2/n)(d+D_i)^2}{n^2d^2}
+ \le K\left(\frac dn+\frac{d^2}{n^2}\right)\le K.
+\]
+此處使用 \(w_i^2D_i^3\le\tau^2D_i\) 與 \(\sum_iD_i=O(nd)\)。
+因此每個 \(\norm{(T_U)_j}^2\) 的係數都有一致上界。
+\end{proof}
+
+定義未旋轉、由訓練圖決定係數的 innovation
+\begin{equation}
+ K_i=(A_{iJ}-P_{iJ})W^{(i)}f_t(U_J^{(i)}).
+ \label{eq:innovation}
+\end{equation}
+從 eigen-equation
+\[
+ U=WPWU\Lambda^{-1}+EV\Lambda^{-1}+ET_U\Lambda^{-1}
+\]
+出發，母體項每行 norm 至多 \(K/\sqrt n\)，
+因 \(\norm{P_{i\cdot}}_2\le Kd/\sqrt n\)、
+\(\norm{WU}_{\op}\le1\)、\(\norm{\Lambda^{-1}}_{\op}\le K/d\)。
+對 \(EV\) 的第 \(i\) 行，使用
+\[
+ W_{JJ}V_J-W^{(i)}f_t(U_J^{(i)})O_i
+ =W^{(i)}(V_J-f_t(U_J^{(i)})O_i)
+ +(W_{JJ}-W^{(i)})V_J.
+\]
+由 \eqref{eq:clip-properties}、\eqref{eq:LOO-DK} 與
+\(W_{JJ}-W^{(i)}=-W_{JJ}(G_i)_{JJ}\)，得到
+\begin{align}
+ \norm{u_i}\le {}&
+ \frac K{\sqrt n}+\frac Kd\norm{K_i}
+ +\frac{K\beta_i}{d}\norm{u_i}
+ +\frac{K\beta_i}{d}\norm{G_iV}_{\Frob}\notag\\
+ &+\frac{K\beta_i}{d}\norm{G_iT_U}_{\Frob}
+ +\frac Kd\norm{(ET_U)_{i\cdot}}.
+ \label{eq:row-inequality}
+\end{align}
+\(O_i\) 可以依賴被刪行，但此處只使用 \(\norm{K_iO_i}=\norm{K_i}\)；
+不對旋轉後的隨機坐標直接使用條件 Bennett。
+
+取 \(R\) 足夠大，再取 \(d\) 足夠大，baseline 與 self term
+分別可被 \(t/8\) 和 \(\norm{u_i}/8\) 控制。
+對 \(\norm{u_i}>t\) 的行，按 \(\norm{K_i}/d\) 是否超過固定倍數的 \(t\)
+分情況，得到
+\begin{align}
+ \norm{u_i}^2\one\{\norm{u_i}>t\}\le {}&
+ \frac K{d^2}\norm{K_i}^2\one\{\norm{K_i}>cdt\}\notag\\
+ &+\frac K{d^2}\norm{(ET_U)_{i\cdot}}^2
+ +\frac{K\beta_i^2}{d^2}\norm{G_iT_U}_{\Frob}^2.
+ \label{eq:pointwise-tail}
+\end{align}
+求和並使用 \(\norm E_{\op}^2\le Kd\)、引理 \ref{lem:weighted-tail}，有
+\begin{equation}
+ H_R(U)\one_{\cE}
+ \le \frac K{d^2}\sum_i\norm{K_i}^2\one\{\norm{K_i}>cdt\}
+ +\frac Kd H_R(U)\one_{\cE}.
+ \label{eq:tail-recurrence}
+\end{equation}
+兩邊是同一門檻 \(R\)，故最後一項可以吸收。
+
+\subsection{獨立 innovation 的 Bennett 尾界}
+\begin{lemma}[截斷譜行能量]
+\label{lem:row-energy}
+對足夠大的固定 \(R\)，
+\begin{equation}
+ \E[H_R(U)\one_{\cE}]
+ \le KR^2\exp\{-cd\log R\}.
+ \label{eq:row-energy}
+\end{equation}
+常數 \(K,c\) 不依賴 \(R,n\)；\(n\) 的充分大條件可依賴固定 \(R\)。
+\end{lemma}
+\begin{proof}
+條件於 \(A_{JJ}\)，式 \eqref{eq:innovation} 是獨立中心化向量和，
+每個向量項 norm 至多 \(t\)，每個坐標的方差總和至多
+\[
+ K\rho_n\norm{f_t(U^{(i)})}_{\Frob}^2\le Kd/n.
+\]
+這些界對任何訓練圖都成立，無需條件化於全圖好事件。
+對每個坐標使用 Bennett，並對固定 \(k\) 個坐標作 union bound。
+若方差上界記為 \(v=Kd/n\)，其指數為
+\[
+ \frac{v}{t^2}\,
+ h\!\left(\frac{tx}{v}\right),
+ \qquad h(u)=(1+u)\log(1+u)-u.
+\]
+在 \(x=cdt\) 時，\(tx/v\) 與 \(R^2\) 同階，
+所以指數至少 \(cd\log R\)。
+同一尾界作二階矩積分，得到
+\[
+ \E[\norm{K_i}^2\one\{\norm{K_i}>cdt\}]
+ \le \frac{Kd^2R^2}{n}\exp\{-cd\log R\}.
+\]
+取 \eqref{eq:tail-recurrence} 的期望，吸收右側能量項即得結論。
+\end{proof}
+
+因 \(\cE\) 與譜行 norm 在每個真實社區內置換不變，
+對 \(z_i=a\) 的固定節點，
+\[
+ \E[\norm{U_i}^2\one\{\sqrt n\norm{U_i}>R\}\one_{\cE}]
+ \le \frac1{n_a}\E[H_R(U)\one_{\cE}].
+\]
+Markov 給
+\begin{equation}
+ \PP(\sqrt n\norm{U_i}>R,\cE)
+ \le K\exp\{-cd\log R\}.
+ \label{eq:fixed-row-tail}
+\end{equation}
+\(R\) 可取任意大的固定常數，故局部尾概率的指數常數可超過任意指定值。
+
+\section{由全圖特徵橋接到獨立 LOO 特徵}
+\label{sec:bridge}
+定義可從保存資料算出的全圖特徵
+\[
+ q_i=\sqrt n\,w_i^{-1}U_i\Lambda
+     =\sqrt n A_{i\cdot}WU,
+\]
+以及僅用於分析的獨立訓練投影
+\[
+ r_i=\sqrt n A_{iJ}W^{(i)}f_t(U_J^{(i)}).
+\]
+矩陣按需要在第 \(i\) 行補零；全圖 \(A_{ii}=0\)。
+有精確分解
+\begin{align}
+ q_iO_i^\top-r_i={}&
+ \sqrt n A_{i\cdot}W(UO_i^\top-U^{(i)})\notag\\
+ &+\sqrt n A_{iJ}(W_{JJ}-W^{(i)})f_t(U_J^{(i)})\notag\\
+ &+\sqrt n A_{i\cdot}W(U^{(i)}-f_t(U^{(i)})).
+ \label{eq:feature-decomposition}
+\end{align}
+
+\begin{lemma}[全圖與 LOO 投影在速度 \(d\) 下接近]
+\label{lem:bridge}
+對任意固定 \(\varepsilon>0,H>0\)，可選固定的 \(L,R\) 足夠大，
+使對充分大的 \(n\)，
+\begin{equation}
+ \PP\!\left(\norm{q_iO_i^\top-r_i}>\varepsilon d\right)
+ \le e^{-Hd}+O(n^{-r}).
+ \label{eq:feature-bridge}
+\end{equation}
+\end{lemma}
+\begin{proof}
+先限制於
+\(\cE\cap\{D_i\le Ld,\sqrt n\norm{U_i}\le R\}\)。
+由 \eqref{eq:weight-LOO-perturbation}、
+\eqref{eq:LOO-DK}，式 \eqref{eq:feature-decomposition}
+前兩項的非尾部分至多 \(K_{L,R}\sqrt d=o(d)\)。
+
+第一項的全圖尾部分被
+\[
+ B_i^*=K\sqrt{nD_i}\norm{G_iT_U}_{\Frob}
+\]
+控制。在 \(D_i\le Ld\) 上 \(w_i\ge c/L\)，所以
+\[
+ \frac1n\sum_i(B_i^*)^2\one\{D_i\le Ld\}
+ \le K_L H_R(U).
+\]
+用社區內 exchangeability 和引理 \ref{lem:row-energy}，
+\begin{equation}
+ \E[(B_i^*)^2\one_{\cE,D_i\le Ld}]
+ \le K_{L,R}e^{-cd\log R}.
+ \label{eq:full-tail-bridge}
+\end{equation}
+
+最後一項的 norm 可由
+\[
+ C_i^*=\sqrt n\sum_{j\in J}A_{ij}
+       \norm{(U^{(i)}-f_t(U^{(i)}))_j}
+\]
+控制，因為 \(w_j\le1\)。
+令 \(\cE^{(i)}\) 為由訓練圖及其 LOO 圖定義的好事件；
+\(\cE\subseteq\cE^{(i)}\)，後者獨立於 \(A_{iJ}\)。
+條件於訓練圖，獨立 Bernoulli 和的二階矩給
+\[
+ \E[(C_i^*)^2\mid A_{JJ}]
+ \le K(d+d^2)H_R(U^{(i)}).
+\]
+把全圖事件指標放大成訓練可測指標後，得到
+\begin{equation}
+ \E[(C_i^*)^2\one_{\cE}]
+ \le K(d+d^2)
+ \E[H_R(U^{(i)})\one_{\cE^{(i)}}]
+ \le K_R(d+d^2)e^{-cd\log R}.
+ \label{eq:LOO-tail-bridge}
+\end{equation}
+此處不假設全圖好事件與被刪行獨立。
+
+Degree 的 Chernoff 界為
+\[
+ \PP(D_i>Ld)\le \exp\{-cLd\log(L/K)\}.
+\]
+先選 \(L\) 控制此項，再選 \(R\) 使
+\eqref{eq:fixed-row-tail}、\eqref{eq:full-tail-bridge}、
+\eqref{eq:LOO-tail-bridge} 的指數常數超過指定的 \(H\)。
+對後兩式使用 Markov，最後讓 \(n\) 足夠大使
+\(K_{L,R}\sqrt d<\varepsilon d/2\)，便得到結論。
+\end{proof}
+
+\subsection{中心逆矩陣消去譜旋轉}
+先用真實社區的平均值作分析，令
+\[
+ K_U=\sqrt n\,\diag(n_a)^{-1}Z^\top WU,
+\]
+\[
+ K_i^0=\sqrt n\,\diag(m_a)^{-1}
+ Z_J^\top W^{(i)}f_t(U_J^{(i)}).
+\]
+令 \(Q_i^{\,w}=Z_J^\top(W^{(i)})^2Z_J\)。
+訓練母體基底為 \(W^{(i)}Z_J(Q_i^{\,w})^{-1/2}O\)。
+若
+\(\eta_a=m_a^{-1}\sum_{j\in J:z_j=a}(w_j^{(i)})^2\)，
+則其相應社區中心為
+\[
+ \diag\!\left(\sqrt{\eta_a/(m_a/n)}\right)O.
+\]
+因此 \(\sigma_{\min}(K_i^0)\ge c\)，且
+\(\norm{U^{(i)}-f_t(U^{(i)})}_{\Frob}=O(d^{-1/2})\)，
+因母體行 norm 小於截斷門檻。
+
+在引理 \ref{lem:bridge} 所用的局部好事件上，
+\eqref{eq:LOO-DK}、\(\norm{G_i}_{\op}\le K/d\) 和上述截斷誤差給
+\[
+ \norm{K_UO_i^\top-K_i^0}_{\op}=O(d^{-1/2}).
+\]
+從而
+\begin{align*}
+ q_iK_U^{-1}-r_i(K_i^0)^{-1}
+ ={}&(q_iO_i^\top-r_i)(K_UO_i^\top)^{-1}\\
+ &+r_i\{(K_UO_i^\top)^{-1}-(K_i^0)^{-1}\}.
+\end{align*}
+\(\norm{r_i}\le RD_i=O_{L,R}(d)\)，故第二項只有 \(O_{L,R}(\sqrt d)\)。
+將真實社區中心換成初始聚類中心只增加 \(o(1)\) 的矩陣誤差：
+誤分比例 \(o(1)\) 與 \(\norm{WU}_{\Frob}\le\sqrt k\)
+通過 Cauchy--Schwarz 即可控制社區平均值。
+
+最後，\(\norm{q_i}\le K_{L,R}d\)，所以中心、degree 校正、
+社區比例以及 \(B\) 的一致估計，總共只增加 \(o(d)\) 的 LLR 誤差。
+因此對任意固定 \(\varepsilon,H>0\)，
+\begin{equation}
+ \PP\!\left(
+ |\widehat L_i^{ab}-\widehat L_i^{\mathrm{LOO},ab}|
+ >\varepsilon d\right)
+ \le e^{-Hd}+O(n^{-r}).
+ \label{eq:LLR-bridge}
+\end{equation}
+結合 \eqref{eq:loo-exponential}，並讓固定 \(H\) 任意大，
+即證得 \eqref{eq:exp-equivalence}。
+
+\section{Oracle Chernoff 指數與主要定理的完成}
+\label{sec:risk}
+真實 LLR 的 Chernoff 函數是
+\begin{align}
+ J_{ab,n}(s)
+ &=-\log\E_a e^{-sL_i^{ab}}\notag\\
+ &=-\sum_{j\in J}
+ \log\{p_{aj}^{\,1-s}p_{bj}^{\,s}
+ +(1-p_{aj})^{1-s}(1-p_{bj})^s\},
+ \label{eq:exact-Chernoff}
+\end{align}
+其中 \(p_{hj}=\rho_n C_{h,z_j}\)。記 \(J_{ab,n}=\max_sJ_{ab,n}(s)\)。
+對 \(s\in[0,1]\) 一致展開，每條邊的餘項為 \(O(\rho_n^2)\)；
+總餘項 \(O(n\rho_n^2)=o(d)\)，故
+\begin{equation}
+ J_{ab,n}=dI_{ab}+o(d).
+ \label{eq:J-expansion}
+\end{equation}
+
+由 \eqref{eq:exp-equivalence}，在 \(H_a\) 下
+\begin{align}
+ \PP_a(\widehat L_i^{ab}\le0)
+ &\le\PP_a(L_i^{ab}\le\varepsilon d)
+   +\PP_a(|\widehat L_i^{ab}-L_i^{ab}|>\varepsilon d)\notag\\
+ &\le \exp\{-J_{ab,n}+s_*\varepsilon d\}+e^{-\omega(d)}.
+ \label{eq:risk-upper}
+\end{align}
+\(s_*\) 是精確 Chernoff 最優值；對 \(H_b\) 同理。
+令 \(\varepsilon\downarrow0\)，得到算法風險上界的指數 \(I_{ab}\)。
+
+為使 oracle 下界亦自包含，定義傾斜測度
+\[
+ \frac{dQ_s}{dP_a}=\exp\{-sL_i^{ab}+J_{ab,n}(s)\}.
+\]
+不同 profile 保證最優值 \(s_*\in(0,1)\)。
+在 \(Q_{s_*}\) 下，各邊仍獨立，其成功概率為
+\[
+ r_j=
+ \frac{p_{aj}^{1-s_*}p_{bj}^{s_*}}
+ {p_{aj}^{1-s_*}p_{bj}^{s_*}
+ +(1-p_{aj})^{1-s_*}(1-p_{bj})^{s_*}}
+ =O(\rho_n).
+\]
+一階最優條件給 \(\E_{Q_{s_*}}L_i^{ab}=0\)，
+而 logit 對比有界給
+\(\operatorname{Var}_{Q_{s_*}}(L_i^{ab})=O(d)\)。
+故存在固定 \(K\)，使
+\(Q_{s_*}(|L_i^{ab}|\le K\sqrt d)\ge c>0\)。
+等先驗 oracle Bayes risk 為
+\begin{align*}
+ R_{\mathrm{oracle},ab}
+ &=\frac12e^{-J_{ab,n}}
+ \E_{Q_{s_*}}\min\{e^{s_*L_i^{ab}},
+                         e^{-(1-s_*)L_i^{ab}}\}\\
+ &\ge c\,e^{-J_{ab,n}-K\sqrt d}.
+\end{align*}
+與 Chernoff 上界結合，即
+\[
+ R_{\mathrm{oracle},ab}=e^{-dI_{ab}+o(d)}.
+\]
+完整原始資料的 oracle 已是最優檢驗，任何由
+\(\cS(A)\) 得到的判別都不能有更好的指數。
+與 \eqref{eq:risk-upper} 合併，定理 \ref{thm:main} 得證。
+
+\section{為何 \texorpdfstring{\(L^2\)}{L2} 譜壓縮可以保留 LLR}
+\label{sec:l2-and-llr}
+
+SVD 的平方誤差目標與 likelihood 的對數權重，扮演的是不同角色：前者用來尋找一個低維座標系，後者用來在這個座標系中作判別。關鍵不是讓 SVD 本身計算對數，而是確認其保留的座標足以還原 LLR 所需要的觀測統計量。在滿秩 SBM 中，這些統計量就是一個節點連向各個社區的連邊數。
+
+\subsection{觀測到的 LLR 對連邊數是線性的}
+
+固定待分類節點 $i$，令 $\mathcal J_i=\{1,\ldots,n\}\setminus\{i\}$，並暫時把其餘節點的社區標籤視為已知。設
+\[
+ m_c=\#\{j\in\mathcal J_i:z_j=c\},
+ \qquad
+ N_{ic}=\sum_{j\in\mathcal J_i:z_j=c}A_{ij}.
+\]
+記連接概率矩陣為 $B=(p_{ac})_{a,c=1}^k$，其中 $0<p_{ac}<1$。在候選假設 $z_i=a$ 下，節點 $i$ 的觀測對數 likelihood 為
+\[
+ S_i(a)=\sum_{c=1}^k
+ \left\{N_{ic}\log p_{ac}+(m_c-N_{ic})\log(1-p_{ac})\right\}.
+\]
+因此，等先驗下比較 $z_i=a$ 與 $z_i=b$ 的 LLR 可以精確寫成
+\begin{align}
+ L_i^{ab}
+ &=S_i(a)-S_i(b)
+   =N_i\ell^{ab}+\kappa_{ab},
+ \label{eq:expl-lrt-counts}\\
+ \ell_c^{ab}
+ &=\log\frac{p_{ac}(1-p_{bc})}{p_{bc}(1-p_{ac})},
+ \qquad
+ \kappa_{ab}=\sum_{c=1}^k m_c
+ \log\frac{1-p_{ac}}{1-p_{bc}}.
+ \nonumber
+\end{align}
+此處 $N_i=(N_{i1},\ldots,N_{ik})$ 是行向量，$\ell^{ab}$ 是列向量。非等先驗只會增加一個對數先驗比常數。
+
+\emph{LLR 對概率參數是非線性的，對觀測連邊數卻是線性的。} 因而保留 $N_i$，就保留了全部 local LRT 分數；不必在壓縮時便把 $\log p_{ac}$ 算進去。
+
+所謂的 $p\log p$，則出現在對這個隨機 LLR 取期望之後：
+\begin{align}
+ \mathbb E_a L_i^{ab}
+ =\sum_{c=1}^k m_c\left[
+ p_{ac}\log\frac{p_{ac}}{p_{bc}}
+ +(1-p_{ac})\log\frac{1-p_{ac}}{1-p_{bc}}
+ \right].
+ \label{eq:expl-expected-lrt}
+\end{align}
+這是兩個條件分布的 KL divergence。在 $p_{ac}=\rho_n C_{ac}$、$C$ 固定且所有元素為正的稀疏情形，式 \eqref{eq:expl-expected-lrt} 等於
+\[
+ \sum_{c=1}^k m_c
+ \left[p_{ac}\log\frac{p_{ac}}{p_{bc}}-p_{ac}+p_{bc}\right]
+ +O(n\rho_n^2).
+\]
+實際分類使用的是式 \eqref{eq:expl-lrt-counts} 中隨機的 $N_i$，而不是把它換成期望後的 KL divergence。
+
+\subsection{母體譜空間保留了哪些方向}
+
+令 $Z_{-i}\in\{0,1\}^{(n-1)\times k}$ 為其餘節點的社區指示矩陣，並假設每一社區在訓練圖中均非空。記
+\[
+ a_i=(A_{ij})_{j\in\mathcal J_i},
+ \qquad
+ Q_i=Z_{-i}^{\top}Z_{-i}=\operatorname{diag}(m_1,\ldots,m_k).
+\]
+則 $N_i=a_iZ_{-i}$。投影到全部 block-constant 向量所張成空間的正交投影矩陣是
+\[
+ \Pi_i=Z_{-i}Q_i^{-1}Z_{-i}^{\top}.
+\]
+由 $\Pi_iZ_{-i}=Z_{-i}$，立刻得到兩個精確等式：
+\begin{equation}
+ \boxed{(a_i\Pi_i)Z_{-i}=N_i,\qquad
+ a_i\Pi_i(Z_{-i}\ell^{ab})=a_i(Z_{-i}\ell^{ab}).}
+ \label{eq:expl-projector-preserves-counts}
+\end{equation}
+事實上，$a_i\Pi_i$ 在社區 $c$ 的每一個位置都等於 $N_{ic}/m_c$。它把同一社區內的連邊配置平均化，卻完整保留每個社區的連邊總數。被投影掉的向量滿足
+\[
+ a_i(I-\Pi_i)Z_{-i}=0;
+\]
+也就是每個社區內的總和均為零。式 \eqref{eq:expl-lrt-counts} 對這些方向本來就不敏感。
+
+為把這個空間與 SVD 聯繫起來，考慮代數上的 block 矩陣
+\[
+ P_{0,-i}=Z_{-i}BZ_{-i}^{\top}.
+\]
+這裡保留其對角元素只是為了表示精確低秩結構，並不表示觀測圖含有自環；真正的無自環期望矩陣還要扣除相應對角線。若 $B$ 滿秩，則
+\[
+ \operatorname{col}(P_{0,-i})=\operatorname{col}(Z_{-i}).
+\]
+因此，母體信號矩陣的 $k$ 維譜空間，恰好就是保留式 \eqref{eq:expl-projector-preserves-counts} 所需的空間。
+
+\subsection{對數沒有把 LRT 帶出這個空間}
+
+SBM 的特殊性在於：任意只依賴社區標籤的向量，都屬於 $\operatorname{col}(Z_{-i})$。不論 $h$ 是線性函數、對數函數或 logit 函數，只要
+\[
+ v_j=h(z_j),
+\]
+就有 $v=Z_{-i}(h(1),\ldots,h(k))^{\top}$。所以 LRT 的邊權向量
+\[
+ \left(\log\frac{p_{a,z_j}(1-p_{b,z_j})}
+ {p_{b,z_j}(1-p_{a,z_j})}\right)_{j\in\mathcal J_i}
+ =Z_{-i}\ell^{ab}
+\]
+仍處於同一個 $k$ 維空間。
+
+等價地，將 logit 逐項作用於 $P_{0,-i}$，而非作矩陣函數運算，便有
+\[
+ \operatorname{logit}_{\mathrm{entry}}(P_{0,-i})
+ =Z_{-i}LZ_{-i}^{\top},
+ \qquad
+ L_{ac}=\log\frac{p_{ac}}{1-p_{ac}}.
+\]
+因而
+\[
+ \operatorname{col}\!\left(
+ \operatorname{logit}_{\mathrm{entry}}(P_{0,-i})\right)
+ \subseteq\operatorname{col}(Z_{-i})
+ =\operatorname{col}(P_{0,-i})
+\]
+在 $B$ 滿秩時成立。對數改變的是這個空間中的係數，而不是產生了必須另外保存的新方向。一般低秩矩陣不具有此性質；對其元素取對數，可能增加秩並改變列空間。
+
+\subsection{可逆座標變換，以及 \texorpdfstring{\(k\)}{k}-means 的差別}
+
+母體信號空間的任意正交基均可寫成
+\[
+ U_*=Z_{-i}H,
+ \qquad
+ H=Q_i^{-1/2}O,
+\]
+其中 $O$ 為正交矩陣，故 $H$ 可逆。節點 $i$ 對此基底的投影特徵是
+\[
+ x_i=a_iU_*=N_iH.
+\]
+所以
+\begin{equation}
+ \boxed{N_i=x_iH^{-1},\qquad
+ L_i^{ab}=x_iH^{-1}\ell^{ab}+\kappa_{ab}.}
+ \label{eq:expl-invertible-encoding}
+\end{equation}
+SVD 不需要以 likelihood 為優化目標：只要找到這個完整的座標系，式 \eqref{eq:expl-invertible-encoding} 便能在壓縮後再施加正確的對數權重。
+
+然而，在譜座標中直接使用歐氏距離分類，並不等同於這個解碼後的 LRT。即使已經恢復了 $N_i$，繼續用最近均值的平方距離規則，通常也不會產生正確的 likelihood 係數。
+
+例如，考慮稀疏局部問題的 Poisson 形式，兩個候選社區的連邊數均值為
+\[
+ \lambda_a=t(4,1,1),\qquad
+ \lambda_b=t(1,2,1),\qquad t>0.
+\]
+這兩個連接輪廓可來自對稱、滿秩、正元素的矩陣
+\[
+ C=\begin{pmatrix}4&1&1\\1&2&1\\1&1&3\end{pmatrix}
+\]
+及等大小的訓練社區。對獨立 Poisson 連邊數，準確的 LLR 是
+\[
+ L_i^{ab}
+ =N_{i1}\log4-N_{i2}\log2-2t.
+\]
+因此 likelihood 規則選擇 $a$ 的條件為
+\[
+ 2N_{i1}-N_{i2}>\frac{2t}{\log2}.
+\]
+但將 $N_i$ 分配給歐氏距離較近的均值，得到的條件卻是
+\[
+ \|N_i-\lambda_a\|^2<\|N_i-\lambda_b\|^2
+ \quad\Longleftrightarrow\quad
+ 3N_{i1}-N_{i2}>6t.
+\]
+兩者的權重與門檻均不同。這個例子只用 Poisson 形式展示判別幾何；Bernoulli SBM 的精確分數仍是式 \eqref{eq:expl-lrt-counts}。
+
+若改在 $x_i=N_iH$ 中使用平方距離，則相當於在 $N_i$ 中使用由 $HH^{\top}$ 決定的二次型。這同樣不會自動產生所需的對數概率比。因而，譜特徵能保留 likelihood 信息，與 $k$-means 是否有效利用了這些信息，是兩個不同問題。
+
+\subsection{從母體恆等式到樣本譜信息的界線}
+
+以上母體投影的等式是精確線性代數結論，但不能將樣本矩陣的 rank-$k$ 截斷 $A_k$ 直接等同於 $A\Pi$。同樣地，只證明一個去噪矩陣在 Frobenius norm 下接近期望矩陣，還不足以推出 LRT 的錯誤指數不變。
+
+對正則化矩陣 $M=WAW$，全圖 eigen-equation 提供的是另一個精確關係：
+\[
+ MU=U\Lambda
+ \quad\Longrightarrow\quad
+ AWU=W^{-1}U\Lambda.
+\]
+右側可以由原始 degree 和保留的譜信息計算，因此保存了對估計譜基底的逐節點連接投影。要由它還原 $AZ$，還須估計社區中心、反解相應座標變換，並控制隨機權重、基底誤差及節點依賴。LOO 的作用正是拆開待分類節點連邊與訓練基底之間的依賴；保留 LRT 指數還需要大偏差尺度的誤差控制，不能只依賴均方一致性或中心極限定理。
+
+滿秩也是上述解釋中的實質條件。若 $B$ 的秩為 $r<k$，則母體譜空間可能嚴格小於 $\operatorname{col}(Z_{-i})$。若只保留對 $r$ 維母體基底 $U_r$ 的投影與 degree，相同的線性解碼論證要求相關 LRT 係數滿足
+\[
+ Z_{-i}\ell^{ab}
+ \in\operatorname{span}\{\mathbf1,\operatorname{col}(U_r)\}.
+\]
+degree 增加的是常數方向，某些特殊連接輪廓下足以補上缺少的信息；一般情形則不能僅由低秩或 degree 的存在保證這個包含關係。這一點也說明，本節的核心是 SBM 的 block 結構與可逆座標表示，而不是所有 $L^2$ 低秩近似都天然具有 likelihood 最優性。
+
+
+\section{結果的邊界與後續可研究問題}
+\label{sec:scope}
+\begin{enumerate}
+ \item \textbf{錯誤指數與風險比。}
+ 本稿得到 \(-\log R_{\mathrm{spec}}/(-\log R_{\mathrm{oracle}})\to1\)。
+ 相對誤差 \(R_{\mathrm{spec}}/R_{\mathrm{oracle}}\to1\)
+ 還涉及前因子和更精細的閾值誤差，本文沒有證明。
+ \item \textbf{社區判別與參數信息。}
+ 本稿的相對一致參數估計足以支撐局部分類指數。
+ 它不推出 \(B\) 的漸近有效估計，也不推出整個 SBM 參數實驗的無損壓縮。
+ \item \textbf{稀疏度與信號退化。}
+ \(d\to\infty\) 用於譜子空間一致性及尾能量吸收；
+ \(d=o(\log n)\) 使 \(n^{-r}\) 的訓練失敗概率在速度 \(d\) 下可忽略。
+ 本稿不處理 \(d=O(1)\)、\(k\to\infty\)、零概率，
+ 或 \(C=C_n\) 的最小信號特徵值趨零的情況。
+ \item \textbf{秩不足。}
+ 若 \(\rank(C)<k\)，信號空間不必容納所有 block-constant LLR 係數。
+ Degree 可加入常數方向，某些比例 profile 的判別也只需 degree，
+ 但一般退化模型需要另行刻畫所需係數空間。
+ \item \textbf{去噪矩陣的含義。}
+ 對逐節點譜特徵反解後，可以構造秩至多 \(k\) 的行平滑矩陣
+ \[
+ \widetilde A_{\mathrm{cal}}
+   =\hat N\,\diag(\hat n_c)^{-1}\hat Z^\top.
+ \]
+ 它滿足
+ \(\widetilde A_{\mathrm{cal}}\hat Z=\hat N\)、
+ \(\widetilde A_{\mathrm{cal}}\one_n=D\)。
+ 這是保留逐節點連接波動的校準重建；不必對稱，也不必逐項落在 \([0,1]\)。
+ 證明使用其線性分數意義。
+ 直接把所有同類節點替換為同一行的
+ \(\hat Z\hat B\hat Z^\top\)，則沒有保留此處使用的逐節點波動。
+\end{enumerate}
+
+\section*{編譯說明}
+\addcontentsline{toc}{section}{編譯說明}
+本文件是單一、自包含的 \texttt{.tex} 原始碼，參考文獻在檔案內。
+使用含 \texttt{xeCJK} 的 TeX Live／MiKTeX，以 XeLaTeX 編譯兩次：
+\begin{verbatim}
+xelatex sbm_spectral_lrt_20261009.tex
+xelatex sbm_spectral_lrt_20261009.tex
+\end{verbatim}
+字體優先使用 Noto Serif CJK TC；若未安裝，原始碼會使用
+TeX Live 常見的 Fandol 字體。數學排版、目錄與交叉引用均由 LaTeX 產生。
+
+\begin{thebibliography}{9}
+\bibitem{LLV}
+Can M. Le, Elizaveta Levina, and Roman Vershynin.
+\newblock \emph{Concentration and regularization of random graphs}.
+\newblock arXiv:1506.00669v2, 2016.
+\newblock 本稿使用 Theorem 2.1 的正則化集中結果。
+\newblock \url{https://arxiv.org/abs/1506.00669}.
+\end{thebibliography}
+\end{document}

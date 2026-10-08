@@ -1,0 +1,72 @@
+EXPERIMENT LIMITATIONS / 實驗解讀邊界
+====================================
+
+1. Working likelihood 與真實 graph likelihood
+Full/tied GMM 優化譜特徵的 Gaussian mixture likelihood；Poisson--Gaussian
+(PG) 優化 degree-Poisson 加上 conditional-Gaussian 的 working/composite
+likelihood。兩者均不是完整 SBM Bernoulli graph likelihood。
+Spectral Bernoulli-shaped 方法作用於有正有負的低秩重建矩陣，是明確的
+surrogate；矩陣元素不是 Bernoulli observations。只有 raw_bernoulli_vem
+讀取原始 A，優化 Bernoulli SBM 的 mean-field ELBO，且不保證找到全局
+MLE。各 EM/VEM 的收斂只是本次迭代準則，不是統計最優性的證明。
+
+2. 等分模型已指定，但 fitting 未強制等分
+資料以已知 K、精確相等的 community sizes 生成。擬合方法知道 K，卻未
+強制每群 n/K 個節點；mixture weights/社區比例按資料估計。某些方法的
+hard assignment 因而可能有空群。這不是充分利用已知 exact balance
+constraint 的最佳算法比較，也不能把這些空群結果當作所有 likelihood
+初始化都會失敗的證據。
+
+3. edge_only_oracle 的精確定義
+給定其他節點真實標籤 z_{-i} 與真實 B，令
+  N_ic = sum_{j != i} A_ij 1{z_j=c},
+  m_c^(-i) = sum_{j != i} 1{z_j=c}.
+程式對候選 a 計算
+  S_i(a) = sum_c [N_ic log B_ac
+                  + (m_c^(-i)-N_ic) log(1-B_ac)]
+並取 argmax_a S_i(a)。非邊項與自環排除均包含在內。
+程式沒有另加 log pi_a；本實驗所有模型 pi_a=1/K，因此這個常數省略後
+不影響決策。它等於忽略 exact-balance constraint 的、已知 z_{-i} 與 B
+且採相等 class priors 的 nodewise Bernoulli MAP classifier；任意两候選
+的 score difference 即為 LLR。若換成非等 prior，需另加 log pi_a。
+這不是精確等分模型的完整 Bayes oracle：若同時知道每群精確人數與全部
+其他標籤，目標標籤本身就可由缺額推知。此 benchmark 特意不使用該推論，
+僅以標籤形成 incident-edge counts 與 exposures。它也不是未知標籤下可
+實作的算法。報告沿用全方法共同的 Hungarian label-aligned error；這與
+已知 B 時固定 semantic-label error 的定義需區分。有限樣本上某算法的
+實現誤差低於此參照值，不自動構成矛盾或超越資訊下界的證據。
+
+4. Pilot 與正式圖種子分開
+Pilot 使用獨立的小編號 seeds；正式凍結實驗使用100:120，即100--119，
+各模型/degree20張圖，n=1800，共6模型 x6degree x20seeds=720jobs。
+正式模型、特徵、超參數、重啟數與迭代上限在正式實驗前固定。真實標籤
+只用於事後評估，未用於 fitting、重啟選擇或正式種子上的超參數選擇。
+這是 held-out random-seed protocol，不是同一張圖另切 training/test edges。
+配對95%CI為描述性 t intervals，未作多重比較校正；須同時保留失敗條件。
+
+5. 相同特徵與中心的配對，以及 PG 的差異
+同特徵的 KMeans/GMM 比較使用相同的譜分解、特徵矩陣，以及每次重啟
+相同的 k-means++ 中心；中心抽樣不等於先執行 Lloyd clustering。
+PG 使用 degree-weighted k-means++ 與 random-data 混合抽樣及獨立 child
+seeds，故 PG 對 neighborhood+degree KMeans 是相同可用資訊的比较，但
+同时改变 working model 与 seeding，不能归因于只替换 objective。
+標準化 leading eigenvector 再加入 degree 可能重複放大 degree noise；
+巨大收益須與 classic-U/ASE/RRE 等合理幾何 baseline 一起解讀。
+
+6. Top-|lambda| 與 decoder 的有限樣本失敗
+為容許 indefinite SBM，譜資訊按 eigenvalue 絕對值取 top K。有限樣本下
+弱信號方向可能被 noise eigenvector 替代；即使某初始化已經很好，直接
+反解 K x K empirical centroid matrix 仍可能不穩，產生大量負的 inferred
+counts，並嚴重惡化分群。正式實驗保留了這些結果，未事後調整篩選或
+condition-number threshold。例：K3 heterogeneous,d=64，PG初始誤分
+0.6778%，decoded58.1639%；19/20圖的top3包含負noise eigenvalue。
+這說明目前未加充分穩定化的 empirical decoder 並非可靠的有限樣本算法。
+不得把初始化成功與 decoder/LRT 成功混為一談；也不能單由此結果宣稱
+整份 degree+spectral statistic 在資訊論上必然不足。
+
+7. 未驗證 LRT error exponent 或 asymptotic optimality
+本實驗固定 n=1800、d=4,6,12,24,64,96；只有4、6在數值上小於log1800。
+有限參數網格及20重複不能驗證 d_n -> infinity、d_n=o(log n) 的漸近極限，
+也沒有證明與 oracle 的 risk ratio ->1、Chernoff exponent 相等、全參數
+資訊充分性，或精確全局 MLE。可以報告的是這些明確模型下的初始化誤差、
+配對差異、運行時間及已觀察到的失敗機制。

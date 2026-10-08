@@ -1,0 +1,10 @@
+method,baseline,conditions,conditions_better,conditions_tied,conditions_worse,ci_better,ci_worse,mean_delta_percentage_points,pooled_wins,pooled_ties,pooled_losses
+gmm_full_spec,km_spec,36,25,1,10,21,9,-5.462422839506172,461,77,182
+gmm_tied_spec,km_spec,36,18,1,17,13,16,-0.11095679012345634,288,80,352
+gmm_full_spec_degree,km_spec_degree,36,29,0,7,26,6,-16.277854938271606,573,5,142
+gmm_full_neighbor_degree,km_neighbor_degree,36,25,3,8,18,8,-1.694907407407407,408,88,224
+poisson_gaussian,km_neighbor_degree,36,27,3,6,21,6,-2.7819444444444446,462,93,165
+poisson_gaussian,km_classic_U,36,21,3,12,19,6,-10.058101851851852,452,98,170
+gmm_full_spec,km_classic_U,36,20,3,13,19,12,-6.291280864197531,396,90,234
+spectral_bernoulli_surrogate,km_neighbor_degree,36,13,3,20,9,17,1.8883487654320976,254,99,367
+raw_bernoulli_vem,km_neighbor_degree,36,28,3,5,23,5,-4.381095679012345,514,73,133
