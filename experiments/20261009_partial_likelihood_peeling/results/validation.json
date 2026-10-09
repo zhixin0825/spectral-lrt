@@ -1,0 +1,30 @@
+{
+  "brute_force_steps": 492,
+  "passed": true,
+  "examples_n1000_k3": {
+    "original": {
+      "group_sizes": [
+        334,
+        334,
+        332
+      ],
+      "leftover": 0
+    },
+    "scaled_remaining": {
+      "group_sizes": [
+        223,
+        260,
+        345
+      ],
+      "leftover": 172
+    },
+    "scaled_fixed_k": {
+      "group_sizes": [
+        223,
+        173,
+        135
+      ],
+      "leftover": 469
+    }
+  }
+}

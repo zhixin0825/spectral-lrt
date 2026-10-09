@@ -72,3 +72,8 @@ python build_report.py
 4. 對 LRT 或 sublogarithmic regime 的主張，需要另外完成誤差指數與解碼穩定性的理論論證。
 
 ![720 張圖的初始化比較](experiments/20261009_likelihood_initialization/deliverables/initialization_comparison.png)
+
+
+## Smaller top-fraction initialization (2026-10-09)
+
+The user-proposed fixed-K `1/(1.5K)` rule reduces decoder-free Poisson profile error from 4.4154% to 0.3917% on the inherited 120 spectra, with 86/120 exact recoveries. The decreasing-r `1/(1.5r)` control reaches 0.5008%. The unequal-block failure is largely repaired, but one balanced graph reaches a bad local solution and the fixed-K population rule can select duplicate parameters. See [the complete paired report](experiments/20261009_partial_likelihood_peeling/REPORT_20261009.md). No final forced completion; all observations enter the unchanged EM.

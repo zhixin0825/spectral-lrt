@@ -1,0 +1,111 @@
+{
+  "graphs": 120,
+  "fits": 720,
+  "saved_predictions_and_traces_checked": 720,
+  "original_results_and_seed_ids_match_prior_archive": 240,
+  "all_initial_parameters_exact_selected_profiles": true,
+  "all_objectives_monotone_to_1e_7": true,
+  "worst_objective_delta": -5.820766091346741e-11,
+  "examples": {
+    "equal3_n2000_ch0.8_s20004": [
+      {
+        "method": "bernoulli_original",
+        "errors": 1,
+        "error_rate": 0.0005,
+        "seed_classes": "[1, 2, 2]",
+        "objective": -254424.82599153652,
+        "n_iter": 5
+      },
+      {
+        "method": "bernoulli_scaled_fixed_k",
+        "errors": 713,
+        "error_rate": 0.3565,
+        "seed_classes": "[1, 2, 1]",
+        "objective": -261706.46321642783,
+        "n_iter": 5
+      },
+      {
+        "method": "bernoulli_scaled_remaining",
+        "errors": 997,
+        "error_rate": 0.4985,
+        "seed_classes": "[1, 2, 1]",
+        "objective": -261701.19199877584,
+        "n_iter": 61
+      },
+      {
+        "method": "poisson_original",
+        "errors": 1,
+        "error_rate": 0.0005,
+        "seed_classes": "[1, 2, 2]",
+        "objective": -255120.0037374911,
+        "n_iter": 5
+      },
+      {
+        "method": "poisson_scaled_fixed_k",
+        "errors": 709,
+        "error_rate": 0.3545,
+        "seed_classes": "[1, 2, 1]",
+        "objective": -262268.48471548053,
+        "n_iter": 5
+      },
+      {
+        "method": "poisson_scaled_remaining",
+        "errors": 971,
+        "error_rate": 0.4855,
+        "seed_classes": "[1, 2, 1]",
+        "objective": -262264.1948228171,
+        "n_iter": 61
+      }
+    ],
+    "unequal3_n1000_ch0.8_s20000": [
+      {
+        "method": "bernoulli_original",
+        "errors": 354,
+        "error_rate": 0.354,
+        "seed_classes": "[1, 0, 0]",
+        "objective": -95815.75242431802,
+        "n_iter": 47
+      },
+      {
+        "method": "bernoulli_scaled_fixed_k",
+        "errors": 3,
+        "error_rate": 0.003,
+        "seed_classes": "[2, 1, 0]",
+        "objective": -93830.1511850962,
+        "n_iter": 3
+      },
+      {
+        "method": "bernoulli_scaled_remaining",
+        "errors": 3,
+        "error_rate": 0.003,
+        "seed_classes": "[2, 1, 0]",
+        "objective": -93830.15115375607,
+        "n_iter": 3
+      },
+      {
+        "method": "poisson_original",
+        "errors": 355,
+        "error_rate": 0.355,
+        "seed_classes": "[1, 0, 0]",
+        "objective": -96229.77326384958,
+        "n_iter": 46
+      },
+      {
+        "method": "poisson_scaled_fixed_k",
+        "errors": 3,
+        "error_rate": 0.003,
+        "seed_classes": "[2, 1, 0]",
+        "objective": -94296.5342389681,
+        "n_iter": 3
+      },
+      {
+        "method": "poisson_scaled_remaining",
+        "errors": 3,
+        "error_rate": 0.003,
+        "seed_classes": "[2, 1, 0]",
+        "objective": -94296.53420879065,
+        "n_iter": 3
+      }
+    ]
+  }
+}

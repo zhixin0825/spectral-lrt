@@ -1,0 +1,46 @@
+[
+  {
+    "method": "poisson_scaled_remaining",
+    "graphs": 120,
+    "better": 17,
+    "equal": 102,
+    "worse": 1,
+    "coverage_improved": 32,
+    "coverage_worsened": 6,
+    "higher_objective": 17,
+    "lower_objective": 1
+  },
+  {
+    "method": "poisson_scaled_fixed_k",
+    "graphs": 120,
+    "better": 17,
+    "equal": 102,
+    "worse": 1,
+    "coverage_improved": 37,
+    "coverage_worsened": 22,
+    "higher_objective": 17,
+    "lower_objective": 1
+  },
+  {
+    "method": "bernoulli_scaled_remaining",
+    "graphs": 120,
+    "better": 19,
+    "equal": 100,
+    "worse": 1,
+    "coverage_improved": 31,
+    "coverage_worsened": 4,
+    "higher_objective": 19,
+    "lower_objective": 1
+  },
+  {
+    "method": "bernoulli_scaled_fixed_k",
+    "graphs": 120,
+    "better": 19,
+    "equal": 100,
+    "worse": 1,
+    "coverage_improved": 38,
+    "coverage_worsened": 22,
+    "higher_objective": 19,
+    "lower_objective": 1
+  }
+]

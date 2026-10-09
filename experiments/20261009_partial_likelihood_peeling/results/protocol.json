@@ -1,0 +1,18 @@
+{
+  "input": "120 inherited eigenpair inputs; exact same inputs as original peeling comparison",
+  "fitting_input": "U,Lambda only; all truth and saved baselines accessed after every fit on graph",
+  "density": "C log(n)/n; n=1000/2000; CH=0.8/1.4; seeds=20000..20004; 6 models",
+  "score_poisson": "q_i @ log(mu) - sum(mu); q=max(U Lambda U.T,1e-4 log(n)/n); diagonal retained",
+  "score_bernoulli": "q_i @ log(p/(1-p)) + sum(log(1-p)); q=clip(U Lambda U.T,lower,1-1e-8)",
+  "original": "floor(M/r) other nodes, cap at M-r; final r=1 takes M-1",
+  "scaled_remaining": "floor(2M/(3r)) other nodes, cap at M-r; r=K,K-1,...,1; no final forced completion",
+  "scaled_fixed_k": "floor(2M/(3K)) other nodes, cap at M-r; K fixed original number; no final forced completion",
+  "candidate": "Every remaining node; raw total on top other nodes; self excluded; ties smallest node ID",
+  "parameters": "Selected node profiles unchanged; no selected-core mean substitution",
+  "removal": "Candidate and its top nodes removed only from seeding pool; all n observations enter EM",
+  "EM": "Inherited soft EM unchanged; uniform initial weights; max_iter=300; tol=1e-6",
+  "scope": "Working expected row scores on dependent spectral profiles, not exact LOO or graph likelihood",
+  "independent_test_set": false,
+  "graph_count": 120,
+  "workers": 4
+}

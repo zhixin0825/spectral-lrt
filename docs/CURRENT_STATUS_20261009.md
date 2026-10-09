@@ -263,3 +263,12 @@ Signed 重建矩陣的元素可能不在 $[0,1]$，而 raw VEM 讀取了額外�
 `edge_only_oracle` 只作 incident-edge／非邊 score 參照：它使用真實 $B,z_{-i}$，但刻意不利用「精確等分＋已知其他全部 labels」可以由缺額直接推知 $z_i$ 的資訊。因此不是 exact-balance 模型的完整 Bayes oracle，也不是逐圖嚴格下界；細節見上述 `EXPERIMENT_LIMITATIONS.txt`。
 
 ![六個模型的初始化比較](../experiments/20261009_likelihood_initialization/deliverables/initialization_comparison.png)
+
+
+## 2026-10-09 addendum: smaller top-fraction initialization
+
+Completed 120 same-spectrum graphs x 2 row scores x 3 seeding rules = 720 fits. Only top-fraction count and final forced-completion rule changed; the direct node parameters and all-node EM are unchanged. Fixed original K: `floor(M/(1.5K))` other nodes; decreasing remaining r control: `floor(M/(1.5r))`. Both leave unselected observations for EM.
+
+Expected Poisson profile mean error: original 4.4154%, fixed-K new 0.3917%, decreasing-r new 0.5008%; exact: 71,86,86 of 120. Unequal3 mean error improves from 25.9575% to 0.0450% for both new rules. One balanced graph (`equal3_n2000_ch0.8_s20004`) worsens to 35.45%/48.55%, so the fixed-K overall error remains slightly above the saved k-means baseline 0.3454%. All 720 fits reach the inherited numeric stopping criterion, with monotone working objectives to 1e-7. Original seed IDs and outcomes match the preceding 240 score-control fits.
+
+A population calculation shows that smaller removal can leave candidates from the same component to be selected again; fixed-K fails even on an ideal balanced population profile, and decreasing-r can fail for stronger size imbalance. This is not an exact LOO/graph likelihood test, a new independent benchmark, or a global recovery theorem. The k-means-decoded PG branch was not rerun. Complete result and numerical-record provenance: [REPORT_20261009.md](../experiments/20261009_partial_likelihood_peeling/REPORT_20261009.md).
