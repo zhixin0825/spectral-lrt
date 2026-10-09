@@ -9,6 +9,7 @@
 | 內容 | 入口 |
 | --- | --- |
 | 當前研究狀態、已確認結論與待解問題 | [CURRENT_STATUS_20261009.md](docs/CURRENT_STATUS_20261009.md) |
+| 初始分區如何接到 likelihood；真分區何時最大；直接解碼 LLR contrasts | [後續推導](docs/PARTITION_SPECTRAL_LIKELIHOOD_20261009.md) |
 | 720 張圖的完整實驗說明與重現方法 | [實驗目錄](experiments/20261009_likelihood_initialization/) · [README](experiments/20261009_likelihood_initialization/README.txt) |
 | 可離線閱讀的繁體中文完整報告 | [HTML 報告](experiments/20261009_likelihood_initialization/deliverables/sbm_likelihood_initialization_report.html)（下載後開啟） |
 | 全部條件、配對比較與逐圖彙整 | [結果表與圖](experiments/20261009_likelihood_initialization/deliverables/) |
