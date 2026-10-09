@@ -27,14 +27,28 @@ jobs:
       - name: Install XeLaTeX and Chinese fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk
+          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-fonts-recommended lmodern fonts-noto-cjk
       - name: Compile unchanged historical source twice
         working-directory: paper/previous_draft
         run: |
-          xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error -jobname=sbm_spectral_lrt_20261009_recompiled sbm_spectral_lrt_20261009.tex
+          xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error -jobname=sbm_spectral_lrt_20261009_recompiled sbm_spectral_lrt_20261009.tex | tee compile-output.txt
           xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error -jobname=sbm_spectral_lrt_20261009_recompiled sbm_spectral_lrt_20261009.tex
           test -s sbm_spectral_lrt_20261009_recompiled.pdf
           sha256sum sbm_spectral_lrt_20261009.tex sbm_spectral_lrt_20261009_recompiled.pdf > RECOMPILED_SHA256SUMS.txt
+      - name: Preserve compiler diagnostics on failure
+        if: failure()
+        run: |
+          if test -f paper/previous_draft/compile-output.txt; then
+            tail -n 120 paper/previous_draft/compile-output.txt > paper/previous_draft/RECOMPILE_FAILURE.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add paper/previous_draft/RECOMPILE_FAILURE.txt
+            if ! git diff --cached --quiet; then
+              git commit -m "Record XeLaTeX compilation diagnostics"
+              git pull --rebase origin main
+              git push origin HEAD:main
+            fi
+          fi
       - name: Record build provenance
         env:
           BUILD_SOURCE_SHA: ${{ github.sha }}
