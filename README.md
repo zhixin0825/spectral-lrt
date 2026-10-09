@@ -14,7 +14,7 @@
 | 可離線閱讀的繁體中文完整報告 | [HTML 報告](experiments/20261009_likelihood_initialization/deliverables/sbm_likelihood_initialization_report.html)（下載後開啟） |
 | 全部條件、配對比較與逐圖彙整 | [結果表與圖](experiments/20261009_likelihood_initialization/deliverables/) |
 | 完整逐圖輸出與 SHA256 校驗 | [正式實驗紀錄](experiments/20261009_likelihood_initialization/final/archives/) · [pilot 紀錄](experiments/20261009_likelihood_initialization/pilot_v2/archives/) |
-| 先前理論草稿（歷史版本） | [TeX 與編譯／版本說明](paper/previous_draft/) |
+| 先前理論草稿（歷史版本） | [17 頁 PDF（重新編譯版）](paper/previous_draft/sbm_spectral_lrt_20261009_recompiled.pdf) · [TeX 與版本說明](paper/previous_draft/) |
 
 ## 目前的實驗結論
 

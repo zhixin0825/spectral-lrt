@@ -11,6 +11,14 @@
 
 大小核對確認取回文字的完整長度；本次沒有取得原件的獨立服務端雜湊值。上述 SHA-256 是對本次保存的完整 UTF-8 原始碼計算，供之後驗證檔案未被更動。
 
+## 可下載的重新編譯 PDF
+
+- [sbm_spectral_lrt_20261009_recompiled.pdf](sbm_spectral_lrt_20261009_recompiled.pdf)：2026-10-09 在 GitHub Actions 以 XeLaTeX 編譯兩次，17 頁、371,163 bytes。這是從現存原始碼生成的重新編譯版，並非此前 441,527 bytes 原 PDF 的恢復。
+- 編譯使用的 TeX SHA-256 仍為 `5c5c381e68aec6ba28bc76a92f4588dbc50b2b5e9b073a94c112fcca790a002f`，原稿內容未修改。
+- PDF SHA-256 為 `e5049c72da58d7616eeb8b71dbd3c1ef946538dcd7d8317237363c2e1706a891`。已核對全部頁面概覽與首頁、公式頁及末頁的清晰渲染。
+- [雜湊校驗](RECOMPILED_SHA256SUMS.txt)、[編譯來源與執行紀錄](RECOMPILED_BUILD.txt)、[可重現 workflow](../../.github/workflows/compile-spectral-draft.yml) 一併保存。後續重新執行的 PDF bytes 可能因 metadata 改變，應以該次生成的校驗檔為準。
+- **成功編譯只確認文件可以生成，不代表已審核歷史稿的 theorem／proof。** 目前結論仍以當前狀態為準；初始分區與 likelihood 的新補充見 [後續推導](../../docs/PARTITION_SPECTRAL_LIKELIHOOD_20261009.md)。
+
 ## 原稿提出了甚麼
 
 以下是原稿主張的摘要，**不表示本次已驗證其證明**：
@@ -47,4 +55,4 @@ xelatex sbm_spectral_lrt_20261009.tex
 
 編譯會產生一份新的 PDF；它應標記為重新編譯輸出，不能據此聲稱原歷史 PDF 已恢復。
 
-本輪曾按原始碼嘗試重編，但執行環境缺少 `xeCJK.sty`，第一次 XeLaTeX 呼叫即停止，未產生任何頁面。因此本次也沒有納入重編 PDF；原始碼仍未更動。安裝包含 `xeCJK` 的中文 TeX 支援後，可使用上面的指令重編。
+最初歸檔時的執行環境缺少 `xeCJK.sty`，未成功生成 PDF。2026-10-09 已改用倉庫中的 workflow，安裝中文 TeX 支援與 Noto／Latin Modern 字體後成功重新編譯；新輸出採用明確的 `_recompiled.pdf` 檔名，原始碼仍未更動。
