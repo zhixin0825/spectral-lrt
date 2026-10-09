@@ -9,7 +9,7 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
 \usepackage{bookmark}
-\hypersetup{pdftitle={Spectral Likelihood Ratios for Nearly Optimal Community Recovery in the Stochastic Block Model},pdfauthor={Zhixin Zhou},pdfsubject={Spectral-only classification, conditional Chernoff-rate transfer, initialization and empirical evaluation}}
+\hypersetup{pdftitle={Spectral Likelihood-Ratio Decoding for Community Recovery in the Stochastic Block Model},pdfauthor={Zhixin Zhou},pdfsubject={Spectral-only classification, local Chernoff-rate recovery, initialization and empirical evaluation}}
 \setlength{\parskip}{3pt}
 \setlist{nosep,leftmargin=*}
 \newtheorem{theorem}{Theorem}[section]
@@ -20,8 +20,9 @@
 \newtheorem{definition}[theorem]{Definition}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
+\newcommand{\Mis}{\operatorname{Mis}}
 \newcommand{\E}{\mathbb E}
-\newcommand{\PP}{\mathbb P}
+\newcommand{\PP}{\mathbb \Omega}
 \newcommand{\R}{\mathbb R}
 \newcommand{\one}{\mathbf 1}
 \newcommand{\diag}{\operatorname{diag}}
@@ -34,13 +35,13 @@
 \newcommand{\argmax}{\operatorname*{arg\,max}}
 \newcommand{\argmin}{\operatorname*{arg\,min}}
 \numberwithin{equation}{section}
-\title{Spectral Likelihood Ratios for Nearly Optimal Community Recovery\\in the Stochastic Block Model}
+\title{Spectral Likelihood-Ratio Decoding for Community Recovery\\in the Stochastic Block Model}
 \author{Zhixin Zhou}
 \date{October 9, 2026\\\small Research manuscript}
 \begin{document}
 \maketitle
 \begin{abstract}
-Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We study how to decode the latter information from the former representation. For a stochastic block model with a full-rank connectivity matrix, the population signal space contains every block-constant likelihood contrast. An exact projection identity explains why spectral compression can preserve the linear part of an oracle likelihood ratio. We propose a spectral-only procedure that selects an initial profile on a high-likelihood subset, adds profiles according to their joint gain on all nodes, and fits a positive-profile working mixture by alternating updates. We prove a conditional recovery theorem with error bound $e^{-(1+o(1))I_n}$, together with exact contrast-preservation, sparse likelihood approximation, greedy-selection, and objective-convergence results. The recovery theorem requires likelihood-score errors and their exceptional-event probabilities to be controlled at the oracle error scale; establishing these conditions for the complete empirical procedure remains unresolved. On two paired collections totaling 240 simulated graphs, global-gain seeding or likelihood-accepted parameter replacement eliminates two severe initialization failures and reduces mean misclassification relative to the tested spectral $k$-means baseline. We also formulate the lower-density extension and identify the additional calibration required by regularized spectral representations.
+Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We study how to decode this information from the retained spectrum. We propose a spectral-only procedure that starts at the global profile mean, adds candidate profiles by their likelihood gain on all nodes, and refits all components after each addition. For a fixed full-rank stochastic block model at logarithmic density, first-order entrywise eigenspace analysis gives a uniform row-profile approximation to oracle block-count compression. We then prove that an admissible fixed positive floor preserves the leading Chernoff exponent and that the empirical profile EM decoder, from a sufficiently reliable weak start, achieves $e^{-(1+o(1))I_n}$ through subsequent iterations. A spectral warm-start variant gives an end-to-end recovery corollary. The high-probability weak-initialization guarantee for the proposed growing likelihood initializer remains unproved. On two paired collections totaling 240 simulated graphs, growing global-gain seeding or likelihood-accepted parameter replacement removes two severe initialization failures and reduces mean misclassification relative to the tested spectral $k$-means baseline. We also give exact contrast-preservation and objective-convergence results and formulate the additional requirements below logarithmic density.
 \end{abstract}
 \input{intro}
 \input{algorithm}

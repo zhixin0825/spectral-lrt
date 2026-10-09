@@ -1,9 +1,14 @@
 # Spectral information and likelihood-ratio inference for the SBM
 
-**当前完整英文稿（2026-10-09）：** [编译 PDF](paper/current/manuscript.pdf) · [文章与源码说明](paper/current/README.md) · [主 TeX 文件](paper/current/manuscript.tex)。已写齐六节正文、证明附录和 240 图实验。主恢复定理是明确条件下的领先指数转移，目标为 \(e^{-(1+o(1))I_n}\)；尚未证明完整 clipped-profile EM 流程满足这些条件。
+**当前修订英文稿（2026-10-09）：** [编译 PDF](paper/current/manuscript.pdf) · [文章与源码说明](paper/current/README.md) · [主 TeX 文件](paper/current/manuscript.tex)。正文已统一参考 Zhou--Li 的符号：P 为社区连接概率矩阵，p_{kj}=P_{k,z_j}，错分率为 Mis，Chernoff 信息为 D_alpha，I_n 是最难社区对的精确信息量。
 
+**当前主算法不再含 1.5K：** 使用已经验证的 growing_global_gain_EM（入口 method='global_gain'），从全局 profile 均值开始，每次按所有节点的 likelihood gain 加一个参数并重新拟合，直到 K 个成分。旧的 top-subset-first / global_gain_no_update 只保留为历史实验对照。
 
-**初始化失败的修复与独立验证（2026-10-09）：** [全局 likelihood 增益和参数替换](experiments/20261009_residual_likelihood_seeding/REPORT_20261009.md)。保留 fixed-K `1/(1.5K)` 初始化，在全体节点 EM 后做一轮参数替换，仅按最终 mixture likelihood 提升接受。原 120 图平均误分率 0.3917% → 0.0967%；预先固定的新 seeds 30000–30004 的另 120 图为 0.3725% → 0.0925%。各批仅一张严重失败图改善，其余 119 张错分数相同；原失败图 709/2000 → 1/2000，新图 675/2000 → 3/2000。全局增益选参数也达到相同误分率；单次随机 ++ 和单次 greedy ++ 仍有严重失败，不能当作普遍保证。拟合仅使用 U、Lambda 和谱 profile working likelihood。
+**本轮新增证明：** 在固定 full-rank B、log n/n 密度和合适正值 floor 下，已证明全图经验谱重建的逐行 L1 近似、clipped Chernoff 指数、实际 profile EM 的局部恢复与盆地不变性，目标为 exp(-(1+o(1)) I_n)。有理论保证的谱 warm start 可给端到端推论。主 growing likelihood 初始化的高概率弱初始化保证仍未证明；不能把该推论冒充主算法的无条件保证。
+
+**已有 240 图实验：** growing global gain + EM 在两批 120 图上的平均误分率分别为 0.0967% / 0.0925%，exact recovery 为 86 / 77。合并误分率 0.0946%，exact recovery 163/240。原始数据与历史报告保持原样：[报告及复现](experiments/20261009_residual_likelihood_seeding/REPORT_20261009.md)。
+
+以下为此前阶段的历史结果与归档入口。
 
 **Likelihood++ 设计与完成的谱 profile 实验（2026-10-09）：** [算法和验证结果](experiments/20261009_spectral_em/LIKELIHOOD_PP_DESIGN_20261009.md)。用单点最优 log density 与当前中心 log density 的差作为 ++ 采样权重；高斯时还原 D² sampling。无 k-means decoder 的谱 profile matched greedy 比较：1200 starts 平均误分率 likelihood++ 1.5652%、Euclidean++ 2.8697%；best10 均为 0.0967%、87/120 exact。全部 4800 个 profile fits 收敛；PG decoder 桥接仍有严重负面案例。固定 Y 的 6000-start PG 主比较最后可读 checkpoint 为 78/120 图，随后本地环境路径错误阻断核验，尚未发布全量终点或完整归档。
 

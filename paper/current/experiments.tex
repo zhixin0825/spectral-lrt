@@ -76,7 +76,7 @@ The archived implementation forms positive spectral profiles
 \begin{equation}
  q_{ij}=\max\left\{(U\Lambda U^\top)_{ij},
                    10^{-4}\frac{\log n}{n}\right\},\qquad
- \ell_i(\mu)=\sum_{j=1}^n q_{ij}\log\mu_j-\sum_{j=1}^n\mu_j.
+ \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
  \label{eq:experimental_working_score}
 \end{equation}
 The reconstructed diagonal is retained, even though the generated graphs
@@ -85,38 +85,30 @@ not the original Bernoulli graph likelihood. Component means are unrestricted
 $n$-dimensional profile means. Every likelihood arm uses the same soft EM
 updates and observed working objective
 \begin{equation}
- \mathcal L(\mu,w)=\sum_{i=1}^n\log\left[
-   \sum_{a=1}^K w_a\exp\{\ell_i(\mu_a)\}\right].
+ \mathcal L(\widehat p,\widehat\pi)=\sum_{i=1}^n\log\left[
+   \sum_{a=1}^K \widehat\pi_a\exp\{\ell_i(\widehat p_a)\}\right].
 \end{equation}
 EM initializes equal component weights except when refitting a replacement
 proposal, where the current weights are retained. The mean update is the
 responsibility-weighted average of $q_i$. The weight update exactly maximizes
-the EM auxiliary objective on $\{w_a\ge10^{-8},\ \sum_a w_a=1\}$.
+the EM auxiliary objective on $\{\widehat\pi_a\ge10^{-8},\ \sum_a \widehat\pi_a=1\}$.
 No additional floor on means is needed because the observations are positive.
-Final labels maximize $\log w_a+\ell_i(\mu_a)$.
+Final labels maximize $\log \widehat\pi_a+\ell_i(\widehat p_a)$.
 
-The main deterministic initialization, denoted \emph{global gain}, selects
-its first seed using the proposed top-subset rule. Specifically, for each
-node candidate $c$, it sums its largest
-\begin{equation}
- m_0=\min\{\lfloor2n/(3K)\rfloor,n-K\}
-\end{equation}
-scores over other nodes, excluding $c$, and selects the candidate with the
-largest sum. Subsequent seeds maximize the all-node marginal gain
-\begin{equation}
- \Delta(c)=\sum_i\max\left\{\ell_i(q_c)-
-                              \max_{a\in S}\ell_i(q_a),0\right\},
- \label{eq:experimental_global_gain}
-\end{equation}
-over unselected candidates. All observations remain available. Seed profiles
-are frozen during these $K$ selections; one soft EM fit follows after all
-$K$ seeds have been selected. This is the archived
-\texttt{global\_gain\_no\_update} arm.
+The primary deterministic initialization is Algorithm~1, recorded as
+\texttt{growing\_global\_gain\_EM}. It starts from the global profile mean,
+adds $K-1$ node candidates by their all-node marginal gains, and runs joint
+EM after each addition. It requires no top-subset size and removes no nodes.
+
+The frozen-profile control, recorded as \texttt{global\_gain\_no\_update},
+starts with the historical top-subset rule and then chooses all remaining
+node seeds by all-node gains, keeping the profiles frozen until one final EM
+fit. Its exact historical subset sizes are recorded in
+Appendix~\ref{app:implementation}. It is a different algorithm despite its
+identical recovery errors in these experiments.
 
 We compare it with the following alternatives. \emph{Top-subset peeling}
-uses the same first-seed rule and repeatedly removes the selected candidate
-and its best-scoring subset. When $M$ candidates and $r$ components remain,
-the subset contains $\min\{\lfloor2M/(3K)\rfloor,M-r\}$ other nodes.
+uses the historical first-seed rule and repeatedly removes the selected candidate and its best-scoring subset, using the archived sizes specified in the appendix.
 After $K$ selections, all $n$ observations, including unselected nodes, enter
 EM. \emph{Peeling plus replacement} fits this initialization, deletes each
 component temporarily, proposes the globally most useful node against the
@@ -125,13 +117,11 @@ original fitted endpoint; the best proposal is accepted only if its final
 $\mathcal L$ exceeds the current best by more than $10^{-5}$. This is one
 replacement pass, not repeated optimization.
 
-\emph{Growing global gain} starts from the global profile mean and runs EM
-after each added component. It differs from the main initializer even though
-it happens to produce the same recovery errors here. \emph{Residual++} samples
+The API option \texttt{method='global\_gain'} invokes the primary growing algorithm; it does not invoke the frozen-profile control. \emph{Residual++} samples
 the first node uniformly and later nodes proportionally to
 \begin{equation}
  d_i=\min_{a\in S}\sum_j
- \left[q_{ij}\log(q_{ij}/\mu_{aj})-q_{ij}+\mu_{aj}\right].
+ \left[q_{ij}\log(q_{ij}/\widehat p_{aj})-q_{ij}+\widehat p_{aj}\right].
 \end{equation}
 This deviance is not squared again. Its greedy variant samples
 $2+\lfloor\log K\rfloor$ candidate trials per addition and chooses the trial
@@ -173,13 +163,13 @@ out of 120 graphs per batch. All profile arms use the same EM score.}
 \label{tab:experiment_summary}
 \begin{tabular}{lrrrr}
 \toprule
-&\multicolumn{2}{c}{Design batch}&\multicolumn{2}{c}{Independent batch}\\
+&\widehat plticolumn{2}{c}{Design batch}&\widehat plticolumn{2}{c}{Independent batch}\\
 Method&Error (\%)&Exact&Error (\%)&Exact\\
 \midrule
 Top-subset peeling + EM&0.3917&86&0.3725&77\\
 Peeling + replacement&\textbf{0.0967}&86&\textbf{0.0925}&77\\
-Global gain + EM&\textbf{0.0967}&86&\textbf{0.0925}&77\\
-Growing global gain + EM&0.0967&86&0.0925&77\\
+Frozen global gain + EM&0.0967&86&0.0925&77\\
+Growing global gain (Algorithm~1)&\textbf{0.0967}&86&\textbf{0.0925}&77\\
 Growing sampled gain + EM&0.3900&86&0.0925&77\\
 Residual++, one start + EM&4.0129&80&3.1675&72\\
 Greedy residual++, one start + EM&1.1192&85&2.3438&74\\
@@ -203,13 +193,11 @@ claiming dominance on every graph.
 \begin{table}[tb]
 \centering
 \small
-\caption{Both batches combined, 40 graphs per model. ``Global gain'' refers
-to the top-subset first seed followed by frozen-profile all-node gains and
-one final EM fit.}
+\caption{Both batches combined, 40 graphs per model. The main columns use the growing global-gain branch in Algorithm~1. The frozen-profile control has identical recorded error counts.}
 \label{tab:experiment_models}
 \begin{tabular}{lrrrr}
 \toprule
-&\multicolumn{2}{c}{Global gain + EM}&\multicolumn{2}{c}{$X$ $k$-means}\\
+&\widehat plticolumn{2}{c}{Growing global gain + EM}&\widehat plticolumn{2}{c}{$X$ $k$-means}\\
 Model&Error (\%)&Exact&Error (\%)&Exact\\
 \midrule
 Symmetric two-community&0.0150&33&0.0125&34\\
@@ -256,7 +244,7 @@ The resulting fit merges communities 1 and 3 and splits community 2, making
 3000 updates does not solve this structural problem: the fit stops after
 517 updates with 800 errors.
 
-Global gain keeps the first two seeds but changes the third to node 220,
+The frozen global-gain control keeps the first two seeds but changes the third to node 220,
 which contributes to the uncovered region; after EM, only one node is
 mislabeled. A one-component replacement at the original fitted endpoint
 selects the same node and likewise reduces errors to one, while increasing
@@ -311,7 +299,6 @@ large-graph validation.
 The evidence supports improved decoding of a fixed spectrum and a repair of
 redundant initialization under the declared working likelihood. It does not
 by itself prove that the practical EM endpoint has the oracle error exponent,
-that clipping preserves exact graph likelihood ratios, or that recovery is
-uniform over general SBMs. Oracle-LRT comparisons, a denser range of $n$ for
+that clipping preserves exact graph likelihood ratios, or that the growing initializer meets the high-probability weak-start condition in Theorem~\ref{thm:local-spectral-em}. Oracle-LRT comparisons, a denser range of $n$ for
 error-exponent estimation, and lower-density regularized experiments remain
 outside the archived numerical study.

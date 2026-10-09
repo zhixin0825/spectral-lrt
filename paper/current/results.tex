@@ -1,12 +1,7 @@
 \section{Main results in logarithmic density}
 \label{sec:main-results}
 
-This section separates an exact information-preservation identity, a
-statistical exponent-transfer theorem, and a sufficient condition for an
-independent-row spectral projection.  The exponent-transfer theorem applies
-to the fitted working scores in Section~2 \emph{if its stated approximation
-condition holds}.  We do not assert that convergence of the working EM
-objective establishes that condition.
+This section gives the exact contrast-preservation identity, the oracle benchmark, an abstract exponent-transfer theorem, and a local recovery theorem for the actual empirical spectral EM fit. A separate corollary gives a fully provable spectral warm-start variant. The growing likelihood initializer in Algorithm~1 still requires a statistical initialization guarantee; objective convergence does not provide it.
 
 Throughout this section, $K$ is fixed,
 $n_a/n\to\pi_a>0$, $B$ is a fixed symmetric matrix with
@@ -22,11 +17,9 @@ For communities $a\ne b$, define the block-constant Bernoulli contrast
 and the nonedge offset by
 \begin{align}
  w^{ab}_j
- &=\log\frac{B_{a,z_j}(1-\rho_n B_{b,z_j})}
-                  {B_{b,z_j}(1-\rho_n B_{a,z_j})},\label{eq:oracle-contrast}\\
+ &=\log\frac{p_{aj}(1-p_{bj})}{p_{bj}(1-p_{aj})},\label{eq:oracle-contrast}\\
  c_i^{ab}
- &=\sum_{j\ne i}\log\frac{1-\rho_n B_{a,z_j}}
-                              {1-\rho_n B_{b,z_j}}.
+ &=\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
 \end{align}
 The oracle incident-edge log-likelihood ratio is
 \begin{equation}
@@ -38,14 +31,14 @@ where $A_i$ is row $i$ of $A$.  Its diagonal coordinate contributes zero.
 \label{prop:exact-preservation}
 Let $U$ contain any orthonormal collection of eigenvectors of the
 symmetric matrix $A$, let $\Lambda$ contain their eigenvalues, and set
-$Q=UU^\top$ and $\widetilde P=U\Lambda U^\top$.
-Then $\widetilde P=AQ$ and, for every vector $w$,
+$\Pi=UU^\top$ and $\widetilde A=U\Lambda U^\top$.
+Then $\widetilde A=AQ$ and, for every vector $w$,
 \begin{equation}
- \widetilde P_iw-A_iw=A_i(Q-I)w.\label{eq:preservation-error}
+ \widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w.\label{eq:preservation-error}
 \end{equation}
 In particular, $w\in\operatorname{col}(U)$ implies exact preservation.
 Moreover, if $B$ is nonsingular, then the rank-$K$ comparison matrix
-$P^\circ=\rho_n ZBZ^\top$ has column space
+$\Omega^\circ=\rho_n ZBZ^\top$ has column space
 $\operatorname{col}(Z)$, and every $w^{ab}$ belongs to this population
 signal space.
 \end{proposition}
@@ -56,11 +49,11 @@ retains directions; the likelihood decoder assigns the appropriate
 contrast coefficients to those directions.  It also states the precise
 limitation: the empirical retained space need not equal the population
 space.  The actual no-self-loop mean is
-$P=P^\circ-\operatorname{diag}(\rho_n B_{z_i z_i})$; the rank-$K$ statement
-is about $P^\circ$, not $P$.
+$\Omega=\Omega^\circ-\operatorname{diag}(\rho_n B_{z_i z_i})$; the rank-$K$ statement
+is about $\Omega^\circ$, not $\Omega$.
 
 The oracle Poisson contrast is
-$v^{ab}_j=\log(B_{a,z_j}/B_{b,z_j})$, with score
+$v^{ab}_j=\log(p_{aj}/p_{bj})$, with score
 \begin{equation}
  L_{i,\mathrm P}^{ab}
  =\sum_{j\ne i}A_{ij}v^{ab}_j
@@ -86,28 +79,37 @@ $O(\log^2 n/n)=o(1)$.
 
 \subsection{The oracle benchmark}
 
-Let
+We use Zhou--Li's profile and Chernoff notation. For $\alpha\in[0,1]$, define
+\begin{align}
+ D_\alpha(p_{a,-i}\Vert p_{b,-i})
+ &=-\sum_{j\ne i}\log\!\left[
+ p_{aj}^{1-\alpha}p_{bj}^{\alpha}
+ +(1-p_{aj})^{1-\alpha}(1-p_{bj})^\alpha\right],\label{eq:chernoff-information}\\
+ \alpha^*_{i,ab}
+ &\in\argmax_{\alpha\in[0,1]}D_\alpha(p_{a,-i}\Vert p_{b,-i}),
+ \qquad D^*_{i,ab}=D_{\alpha^*_{i,ab}}(p_{a,-i}\Vert p_{b,-i}),\\
+ I_n&=\min_{i,\ a\ne b}D^*_{i,ab}.
+ \label{eq:exact-information}
+\end{align}
+Here $p_{a,-i}$ omits the absent self-loop coordinate. The notation $I_n$ is our shorthand for the minimum exact pairwise information; it is not a second definition of a rate.
+
+For interpreting logarithmic density, also put
 \begin{align}
  J_{ab}
- &=\max_{0\le t\le1}\sum_{c=1}^K\pi_c
-  \big\{(1-t)B_{ac}+tB_{bc}-B_{ac}^{1-t}B_{bc}^{t}\big\},
-  \label{eq:ch-divergence}\\
- J_*&=\min_{a\ne b}J_{ab},\qquad I_n=d_nJ_*.
+ &=\max_{\alpha\in[0,1]}\sum_{c=1}^K\pi_c
+ \{(1-\alpha)B_{ac}+\alpha B_{bc}-B_{ac}^{1-\alpha}B_{bc}^\alpha\},
+ \label{eq:ch-divergence}\\
+ J_*&=\min_{a\ne b}J_{ab},\qquad I_n=d_nJ_*+o(d_n).
 \end{align}
-Equivalently, $J_{ab}$ is the Chernoff--Hellinger divergence between
-$(\pi_cB_{ac})_c$ and $(\pi_cB_{bc})_c$, with an interchangeable
-choice of $t$ and $1-t$.  Our recovery target concerns the leading
-error exponent.  Zhou and Li~\cite{zhouli2020} studied optimal error rates
-for SBM community detection; their more refined rate expressions are not
-needed for the claims made here.
-
+Thus $J_{ab}$ is the normalized Chernoff--Hellinger divergence between $(\pi_cB_{ac})_c$ and $(\pi_cB_{bc})_c$. Zhou and Li~\cite{zhouli2020} studied optimal error rates for SBM community detection. We use their notation and the leading information scale, without restating their refined rate.
+ 
 \begin{lemma}[Leading oracle error exponent]
 \label{lem:oracle-exponent}
 Consider the binary experiment in which $z_i\in\{a,b\}$ has equal prior
 probabilities and all other labels and $B$ are known.  Its Bayes risk
 $R_{i,ab}^{\mathrm{or}}$ satisfies, uniformly in $i$,
 \begin{equation}
- R_{i,ab}^{\mathrm{or}}=\exp\{-(1+o(1))d_nJ_{ab}\}.
+ R_{i,ab}^{\mathrm{or}}=\exp\{-(1+o(1))D^*_{i,ab}\}.
  \label{eq:oracle-risk}
 \end{equation}
 The same leading exponent holds for fixed prior probabilities bounded
@@ -120,7 +122,7 @@ The theorem below accommodates scores estimated from the entire graph,
 so it does not assume independence of a node's score and its incident
 edges.  It makes the required rare-event control explicit.
 
-\begin{theorem}[Conditional nearly-optimal exponent]
+\begin{theorem}[Likelihood-ratio exponent transfer]
 \label{thm:exponent-transfer}
 Let $\widehat\ell_i(a)$ be estimated community scores, after one common
 alignment of their labels with the population labels, and classify by
@@ -138,12 +140,12 @@ $i$, an event $G_i$ satisfies
 where $-\log0=+\infty$.
 Then the permutation-invariant error fraction obeys
 \begin{equation}
- \mathbb E\,r(\widehat z,z)
+ \mathbb E\,\Mis(\widehat z,z)
  \le\exp\{-(1+o(1))I_n\}.
  \label{eq:conditional-rate}
 \end{equation}
 When $\rho_n=\log n/n$ and $J_*>1$, this implies
-$\Pr\{r(\widehat z,z)>0\}\to0$.
+$\Pr\{\Mis(\widehat z,z)>0\}\to0$.
 \end{theorem}
 
 The condition on $\delta_n$ is essential.  An error approximation that
@@ -155,16 +157,16 @@ also give the matching leading lower bound for any decoder using only
 the graph's spectral summary.
 
 For the working scores actually fitted in Section~2, set
-$\widehat w^{ab}_j=\log(\widehat\mu_{aj}/\widehat\mu_{bj})$ and
-$\widehat c^{ab}=-\sum_j(\widehat\mu_{aj}-\widehat\mu_{bj})
-+\log(\widehat\omega_a/\widehat\omega_b)$.
-Writing $q_i=\widetilde P_i+(q_i-\widetilde P_i)$ yields the exact
+$\widehat w^{ab}_j=\log(\widehat p_{aj}/\widehat p_{bj})$ and
+$\widehat c^{ab}=-\sum_j(\widehat p_{aj}-\widehat p_{bj})
++\log(\widehat\pi_a/\widehat\pi_b)$.
+Writing $q_i=\widetilde A_i+(q_i-\widetilde A_i)$ yields the exact
 decomposition
 \begin{align}
  \widehat\ell_i(a)-\widehat\ell_i(b)-L_i^{ab}
- ={}& A_i(Q-I)w^{ab}\notag\\
- &+\widetilde P_i(\widehat w^{ab}-w^{ab})\notag\\
- &+(q_i-\widetilde P_i)\widehat w^{ab}
+ ={}& A_i(\Pi-\mathrm{Id})w^{ab}\notag\\
+ &+\widetilde A_i(\widehat w^{ab}-w^{ab})\notag\\
+ &+(q_i-\widetilde A_i)\widehat w^{ab}
    +(\widehat c^{ab}-c_i^{ab}).\label{eq:four-errors}
 \end{align}
 Thus projection, estimated contrasts, clipping, and offsets must all be
@@ -173,6 +175,58 @@ The sum includes the reconstructed diagonal used by the implemented
 working score; its discrepancy with the oracle's excluded diagonal is
 included in the displayed decomposition.  Neither average reconstruction accuracy
 nor objective convergence removes these terms.
+
+
+\subsection{A local recovery theorem for the empirical spectral fit}
+The next results remove the empirical-projection and parameter-fitting conditions from the preceding abstract transfer statement in logarithmic density. The remaining assumption concerns the initial responsibilities. It is not established here for the growing initialization in Algorithm~1.
+
+Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For the fixed floor $c_0\in(0,b_-)$, let
+\[
+ q^0=\max\{A\Pi_*,c_0\rho_n\},\qquad
+ q=\max\{U\Lambda U^\top,c_0\rho_n\},
+\]
+where the maximum is entrywise. The matrix $q^0$ is an analysis comparison using the true memberships; it is not an input to the algorithm.
+
+\begin{lemma}[Full-graph spectral approximation]
+\label{lem:full-spectral}
+Under the fixed full-rank $B$ model with $\rho_n=\log n/n$, for every fixed $H>0$ there are a constant $C_H$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(n^{-H})$,
+\begin{align}
+ \max_i\|q_i-q_i^0\|_1&\le a_nd_n,&
+ c_0\rho_n\le q_{ij}&\le C_H\rho_n,\label{eq:full-spectral-close}\\
+ \frac1{nd_n}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
+ \label{eq:average-profile-close}
+\end{align}
+The reconstruction uses the empirical eigenpairs of the whole graph. No row-independent replacement or extra leave-one-out computation is required by the algorithm.
+\end{lemma}
+
+The first-order entrywise eigenspace theorem of Abbe et al.~\citep{abbe2020}, together with the arbitrary polynomial-confidence spectral norm bound of Lei and Rinaldo~\citep{leirinaldo2015}, supplies the spectral inputs. The appendix verifies their assumptions for the present general full-rank SBM and derives the displayed row-profile bounds.
+
+\begin{theorem}[Local empirical spectral EM attains the leading exponent]
+\label{thm:local-spectral-em}
+Use the model and admissible fixed floor of Lemma~\ref{lem:full-spectral}. Let the initial responsibilities $R^{(0)}=(R^{(0)}_{ia})$ have nonnegative rows summing to one. They may depend on the entire graph. Suppose that, after a common label alignment, for deterministic $\gamma_n\to0$ and $\delta_n\ge0$,
+\begin{equation}
+ \Pr\!\left\{\frac1n\sum_{i,a}|R^{(0)}_{ia}-Z_{ia}|>\gamma_n\right\}
+ \le\delta_n,\qquad
+ \liminf\frac{-\log\delta_n}{I_n}\ge1.
+ \label{eq:local-initialization}
+\end{equation}
+Perform at least one responsibility-weighted profile M-step on $q$, followed by the score classification in \eqref{eq:decode}. Then
+\begin{equation}
+ \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
+ \label{eq:local-em-rate}
+\end{equation}
+The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights may be updated unconstrained or by the exact fixed floored-simplex optimizer. When $J_*>1$, the output exactly recovers all labels with probability tending to one.
+\end{theorem}
+
+This theorem proves the statistical behavior of the actual full-graph spectral fitting stage from a sufficiently reliable weak start. It handles positive clipping and the freely fitted profiles rather than assuming that their LLR errors are already small. The unresolved initialization claim is \eqref{eq:local-initialization} for Algorithm~1: average weak consistency with an unspecified $1-o(1)$ probability is insufficient.
+
+\begin{corollary}[A fully provable spectral warm-start variant]
+\label{cor:provable-warmstart}
+Replace the growing initialization by a fixed-factor approximate $K$-means clustering of the rows of $U$, computed with failure probability $O(n^{-H})$ for any prescribed fixed $H>J_*$. Convert its labels to hard responsibilities and apply the profile EM decoder. This variant uses only the retained eigenpairs and satisfies \eqref{eq:local-em-rate}.
+One polynomial-time implementation uses $O(\log n)$ independent $K$-means++ seedings and chooses the least squared-error solution.
+\end{corollary}
+
+The corollary establishes that the retained spectral information suffices for the leading oracle exponent. It is a proved warm-start alternative, not a proof that the likelihood-only growing initializer has the same guarantee. The archived ten-start Lloyd baseline is also distinct from the logarithmically amplified initialization used in this corollary.
 
 \subsection{A sufficient independent-row projection condition}
 
@@ -185,23 +239,23 @@ analysis.
 \begin{theorem}[Row-independent spectral projection]
 \label{thm:independent-projection}
 Fix $i$ and restrict vectors and projectors to coordinates $j\ne i$.
-Let $Q_i$ be a random orthogonal projector independent of
-$(A_{ij})_{j\ne i}$, and let $Q_{*,i}$ project onto the membership space
+Let $\Pi_i$ be a random orthogonal projector independent of
+$(A_{ij})_{j\ne i}$, and let $\Pi_{*,i}$ project onto the membership space
 of the other nodes.  Suppose that on an event $H_i$, measurable with
-respect to the data generating $Q_i$,
+respect to the data generating $\Pi_i$,
 \begin{equation}
- \|(I-Q_i)Q_{*,i}\|_{\mathrm{op}}\le\eta_n\to0,
- \qquad \max_{j\ne i}(Q_i)_{jj}\le\frac{L}{n},
+ \|(\mathrm{Id}-\Pi_i)\Pi_{*,i}\|_{\mathrm{op}}\le\eta_n\to0,
+ \qquad \max_{j\ne i}(\Pi_i)_{jj}\le\frac{L}{n},
  \label{eq:projection-conditions}
 \end{equation}
 for a constant $L$, and that
 $\Pr(H_i^c)\le\gamma_n$.  Define
 \begin{equation}
- L_{i,Q}^{ab}=A_{i,-i}Q_iw_{-i}^{ab}+c_i^{ab}.
+ L_{i,\Pi}^{ab}=A_{i,-i}\Pi_iw_{-i}^{ab}+c_i^{ab}.
 \end{equation}
 There are deterministic $\tau_n=o(d_n)$ and $h_n\to\infty$ such that
 \begin{equation}
- \Pr\Big\{\max_{a\ne b}|L_{i,Q}^{ab}-L_i^{ab}|>\tau_n\Big\}
+ \Pr\Big\{\max_{a\ne b}|L_{i,\Pi}^{ab}-L_i^{ab}|>\tau_n\Big\}
  \le\gamma_n+2K^2e^{-h_nd_n}.
  \label{eq:independent-projection-tail}
 \end{equation}
@@ -214,9 +268,8 @@ on these oracle-parameter projected scores satisfy
 The proof uses a quadratic population bias and a Bennett tail bound.
 It requires bounded projector leverage, rather than a vanishing maximum
 coordinate error.  Its independence assumption is explicit: forming
-$A_{i,-i}Q_i$ directly is not an additional step of our post-compression
+$A_{i,-i}\Pi_i$ directly is not an additional step of our post-compression
 algorithm.  To apply the theorem to that algorithm, one must further
 control the difference between its empirical full-graph projection and
 an independent-row construction, and then the remaining terms in
-\eqref{eq:four-errors}.  Those pipeline conditions are not established
-by the present initialization and EM results.
+\eqref{eq:four-errors}.  Lemma~\ref{lem:full-spectral} and Theorem~\ref{thm:local-spectral-em} provide a different full-graph route in logarithmic density. The independent-row result remains useful for representations outside that setting.

@@ -1,34 +1,39 @@
 # Current spectral likelihood-ratio manuscript
 
-This is the complete English research manuscript dated 2026-10-09, following the agreed six-section structure. It supersedes the outline as the current prose manuscript; the historical draft remains in `paper/previous_draft/`.
+This English research manuscript follows the six-section structure and includes proof appendices, references, and the archived 240-graph evaluation.
 
-The working title is **Spectral Likelihood Ratios for Nearly Optimal Community Recovery in the Stochastic Block Model**.
+The working title is **Spectral Likelihood-Ratio Decoding for Community Recovery in the Stochastic Block Model**.
 
-The paper contains the algorithm, related work, logarithmic-density conditional recovery theorem, lower-density extension, the existing 240-graph experiments, conclusion, full proofs of the stated results, and references. The target statistical rate is `exp(-(1+o(1)) I_n)`. Zhou�CLi is cited as prior work studying optimal rates, without restating its refined rate.
+## Current algorithm and notation
 
-The end-to-end leading-exponent guarantee for the executable clipped-profile EM procedure remains unproved. The proved recovery result is conditional on explicit likelihood-score and exceptional-event bounds. Exact identities and optimization statements are proved separately; empirical convergence is not used as a substitute for a recovery proof.
+Algorithm 1 is the already tested growing global-gain branch: start at the global profile mean, add a node profile by all-node likelihood gain, refit all components after each addition, and repeat to K components. There is no top-fraction or 1.5K parameter. It is recorded as growing_global_gain_EM and exposed by method='global_gain'. The subset-first global_gain_no_update algorithm is a historical control.
+
+The manuscript follows Zhou--Li notation: P is the K-by-K block probability matrix, p_{kj}=P_{k,z_j}, Mis is the permutation-invariant error, and D_alpha denotes Chernoff information. Omega is the n-by-n graph mean. I_n is the minimum exact pairwise Chernoff information. Zhou--Li is cited as optimal-rate prior work without restating its refined rate.
+
+## What is proved
+
+At logarithmic density with fixed full-rank B and an admissible fixed floor c_0 rho_n, the revised proof establishes:
+
+- Full empirical spectral reconstruction is uniformly o(log n) from oracle block-count compression in row L1.
+- Clipped oracle comparisons retain the leading Chernoff exponent.
+- Actual spectral-profile EM from a sufficiently reliable weak start achieves exp(-(1+o(1)) I_n), through further exact updates and finite adaptive stopping.
+- A provable spectral warm-start variant supplies an end-to-end recovery corollary.
+- Exact contrast preservation, fixed-profile greedy properties, and within-fit objective convergence hold with their stated assumptions.
+
+The unresolved logarithmic-density step for the primary Algorithm 1 is its high-probability weak-start guarantee. This is not implied by the frozen-profile greedy guarantee or objective convergence. The theoretical amplified k-means++ initializer is distinct from the archived fixed ten-start Lloyd baseline.
 
 ## Read and compile
 
-- `manuscript.pdf`: compiled reading version.
-- `manuscript.tex`: main source, which includes the section files.
-- `references.bib`: verified bibliography.
-- `figures/initialization_failure_repair.pdf`: vector diagnostic figure.
-- `selected_experiment_results.csv` and `selected_experiment_models.csv`: numerical summaries used in the tables.
+- manuscript.pdf: compiled reading version.
+- manuscript.tex: main source including the section files.
+- references.bib: bibliography.
+- figures/initialization_failure_repair.pdf: vector diagnostic figure.
+- selected_experiment_results.csv and selected_experiment_models.csv: archived numerical summaries.
 
-Run from this directory:
-
-```sh
-pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex
-bibtex manuscript
-pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex
-pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex
-```
-
-The repository workflow compiles changes to the manuscript and commits its PDF with build provenance. The primary algorithm corresponds to `global_gain_no_update` in the existing experiment archive: subset-first seed, frozen-candidate global gains, then joint EM. `method='global_gain'` in the experiment API is a different growing-EM control.
+Run PDFLaTeX, BibTeX, and two further PDFLaTeX passes from this directory. The repository workflow compiles source changes and commits the PDF with build provenance.
 
 ## Existing evidence
 
-Across 240 graphs, the primary deterministic branch has mean mislabeled fraction 0.0946% and exact recovery on 163 graphs; the ten-start spectral k-means baseline has mean mislabeled fraction 0.3194% and exact recovery on 139 graphs. This is a paired recovery comparison with unequal fitting budgets, not an equal-runtime benchmark or an asymptotic exponent experiment.
+Across 240 graphs, the growing global-gain branch has mean mislabeled fraction 0.0946% and exact recovery on 163 graphs; the ten-start spectral k-means baseline has mean mislabeled fraction 0.3194% and exact recovery on 139 graphs. This is a paired recovery comparison with unequal fitting budgets, not an equal-runtime benchmark or an asymptotic exponent experiment.
 
-The detailed experiment reports and runnable scripts remain under `experiments/20261009_residual_likelihood_seeding/`. The numerical records are not duplicated in this manuscript directory.
+Detailed reports and scripts remain in experiments/20261009_residual_likelihood_seeding/. Original numerical records are unchanged.
