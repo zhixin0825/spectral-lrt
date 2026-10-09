@@ -1,0 +1,10 @@
+{
+  "output": "C:\\Users\\zhura\\.codex\\.chatgpt-projects\\g-p-6ac8251779f08191bf32926c3ee0192a\\tmp\\spectral_em_20261009\\spectral_likelihood_updates_20261009.zip",
+  "bytes": 19087253,
+  "sha256": "ac78be5097cdbdecef4e60f32afd314f5afd7630a11506cd2c19d0e836241fa9",
+  "prior_graphs": 240,
+  "fresh_graphs": 120,
+  "fresh_prediction_checks": 720,
+  "archive_checks": 8,
+  "members": 54
+}

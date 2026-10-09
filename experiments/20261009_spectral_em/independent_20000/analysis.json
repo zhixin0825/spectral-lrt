@@ -1,0 +1,106 @@
+{
+  "graphs": 120,
+  "methods": {
+    "converged_EM": {
+      "graphs": 120,
+      "mean_error": 0.0009916666666666665,
+      "exact": 86,
+      "converged": 120,
+      "mean_iterations": 8.125,
+      "max_iterations": 40.0
+    },
+    "direct_Gaussian": {
+      "graphs": 120,
+      "mean_error": 0.005358333333333334,
+      "exact": 76,
+      "converged": 120,
+      "mean_iterations": 4.2,
+      "max_iterations": 60.0
+    },
+    "initial_E": {
+      "graphs": 120,
+      "mean_error": 0.0011708333333333334,
+      "exact": 85,
+      "converged": 0,
+      "mean_iterations": 0.0,
+      "max_iterations": 0.0
+    },
+    "km_U": {
+      "graphs": 120,
+      "mean_error": 0.08333333333333333,
+      "exact": 70,
+      "converged": 0,
+      "mean_iterations": 3.816666666666667,
+      "max_iterations": 14.0
+    },
+    "km_X": {
+      "graphs": 120,
+      "mean_error": 0.0034541666666666666,
+      "exact": 73,
+      "converged": 0,
+      "mean_iterations": 2.9166666666666665,
+      "max_iterations": 6.0
+    },
+    "one_EM_iteration": {
+      "graphs": 120,
+      "mean_error": 0.0010583333333333334,
+      "exact": 85,
+      "converged": 14,
+      "mean_iterations": 1.0,
+      "max_iterations": 1.0
+    }
+  },
+  "comparisons": [
+    {
+      "before": "km_X",
+      "after": "initial_E",
+      "mean_improvement_percentage_points": 0.22833333333333333,
+      "improved": 29,
+      "tied": 88,
+      "worsened": 3
+    },
+    {
+      "before": "km_X",
+      "after": "converged_EM",
+      "mean_improvement_percentage_points": 0.24625,
+      "improved": 30,
+      "tied": 87,
+      "worsened": 3
+    },
+    {
+      "before": "initial_E",
+      "after": "converged_EM",
+      "mean_improvement_percentage_points": 0.01791666666666667,
+      "improved": 10,
+      "tied": 109,
+      "worsened": 1
+    },
+    {
+      "before": "one_EM_iteration",
+      "after": "converged_EM",
+      "mean_improvement_percentage_points": 0.006666666666666667,
+      "improved": 7,
+      "tied": 112,
+      "worsened": 1
+    },
+    {
+      "before": "km_X",
+      "after": "direct_Gaussian",
+      "mean_improvement_percentage_points": -0.19041666666666665,
+      "improved": 24,
+      "tied": 82,
+      "worsened": 14
+    }
+  ],
+  "minimum_EM_gain": 5.770199277321808e-05,
+  "material_negative_steps": 0,
+  "paired_bootstrap": {
+    "seed": 20261009,
+    "replicates": 10000,
+    "scope": "within each of the 24 fixed conditions, resample 5 paired graphs",
+    "ci95_improvement_percentage_points": [
+      0.20250000000000004,
+      0.29542708333333323
+    ]
+  }
+}

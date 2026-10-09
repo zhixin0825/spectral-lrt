@@ -1,5 +1,7 @@
 # Spectral information and likelihood-ratio inference for the SBM
 
+**最新接续（2026-10-09）：** [固定谱特征 likelihood 交替更新与独立种子复验](experiments/20261009_spectral_em/LIKELIHOOD_ALTERNATING_UPDATES_20261009.md)。此前 240 图之外新增 120 图：最佳固定 Poisson–Gaussian EM 120/120 收敛，平均误分率从 X-k-means 的 0.3454% 降到 0.0992%，exact recovery 从 73/120 到 86/120。拟合只读原始 A 的 top-K eigenpairs，不读 degree 或原始 A；精确逐节点 LOO 尚未实现。约 93% 的净改善来自第一次 likelihood 重新分组，后续交替更新额外收益较小。旧的 720 图 degree＋regularized-spectral 初始化实验另列于下，不能与本轮混为一批。
+
 本倉庫保存 **SBM 的 degree＋低秩譜資訊、likelihood 初始化，以及與 oracle LRT 的關係**這條研究線的目前成果。
 
 **目前確認的是有限樣本實驗與若干代數關係；尚未完成只用 degree＋top-K 譜資訊即可達到 LRT 最優錯誤指數或參數資訊無損的完整證明。**

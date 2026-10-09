@@ -1,0 +1,1406 @@
+{
+  "protocol": "fixed H_U/Y; KM_X start; tau=1; no parameter tuning; truth read only after both fitting calls",
+  "elapsed_seconds": 0.13978270022198558,
+  "cached_fits": true,
+  "final_method": "soft_Ucal_Xinit_tau1",
+  "overall": {
+    "n_graphs": 240,
+    "error_mean_pct": {
+      "km_X": 0.30937499999999996,
+      "initial_E": 0.12104166666666664,
+      "one_EM_iteration": 0.1054166666666667,
+      "converged_EM": 0.09958333333333334
+    },
+    "exact_total": {
+      "km_X": 132,
+      "initial_E": 154,
+      "one_EM_iteration": 157,
+      "converged_EM": 158
+    },
+    "first_E_improvement_pct": 0.1883333333333333,
+    "final_improvement_pct": 0.2097916666666666,
+    "additional_iteration_improvement_pct": 0.0214583333333333,
+    "first_E_fraction_of_final_net_gain": 0.8977159880834162,
+    "comparisons": [
+      {
+        "before": "km_X",
+        "after": "initial_E",
+        "n_graphs": 240,
+        "after_better": 60,
+        "same_recovery_error": 176,
+        "after_worse": 4
+      },
+      {
+        "before": "initial_E",
+        "after": "one_EM_iteration",
+        "n_graphs": 240,
+        "after_better": 23,
+        "same_recovery_error": 216,
+        "after_worse": 1
+      },
+      {
+        "before": "initial_E",
+        "after": "converged_EM",
+        "n_graphs": 240,
+        "after_better": 26,
+        "same_recovery_error": 211,
+        "after_worse": 3
+      },
+      {
+        "before": "one_EM_iteration",
+        "after": "converged_EM",
+        "n_graphs": 240,
+        "after_better": 11,
+        "same_recovery_error": 226,
+        "after_worse": 3
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "model": "disassortative3",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.7700000000000001,
+        "initial_E": 0.7500000000000001,
+        "one_EM_iteration": 0.7500000000000001,
+        "converged_EM": 0.7600000000000001
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 0,
+        "one_EM_iteration": 0,
+        "converged_EM": 0
+      },
+      "first_E_improvement_pct": 0.020000000000000018,
+      "final_improvement_pct": 0.010000000000000009,
+      "additional_iteration_improvement_pct": -0.010000000000000009,
+      "first_E_fraction_of_final_net_gain": 2.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 2,
+          "same_recovery_error": 6,
+          "after_worse": 2
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        }
+      ]
+    },
+    {
+      "model": "disassortative3",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.02,
+        "initial_E": 0.02,
+        "one_EM_iteration": 0.02,
+        "converged_EM": 0.02
+      },
+      "exact_total": {
+        "km_X": 8,
+        "initial_E": 8,
+        "one_EM_iteration": 8,
+        "converged_EM": 8
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "disassortative3",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.5349999999999999,
+        "initial_E": 0.5249999999999999,
+        "one_EM_iteration": 0.5249999999999999,
+        "converged_EM": 0.5299999999999999
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 0,
+        "one_EM_iteration": 0,
+        "converged_EM": 0
+      },
+      "first_E_improvement_pct": 0.010000000000000009,
+      "final_improvement_pct": 0.0050000000000000044,
+      "additional_iteration_improvement_pct": -0.0050000000000000044,
+      "first_E_fraction_of_final_net_gain": 2.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 2,
+          "same_recovery_error": 7,
+          "after_worse": 1
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        }
+      ]
+    },
+    {
+      "model": "disassortative3",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "equal3",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.06999999999999999,
+        "initial_E": 0.06999999999999999,
+        "one_EM_iteration": 0.06999999999999999,
+        "converged_EM": 0.06999999999999999
+      },
+      "exact_total": {
+        "km_X": 5,
+        "initial_E": 5,
+        "one_EM_iteration": 5,
+        "converged_EM": 5
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "equal3",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "equal3",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.025,
+        "initial_E": 0.025,
+        "one_EM_iteration": 0.025,
+        "converged_EM": 0.025
+      },
+      "exact_total": {
+        "km_X": 5,
+        "initial_E": 5,
+        "one_EM_iteration": 5,
+        "converged_EM": 5
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "equal3",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "heterogeneous3",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 2.8100000000000005,
+        "initial_E": 0.77,
+        "one_EM_iteration": 0.5499999999999999,
+        "converged_EM": 0.42
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 0,
+        "one_EM_iteration": 0,
+        "converged_EM": 0
+      },
+      "first_E_improvement_pct": 2.0400000000000005,
+      "final_improvement_pct": 2.3900000000000006,
+      "additional_iteration_improvement_pct": 0.35000000000000003,
+      "first_E_fraction_of_final_net_gain": 0.8535564853556485,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 9,
+          "same_recovery_error": 1,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 6,
+          "same_recovery_error": 4,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "heterogeneous3",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.49,
+        "initial_E": 0.030000000000000002,
+        "one_EM_iteration": 0.02,
+        "converged_EM": 0.02
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 7,
+        "one_EM_iteration": 8,
+        "converged_EM": 8
+      },
+      "first_E_improvement_pct": 0.45999999999999996,
+      "final_improvement_pct": 0.47,
+      "additional_iteration_improvement_pct": 0.010000000000000002,
+      "first_E_fraction_of_final_net_gain": 0.9787234042553191,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "heterogeneous3",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 1.9450000000000003,
+        "initial_E": 0.39000000000000007,
+        "one_EM_iteration": 0.27499999999999997,
+        "converged_EM": 0.25499999999999995
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 0,
+        "one_EM_iteration": 0,
+        "converged_EM": 0
+      },
+      "first_E_improvement_pct": 1.5550000000000002,
+      "final_improvement_pct": 1.6900000000000004,
+      "additional_iteration_improvement_pct": 0.13500000000000012,
+      "first_E_fraction_of_final_net_gain": 0.9201183431952662,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 9,
+          "same_recovery_error": 1,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 4,
+          "same_recovery_error": 5,
+          "after_worse": 1
+        }
+      ]
+    },
+    {
+      "model": "heterogeneous3",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.29500000000000004,
+        "initial_E": 0.02,
+        "one_EM_iteration": 0.015000000000000001,
+        "converged_EM": 0.01
+      },
+      "exact_total": {
+        "km_X": 0,
+        "initial_E": 7,
+        "one_EM_iteration": 7,
+        "converged_EM": 8
+      },
+      "first_E_improvement_pct": 0.275,
+      "final_improvement_pct": 0.28500000000000003,
+      "additional_iteration_improvement_pct": 0.01,
+      "first_E_fraction_of_final_net_gain": 0.9649122807017544,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 10,
+          "same_recovery_error": 0,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 2,
+          "same_recovery_error": 8,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "hierarchical4",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.030000000000000002,
+        "initial_E": 0.030000000000000002,
+        "one_EM_iteration": 0.02,
+        "converged_EM": 0.02
+      },
+      "exact_total": {
+        "km_X": 7,
+        "initial_E": 7,
+        "one_EM_iteration": 8,
+        "converged_EM": 8
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.010000000000000002,
+      "additional_iteration_improvement_pct": 0.010000000000000002,
+      "first_E_fraction_of_final_net_gain": 0.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "hierarchical4",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "hierarchical4",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.025,
+        "initial_E": 0.025,
+        "one_EM_iteration": 0.030000000000000002,
+        "converged_EM": 0.030000000000000002
+      },
+      "exact_total": {
+        "km_X": 6,
+        "initial_E": 6,
+        "one_EM_iteration": 5,
+        "converged_EM": 5
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": -0.005000000000000001,
+      "additional_iteration_improvement_pct": -0.005000000000000001,
+      "first_E_fraction_of_final_net_gain": -0.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 9,
+          "after_worse": 1
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "hierarchical4",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "symmetric2",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.15,
+        "initial_E": 0.15,
+        "one_EM_iteration": 0.15,
+        "converged_EM": 0.15
+      },
+      "exact_total": {
+        "km_X": 2,
+        "initial_E": 2,
+        "one_EM_iteration": 2,
+        "converged_EM": 2
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "symmetric2",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "symmetric2",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.030000000000000002,
+        "initial_E": 0.025,
+        "one_EM_iteration": 0.025,
+        "converged_EM": 0.025
+      },
+      "exact_total": {
+        "km_X": 5,
+        "initial_E": 5,
+        "one_EM_iteration": 5,
+        "converged_EM": 5
+      },
+      "first_E_improvement_pct": 0.005000000000000001,
+      "final_improvement_pct": 0.005000000000000001,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": 1.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 1,
+          "same_recovery_error": 9,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "symmetric2",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "unequal3",
+      "n": 1000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.18000000000000002,
+        "initial_E": 0.060000000000000005,
+        "one_EM_iteration": 0.04,
+        "converged_EM": 0.04
+      },
+      "exact_total": {
+        "km_X": 1,
+        "initial_E": 5,
+        "one_EM_iteration": 7,
+        "converged_EM": 7
+      },
+      "first_E_improvement_pct": 0.12000000000000002,
+      "final_improvement_pct": 0.14,
+      "additional_iteration_improvement_pct": 0.020000000000000004,
+      "first_E_fraction_of_final_net_gain": 0.8571428571428572,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 8,
+          "same_recovery_error": 2,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 2,
+          "same_recovery_error": 8,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 2,
+          "same_recovery_error": 8,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "unequal3",
+      "n": 1000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "unequal3",
+      "n": 2000,
+      "ch": 0.8,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.05,
+        "initial_E": 0.015000000000000001,
+        "one_EM_iteration": 0.015000000000000001,
+        "converged_EM": 0.015000000000000001
+      },
+      "exact_total": {
+        "km_X": 3,
+        "initial_E": 7,
+        "one_EM_iteration": 7,
+        "converged_EM": 7
+      },
+      "first_E_improvement_pct": 0.035,
+      "final_improvement_pct": 0.035,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": 1.0,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 7,
+          "same_recovery_error": 2,
+          "after_worse": 1
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    },
+    {
+      "model": "unequal3",
+      "n": 2000,
+      "ch": 1.4,
+      "n_graphs": 10,
+      "error_mean_pct": {
+        "km_X": 0.0,
+        "initial_E": 0.0,
+        "one_EM_iteration": 0.0,
+        "converged_EM": 0.0
+      },
+      "exact_total": {
+        "km_X": 10,
+        "initial_E": 10,
+        "one_EM_iteration": 10,
+        "converged_EM": 10
+      },
+      "first_E_improvement_pct": 0.0,
+      "final_improvement_pct": 0.0,
+      "additional_iteration_improvement_pct": 0.0,
+      "first_E_fraction_of_final_net_gain": null,
+      "comparisons": [
+        {
+          "before": "km_X",
+          "after": "initial_E",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "one_EM_iteration",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "initial_E",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        },
+        {
+          "before": "one_EM_iteration",
+          "after": "converged_EM",
+          "n_graphs": 10,
+          "after_better": 0,
+          "same_recovery_error": 10,
+          "after_worse": 0
+        }
+      ]
+    }
+  ],
+  "interpretation": "First E uses parameters estimated from KM_X labels; later stages update parameters. Same recovery error need not mean identical partitions."
+}
