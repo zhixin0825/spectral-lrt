@@ -1,0 +1,13 @@
+{
+  "runs": 120,
+  "arrays": 120,
+  "rows": 360,
+  "graphs": 120,
+  "minimum_soft_objective_delta": -5.820766091346741e-11,
+  "all_soft_traces_monotone": true,
+  "non_unequal_error_by_method": {
+    "bernoulli_expected_raw_peel_soft": 0.001065,
+    "poisson_expected_raw_peel_hard": 0.001045,
+    "poisson_expected_raw_peel_soft": 0.00107
+  }
+}

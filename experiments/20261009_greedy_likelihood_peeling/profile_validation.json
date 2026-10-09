@@ -1,0 +1,10 @@
+{
+  "brute_candidate_checks": 15,
+  "partition_sizes": [
+    3,
+    3,
+    2
+  ],
+  "constants_change_raw_winner": true,
+  "soft_em_monotone": true
+}

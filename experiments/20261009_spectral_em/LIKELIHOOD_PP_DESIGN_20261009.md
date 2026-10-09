@@ -75,13 +75,21 @@ D(q_i||mu)=sum_j[q_ij log(q_ij/mu_j)-q_ij+mu_j].
 
 该profile方法每点n个坐标、n²内存、主要迭代约n²K计算，与K维固定Y PG模型不同，不能将其收益当作“只换PG初始化”的收益。
 
-## 4. 固定 PG 初始化主比较：完整结果待核验
+## 4. 固定 PG 初始化主比较：完整120图结果已核验
 
-另已启动同一120谱输入的5种point-seed方案，各10个starts，共6000次计划拟合：uniform singleton centers、普通Euclidean++/likelihood++、matched greedy Euclidean++/likelihood++。均用相同singleton-rate映射、uniform weights、max300 EM、同图/restart第一节点；fixed Y与上一轮相同，H_U仍来自U-kmeans。随机标签1200starts与km-label PG基线复用上一轮完全相同的已保存模型。
+2026-10-09后续已恢复正常读取，120图的6000次原始拟合和600条best10选择记录全部完成。独立逐项检查了NPZ预测误分数、CSV与JSON终点轨迹、最大likelihood选择的restart，以及整体CSV/analysis JSON，全部一致。
 
-最后可读取的checkpoint为78/120图。运行环境随后切换，normal exec/apply_patch在运行前被“file:///workspace is invalid on windows”配置错误阻断，既有runner session也不可读取。当前不能核验完整120图终点、生成总表或打包完整归档，**不推断最终完成状态、不报告全量PG优势**。已读的部分结果没有显示PG likelihood++稳定超过matched Euclidean++，尚待全量核对。
+| 固定Y、各1200次起点 | 全部起点平均误分率 | best10平均误分率 | best10完全恢复 |
+|---|---:|---:|---:|
+| Uniform singleton | 7.7895% | 0.0996% | 86/120 |
+| Euclidean++ | 3.0045% | 0.1000% | 86/120 |
+| Likelihood++ | 3.0415% | 0.1000% | 86/120 |
+| Greedy Euclidean++ | 0.6111% | 0.0996% | 86/120 |
+| Greedy likelihood++ | 0.7107% | 0.1000% | 86/120 |
 
-本地脚本、逐图NPZ/JSON已按checkpoint保存；根目录sources/未改动。完整数据包和主报告的生成等待本地运行环境恢复。这里只保存已核验设计和完成的profile结果，未把partial PG统计写成final benchmark。
+固定PG模型下没有显示likelihood++稳定超过匹配的Euclidean++。均使用相同singleton映射及PG EM；Y仍继承U-kmeans建立的H。该批图已经用于前面的比较，不是新的独立验证集。
+
+用户随后提出逐组top-fraction raw-total likelihood剥离初始化，本轮也已完成120图比较。参见[新算法、实验及总体反例](../20261009_greedy_likelihood_peeling/GREEDY_LIKELIHOOD_INITIALIZATION_20261009.md)；旧6000次原始记录没有改写，完整核验见[old_verification.json](../20261009_greedy_likelihood_peeling/old_verification.json)。
 
 ## 5. 理论边界与出处
 

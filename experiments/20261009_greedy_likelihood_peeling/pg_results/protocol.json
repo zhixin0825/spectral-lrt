@@ -1,0 +1,22 @@
+{
+  "input": "C:\\Users\\zhura\\.codex\\.chatgpt-projects\\g-p-6ac8251779f08191bf32926c3ee0192a\\tmp\\spectral_em_20261009\\independent_20000\\inputs",
+  "out": "tmp/spectral_greedy_peel_20261009/pg_results",
+  "max_iter": 300,
+  "workers": 4,
+  "chunk": 16,
+  "limit": 0,
+  "resume": false,
+  "graphs": 120,
+  "tau": 1.0,
+  "tol": 1e-06,
+  "scored_other_count": "min(floor(M/r), M-r) if r>1; M-1 if r=1",
+  "group_size": "scored_other_count + 1, candidate also removed",
+  "include_candidate_self_in_score": false,
+  "score": "raw total component logpdf on selected others",
+  "candidate_rate": "bounded singleton MLE; no group-average replacement",
+  "tie_break": "smallest global node ID",
+  "mixture_weights_init": "uniform",
+  "EM": "all nodes freely reassigned; frozen inherited Y",
+  "truth_access": "after fitting only",
+  "created_before_fitting": true
+}

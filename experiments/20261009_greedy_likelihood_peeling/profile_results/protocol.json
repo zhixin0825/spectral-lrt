@@ -1,0 +1,14 @@
+{
+  "input": "Only U and Lambda used for fitting; truth and baseline read after fitting.",
+  "candidate": "q_c=max((U diag(Lambda) U.T)_c,1e-4 log(n)/n); spectral profiles fixed throughout.",
+  "score": "ell_i(mu)=sum_j[q_ij log(mu_j)-mu_j-gammaln(q_ij+1)]. Generalized fractional Poisson working score including observation-specific constants.",
+  "seeding": "At remaining size M and r components, other_count=min(floor(M/r),M-r) if r>1; otherwise M-1. Score highest-scoring other_count OTHER nodes, excluding candidate self score. Remove them and c. M-r guard leaves >=1 node for each future component. Last step scores every remaining candidate on all OTHER remaining nodes.",
+  "ties": "Smallest candidate/node index wins exact ties.",
+  "initial_parameters": "Selected q_c rows, unchanged; no group-mean replacement.",
+  "iteration": "All n nodes free after seeding. Soft EM updates means and mixture weights; comparison also uses legacy unweighted Poisson Bregman Lloyd after a first E assignment.",
+  "control": "Separate deviance peeling arm chooses largest total -D; it is not the user raw-score algorithm.",
+  "max_iter_soft": 300,
+  "tolerance_soft": 1e-06,
+  "caveat": "No exact LOO, original adjacency, graph-likelihood claim, or recovery/global-optimum theorem.",
+  "graph_count": 120
+}

@@ -1,0 +1,96 @@
+{
+  "profile_fractional": {
+    "graphs": 120,
+    "prediction_and_trace_checks": 480
+  },
+  "profile_expected": {
+    "graphs": 120,
+    "prediction_and_trace_checks": 360
+  },
+  "PG": {
+    "new_PG": {
+      "graphs_checked": 120,
+      "npz_prediction_errors_checked": true,
+      "traces_checked": 120,
+      "peeling_capacity_and_max_score_checked": true,
+      "initial_parameters_are_original_singletons_checked": true,
+      "terminal_likelihood_and_labels_recomputed": true,
+      "max_terminal_objective_difference": 3.637978807091713e-12,
+      "mean_error": 0.0010041666666666667,
+      "exact": 86,
+      "converged": 120,
+      "passed": true
+    },
+    "old_PG_plusplus": {
+      "graphs_checked": 120,
+      "original_fits_checked": 6000,
+      "selected_best_rows_checked": 600,
+      "all_6000_fits_complete": true,
+      "array_errors_and_JSON_CSV_terminal_trace_consistent": true,
+      "overall_CSV_and_analysis_JSON_consistent": true,
+      "summary": {
+        "euclidean_pp": {
+          "fits": 1200,
+          "mean_error": 0.030045416666666665,
+          "exact": 790,
+          "converged": 1198
+        },
+        "euclidean_pp_best": {
+          "fits": 120,
+          "mean_error": 0.001,
+          "exact": 86,
+          "converged": 120
+        },
+        "greedy_euclidean_pp": {
+          "fits": 1200,
+          "mean_error": 0.0061112499999999995,
+          "exact": 847,
+          "converged": 1200
+        },
+        "greedy_euclidean_pp_best": {
+          "fits": 120,
+          "mean_error": 0.0009958333333333334,
+          "exact": 86,
+          "converged": 120
+        },
+        "greedy_likelihood_pp": {
+          "fits": 1200,
+          "mean_error": 0.007106666666666667,
+          "exact": 854,
+          "converged": 1199
+        },
+        "greedy_likelihood_pp_best": {
+          "fits": 120,
+          "mean_error": 0.001,
+          "exact": 86,
+          "converged": 120
+        },
+        "likelihood_pp": {
+          "fits": 1200,
+          "mean_error": 0.030414583333333335,
+          "exact": 800,
+          "converged": 1200
+        },
+        "likelihood_pp_best": {
+          "fits": 120,
+          "mean_error": 0.001,
+          "exact": 86,
+          "converged": 120
+        },
+        "uniform_centers": {
+          "fits": 1200,
+          "mean_error": 0.07789541666666668,
+          "exact": 663,
+          "converged": 1197
+        },
+        "uniform_centers_best": {
+          "fits": 120,
+          "mean_error": 0.0009958333333333334,
+          "exact": 86,
+          "converged": 120
+        }
+      },
+      "passed": true
+    }
+  }
+}

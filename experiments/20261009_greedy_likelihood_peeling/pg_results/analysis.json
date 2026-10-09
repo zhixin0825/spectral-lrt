@@ -1,0 +1,78 @@
+{
+  "graphs": 120,
+  "mean_error": 0.0010041666666666667,
+  "exact": 86,
+  "converged": 120,
+  "mean_iter": 13.05,
+  "max_iter": 99,
+  "mean_seed_elapsed": 49.42528059917968,
+  "mean_pairwise_elapsed": 47.978334459179315,
+  "mean_peeled_error": 0.03917916666666667,
+  "mean_initial_hard_error": 0.014987499999999999,
+  "no_material_EM_decrease": true,
+  "comparisons": [
+    {
+      "baseline": "km_X",
+      "paired_graphs": 120,
+      "better_errors": 29,
+      "equal_errors": 88,
+      "worse_errors": 3,
+      "higher_objective_1e_3": 0,
+      "lower_objective_1e_3": 0
+    },
+    {
+      "baseline": "km_start_PG",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 118,
+      "worse_errors": 2,
+      "higher_objective_1e_3": 24,
+      "lower_objective_1e_3": 16
+    },
+    {
+      "baseline": "random_PG_best",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 119,
+      "worse_errors": 1,
+      "higher_objective_1e_3": 3,
+      "lower_objective_1e_3": 22
+    },
+    {
+      "baseline": "euclidean_pp_best",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 119,
+      "worse_errors": 1,
+      "higher_objective_1e_3": 0,
+      "lower_objective_1e_3": 31
+    },
+    {
+      "baseline": "greedy_euclidean_pp_best",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 118,
+      "worse_errors": 2,
+      "higher_objective_1e_3": 0,
+      "lower_objective_1e_3": 30
+    },
+    {
+      "baseline": "likelihood_pp_best",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 119,
+      "worse_errors": 1,
+      "higher_objective_1e_3": 1,
+      "lower_objective_1e_3": 30
+    },
+    {
+      "baseline": "greedy_likelihood_pp_best",
+      "paired_graphs": 120,
+      "better_errors": 0,
+      "equal_errors": 119,
+      "worse_errors": 1,
+      "higher_objective_1e_3": 0,
+      "lower_objective_1e_3": 32
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "oracle_steps_checked": 164,
+  "oracle": "enumerate every other-node subset, exclude candidate self-density",
+  "passed": true
+}

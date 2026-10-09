@@ -1,0 +1,15 @@
+{
+  "input": "Only U and Lambda are consulted during fitting. Truth and baseline labels are read after fitting.",
+  "poisson_score": "q_i @ log(mu) - sum(mu); no fractional gamma constant in subset selection.",
+  "bernoulli_score": "q_i @ log(p/(1-p)) + sum(log(1-p)); expected raw Bernoulli row log score.",
+  "poisson_profile": "max(U diag(Lambda) U.T, 1e-4 log(n)/n), without upper clipping.",
+  "bernoulli_profile": "clip(U diag(Lambda) U.T, 1e-4 log(n)/n, 1-1e-8). Diagonal entries retained as in base profile experiment.",
+  "peeling": "Imported exact peel rule: floor(M/r) other nodes, guarded to preserve future candidates; candidate excluded from total and removed along with its best nodes.",
+  "initial_parameters": "Selected spectral profile rows directly. No replacement with group means, labels or k-means decoder.",
+  "soft_iteration": "All n observations free after seeding. Full row parameters update as weighted fractional profile means; weights use exact simplex-constrained floored update.",
+  "hard_control": "Poisson legacy Profile.lloyd from direct candidate first E assignment.",
+  "caveat": "Spectral expected row working log score only; dependent fractional rows, not an exact graph/LOO likelihood, and no recovery theorem.",
+  "max_iter": 300,
+  "tolerance": 1e-06,
+  "graph_count": 120
+}

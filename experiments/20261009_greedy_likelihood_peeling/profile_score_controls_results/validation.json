@@ -1,0 +1,7 @@
+{
+  "bernoulli_scalar_oracle_max_error": 1.7763568394002505e-15,
+  "bernoulli_monotone": true,
+  "bernoulli_iterations": 46,
+  "bernoulli_worst_delta": 0.0,
+  "gamma_responsibilities_identical": true
+}

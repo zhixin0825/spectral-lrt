@@ -1,0 +1,155 @@
+{
+  "n": 6000,
+  "sizes": [
+    3000,
+    1800,
+    1200
+  ],
+  "rho": 0.0014499191247016987,
+  "C": [
+    [
+      10.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      10.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      10.0
+    ]
+  ],
+  "selected_classes_one_based": [
+    3,
+    1,
+    1
+  ],
+  "removed_class_counts": [
+    [
+      0,
+      801,
+      1200
+    ],
+    [
+      1001,
+      999,
+      0
+    ],
+    [
+      1999,
+      0,
+      0
+    ]
+  ],
+  "scores": {
+    "poisson": {
+      "selected_classes_one_based": [
+        3,
+        1,
+        1
+      ],
+      "events": [
+        {
+          "remaining_groups": 3,
+          "scored_other_count": 2000,
+          "selected_class_one_based": 3,
+          "candidate_class_totals": {
+            "1": -435032.2764972693,
+            "2": -365552.9720497322,
+            "3": -356893.1874498667
+          },
+          "removed_class_counts": [
+            0,
+            801,
+            1200
+          ]
+        },
+        {
+          "remaining_groups": 2,
+          "scored_other_count": 1999,
+          "selected_class_one_based": 1,
+          "candidate_class_totals": {
+            "1": -508405.95918523485,
+            "2": -521378.90083056723
+          },
+          "removed_class_counts": [
+            1001,
+            999,
+            0
+          ]
+        },
+        {
+          "remaining_groups": 1,
+          "scored_other_count": 1998,
+          "selected_class_one_based": 1,
+          "candidate_class_totals": {
+            "1": -520344.064328724
+          },
+          "removed_class_counts": [
+            1999,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "bernoulli": {
+      "selected_classes_one_based": [
+        3,
+        1,
+        1
+      ],
+      "events": [
+        {
+          "remaining_groups": 3,
+          "scored_other_count": 2000,
+          "selected_class_one_based": 3,
+          "candidate_class_totals": {
+            "1": -435481.22003038763,
+            "2": -365228.27640804515,
+            "3": -356785.4865605697
+          },
+          "removed_class_counts": [
+            0,
+            801,
+            1200
+          ]
+        },
+        {
+          "remaining_groups": 2,
+          "scored_other_count": 1999,
+          "selected_class_one_based": 1,
+          "candidate_class_totals": {
+            "1": -508303.3670665651,
+            "2": -521276.55556644045
+          },
+          "removed_class_counts": [
+            1001,
+            999,
+            0
+          ]
+        },
+        {
+          "remaining_groups": 1,
+          "scored_other_count": 1998,
+          "selected_class_one_based": 1,
+          "candidate_class_totals": {
+            "1": -519704.6444948099
+          },
+          "removed_class_counts": [
+            1999,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "duplicate_components_max_difference_after_100_EM": 0.0,
+  "CH_halfpoint_lower_bound": 1.1688611699158105,
+  "interpretation": "Ideal rank-3 population Q=ZBZ.T including diagonal; standard unperturbed soft EM; no original random adjacency is claimed."
+}
