@@ -68,7 +68,7 @@ jobs:
             git add paper/current/BUILD_FAILURE.txt
             if ! git diff --cached --quiet; then
               git commit -m "Record current manuscript compilation diagnostics"
-              git pull --rebase origin main
+              git pull --rebase --autostash origin main
               git push origin HEAD:main
             fi
           fi
@@ -81,5 +81,5 @@ jobs:
             exit 0
           fi
           git commit -m "Compile current spectral likelihood manuscript"
-          git pull --rebase origin main
+          git pull --rebase --autostash origin main
           git push origin HEAD:main
