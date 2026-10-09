@@ -1,0 +1,46 @@
+\section{Extension below logarithmic density}
+\label{sec:sparse}
+
+\subsection{Recovery target}
+Consider $d_n=n\rho_n\to\infty$ with $d_n=o(\log n)$, keeping $K$, positive limiting community proportions, and $B$ fixed. The pairwise population profiles remain distinct, and the leading oracle information is proportional to $d_n$. The appropriate target is a vanishing fraction of errors with bound
+\begin{equation}
+ \E r(\widehat z,z)\leq e^{-(1+o(1))I_n},
+ \qquad I_n=d_nJ_*.
+\label{eq:sparse_rate}
+\end{equation}
+For consistency the right-hand side tends to zero. It generally does not yield exact recovery when $d_n=o(\log n)$. The distinction concerns the recovery objective, rather than a change in the meaning of the likelihood-ratio benchmark.
+
+The score-transfer theorem in Section~\ref{sec:main-results} applies at this density whenever its score-error conditions hold. The sparse Bernoulli-to-Poisson approximation remains valid because its exponent-scale correction is $O(n\rho_n^2)=o(d_n)$. These facts provide a precise route for extension. They do not by themselves control the empirical eigenspace.
+
+\subsection{Representation and calibration}
+Low-degree concentration is more delicate: a few atypically high-degree vertices can produce localized empirical directions. Regularization can stabilize a spectral initializer, but a regularized representation must also retain the directions used for likelihood classification. Existing regularized spectral consistency results \citep{zhouamini2019} concern recovery or concentration under their stated conditions; they do not automatically imply exponentially accurate spectral likelihood decoding.
+
+For example, suppose a positive diagonal normalization $D$ is used and the retained eigenpairs satisfy
+\begin{equation}
+ M=D^{-1/2}AD^{-1/2},\qquad MV=V\Gamma,\qquad \Pi_M=VV^\top.
+\end{equation}
+The reconstruction in the original scale is
+\begin{equation}
+ \widetilde A_D=D^{1/2}V\Gamma V^\top D^{1/2}
+ =A D^{-1/2}\Pi_M D^{1/2}.
+\label{eq:normalized_reconstruction}
+\end{equation}
+Consequently $\widetilde A_D w=Aw$ whenever $D^{1/2}w\in\col(V)$. This exact identity exhibits the needed transformed contrast. The normalization factors must be retained with the eigenpairs to perform this reconstruction. A normalized embedding without its scale factors is not covered by this identity.
+
+Trimming is a different operation. If $M=A-T$ is obtained by modifying entries, its retained reconstruction is $M\Pi_M$, and
+\begin{equation}
+ A_iw-(M\Pi_M)_iw=T_iw+M_i(I-\Pi_M)w.
+\label{eq:trim_error}
+\end{equation}
+Both the removed-edge contrast and projection error must be controlled at the recovery scale. This prevents interpreting every regularized spectral embedding as automatically equivalent to the original-graph LRT.
+
+\subsection{A conditional extension}
+\begin{corollary}[Lower-density transfer]
+\label{cor:sparse}
+Under the fixed-$B$ model with $d_n\to\infty$, $\rho_n\to0$, and positive limiting proportions, let a spectral decoder, possibly calibrated as in \eqref{eq:normalized_reconstruction}, satisfy the score approximation and exceptional-event bounds of Theorem~\ref{thm:exponent-transfer}. Then its expected misclassification rate satisfies \eqref{eq:sparse_rate}. If $d_n=o(\log n)$, this statement establishes almost exact recovery, without an exact-recovery conclusion.
+\end{corollary}
+\begin{proof}
+The Chernoff expansion and score-transfer proof use $d_n\to\infty$ and $n\rho_n^2=o(d_n)$, which follow here from $\rho_n\to0$. Substitute the density into Theorem~\ref{thm:exponent-transfer}. Since the minimum divergence is strictly positive for distinct profiles, $I_n\to\infty$ and the expected fraction of errors tends to zero.
+\end{proof}
+
+Verifying this corollary for a specified regularizer and fitting procedure remains a separate statistical task. The present 240-graph evaluation uses the unregularized logarithmic-density representation. Bounded expected degree, where detection has a different objective and threshold, is outside the scope of these results.

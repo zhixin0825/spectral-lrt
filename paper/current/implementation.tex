@@ -1,0 +1,46 @@
+\section{Implementation and reproducibility}
+\label{app:implementation}
+
+\subsection{Experimental entry points and retained outputs}
+The numerical evidence is archived in the repository
+\begin{center}
+\url{https://github.com/zhixin0825/spectral-lrt}.
+\end{center}
+The principal comparison is in
+\path{experiments/20261009_residual_likelihood_seeding/}.
+Its report, protocol, model-generation script, fitting code, scalar verification, and per-graph summaries define the numerical experiment. The preceding partial-peeling experiment and its diagnosis are in
+\path{experiments/20261009_partial_likelihood_peeling/}.
+Algorithm~1 corresponds to the recorded \texttt{global\_gain\_no\_update} branch. The API option \texttt{method='global\_gain'} instead denotes the growing-EM branch, which starts at a global profile mean. These are different algorithms even when their final error counts agree.
+
+The manuscript's two CSV summaries retain batch-specific, combined, and model-specific results. The diagnostic figure uses saved coordinates and fitted labels rather than a new simulation. Full spectral arrays and objective traces are stored in the previously archived numerical records; the source reports describe their restoration. Reconstructing the profiles from $(U,\Lambda)$ and fitting the working score does not need the original adjacency matrix.
+
+\subsection{Floored-simplex weight updates}
+For a fixed floor $f\in[0,1/K)$, the weight M-step solves
+\begin{equation}
+ \max_{\omega_a\geq f,\,\sum_a\omega_a=1}\sum_aN_a\log\omega_a.
+\end{equation}
+Its active-set solution starts with every component free. If the free set is $S$, assign mass $1-f(K-|S|)$ proportionally to the $N_a$, $a\in S$, and fix any weight below $f$ at the floor. Repeat on the remaining free set. The KKT conditions give
+\begin{equation}
+ \omega_a=\max\{f,N_a/\lambda\},\qquad \sum_a\omega_a=1
+\end{equation}
+for a suitable multiplier $\lambda$. The active-set procedure enforces this equation; it is not a naive clipping followed by renormalization. The tested function \texttt{\_floored\_weights} implements this exact constrained update. Since the E-step and mean M-step are unchanged, the variational proof applies on the floored-simplex parameter domain.
+
+\subsection{An explicit error decomposition}
+For fitted components matched to labels $a,b$, put
+\begin{equation}
+ \widehat w^{ab}_j=\log(\mu_{aj}/\mu_{bj}),\qquad
+ \widehat c^{ab}=-\sum_j(\mu_{aj}-\mu_{bj})+\log(\omega_a/\omega_b).
+\end{equation}
+If $\lambda^{ab}$ is the chosen oracle prior log ratio, the empirical comparison has the decomposition
+\begin{align}
+ \widehat T_i^{ab}-(L_i^{ab}+\lambda^{ab})
+ &=A_i(\Pi-I)w^{ab}
+   +(q_i-\widetilde P_i)w^{ab}\nonumber\\
+ &\quad+q_i(\widehat w^{ab}-w^{ab})
+   +\widehat c^{ab}-c_i^{ab}-\lambda^{ab}.
+\label{eq:error_decomposition}
+\end{align}
+The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. For Poisson rather than Bernoulli oracle contrasts, the sparse correction must also be included. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. The present manuscript does not establish the required simultaneous bounds for the practical EM endpoint.
+
+\subsection{Verification of the manuscript}
+The source comprises six numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.

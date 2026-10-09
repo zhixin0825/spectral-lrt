@@ -1,0 +1,85 @@
+name: Compile current spectral LRT manuscript
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "paper/current/*.tex"
+      - "paper/current/*.bib"
+      - "paper/current/figures/**"
+      - ".github/workflows/compile-current-manuscript.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compile-current-spectral-manuscript
+  cancel-in-progress: false
+
+jobs:
+  compile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out manuscript source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-latex-extra texlive-fonts-recommended lmodern
+      - name: Compile manuscript and references
+        working-directory: paper/current
+        shell: bash
+        run: |
+          set -o pipefail
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee compile-output.txt
+          bibtex manuscript | tee -a compile-output.txt
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee -a compile-output.txt
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee -a compile-output.txt
+          test -s manuscript.pdf
+          if grep -E 'undefined references|Citation .* undefined|Reference .* undefined' manuscript.log; then
+            exit 1
+          fi
+          sha256sum *.tex references.bib figures/initialization_failure_repair.pdf manuscript.pdf > BUILD_SHA256SUMS.txt
+      - name: Record build provenance
+        env:
+          BUILD_SOURCE_SHA: ${{ github.sha }}
+          BUILD_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          Path("paper/current/BUILD.txt").write_text(
+              "Compiled research manuscript. The statistical recovery theorem is conditional; compilation does not verify mathematics.\n"
+              "Source commit: " + os.environ["BUILD_SOURCE_SHA"] + "\n"
+              "Build run: " + os.environ["BUILD_RUN_URL"] + "\n",
+              encoding="utf-8")
+          PY
+      - name: Record compiler failure
+        if: failure()
+        run: |
+          if test -f paper/current/compile-output.txt; then
+            tail -n 140 paper/current/compile-output.txt > paper/current/BUILD_FAILURE.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add paper/current/BUILD_FAILURE.txt
+            if ! git diff --cached --quiet; then
+              git commit -m "Record current manuscript compilation diagnostics"
+              git pull --rebase origin main
+              git push origin HEAD:main
+            fi
+          fi
+      - name: Publish compiled PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/current/manuscript.pdf paper/current/manuscript.bbl paper/current/BUILD.txt paper/current/BUILD_SHA256SUMS.txt
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Compile current spectral likelihood manuscript"
+          git pull --rebase origin main
+          git push origin HEAD:main

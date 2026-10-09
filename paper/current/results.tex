@@ -1,0 +1,222 @@
+\section{Main results in logarithmic density}
+\label{sec:main-results}
+
+This section separates an exact information-preservation identity, a
+statistical exponent-transfer theorem, and a sufficient condition for an
+independent-row spectral projection.  The exponent-transfer theorem applies
+to the fitted working scores in Section~2 \emph{if its stated approximation
+condition holds}.  We do not assert that convergence of the working EM
+objective establishes that condition.
+
+Throughout this section, $K$ is fixed,
+$n_a/n\to\pi_a>0$, $B$ is a fixed symmetric matrix with
+$0<b_-\le B_{ab}\le b_+<\infty$, and $\rho_n\to0$ with
+$d_n=n\rho_n\to\infty$.  Distinct rows of $B$ are assumed whenever
+classification between all communities is discussed.  The logarithmic
+regime is $\rho_n=\log n/n$.  Full rank of $B$ is used for the signal-span
+interpretation; the probabilistic oracle calculations do not require it.
+
+\subsection{Spectral information and likelihood contrasts}
+
+For communities $a\ne b$, define the block-constant Bernoulli contrast
+and the nonedge offset by
+\begin{align}
+ w^{ab}_j
+ &=\log\frac{B_{a,z_j}(1-\rho_n B_{b,z_j})}
+                  {B_{b,z_j}(1-\rho_n B_{a,z_j})},\label{eq:oracle-contrast}\\
+ c_i^{ab}
+ &=\sum_{j\ne i}\log\frac{1-\rho_n B_{a,z_j}}
+                              {1-\rho_n B_{b,z_j}}.
+\end{align}
+The oracle incident-edge log-likelihood ratio is
+\begin{equation}
+ L_i^{ab}=A_iw^{ab}+c_i^{ab},\label{eq:oracle-llr}
+\end{equation}
+where $A_i$ is row $i$ of $A$.  Its diagonal coordinate contributes zero.
+
+\begin{proposition}[Exact preservation of retained contrasts]
+\label{prop:exact-preservation}
+Let $U$ contain any orthonormal collection of eigenvectors of the
+symmetric matrix $A$, let $\Lambda$ contain their eigenvalues, and set
+$Q=UU^\top$ and $\widetilde P=U\Lambda U^\top$.
+Then $\widetilde P=AQ$ and, for every vector $w$,
+\begin{equation}
+ \widetilde P_iw-A_iw=A_i(Q-I)w.\label{eq:preservation-error}
+\end{equation}
+In particular, $w\in\operatorname{col}(U)$ implies exact preservation.
+Moreover, if $B$ is nonsingular, then the rank-$K$ comparison matrix
+$P^\circ=\rho_n ZBZ^\top$ has column space
+$\operatorname{col}(Z)$, and every $w^{ab}$ belongs to this population
+signal space.
+\end{proposition}
+
+The proposition explains the likelihood interpretation without requiring
+the eigendecomposition itself to compute $\log B$.  The eigendecomposition
+retains directions; the likelihood decoder assigns the appropriate
+contrast coefficients to those directions.  It also states the precise
+limitation: the empirical retained space need not equal the population
+space.  The actual no-self-loop mean is
+$P=P^\circ-\operatorname{diag}(\rho_n B_{z_i z_i})$; the rank-$K$ statement
+is about $P^\circ$, not $P$.
+
+The oracle Poisson contrast is
+$v^{ab}_j=\log(B_{a,z_j}/B_{b,z_j})$, with score
+\begin{equation}
+ L_{i,\mathrm P}^{ab}
+ =\sum_{j\ne i}A_{ij}v^{ab}_j
+  -\rho_n\sum_{j\ne i}(B_{a,z_j}-B_{b,z_j}).
+ \label{eq:oracle-poisson}
+\end{equation}
+The following result makes its use in a sparse working score precise.
+
+\begin{lemma}[Sparse Bernoulli-to-Poisson correction]
+\label{lem:poisson-correction}
+There is a constant $C$ depending only on $b_-,b_+$ such that, for
+all sufficiently large $n$, every $i$, and every $a\ne b$,
+\begin{equation}
+ |L_i^{ab}-L_{i,\mathrm P}^{ab}|
+ \le C\{\rho_n\deg(i)+n\rho_n^2\}.\label{eq:poisson-error}
+\end{equation}
+For every fixed $H>0$ there is a constant $D_H$ such that
+$\Pr\{\deg(i)>D_Hd_n\}\le e^{-Hd_n}$ uniformly in $i$.
+Consequently, the correction is $o(d_n)$ outside an event of probability
+$e^{-Hd_n}$.  In logarithmic density its bound on that event is
+$O(\log^2 n/n)=o(1)$.
+\end{lemma}
+
+\subsection{The oracle benchmark}
+
+Let
+\begin{align}
+ J_{ab}
+ &=\max_{0\le t\le1}\sum_{c=1}^K\pi_c
+  \big\{(1-t)B_{ac}+tB_{bc}-B_{ac}^{1-t}B_{bc}^{t}\big\},
+  \label{eq:ch-divergence}\\
+ J_*&=\min_{a\ne b}J_{ab},\qquad I_n=d_nJ_*.
+\end{align}
+Equivalently, $J_{ab}$ is the Chernoff--Hellinger divergence between
+$(\pi_cB_{ac})_c$ and $(\pi_cB_{bc})_c$, with an interchangeable
+choice of $t$ and $1-t$.  Our recovery target concerns the leading
+error exponent.  Zhou and Li~\cite{zhouli2020} studied optimal error rates
+for SBM community detection; their more refined rate expressions are not
+needed for the claims made here.
+
+\begin{lemma}[Leading oracle error exponent]
+\label{lem:oracle-exponent}
+Consider the binary experiment in which $z_i\in\{a,b\}$ has equal prior
+probabilities and all other labels and $B$ are known.  Its Bayes risk
+$R_{i,ab}^{\mathrm{or}}$ satisfies, uniformly in $i$,
+\begin{equation}
+ R_{i,ab}^{\mathrm{or}}=\exp\{-(1+o(1))d_nJ_{ab}\}.
+ \label{eq:oracle-risk}
+\end{equation}
+The same leading exponent holds for fixed prior probabilities bounded
+away from zero and one.
+\end{lemma}
+
+\subsection{Transfer to estimated spectral scores}
+
+The theorem below accommodates scores estimated from the entire graph,
+so it does not assume independence of a node's score and its incident
+edges.  It makes the required rare-event control explicit.
+
+\begin{theorem}[Conditional nearly-optimal exponent]
+\label{thm:exponent-transfer}
+Let $\widehat\ell_i(a)$ be estimated community scores, after one common
+alignment of their labels with the population labels, and classify by
+$\widehat z_i\in\arg\max_a\widehat\ell_i(a)$.
+Suppose there are $\tau_n=o(d_n)$ and $\delta_n\ge0$ such that, for every
+$i$, an event $G_i$ satisfies
+\begin{align}
+ \Pr(G_i^c)&\le\delta_n,\label{eq:transfer-failure}\\
+ \max_{a\ne b}
+ |\widehat\ell_i(a)-\widehat\ell_i(b)-L_i^{ab}|
+ &\le\tau_n\quad\text{on }G_i,\label{eq:transfer-score}\\
+ \liminf_{n\to\infty}\frac{-\log\delta_n}{I_n}&\ge1,
+ \label{eq:transfer-tail}
+\end{align}
+where $-\log0=+\infty$.
+Then the permutation-invariant error fraction obeys
+\begin{equation}
+ \mathbb E\,r(\widehat z,z)
+ \le\exp\{-(1+o(1))I_n\}.
+ \label{eq:conditional-rate}
+\end{equation}
+When $\rho_n=\log n/n$ and $J_*>1$, this implies
+$\Pr\{r(\widehat z,z)>0\}\to0$.
+\end{theorem}
+
+The condition on $\delta_n$ is essential.  An error approximation that
+holds with probability $1-o(1)$ can still fail much more frequently than
+the oracle makes an error, and therefore need not preserve its exponent.
+The theorem asserts an upper bound on the recovery error.  In the binary
+oracle experiment, data processing and Lemma~\ref{lem:oracle-exponent}
+also give the matching leading lower bound for any decoder using only
+the graph's spectral summary.
+
+For the working scores actually fitted in Section~2, set
+$\widehat w^{ab}_j=\log(\widehat\mu_{aj}/\widehat\mu_{bj})$ and
+$\widehat c^{ab}=-\sum_j(\widehat\mu_{aj}-\widehat\mu_{bj})
++\log(\widehat\omega_a/\widehat\omega_b)$.
+Writing $q_i=\widetilde P_i+(q_i-\widetilde P_i)$ yields the exact
+decomposition
+\begin{align}
+ \widehat\ell_i(a)-\widehat\ell_i(b)-L_i^{ab}
+ ={}& A_i(Q-I)w^{ab}\notag\\
+ &+\widetilde P_i(\widehat w^{ab}-w^{ab})\notag\\
+ &+(q_i-\widetilde P_i)\widehat w^{ab}
+   +(\widehat c^{ab}-c_i^{ab}).\label{eq:four-errors}
+\end{align}
+Thus projection, estimated contrasts, clipping, and offsets must all be
+controlled at the scale in Theorem~\ref{thm:exponent-transfer}.
+The sum includes the reconstructed diagonal used by the implemented
+working score; its discrepancy with the oracle's excluded diagonal is
+included in the displayed decomposition.  Neither average reconstruction accuracy
+nor objective convergence removes these terms.
+
+\subsection{A sufficient independent-row projection condition}
+
+The next theorem proves a usable bridge between subspace estimation and
+rare-event LLR accuracy.  It is a result about a row-independent
+projection, not an unconditional guarantee for the full-graph fitted
+algorithm.  Leave-one-out projections provide a natural setting for this
+analysis.
+
+\begin{theorem}[Row-independent spectral projection]
+\label{thm:independent-projection}
+Fix $i$ and restrict vectors and projectors to coordinates $j\ne i$.
+Let $Q_i$ be a random orthogonal projector independent of
+$(A_{ij})_{j\ne i}$, and let $Q_{*,i}$ project onto the membership space
+of the other nodes.  Suppose that on an event $H_i$, measurable with
+respect to the data generating $Q_i$,
+\begin{equation}
+ \|(I-Q_i)Q_{*,i}\|_{\mathrm{op}}\le\eta_n\to0,
+ \qquad \max_{j\ne i}(Q_i)_{jj}\le\frac{L}{n},
+ \label{eq:projection-conditions}
+\end{equation}
+for a constant $L$, and that
+$\Pr(H_i^c)\le\gamma_n$.  Define
+\begin{equation}
+ L_{i,Q}^{ab}=A_{i,-i}Q_iw_{-i}^{ab}+c_i^{ab}.
+\end{equation}
+There are deterministic $\tau_n=o(d_n)$ and $h_n\to\infty$ such that
+\begin{equation}
+ \Pr\Big\{\max_{a\ne b}|L_{i,Q}^{ab}-L_i^{ab}|>\tau_n\Big\}
+ \le\gamma_n+2K^2e^{-h_nd_n}.
+ \label{eq:independent-projection-tail}
+\end{equation}
+Consequently, if
+$\liminf(-\log\gamma_n)/I_n\ge1$ uniformly in $i$, classifiers based
+on these oracle-parameter projected scores satisfy
+\eqref{eq:conditional-rate}.
+\end{theorem}
+
+The proof uses a quadratic population bias and a Bennett tail bound.
+It requires bounded projector leverage, rather than a vanishing maximum
+coordinate error.  Its independence assumption is explicit: forming
+$A_{i,-i}Q_i$ directly is not an additional step of our post-compression
+algorithm.  To apply the theorem to that algorithm, one must further
+control the difference between its empirical full-graph projection and
+an independent-row construction, and then the remaining terms in
+\eqref{eq:four-errors}.  Those pipeline conditions are not established
+by the present initialization and EM results.

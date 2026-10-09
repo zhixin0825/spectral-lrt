@@ -1,5 +1,8 @@
 # Spectral information and likelihood-ratio inference for the SBM
 
+**当前完整英文稿（2026-10-09）：** [编译 PDF](paper/current/manuscript.pdf) · [文章与源码说明](paper/current/README.md) · [主 TeX 文件](paper/current/manuscript.tex)。已写齐六节正文、证明附录和 240 图实验。主恢复定理是明确条件下的领先指数转移，目标为 \(e^{-(1+o(1))I_n}\)；尚未证明完整 clipped-profile EM 流程满足这些条件。
+
+
 **初始化失败的修复与独立验证（2026-10-09）：** [全局 likelihood 增益和参数替换](experiments/20261009_residual_likelihood_seeding/REPORT_20261009.md)。保留 fixed-K `1/(1.5K)` 初始化，在全体节点 EM 后做一轮参数替换，仅按最终 mixture likelihood 提升接受。原 120 图平均误分率 0.3917% → 0.0967%；预先固定的新 seeds 30000–30004 的另 120 图为 0.3725% → 0.0925%。各批仅一张严重失败图改善，其余 119 张错分数相同；原失败图 709/2000 → 1/2000，新图 675/2000 → 3/2000。全局增益选参数也达到相同误分率；单次随机 ++ 和单次 greedy ++ 仍有严重失败，不能当作普遍保证。拟合仅使用 U、Lambda 和谱 profile working likelihood。
 
 **Likelihood++ 设计与完成的谱 profile 实验（2026-10-09）：** [算法和验证结果](experiments/20261009_spectral_em/LIKELIHOOD_PP_DESIGN_20261009.md)。用单点最优 log density 与当前中心 log density 的差作为 ++ 采样权重；高斯时还原 D² sampling。无 k-means decoder 的谱 profile matched greedy 比较：1200 starts 平均误分率 likelihood++ 1.5652%、Euclidean++ 2.8697%；best10 均为 0.0967%、87/120 exact。全部 4800 个 profile fits 收敛；PG decoder 桥接仍有严重负面案例。固定 Y 的 6000-start PG 主比较最后可读 checkpoint 为 78/120 图，随后本地环境路径错误阻断核验，尚未发布全量终点或完整归档。

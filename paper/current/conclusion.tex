@@ -1,0 +1,8 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+The likelihood-relevant information in an SBM is organized by block-constant logarithmic contrasts. A full-rank population spectral representation contains these contrasts, and the projection identity explains how their adjacency-row statistics can be preserved by spectral compression. This leads to a concrete spectral-only decoder: choose one profile on a high-likelihood subset, add profiles by joint likelihood gain, and alternate mixture fitting and classification. A complementary parameter-replacement step addresses a failure in which two communities are merged while a third is split.
+
+The empirical results support the usefulness of changing the decoding objective. The proven results characterize exact contrast preservation, the leading sparse likelihood approximation, noiseless seed coverage, greedy gain, objective convergence under exact updates, and conditional transfer of the oracle error exponent. Together they separate three issues that otherwise look similar: optimizing a working likelihood, retaining likelihood information through compression, and attaining a statistical recovery rate.
+
+The remaining central question is whether the empirical clipped-profile procedure satisfies the score-transfer conditions with exceptional-event probabilities at the required exponential scale. Its successful finite-grid experiments do not settle that question. Low-density calibration, initialization stability, parameter estimation, and a scalable implementation provide further work. A proof of those conditions would turn the conditional $e^{-(1+o(1))I_n}$ recovery statement into an end-to-end theorem for the executable algorithm.

@@ -1,0 +1,317 @@
+% Standalone Section 5 fragment. Requires amsmath, amssymb, booktabs,
+% graphicx. Figure generated from saved arrays, not a new experiment.
+\section{Experiments}
+\label{sec:experiments}
+
+We evaluate whether likelihood-based decoding improves on a Euclidean
+decoder of the same retained eigenpairs, and whether global likelihood gains
+prevent redundant initialization. The experiments use a spectral profile
+working likelihood. They do not evaluate an exact leave-one-out graph
+likelihood or estimate an asymptotic error exponent from finite samples.
+
+\subsection{Models and protocol}
+
+For each model, let $C^{(0)}$ be a fixed symmetric connectivity matrix and
+let $\pi$ be the vector of community proportions. We generate an undirected
+SBM without self-loops, with edge probabilities
+\begin{equation}
+  (B_n)_{ab}=\frac{\log n}{n}C_{ab},\qquad
+  C=\frac{\eta}{D_{\min}(C^{(0)},\pi)}C^{(0)},
+  \label{eq:experiment_normalization}
+\end{equation}
+where $\eta\in\{0.8,1.4\}$ and
+\begin{equation}
+ D_{\min}(C,\pi)=\min_{a\ne b}\max_{0\le t\le1}
+  \sum_{c=1}^K\pi_c\left[(1-t)C_{ac}+tC_{bc}
+                          -C_{ac}^{1-t}C_{bc}^t\right].
+\end{equation}
+Thus the limiting minimum Chernoff--Hellinger coefficient equals $\eta$.
+The normalization uses the limiting proportions $\pi$; actual group sizes
+are $\lfloor n\pi_a\rfloor$, with the remaining vertices assigned to the
+last group. Vertex labels are then randomly permuted. Each model is tested
+at $n\in\{1000,2000\}$. The six models are
+\begin{align*}
+ C^{(0)}_{\mathrm{sym2}}&=
+ \begin{pmatrix}4&1\\1&4\end{pmatrix},
+ &&\pi_{\mathrm{sym2}}=(1/2,1/2),\\[2mm]
+ C^{(0)}_{\mathrm{equal3}}&=
+ \begin{pmatrix}10&1&2\\1&11&1\\2&1&10\end{pmatrix},
+ &&\pi_{\mathrm{equal3}}=(1/3,1/3,1/3),\\[2mm]
+ C^{(0)}_{\mathrm{hetero3}}&=
+ \begin{pmatrix}6&0.5&0.5\\0.5&12&0.5\\0.5&0.5&24\end{pmatrix},
+ &&\pi_{\mathrm{hetero3}}=(1/3,1/3,1/3),\\[2mm]
+ C^{(0)}_{\mathrm{unequal3}}&=
+ \begin{pmatrix}10&1&1\\1&10&1\\1&1&10\end{pmatrix},
+ &&\pi_{\mathrm{unequal3}}=(0.5,0.3,0.2),\\[2mm]
+ C^{(0)}_{\mathrm{hier4}}&=
+ \begin{pmatrix}12&2&0.5&0.5\\2&12&0.5&0.5\\
+                 0.5&0.5&12&2\\0.5&0.5&2&12\end{pmatrix},
+ &&\pi_{\mathrm{hier4}}=(1/4,1/4,1/4,1/4),\\[2mm]
+ C^{(0)}_{\mathrm{dis3}}&=
+ \begin{pmatrix}0.5&8&8\\8&0.5&8\\8&8&0.5\end{pmatrix},
+ &&\pi_{\mathrm{dis3}}=(1/3,1/3,1/3).
+\end{align*}
+These include unequal group sizes, heterogeneous expected degrees,
+hierarchical connections, and negative signal eigenvalues.
+
+The design batch contains five graph seeds, $20000,\ldots,20004$, for every
+model, size, and signal coefficient, giving $6\times2\times2\times5=120$
+graphs. A second batch uses the same models and hyperparameters with fresh
+seeds $30000,\ldots,30004$. The algorithms and second-batch seed range were
+fixed before fitting the second batch. The second batch therefore validates
+initialization choices made using the first batch, rather than introducing
+new models. All methods are evaluated on identical eigenpairs within a graph.
+
+We retain the $K$ eigenpairs of the raw adjacency matrix with largest absolute
+eigenvalues. The implementation requests $K+1$ eigenpairs using the symmetric
+ARPACK solver with tolerance $10^{-8}$ and discards the last one after
+sorting by absolute value. Neither spectral regularization nor degree
+rescaling is used. After this preprocessing, the fitting routines receive
+only $(U,\Lambda)$; adjacency entries, degrees, true labels, and true block
+probabilities are unavailable to fitting and model selection.
+
+\subsection{Implementations and comparisons}
+
+The archived implementation forms positive spectral profiles
+\begin{equation}
+ q_{ij}=\max\left\{(U\Lambda U^\top)_{ij},
+                   10^{-4}\frac{\log n}{n}\right\},\qquad
+ \ell_i(\mu)=\sum_{j=1}^n q_{ij}\log\mu_j-\sum_{j=1}^n\mu_j.
+ \label{eq:experimental_working_score}
+\end{equation}
+The reconstructed diagonal is retained, even though the generated graphs
+have zero diagonal. Thus this is a declared positive-profile working score,
+not the original Bernoulli graph likelihood. Component means are unrestricted
+$n$-dimensional profile means. Every likelihood arm uses the same soft EM
+updates and observed working objective
+\begin{equation}
+ \mathcal L(\mu,w)=\sum_{i=1}^n\log\left[
+   \sum_{a=1}^K w_a\exp\{\ell_i(\mu_a)\}\right].
+\end{equation}
+EM initializes equal component weights except when refitting a replacement
+proposal, where the current weights are retained. The mean update is the
+responsibility-weighted average of $q_i$. The weight update exactly maximizes
+the EM auxiliary objective on $\{w_a\ge10^{-8},\ \sum_a w_a=1\}$.
+No additional floor on means is needed because the observations are positive.
+Final labels maximize $\log w_a+\ell_i(\mu_a)$.
+
+The main deterministic initialization, denoted \emph{global gain}, selects
+its first seed using the proposed top-subset rule. Specifically, for each
+node candidate $c$, it sums its largest
+\begin{equation}
+ m_0=\min\{\lfloor2n/(3K)\rfloor,n-K\}
+\end{equation}
+scores over other nodes, excluding $c$, and selects the candidate with the
+largest sum. Subsequent seeds maximize the all-node marginal gain
+\begin{equation}
+ \Delta(c)=\sum_i\max\left\{\ell_i(q_c)-
+                              \max_{a\in S}\ell_i(q_a),0\right\},
+ \label{eq:experimental_global_gain}
+\end{equation}
+over unselected candidates. All observations remain available. Seed profiles
+are frozen during these $K$ selections; one soft EM fit follows after all
+$K$ seeds have been selected. This is the archived
+\texttt{global\_gain\_no\_update} arm.
+
+We compare it with the following alternatives. \emph{Top-subset peeling}
+uses the same first-seed rule and repeatedly removes the selected candidate
+and its best-scoring subset. When $M$ candidates and $r$ components remain,
+the subset contains $\min\{\lfloor2M/(3K)\rfloor,M-r\}$ other nodes.
+After $K$ selections, all $n$ observations, including unselected nodes, enter
+EM. \emph{Peeling plus replacement} fits this initialization, deletes each
+component temporarily, proposes the globally most useful node against the
+remaining $K-1$ means, and refits all nodes. All $K$ proposals use the same
+original fitted endpoint; the best proposal is accepted only if its final
+$\mathcal L$ exceeds the current best by more than $10^{-5}$. This is one
+replacement pass, not repeated optimization.
+
+\emph{Growing global gain} starts from the global profile mean and runs EM
+after each added component. It differs from the main initializer even though
+it happens to produce the same recovery errors here. \emph{Residual++} samples
+the first node uniformly and later nodes proportionally to
+\begin{equation}
+ d_i=\min_{a\in S}\sum_j
+ \left[q_{ij}\log(q_{ij}/\mu_{aj})-q_{ij}+\mu_{aj}\right].
+\end{equation}
+This deviance is not squared again. Its greedy variant samples
+$2+\lfloor\log K\rfloor$ candidate trials per addition and chooses the trial
+that minimizes total residual deviance. We report both one start and ten
+starts; the ten-start fit is selected solely by final $\mathcal L$.
+An additional control selects one set of Euclidean $k$-means++ seeds in
+$X=\sqrt n U\Lambda$ and then runs the same Poisson-profile EM.
+The main Euclidean baseline runs $k$-means in $X$ with ten starts, at most
+300 Lloyd iterations per start, and tolerance $10^{-5}$.
+
+All profile EM fits use at most 300 updates and tolerance $10^{-6}$.
+The stopping rule requires unchanged hard labels, maximum relative mean or
+absolute weight change at most $10^{-3}$, and objective increment at most
+$10^{-6}(1+|\mathcal L-G|)$ in absolute value, where
+$G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is a cached observation-only constant.
+This constant sets the stopping scale and does not affect fitting or selection.
+Randomized seeding uses fixed NumPy seed sequences indexed by graph seed,
+method, and restart. Reported error rates minimize label disagreement over
+all permutations of the $K$ labels. Averages weight graphs equally; ``exact''
+counts graphs with no mislabeled node. True labels are accessed only after
+all fitting and likelihood-based selections finish.
+
+\subsection{Recovery results}
+
+Table~\ref{tab:experiment_summary} gives the paired results in the design and
+independent batches. Global-gain initialization, peeling plus replacement,
+growing global gain, and ten-start greedy residual++ have the same per-graph
+error counts in both batches. Across all 240 graphs, the main deterministic
+method has average error $0.0946\%$, compared with $0.3194\%$ for the ten-start
+Euclidean baseline, and exactly recovers 163 graphs compared with 139.
+These are finite-sample recovery comparisons with unequal optimization
+budgets, rather than equal-runtime comparisons.
+
+\begin{table}[tb]
+\centering
+\small
+\caption{Average mislabeled fraction in percent; exact recovery counts are
+out of 120 graphs per batch. All profile arms use the same EM score.}
+\label{tab:experiment_summary}
+\begin{tabular}{lrrrr}
+\toprule
+&\multicolumn{2}{c}{Design batch}&\multicolumn{2}{c}{Independent batch}\\
+Method&Error (\%)&Exact&Error (\%)&Exact\\
+\midrule
+Top-subset peeling + EM&0.3917&86&0.3725&77\\
+Peeling + replacement&\textbf{0.0967}&86&\textbf{0.0925}&77\\
+Global gain + EM&\textbf{0.0967}&86&\textbf{0.0925}&77\\
+Growing global gain + EM&0.0967&86&0.0925&77\\
+Growing sampled gain + EM&0.3900&86&0.0925&77\\
+Residual++, one start + EM&4.0129&80&3.1675&72\\
+Greedy residual++, one start + EM&1.1192&85&2.3438&74\\
+Greedy residual++, ten starts + EM&0.0967&86&0.0925&77\\
+Euclidean++, one start + EM&3.9033&78&6.4204&71\\
+$X$ $k$-means, ten starts&0.3454&73&0.2933&66\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:experiment_models} separates model families. The largest
+improvement over Euclidean decoding occurs with heterogeneous diagonal
+connectivities: the average error falls from $1.4175\%$ to $0.1625\%$.
+The likelihood criterion also improves the unequal-size model. It is not
+uniformly better: the symmetric two-community baseline has one fewer
+mislabeled node in aggregate, and the hierarchical model has one additional
+exactly recovered graph under $k$-means. The examples therefore support
+likelihood adaptation when block profiles differ substantially, without
+claiming dominance on every graph.
+
+\begin{table}[tb]
+\centering
+\small
+\caption{Both batches combined, 40 graphs per model. ``Global gain'' refers
+to the top-subset first seed followed by frozen-profile all-node gains and
+one final EM fit.}
+\label{tab:experiment_models}
+\begin{tabular}{lrrrr}
+\toprule
+&\multicolumn{2}{c}{Global gain + EM}&\multicolumn{2}{c}{$X$ $k$-means}\\
+Model&Error (\%)&Exact&Error (\%)&Exact\\
+\midrule
+Symmetric two-community&0.0150&33&0.0125&34\\
+Equal-size three-community&0.0175&32&0.0188&31\\
+Heterogeneous three-community&0.1625&18&1.4175&1\\
+Unequal-size three-community&0.0338&33&0.1213&25\\
+Hierarchical four-community&0.0275&28&0.0288&29\\
+Disassortative three-community&0.3113&19&0.3175&19\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The stronger signal coefficient $\eta=1.4$ gives 117 exactly recovered graphs
+out of 120 for global gain, versus 99 for $k$-means. At $\eta=0.8$, the
+corresponding counts are 46 and 40. This behavior is consistent with the
+importance of the logarithmic-density recovery threshold, but the experiment
+does not establish that threshold or the leading error exponent.
+
+\subsection{A failure of subset scores and its repair}
+
+One design graph with $n=2000$, $K=3$, and $\eta=0.8$ illustrates the
+initialization mechanism. Its normalized connectivity matrix is approximately
+\begin{equation}
+ C=\begin{pmatrix}
+ 7.8541&0.7854&1.5708\\
+ 0.7854&8.6395&0.7854\\
+ 1.5708&0.7854&7.8541
+ \end{pmatrix},
+\end{equation}
+with group sizes $(666,666,668)$. Communities 1 and 3 are the closest pair:
+their empirical $X$-centroid distance is $40.22$, compared with $47.36$ and
+$47.82$ for the other pairs. They are nevertheless well separated in the
+retained spectrum. Using their true profile means as a diagnostic classifier
+assigns every node correctly on its first assignment.
+
+Top-subset peeling selects nodes $858,610,435$ (zero-based IDs), whose true
+communities are $2,3,2$. The profile of node 610 lies near the mixture of
+communities 1 and 3. Its Poisson divergence to their merged mean is $0.3826$,
+compared with $5.2433$ to its own community's mean. Its selected subset has
+150 nodes from community 1 and 196 from community 3. Thus a candidate can win
+a subset likelihood comparison by representing a mixture of communities.
+The resulting fit merges communities 1 and 3 and splits community 2, making
+709 errors ($35.45\%$). Tightening the tolerance to $10^{-10}$ and permitting
+3000 updates does not solve this structural problem: the fit stops after
+517 updates with 800 errors.
+
+Global gain keeps the first two seeds but changes the third to node 220,
+which contributes to the uncovered region; after EM, only one node is
+mislabeled. A one-component replacement at the original fitted endpoint
+selects the same node and likewise reduces errors to one, while increasing
+the working log likelihood by approximately $7148.48$. No true labels enter
+either choice. The independent batch contains a second analogous peeling
+failure with 675 errors, reduced to three by replacement. Relative to peeling,
+each effective deterministic variant improves exactly one graph in each
+batch, leaves the other 119 error counts unchanged, and worsens none. The
+number of exact recoveries does not change because the repaired graphs retain
+one and three errors, respectively.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\linewidth]{figures/initialization_failure_repair.pdf}
+\caption{The saved design failure, displayed in two coordinates of
+$X=\sqrt n U\Lambda$. Left: true communities, used only for evaluation.
+Middle: top-subset peeling followed by EM merges the two lower communities
+and splits the upper community. Right: an accepted one-component replacement
+followed by EM separates the groups and leaves one mislabeled node. Predicted
+labels are aligned to truth for display only.}
+\label{fig:initialization_repair}
+\end{figure}
+
+\subsection{Numerical verification and computational scope}
+
+All returned profile fits satisfy the declared stopping rule in the 240-graph
+comparison. The 120 original peeling errors are reproduced exactly. The
+archive contains 6240 EM traces, including replacement proposals, growing
+stages, and restart fits, with 27867 recorded trace points. The smallest
+observed objective increment is $-1.17\times10^{-10}$, within floating-point
+rounding; no increment below $-10^{-7}$ occurs. All 240 selected ten-start
+solutions maximize the same final working likelihood within their restart
+set. Replacement accepts a likelihood improvement on 22 design graphs and
+25 independent graphs, and never lowers the final objective; most of these
+small improvements do not change the classification error. Independent
+scalar checks reproduce deviance and global-gain calculations with maximum
+absolute errors $7.11\times10^{-15}$ and $1.78\times10^{-15}$, respectively.
+
+The present implementation explicitly reconstructs the $n\times n$ profiles
+and caches all singleton-candidate scores. Reconstruction costs
+$O(n^2K)$, score precomputation costs $O(n^3)$, and storage costs $O(n^2)$.
+An EM update costs $O(n^2K)$. A replacement pass tries $K$ additional fits,
+whereas ten-start residual seeding uses ten fits. The runs use one numerical
+library thread per worker and four worker processes. Python, NumPy, SciPy,
+and scikit-learn versions are 3.11.7, 2.1.3, 1.16.2, and 1.7.1. Stored timers
+cover all candidate arms and restarts together and exclude graph generation
+and eigenpair computation, so they do not support an arm-specific speed
+claim. The data sizes $n\le2000$ establish feasibility for this implementation;
+candidate-pool approximations and blockwise computations require separate
+large-graph validation.
+
+The evidence supports improved decoding of a fixed spectrum and a repair of
+redundant initialization under the declared working likelihood. It does not
+by itself prove that the practical EM endpoint has the oracle error exponent,
+that clipping preserves exact graph likelihood ratios, or that recovery is
+uniform over general SBMs. Oracle-LRT comparisons, a denser range of $n$ for
+error-exponent estimation, and lower-density regularized experiments remain
+outside the archived numerical study.
