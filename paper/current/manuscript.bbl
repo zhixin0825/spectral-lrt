@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -51,6 +51,13 @@ Paul~W. Holland, Kathryn~Blackmond Laskey, and Samuel Leinhardt.
 \newblock Stochastic blockmodels: First steps.
 \newblock \emph{Social Networks}, 5\penalty0 (2):\penalty0 109--137, 1983.
 \newblock \doi{10.1016/0378-8733(83)90021-7}.
+
+\bibitem[Lei and Rinaldo(2015)]{leirinaldo2015}
+Jing Lei and Alessandro Rinaldo.
+\newblock Consistency of spectral clustering in stochastic block models.
+\newblock \emph{The Annals of Statistics}, 43\penalty0 (1):\penalty0 215--237,
+  2015.
+\newblock \doi{10.1214/14-AOS1274}.
 
 \bibitem[Nemhauser et~al.(1978)Nemhauser, Wolsey, and Fisher]{nemhauser1978}
 George~L. Nemhauser, Laurence~A. Wolsey, and Marshall~L. Fisher.
