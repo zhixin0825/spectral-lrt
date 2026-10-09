@@ -1,5 +1,7 @@
 # Spectral information and likelihood-ratio inference for the SBM
 
+**Likelihood++ 设计与完成的谱 profile 实验（2026-10-09）：** [算法和验证结果](experiments/20261009_spectral_em/LIKELIHOOD_PP_DESIGN_20261009.md)。用单点最优 log density 与当前中心 log density 的差作为 ++ 采样权重；高斯时还原 D² sampling。无 k-means decoder 的谱 profile matched greedy 比较：1200 starts 平均误分率 likelihood++ 1.5652%、Euclidean++ 2.8697%；best10 均为 0.0967%、87/120 exact。全部 4800 个 profile fits 收敛；PG decoder 桥接仍有严重负面案例。固定 Y 的 6000-start PG 主比较最后可读 checkpoint 为 78/120 图，随后本地环境路径错误阻断核验，尚未发布全量终点或完整归档。
+
 **随机分组初值复验（2026-10-09）：** [120 图、每图 10 个随机 EM starts 的结果](experiments/20261009_spectral_em/RANDOM_INITIALIZATION_20261009.md)。沿用固定 k-means decoder，随机标签初值可行：1200 starts 平均误分率 3.0596%；按同一 likelihood 选出的 10-start 最好解为 0.1000%，接近 k-means 标签起点的 0.0992%，两者 exact recovery 都是 86/120。1199/1200 随机 starts 收敛。这里仍有 k-means 建立的谱坐标；另测随机 decoder 加随机 labels 的单次 Poisson EM 误分率为 8.5096%，不能把主结果当作全流程已去掉 k-means。
 
 **最新接续（2026-10-09）：** [固定谱特征 likelihood 交替更新与独立种子复验](experiments/20261009_spectral_em/LIKELIHOOD_ALTERNATING_UPDATES_20261009.md)。此前 240 图之外新增 120 图：最佳固定 Poisson–Gaussian EM 120/120 收敛，平均误分率从 X-k-means 的 0.3454% 降到 0.0992%，exact recovery 从 73/120 到 86/120。拟合只读原始 A 的 top-K eigenpairs，不读 degree 或原始 A；精确逐节点 LOO 尚未实现。约 93% 的净改善来自第一次 likelihood 重新分组，后续交替更新额外收益较小。旧的 720 图 degree＋regularized-spectral 初始化实验另列于下，不能与本轮混为一批。

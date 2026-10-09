@@ -1,0 +1,63 @@
+{
+  "graphs": 120,
+  "profile_fitted_starts": 4800,
+  "profile_converged": 4800,
+  "matched_greedy_all1200": {
+    "runs": 1200,
+    "better": 57,
+    "tied": 1114,
+    "worse": 29,
+    "mean_error_poisson": 0.015652083333333334,
+    "mean_error_euclidean": 0.028697499999999997,
+    "exact_poisson": 853,
+    "exact_euclidean": 848
+  },
+  "matched_greedy_restart0": {
+    "runs": 120,
+    "better": 7,
+    "tied": 110,
+    "worse": 3,
+    "mean_error_poisson": 0.012691666666666667,
+    "mean_error_euclidean": 0.028954166666666666,
+    "exact_poisson": 85,
+    "exact_euclidean": 84
+  },
+  "matched_greedy_best10": {
+    "runs": 120,
+    "better": 0,
+    "tied": 120,
+    "worse": 0,
+    "mean_error_poisson": 0.0009666666666666667,
+    "mean_error_euclidean": 0.0009666666666666667,
+    "exact_poisson": 87,
+    "exact_euclidean": 87
+  },
+  "verification": {
+    "main_selected_predictions": 1440,
+    "main_restart_predictions": 3600,
+    "control_selected_predictions": 240,
+    "control_restart_predictions": 1200,
+    "errors_mismatches": 0,
+    "partition_mismatches_best10": 0
+  },
+  "PG_bridge": {
+    "fits": 720,
+    "converged": 720,
+    "best10_mean_error": 0.09499166666666667,
+    "exact": 78
+  },
+  "fixed_Y_PG_benchmark_status": {
+    "last_readable_complete_graph_checkpoints": 78,
+    "planned_graphs": 120,
+    "planned_fits": 6000,
+    "final_status": "unverified after runtime path configuration error",
+    "full_results_archived": false
+  },
+  "metadata": {
+    "loss": "Poisson working deviance on fractional dependent n-dimensional profiles",
+    "same_greedy_rng": "SeedSequence[graph_seed,307,restart,92173]",
+    "ordinary_rng_tags": "Euclidean101,Poisson211; independent schedules",
+    "selection": "minimum final profile deviance before truth access",
+    "main_PG_features": "frozen Y retains U-kmeans decoder"
+  }
+}
