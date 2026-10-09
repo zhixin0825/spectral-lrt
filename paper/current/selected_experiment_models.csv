@@ -17,3 +17,9 @@ symmetric2,raw_peel,40,0.015000000000000005,33,0.2,8
 unequal3,global_gain_no_update,40,0.03375,33,0.6,15
 unequal3,X_kmeans,40,0.12125000000000001,25,3.1,55
 unequal3,raw_peel,40,0.03375,33,0.6,15
+disassortative3,growing_global_gain_EM,40,0.31124999999999997,19,1.0999999999999999,178
+equal3,growing_global_gain_EM,40,0.0175,32,0.15,10
+heterogeneous3,growing_global_gain_EM,40,0.1625,18,0.6,97
+hierarchical4,growing_global_gain_EM,40,0.027499999999999997,28,0.3,15
+symmetric2,growing_global_gain_EM,40,0.015000000000000001,33,0.2,8
+unequal3,growing_global_gain_EM,40,0.03375,33,0.6,15

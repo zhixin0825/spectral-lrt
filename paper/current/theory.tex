@@ -318,7 +318,7 @@ We also verify that further EM updates remain in the required region. Let
 \]
 Choose a small fixed basin radius $\gamma_0>0$ so that the error bound from \eqref{eq:local-profile-fit} for $\gamma\le\gamma_0$ is less than $\kappa d_n/8$ in each score comparison for large $n$. Also choose a fixed small $t_0>0$ so that a row with
 $\|q_i-p_{z_i,*}\|_1\le t_0d_n$ has an observation-contrast error less than $\kappa d_n/8$.
-For such a row, the true-profile working margin is the Poisson divergence at least $\kappa d_n/2$, for large $n$. After the parameter and bounded weight corrections its correct-class margin is at least $\kappa d_n/4$.
+At the population observation $q_i=p_{z_i,*}$, the working margin equals $D_{\mathrm P}(p_{z_i,*}\Vert p_{b*})\ge\kappa d_n/2$ for large $n$. The specified row deviation costs at most $\kappa d_n/8$, and the fitted-parameter and bounded weight corrections together cost at most $\kappa d_n/8$, leaving a correct-class margin of at least $\kappa d_n/4$.
 The average-profile bound shows that the remaining rows constitute at most $a_n/t_0$ of all nodes. Thus the next E-step has aligned average responsibility error at most
 \[
  b_n=2a_n/t_0+2(K-1)e^{-\kappa d_n/4}\longrightarrow0.
