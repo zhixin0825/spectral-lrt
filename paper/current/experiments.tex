@@ -15,7 +15,7 @@ For each model, let $C^{(0)}$ be a fixed symmetric connectivity matrix and
 let $\pi$ be the vector of community proportions. We generate an undirected
 SBM without self-loops, with edge probabilities
 \begin{equation}
-  (B_n)_{ab}=\frac{\log n}{n}C_{ab},\qquad
+  P_{ab}=\frac{\log n}{n}C_{ab},\qquad
   C=\frac{\eta}{D_{\min}(C^{(0)},\pi)}C^{(0)},
   \label{eq:experiment_normalization}
 \end{equation}
@@ -85,7 +85,7 @@ not the original Bernoulli graph likelihood. Component means are unrestricted
 $n$-dimensional profile means. Every likelihood arm uses the same soft EM
 updates and observed working objective
 \begin{equation}
- \mathcal L(\widehat p,\widehat\pi)=\sum_{i=1}^n\log\left[
+ \mathcal L(\widehat\pi,\widehat p)=\sum_{i=1}^n\log\left[
    \sum_{a=1}^K \widehat\pi_a\exp\{\ell_i(\widehat p_a)\}\right].
 \end{equation}
 EM initializes equal component weights except when refitting a replacement
@@ -163,7 +163,7 @@ out of 120 graphs per batch. All profile arms use the same EM score.}
 \label{tab:experiment_summary}
 \begin{tabular}{lrrrr}
 \toprule
-&\widehat plticolumn{2}{c}{Design batch}&\widehat plticolumn{2}{c}{Independent batch}\\
+&\multicolumn{2}{c}{Design batch}&\multicolumn{2}{c}{Independent batch}\\
 Method&Error (\%)&Exact&Error (\%)&Exact\\
 \midrule
 Top-subset peeling + EM&0.3917&86&0.3725&77\\
@@ -197,7 +197,7 @@ claiming dominance on every graph.
 \label{tab:experiment_models}
 \begin{tabular}{lrrrr}
 \toprule
-&\widehat plticolumn{2}{c}{Growing global gain + EM}&\widehat plticolumn{2}{c}{$X$ $k$-means}\\
+&\multicolumn{2}{c}{Growing global gain + EM}&\multicolumn{2}{c}{$X$ $k$-means}\\
 Model&Error (\%)&Exact&Error (\%)&Exact\\
 \midrule
 Symmetric two-community&0.0150&33&0.0125&34\\

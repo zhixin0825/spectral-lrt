@@ -5,9 +5,9 @@
 
 \begin{proof}[Proof of Proposition~\ref{prop:exact-preservation}]
 Since $AU=U\Lambda$, multiplication by $U^\top$ gives
-$AQ=AUU^\top=U\Lambda U^\top=\widetilde A$.  Therefore
+$A\Pi=AUU^\top=U\Lambda U^\top=\widetilde A$.  Therefore
 $\widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w$.  If $w\in\operatorname{col}(U)$,
-then $Qw=w$ and the difference vanishes.
+then $\Pi w=w$ and the difference vanishes.
 
 Let $N=Z^\top Z=\operatorname{diag}(n_1,\ldots,n_K)$, which is
 nonsingular since all communities are nonempty.  The columns of
@@ -369,7 +369,7 @@ Also,
 $\|e\|_2\le C\sqrt n\eta_n$.  By Cauchy--Schwarz and projector
 leverage,
 \[
- |(Qw)_j|\le\|\Pi\mathbf e_j\|_2\|w\|_2
+ |(\Pi w)_j|\le\|\Pi\mathbf e_j\|_2\|w\|_2
  =\sqrt{\Pi_{jj}}\|w\|_2\le C\sqrt L,
 \]
 so $\|e\|_\infty\le M$ for a fixed positive constant $M$.
