@@ -48,8 +48,15 @@ P=\mathbb E[A\mid z]
 
 先给出统计任务、谱压缩的信息限制以及 oracle LRT benchmark，再按下表总结相关工作。以下均为原始论文入口；文献范围核对至本次日期，尚不是穷尽性的 novelty 排查。
 
+文献定位中引用 [Zhou–Li (2020), *Rate optimal Chernoff bound and application to community detection in the stochastic block models*](https://doi.org/10.1214/20-EJS1686)，说明其已研究 SBM 社区恢复的 optimal rate。正文可简述为：
+
+> Zhou and Li (2020) studied optimal error rates for community detection in stochastic block models.
+
+本文采用简洁的指数形式 \(e^{-(1+o(1))I_n}\) 表述恢复率目标，\(I_n\) 包含密度尺度；不在本文展开 Zhou–Li 的精细 rate 表达式、前因子或余项分析。本文的理论任务是证明谱信息构造的分类分数达到相应的领先错误指数。
+
 | 研究线 | 原始文献与已有结果 | 本文需要区别的地方 |
 |---|---|---|
+| SBM 社区恢复的 optimal rate | [Zhou–Li, EJS 2020](https://doi.org/10.1214/20-EJS1686)：研究社区恢复的 optimal rate | 引用已有最优率工作，本文仅采用简洁指数形式，重点分析谱分类分数 |
 | General SBM 的信息论界和 likelihood 分类 | [Abbe–Sandon, 2015](https://arxiv.org/abs/1503.00609)：CH divergence 刻画 logarithmic regime 的 exact recovery 阈值，并给出达到阈值的高效算法 | 定义 oracle 与 CH benchmark；本文限制后续只读 eigenpairs |
 | 谱方法本身的最优性 | [Abbe–Fan–Wang–Zhong, AoS 2020](https://arxiv.org/pdf/1709.09565)，Theorem 3.2：二等大对称社区、logarithmic density，未 trimming/cleaning 的第二特征向量符号法达到最优阈值及误分指数 | 该特例不是新的；本文应解释 general block matrix 的 LLR contrasts |
 | 谱初始化后 likelihood refinement | [Gao–Ma–Zhang–Zhou, JMLR 2017](https://www.jmlr.org/papers/volume18/16-245/16-245.pdf)：弱一致初始化后用局部 penalized likelihood 达到最优误分率 | 其 refinement 使用原始 A；本文的后续分数必须由保存的谱信息计算 |
@@ -149,19 +156,15 @@ I_{ab}=D_+(\alpha_a,\alpha_b)
 \qquad I_*=\min_{a\ne b}I_{ab}.
 \]
 
-拟证明的“nearly optimal”是 oracle leading exponent：例如对合适定义的成对 Bayes 分类风险 \(R_{ab}\)，
+记 \(I_n=n\rho_n I_*\)，它是上述固定 B 稀疏模型下的最小社区间 Chernoff 信息的领先尺度。拟证明的“nearly optimal”以简洁指数形式表述：全体标签的置换不变平均误分率 r 满足
 
 \[
--\frac{\log R_{ab}^{\rm spec}}{n\rho_n}\longrightarrow I_{ab},
+\mathbb E r(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]
 
-并希望得到全体标签的置换不变平均误分率 r 满足
+在 \(\rho_n=\log n/n\) 时，\(I_n=I_*\log n\)，由此推出 \(I_*>1\) 时 exact recovery。Zhou–Li 已研究 optimal rate，本文在文献部分引用，不重述其精细 rate。这里的 \(o(1)\) 仅表达本文所要求的领先指数精度。
 
-\[
-\mathbb E r(\widehat z,z)\le n^{-I_*+o(1)}
-\]
-
-以及 \(I_*>1\) 时 exact recovery 的推论。边界 \(I_*=1\)、零连接概率、退化 B 和随 n 改变的 K 暂不声称覆盖。对成对风险、全局风险与 minimax 参数空间的 lower bound 要分别定义；不能用一句 oracle optimality 混过去。
+边界 \(I_*=1\)、零连接概率、退化 B 和随 n 改变的 K 暂不声称覆盖。成对分类风险、全局风险和 minimax 参数空间须分别定义。
 
 **这些是当前稿的主定理目标，不是本轮已经证明的主定理。** 初始化次模保证、目标收敛和 240 图实验不能代替 score 尾部等价。至少需要证明：初值进入合适区域、估计的 log contrasts 足够准确、EM/替换终点满足该准确性，以及经验谱/clip 的误差不会改变领先 Chernoff 指数。LOO 可以作为分析工具，但不能在算法需要只读现存 eigenpairs 时暗中增加逐节点读取原 A 的计算步骤。
 
@@ -170,8 +173,8 @@ I_{ab}=D_+(\alpha_a,\alpha_b)
 先取 \(1\ll d_n=n\rho_n\ll\log n\)，讨论 almost exact recovery 与
 
 \[
-\mathbb E r(\widehat z,z)\lesssim
-\exp\{-(1-o(1))d_nI_*\}.
+\mathbb E r(\widehat z,z)\le e^{-(1+o(1))I_n},
+\qquad I_n=d_nI_*.
 \]
 
 固定正 B 的这个密度范围通常不可能 exact recovery，不能把 Section 3 的 exact 推论直接延用。低密度还要处理高 degree 导致的噪音谱方向；regularized eigenpairs 和相应的权重补偿应在本节明确引入，并重新证明它们保留哪些 LLR 方向。
