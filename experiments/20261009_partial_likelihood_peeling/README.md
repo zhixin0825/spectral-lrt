@@ -14,3 +14,10 @@ python population.py
 The saved numerical-records arrays contain exactly the required `u`, `lam`, `truth_evaluation_only`, and `baseline_km_X` keys; fitting never reads the last two. Compact tables are archived here; complete numerical inputs, selected groups, candidate totals, parameters and traces are in the separately saved numerical archive.
 
 The comparison reuses the prior 120 spectra rather than an independent test set. These spectral working scores are not exact graph or exact leave-one-out likelihoods.
+
+
+## Diagnosis of the balanced graph failure
+
+[Detailed diagnosis](failure_diagnosis/REPORT_20261009.md): communities 1/3 are closest but retain clear spectral separation. The second singleton parameter lies near their merged mean, while first/third seeds represent community 2. Initial EM already merges 1/3 and splits 2. Tightening convergence to 1e-10 still yields 40% error after 517 iterations; replacing only the mixed second parameter by its true-community mean restores 0.05% error. Truth-based replacements are diagnostic interventions only.
+
+With the complete saved numerical records extracted under `results/arrays` and `results/runs`, run `python failure_diagnosis.py` and `python plot_failure.py`. The plot and all distances are post-hoc explanations. Existing 120-graph outcome tables are unchanged.
