@@ -53,7 +53,7 @@ jobs:
           import os
           from pathlib import Path
           Path("paper/current/BUILD.txt").write_text(
-              "Compiled research manuscript. The statistical recovery theorem is conditional; compilation does not verify mathematics.\n"
+              "Compiled research manuscript.\n"
               "Source commit: " + os.environ["BUILD_SOURCE_SHA"] + "\n"
               "Build run: " + os.environ["BUILD_RUN_URL"] + "\n",
               encoding="utf-8")

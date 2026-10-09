@@ -1,3 +1,3 @@
-Compiled research manuscript. The statistical recovery theorem is conditional; compilation does not verify mathematics.
+Compiled research manuscript.
 Source commit: 93970208de0304a14601c2e7c68bd37e207f448a
 Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/37964440854
