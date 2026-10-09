@@ -1,5 +1,7 @@
 # Spectral information and likelihood-ratio inference for the SBM
 
+**随机分组初值复验（2026-10-09）：** [120 图、每图 10 个随机 EM starts 的结果](experiments/20261009_spectral_em/RANDOM_INITIALIZATION_20261009.md)。沿用固定 k-means decoder，随机标签初值可行：1200 starts 平均误分率 3.0596%；按同一 likelihood 选出的 10-start 最好解为 0.1000%，接近 k-means 标签起点的 0.0992%，两者 exact recovery 都是 86/120。1199/1200 随机 starts 收敛。这里仍有 k-means 建立的谱坐标；另测随机 decoder 加随机 labels 的单次 Poisson EM 误分率为 8.5096%，不能把主结果当作全流程已去掉 k-means。
+
 **最新接续（2026-10-09）：** [固定谱特征 likelihood 交替更新与独立种子复验](experiments/20261009_spectral_em/LIKELIHOOD_ALTERNATING_UPDATES_20261009.md)。此前 240 图之外新增 120 图：最佳固定 Poisson–Gaussian EM 120/120 收敛，平均误分率从 X-k-means 的 0.3454% 降到 0.0992%，exact recovery 从 73/120 到 86/120。拟合只读原始 A 的 top-K eigenpairs，不读 degree 或原始 A；精确逐节点 LOO 尚未实现。约 93% 的净改善来自第一次 likelihood 重新分组，后续交替更新额外收益较小。旧的 720 图 degree＋regularized-spectral 初始化实验另列于下，不能与本轮混为一批。
 
 本倉庫保存 **SBM 的 degree＋低秩譜資訊、likelihood 初始化，以及與 oracle LRT 的關係**這條研究線的目前成果。

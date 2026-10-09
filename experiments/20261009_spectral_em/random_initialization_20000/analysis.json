@@ -1,0 +1,87 @@
+{
+  "graphs": 120,
+  "records": 1800,
+  "overall": {
+    "km_X": {
+      "fits": 120,
+      "mean_error": 0.0034541666666666666,
+      "exact": 73,
+      "converged": 0,
+      "mean_iter": 0.0,
+      "max_iter": 0.0
+    },
+    "km_start_PG": {
+      "fits": 120,
+      "mean_error": 0.0009916666666666665,
+      "exact": 86,
+      "converged": 120,
+      "mean_iter": 8.125,
+      "max_iter": 40.0
+    },
+    "random_Gaussian_X": {
+      "fits": 120,
+      "mean_error": 0.07003333333333334,
+      "exact": 71,
+      "converged": 120,
+      "mean_iter": 30.5,
+      "max_iter": 172.0
+    },
+    "random_H_and_labels_PG": {
+      "fits": 120,
+      "mean_error": 0.08509583333333334,
+      "exact": 35,
+      "converged": 120,
+      "mean_iter": 9.15,
+      "max_iter": 52.0
+    },
+    "random_PG_0": {
+      "fits": 120,
+      "mean_error": 0.0229375,
+      "exact": 80,
+      "converged": 120,
+      "mean_iter": 18.716666666666665,
+      "max_iter": 245.0
+    },
+    "random_PG_all": {
+      "fits": 1200,
+      "mean_error": 0.030595833333333336,
+      "exact": 774,
+      "converged": 1199,
+      "mean_iter": 19.041666666666668,
+      "max_iter": 300.0
+    },
+    "random_PG_best": {
+      "fits": 120,
+      "mean_error": 0.001,
+      "exact": 86,
+      "converged": 120,
+      "mean_iter": 15.941666666666666,
+      "max_iter": 130.0
+    }
+  },
+  "same_fixed_model_comparisons": [
+    {
+      "method": "random_PG_0",
+      "baseline": "km_start_PG",
+      "better_errors": 0,
+      "tied_errors": 112,
+      "worse_errors": 8,
+      "material_higher_objective": 19,
+      "material_lower_objective": 19
+    },
+    {
+      "method": "random_PG_best",
+      "baseline": "km_start_PG",
+      "better_errors": 0,
+      "tied_errors": 119,
+      "worse_errors": 1,
+      "material_higher_objective": 30,
+      "material_lower_objective": 9
+    }
+  ],
+  "random_starts_any_exact_graphs": 86,
+  "random_starts_all_exact_graphs": 50,
+  "random_starts_any_sub1pct_graphs": 120,
+  "random_decoder_cond_min": 17.16168417509101,
+  "random_decoder_cond_max": 3529.436934905678
+}

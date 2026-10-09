@@ -1,0 +1,19 @@
+{
+  "input": "independent_20000/inputs",
+  "out": "random_initialization_20000",
+  "starts": 10,
+  "max_iter": 300,
+  "workers": 8,
+  "graphs": 120,
+  "created_before_fitting": true,
+  "initialization": "uniformly randomized balanced K labels, not oracle proportions",
+  "same_labels_across_arms": true,
+  "tau": 1.0,
+  "tol": 1e-06,
+  "preferred_PG_features": "inherited frozen Y from U-kmeans calibration; this retains a k-means decoder",
+  "random_decoder": "separate diagnostic with H from random labels; different likelihood scale",
+  "Gaussian_X": "fixed globally standardized sqrt(n) U Lambda; no decoder or k-means in this arm",
+  "truth_access": "after all fits and likelihood restart selection",
+  "selection": "best terminal observed likelihood, irrespective of recovery or convergence flag",
+  "scope": "working likelihood only; exact LOO not implemented"
+}
