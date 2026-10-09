@@ -54,6 +54,8 @@ P=\mathbb E[A\mid z]
 
 本文采用简洁的指数形式 \(e^{-(1+o(1))I_n}\) 表述恢复率目标，\(I_n\) 包含密度尺度；不在本文展开 Zhou–Li 的精细 rate 表达式、前因子或余项分析。本文的理论任务是证明谱信息构造的分类分数达到相应的领先错误指数。
 
+全文将 “nearly optimal” 限定为领先错误指数的匹配。除非另有完整证明，不声称谱算法达到更精细的 optimal rate；Zhou–Li 的 optimal rate 结果只在相关工作中引用。
+
 | 研究线 | 原始文献与已有结果 | 本文需要区别的地方 |
 |---|---|---|
 | SBM 社区恢复的 optimal rate | [Zhou–Li, EJS 2020](https://doi.org/10.1214/20-EJS1686)：研究社区恢复的 optimal rate | 引用已有最优率工作，本文仅采用简洁指数形式，重点分析谱分类分数 |
@@ -162,7 +164,7 @@ I_{ab}=D_+(\alpha_a,\alpha_b)
 \mathbb E r(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]
 
-在 \(\rho_n=\log n/n\) 时，\(I_n=I_*\log n\)，由此推出 \(I_*>1\) 时 exact recovery。Zhou–Li 已研究 optimal rate，本文在文献部分引用，不重述其精细 rate。这里的 \(o(1)\) 仅表达本文所要求的领先指数精度。
+在 \(\rho_n=\log n/n\) 时，\(I_n=I_*\log n\)；若上述误分率上界得到证明，则可推出 \(I_*>1\) 时 exact recovery。Zhou–Li 已研究 optimal rate，本文在文献部分引用，不重述其精细 rate。这里的 \(o(1)\) 仅表达本文所要求的领先指数精度。
 
 边界 \(I_*=1\)、零连接概率、退化 B 和随 n 改变的 K 暂不声称覆盖。成对分类风险、全局风险和 minimax 参数空间须分别定义。
 
