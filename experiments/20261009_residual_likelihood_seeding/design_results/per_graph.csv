@@ -1,0 +1,1201 @@
+graph,model,n,k,ch,seed,method,errors,error_rate,exact,objective,n_iter,converged,worst_objective_delta,seed_classes,seed_coverage
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,Euclidean_X_pp_single_EM,3,0.003,0,-97721.77990067648,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,X_kmeans,3,0.003,0,,,,,,
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,global_gain_no_update,3,0.003,0,-97721.77990948671,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,growing_global_gain_EM,3,0.003,0,-97721.78035555902,4.0,True,0.0,"[2, 1]",2.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,growing_sampled_gain_EM,3,0.003,0,-97721.77995498103,5.0,True,0.0,"[1, 2]",2.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,raw_peel,3,0.003,0,-97721.77992975022,5.0,True,0.0,"[0, 1, 0]",2.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,raw_peel_repaired,3,0.003,0,-97721.77989633943,2.0,True,0.0,,
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,residual_greedy_pp_best10,3,0.003,0,-97721.77992485673,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,residual_greedy_pp_single,3,0.003,0,-97721.7801080803,4.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch0.8_s20000,disassortative3,1000,3,0.8,20000,residual_pp_single,3,0.003,0,-97721.77993726902,5.0,True,0.0,"[2, 1, 2]",2.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,Euclidean_X_pp_single_EM,6,0.006,0,-96272.69605925801,5.0,True,0.0,"[0, 1, 1]",2.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,X_kmeans,7,0.007,0,,,,,,
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,global_gain_no_update,6,0.006,0,-96272.69609960851,4.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,growing_global_gain_EM,6,0.006,0,-96272.69596322114,5.0,True,0.0,"[0, 1]",2.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,growing_sampled_gain_EM,6,0.006,0,-96272.69595361361,5.0,True,0.0,"[2, 1]",2.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,raw_peel,6,0.006,0,-96272.69608860515,8.0,True,0.0,"[1, 0, 1]",2.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,raw_peel_repaired,6,0.006,0,-96272.6959640909,3.0,True,0.0,,
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,residual_greedy_pp_best10,6,0.006,0,-96272.69595799549,5.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,residual_greedy_pp_single,6,0.006,0,-96272.69596054009,5.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch0.8_s20001,disassortative3,1000,3,0.8,20001,residual_pp_single,6,0.006,0,-96272.69669953217,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,Euclidean_X_pp_single_EM,8,0.008,0,-95988.74543357937,4.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,X_kmeans,8,0.008,0,,,,,,
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,global_gain_no_update,8,0.008,0,-95988.74536376799,5.0,True,0.0,"[2, 0, 2]",2.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,growing_global_gain_EM,8,0.008,0,-95988.74537612402,5.0,True,0.0,"[0, 1]",2.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,growing_sampled_gain_EM,8,0.008,0,-95988.7460543102,5.0,True,0.0,"[0, 2]",2.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,raw_peel,8,0.008,0,-95988.7454645934,5.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,raw_peel_repaired,8,0.008,0,-95988.74534835777,3.0,True,0.0,,
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,residual_greedy_pp_best10,8,0.008,0,-95988.74535684835,5.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,residual_greedy_pp_single,8,0.008,0,-95988.74569500446,4.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch0.8_s20002,disassortative3,1000,3,0.8,20002,residual_pp_single,8,0.008,0,-95988.745421078,12.0,True,0.0,"[0, 1, 1]",2.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,Euclidean_X_pp_single_EM,7,0.007,0,-96242.51316090985,5.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,X_kmeans,7,0.007,0,,,,,,
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,global_gain_no_update,7,0.007,0,-96242.51325962649,4.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,growing_global_gain_EM,7,0.007,0,-96242.51331847411,4.0,True,0.0,"[0, 1]",2.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,growing_sampled_gain_EM,7,0.007,0,-96242.51314933071,5.0,True,0.0,"[1, 2]",2.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,raw_peel,7,0.007,0,-96242.51315945812,4.0,True,0.0,"[2, 2, 0]",2.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,raw_peel_repaired,7,0.007,0,-96242.51315945812,4.0,True,0.0,,
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,residual_greedy_pp_best10,7,0.007,0,-96242.51314790988,33.0,True,0.0,"[2, 1, 1]",2.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,residual_greedy_pp_single,7,0.007,0,-96242.51323972116,4.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch0.8_s20003,disassortative3,1000,3,0.8,20003,residual_pp_single,7,0.007,0,-96242.51326895454,6.0,True,0.0,"[1, 2, 1]",2.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,Euclidean_X_pp_single_EM,6,0.006,0,-95693.05916526735,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,X_kmeans,6,0.006,0,,,,,,
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,global_gain_no_update,6,0.006,0,-95693.05916344846,4.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,growing_global_gain_EM,6,0.006,0,-95693.05959593339,4.0,True,0.0,"[0, 2]",2.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,growing_sampled_gain_EM,6,0.006,0,-95693.0593617866,4.0,True,0.0,"[2, 1]",2.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,raw_peel,6,0.006,0,-95693.05916826616,5.0,True,0.0,"[2, 1, 2]",2.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,raw_peel_repaired,6,0.006,0,-95693.05915082301,3.0,True,0.0,,
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,residual_greedy_pp_best10,6,0.006,0,-95693.05914889702,5.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,residual_greedy_pp_single,6,0.006,0,-95693.05915079288,13.0,True,0.0,"[2, 1, 2]",2.0
+disassortative3_n1000_ch0.8_s20004,disassortative3,1000,3,0.8,20004,residual_pp_single,6,0.006,0,-95693.0591545501,4.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-147382.9096801376,2.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,global_gain_no_update,0,0.0,1,-147382.909680043,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-147382.90968004285,3.0,True,0.0,"[1, 0]",2.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-147382.90968004285,4.0,True,0.0,"[1, 2]",2.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,raw_peel,0,0.0,1,-147382.909680043,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-147382.909680043,3.0,True,0.0,,
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-147382.90968004285,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-147382.90968004285,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20000,disassortative3,1000,3,1.4,20000,residual_pp_single,0,0.0,1,-147382.90968004282,5.0,True,0.0,"[2, 1, 2]",2.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,global_gain_no_update,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-145863.6766195013,3.0,True,0.0,"[2, 1]",2.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[1, 0]",2.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,raw_peel,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-145863.67661950027,3.0,True,0.0,,
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-145863.67661950024,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20001,disassortative3,1000,3,1.4,20001,residual_pp_single,0,0.0,1,-145863.67661950027,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,global_gain_no_update,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[0, 2]",2.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-145429.20253497263,4.0,True,0.0,"[1, 2]",2.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,raw_peel,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-145429.20253497263,3.0,True,0.0,,
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20002,disassortative3,1000,3,1.4,20002,residual_pp_single,0,0.0,1,-145429.20253497263,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,global_gain_no_update,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[1, 2]",2.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[2, 1]",2.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,raw_peel,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-145597.23273789667,3.0,True,0.0,,
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-145597.23273789667,2.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-145597.23273789667,2.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20003,disassortative3,1000,3,1.4,20003,residual_pp_single,0,0.0,1,-145597.23273789667,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-145504.92247765558,3.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,global_gain_no_update,0,0.0,1,-145504.9224776532,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-145504.92247774088,3.0,True,0.0,"[0, 2]",2.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-145504.92247776344,3.0,True,0.0,"[1, 0]",2.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,raw_peel,0,0.0,1,-145504.92247765296,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-145504.92247765296,3.0,True,0.0,,
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-145504.92247765296,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-145504.9224776569,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n1000_ch1.4_s20004,disassortative3,1000,3,1.4,20004,residual_pp_single,0,0.0,1,-145504.9224776778,5.0,True,0.0,"[2, 2, 0]",2.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,Euclidean_X_pp_single_EM,12,0.006,0,-241719.64125487304,6.0,True,0.0,"[1, 0, 1]",2.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,X_kmeans,12,0.006,0,,,,,,
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,global_gain_no_update,12,0.006,0,-241719.6412229522,4.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,growing_global_gain_EM,12,0.006,0,-241719.6412865784,4.0,True,0.0,"[0, 1]",2.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,growing_sampled_gain_EM,12,0.006,0,-241719.64122793332,5.0,True,0.0,"[2, 0]",2.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,raw_peel,12,0.006,0,-241719.64121625095,6.0,True,0.0,"[1, 0, 1]",2.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,raw_peel_repaired,12,0.006,0,-241719.64121625095,6.0,True,0.0,,
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,residual_greedy_pp_best10,12,0.006,0,-241719.64120984665,5.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,residual_greedy_pp_single,12,0.006,0,-241719.64120984665,5.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch0.8_s20000,disassortative3,2000,3,0.8,20000,residual_pp_single,12,0.006,0,-241719.64122621232,5.0,True,0.0,"[0, 2, 0]",2.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,Euclidean_X_pp_single_EM,15,0.0075,0,-235550.18293460383,4.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,X_kmeans,15,0.0075,0,,,,,,
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,global_gain_no_update,15,0.0075,0,-235550.18245119712,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,growing_global_gain_EM,15,0.0075,0,-235550.18245254506,4.0,True,0.0,"[0, 1]",2.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,growing_sampled_gain_EM,15,0.0075,0,-235550.18247020093,5.0,True,0.0,"[1, 2]",2.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,raw_peel,15,0.0075,0,-235550.1823190352,5.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,raw_peel_repaired,15,0.0075,0,-235550.1823190352,5.0,True,0.0,,
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,residual_greedy_pp_best10,15,0.0075,0,-235550.1823046027,5.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,residual_greedy_pp_single,15,0.0075,0,-235550.18259835482,4.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch0.8_s20001,disassortative3,2000,3,0.8,20001,residual_pp_single,15,0.0075,0,-235550.18235810817,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,Euclidean_X_pp_single_EM,6,0.003,0,-236361.97106497275,14.0,True,0.0,"[0, 1, 1]",2.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,X_kmeans,6,0.003,0,,,,,,
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,global_gain_no_update,6,0.003,0,-236361.97096237185,4.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,growing_global_gain_EM,6,0.003,0,-236361.97095673392,4.0,True,0.0,"[2, 1]",2.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,growing_sampled_gain_EM,6,0.003,0,-236361.9709529879,5.0,True,0.0,"[2, 1]",2.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,raw_peel,6,0.003,0,-236361.9709545324,6.0,True,0.0,"[0, 1, 0]",2.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,raw_peel_repaired,6,0.003,0,-236361.9709545324,6.0,True,0.0,,
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,residual_greedy_pp_best10,6,0.003,0,-236361.97094843423,5.0,True,0.0,"[2, 1, 1]",2.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,residual_greedy_pp_single,6,0.003,0,-236361.97107334656,4.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20002,disassortative3,2000,3,0.8,20002,residual_pp_single,6,0.003,0,-236361.9710037745,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,Euclidean_X_pp_single_EM,11,0.0055,0,-239392.59855641235,6.0,True,0.0,"[1, 2, 1]",2.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,X_kmeans,11,0.0055,0,,,,,,
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,global_gain_no_update,11,0.0055,0,-239392.59845461728,4.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,growing_global_gain_EM,11,0.0055,0,-239392.59902197335,4.0,True,0.0,"[1, 2]",2.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,growing_sampled_gain_EM,11,0.0055,0,-239392.59888776793,4.0,True,0.0,"[1, 0]",2.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,raw_peel,11,0.0055,0,-239392.59826768347,5.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,raw_peel_repaired,11,0.0055,0,-239392.59826768347,5.0,True,0.0,,
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,residual_greedy_pp_best10,11,0.0055,0,-239392.59827856557,5.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,residual_greedy_pp_single,11,0.0055,0,-239392.59827856557,5.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20003,disassortative3,2000,3,0.8,20003,residual_pp_single,11,0.0055,0,-239392.59829934867,21.0,True,0.0,"[1, 2, 2]",2.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,Euclidean_X_pp_single_EM,13,0.0065,0,-239333.53121273965,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,X_kmeans,14,0.007,0,,,,,,
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,global_gain_no_update,13,0.0065,0,-239333.53085677142,4.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,growing_global_gain_EM,13,0.0065,0,-239333.53093585442,4.0,True,0.0,"[2, 1]",2.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,growing_sampled_gain_EM,13,0.0065,0,-239333.53088028706,5.0,True,0.0,"[0, 1]",2.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,raw_peel,13,0.0065,0,-239333.5311595465,4.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,raw_peel_repaired,13,0.0065,0,-239333.53082144208,3.0,True,0.0,,
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,residual_greedy_pp_best10,13,0.0065,0,-239333.53080513948,4.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,residual_greedy_pp_single,13,0.0065,0,-239333.53081974667,4.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch0.8_s20004,disassortative3,2000,3,0.8,20004,residual_pp_single,13,0.0065,0,-239333.5313045304,6.0,True,0.0,"[0, 1, 0]",2.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,global_gain_no_update,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[0, 2]",2.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[1, 2]",2.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,raw_peel,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-370862.5198597661,3.0,True,0.0,,
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch1.4_s20000,disassortative3,2000,3,1.4,20000,residual_pp_single,0,0.0,1,-370862.5198597661,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-366797.2050528433,3.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,global_gain_no_update,0,0.0,1,-366797.2050528431,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-366797.20505284314,3.0,True,0.0,"[0, 1]",2.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-366797.2050528431,3.0,True,0.0,"[2, 0]",2.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,raw_peel,0,0.0,1,-366797.20505284314,3.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-366797.20505284314,3.0,True,0.0,,
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-366797.2050528431,3.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-366797.20505284367,3.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch1.4_s20001,disassortative3,2000,3,1.4,20001,residual_pp_single,0,0.0,1,-366797.205052843,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-366534.28473139636,3.0,True,0.0,"[0, 1, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,global_gain_no_update,0,0.0,1,-366534.28473139636,2.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-366534.2847313964,3.0,True,0.0,"[2, 1]",2.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-366534.28473139636,3.0,True,0.0,"[0, 2]",2.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,raw_peel,0,0.0,1,-366534.28473139636,2.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-366534.28473139636,2.0,True,0.0,,
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-366534.28473139636,2.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-366534.28473139636,2.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20002,disassortative3,2000,3,1.4,20002,residual_pp_single,0,0.0,1,-366534.28473139636,2.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-369249.8319347089,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,global_gain_no_update,0,0.0,1,-369249.831934709,2.0,True,0.0,"[2, 1, 0]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-369249.8319347089,3.0,True,0.0,"[1, 0]",2.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-369249.8319347089,3.0,True,0.0,"[1, 0]",2.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,raw_peel,0,0.0,1,-369249.83193470904,2.0,True,0.0,"[2, 0, 1]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-369249.83193470904,2.0,True,0.0,,
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-369249.83193470887,3.0,True,0.0,"[0, 2, 1]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-369249.8319347089,2.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n2000_ch1.4_s20003,disassortative3,2000,3,1.4,20003,residual_pp_single,0,0.0,1,-369249.8319347092,2.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,Euclidean_X_pp_single_EM,870,0.435,0,-379764.22749092564,12.0,True,0.0,"[2, 1, 1]",2.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,global_gain_no_update,0,0.0,1,-368771.7107162922,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-368771.71071629226,3.0,True,0.0,"[2, 0]",2.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-368771.71071629226,3.0,True,0.0,"[0, 1]",2.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,raw_peel,0,0.0,1,-368771.71071629226,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-368771.71071629226,3.0,True,0.0,,
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-368771.71071629226,3.0,True,0.0,"[1, 0, 2]",3.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-368771.7107162924,3.0,True,0.0,"[1, 2, 0]",3.0
+disassortative3_n2000_ch1.4_s20004,disassortative3,2000,3,1.4,20004,residual_pp_single,0,0.0,1,-368771.71071629226,4.0,True,0.0,"[0, 2, 0]",2.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,Euclidean_X_pp_single_EM,1,0.001,0,-102694.05368157566,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,X_kmeans,1,0.001,0,,,,,,
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,global_gain_no_update,1,0.001,0,-102694.05362975983,4.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,growing_global_gain_EM,1,0.001,0,-102694.05363003175,4.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,growing_sampled_gain_EM,1,0.001,0,-102694.0536298606,4.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,raw_peel,1,0.001,0,-102694.05368677818,3.0,True,0.0,"[0, 1, 0]",2.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,raw_peel_repaired,1,0.001,0,-102694.05362949314,2.0,True,0.0,,
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,residual_greedy_pp_best10,1,0.001,0,-102694.05362971616,4.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,residual_greedy_pp_single,1,0.001,0,-102694.05365354553,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch0.8_s20000,equal3,1000,3,0.8,20000,residual_pp_single,1,0.001,0,-102694.05370925592,47.0,True,0.0,"[2, 0, 0]",2.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,Euclidean_X_pp_single_EM,0,0.0,1,-99411.9797947354,2.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,global_gain_no_update,0,0.0,1,-99411.97981670513,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,growing_global_gain_EM,0,0.0,1,-99411.97979540771,4.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,growing_sampled_gain_EM,0,0.0,1,-99411.97980993072,3.0,True,0.0,"[2, 0]",2.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,raw_peel,0,0.0,1,-99411.97979379448,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,raw_peel_repaired,0,0.0,1,-99411.97979379448,3.0,True,0.0,,
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,residual_greedy_pp_best10,0,0.0,1,-99411.97979293103,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,residual_greedy_pp_single,0,0.0,1,-99411.97979762612,4.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch0.8_s20001,equal3,1000,3,0.8,20001,residual_pp_single,0,0.0,1,-99411.97989083124,4.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,Euclidean_X_pp_single_EM,0,0.0,1,-100442.15161105225,4.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,global_gain_no_update,0,0.0,1,-100442.1516088383,4.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,growing_global_gain_EM,0,0.0,1,-100442.15160743182,4.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,growing_sampled_gain_EM,0,0.0,1,-100442.1516588081,3.0,True,0.0,"[0, 2]",2.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,raw_peel,0,0.0,1,-100442.15160760394,4.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,raw_peel_repaired,0,0.0,1,-100442.15160760394,4.0,True,0.0,,
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,residual_greedy_pp_best10,0,0.0,1,-100442.15160706751,3.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,residual_greedy_pp_single,0,0.0,1,-100442.15166531198,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch0.8_s20002,equal3,1000,3,0.8,20002,residual_pp_single,0,0.0,1,-100442.15161329163,3.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-101861.15688993056,4.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,global_gain_no_update,0,0.0,1,-101861.15688300593,4.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,growing_global_gain_EM,0,0.0,1,-101861.15688550263,4.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-101861.15688336382,5.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,raw_peel,0,0.0,1,-101861.15688300593,4.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,raw_peel_repaired,0,0.0,1,-101861.15688300593,4.0,True,0.0,,
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-101861.15688251182,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,residual_greedy_pp_single,0,0.0,1,-101861.15691603205,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20003,equal3,1000,3,0.8,20003,residual_pp_single,0,0.0,1,-101861.15688390509,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,Euclidean_X_pp_single_EM,1,0.001,0,-100998.46032327888,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,X_kmeans,1,0.001,0,,,,,,
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,global_gain_no_update,1,0.001,0,-100998.46032743735,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,growing_global_gain_EM,1,0.001,0,-100998.46032331843,4.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,growing_sampled_gain_EM,1,0.001,0,-100998.46032331613,4.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,raw_peel,1,0.001,0,-100998.46033257604,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,raw_peel_repaired,1,0.001,0,-100998.46033257604,3.0,True,0.0,,
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,residual_greedy_pp_best10,1,0.001,0,-100998.46032329311,4.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,residual_greedy_pp_single,1,0.001,0,-100998.46032331328,3.0,True,0.0,"[2, 0, 1]",3.0
+equal3_n1000_ch0.8_s20004,equal3,1000,3,0.8,20004,residual_pp_single,1,0.001,0,-100998.46032355752,4.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-153771.79175428324,2.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,global_gain_no_update,0,0.0,1,-153771.79175428324,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-153771.79175428324,3.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-153771.79175428324,3.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,raw_peel,0,0.0,1,-153771.79175428324,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-153771.79175428324,2.0,True,0.0,,
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-153771.79175428321,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-153771.79175428321,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20000,equal3,1000,3,1.4,20000,residual_pp_single,0,0.0,1,-153771.79175428324,2.0,True,0.0,"[2, 0, 1]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-151506.51969021797,2.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,global_gain_no_update,0,0.0,1,-151506.51969021795,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-151506.51969021795,3.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-151506.51969021795,3.0,True,0.0,"[0, 2]",2.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,raw_peel,0,0.0,1,-151506.51969021795,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-151506.51969021795,2.0,True,0.0,,
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-151506.51969021792,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-151506.51969021795,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20001,equal3,1000,3,1.4,20001,residual_pp_single,0,0.0,1,-151506.51969021795,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-153115.80817185162,2.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,global_gain_no_update,0,0.0,1,-153115.8081718516,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-153115.80817185162,3.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-153115.80817185162,3.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,raw_peel,0,0.0,1,-153115.80817185162,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-153115.80817185162,2.0,True,0.0,,
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-153115.8081718516,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-153115.8081718516,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20002,equal3,1000,3,1.4,20002,residual_pp_single,0,0.0,1,-153115.8081718516,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-154259.10668809904,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,global_gain_no_update,0,0.0,1,-154259.1066880991,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-154259.10668809904,3.0,True,0.0,"[1, 0]",2.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-154259.10668809904,3.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,raw_peel,0,0.0,1,-154259.10668809904,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-154259.10668809904,2.0,True,0.0,,
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-154259.10668809904,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-154259.10668809907,2.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch1.4_s20003,equal3,1000,3,1.4,20003,residual_pp_single,0,0.0,1,-154259.10668809904,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-153526.6822144356,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,global_gain_no_update,0,0.0,1,-153526.6822144356,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-153526.6822144356,3.0,True,0.0,"[1, 2]",2.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-153526.6822144356,3.0,True,0.0,"[0, 2]",2.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,raw_peel,0,0.0,1,-153526.6822144356,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-153526.6822144356,2.0,True,0.0,,
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-153526.68221443557,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-153526.6822144356,2.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n1000_ch1.4_s20004,equal3,1000,3,1.4,20004,residual_pp_single,0,0.0,1,-153526.6822144356,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,Euclidean_X_pp_single_EM,0,0.0,1,-257106.85697666643,4.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,global_gain_no_update,0,0.0,1,-257106.85698334937,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,growing_global_gain_EM,0,0.0,1,-257106.85703161688,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,growing_sampled_gain_EM,0,0.0,1,-257106.85702868138,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,raw_peel,0,0.0,1,-257106.85698334937,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,raw_peel_repaired,0,0.0,1,-257106.85698334937,3.0,True,0.0,,
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,residual_greedy_pp_best10,0,0.0,1,-257106.85697664105,3.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,residual_greedy_pp_single,0,0.0,1,-257106.85697840166,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20000,equal3,2000,3,0.8,20000,residual_pp_single,0,0.0,1,-257106.85703233271,3.0,True,0.0,"[0, 2, 1]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,Euclidean_X_pp_single_EM,0,0.0,1,-253411.4457927086,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,global_gain_no_update,0,0.0,1,-253411.44579270983,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,growing_global_gain_EM,0,0.0,1,-253411.44579274912,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,growing_sampled_gain_EM,0,0.0,1,-253411.44579271926,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,raw_peel,0,0.0,1,-253411.44579270945,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,raw_peel_repaired,0,0.0,1,-253411.44579270945,3.0,True,0.0,,
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,residual_greedy_pp_best10,0,0.0,1,-253411.4457927087,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,residual_greedy_pp_single,0,0.0,1,-253411.44579270872,4.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20001,equal3,2000,3,0.8,20001,residual_pp_single,0,0.0,1,-253411.44579272857,73.0,True,0.0,"[0, 2, 0]",2.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,Euclidean_X_pp_single_EM,0,0.0,1,-253431.42765446546,5.0,True,0.0,"[0, 0, 1]",2.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,global_gain_no_update,0,0.0,1,-253431.4276547093,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,growing_global_gain_EM,0,0.0,1,-253431.42770817093,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,growing_sampled_gain_EM,0,0.0,1,-253431.42765403728,3.0,True,0.0,"[0, 2]",2.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,raw_peel,0,0.0,1,-253431.42765596867,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,raw_peel_repaired,0,0.0,1,-253431.42765596867,3.0,True,0.0,,
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,residual_greedy_pp_best10,0,0.0,1,-253431.42765386298,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,residual_greedy_pp_single,0,0.0,1,-253431.42765481595,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch0.8_s20002,equal3,2000,3,0.8,20002,residual_pp_single,0,0.0,1,-253431.4277047541,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-255696.08304602318,4.0,True,0.0,"[1, 2, 2]",2.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,global_gain_no_update,0,0.0,1,-255696.08304602015,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,growing_global_gain_EM,0,0.0,1,-255696.08304644452,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-255696.08304607152,4.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,raw_peel,0,0.0,1,-255696.08304602015,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,raw_peel_repaired,0,0.0,1,-255696.08304602015,3.0,True,0.0,,
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-255696.08304601797,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,residual_greedy_pp_single,0,0.0,1,-255696.08304601797,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20003,equal3,2000,3,0.8,20003,residual_pp_single,0,0.0,1,-255696.08304618835,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,Euclidean_X_pp_single_EM,1,0.0005,0,-255120.00373880757,3.0,True,0.0,"[2, 1, 0]",3.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,X_kmeans,1,0.0005,0,,,,,,
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,global_gain_no_update,1,0.0005,0,-255120.0037429224,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,growing_global_gain_EM,1,0.0005,0,-255120.00374815776,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,growing_sampled_gain_EM,1,0.0005,0,-255120.0037377216,4.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,raw_peel,709,0.3545,0,-262268.48471548053,5.0,True,0.0,"[1, 2, 1]",2.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,raw_peel_repaired,1,0.0005,0,-255120.00373760692,4.0,True,0.0,,
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,residual_greedy_pp_best10,1,0.0005,0,-255120.00373748434,4.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,residual_greedy_pp_single,1,0.0005,0,-255120.0037375629,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch0.8_s20004,equal3,2000,3,0.8,20004,residual_pp_single,792,0.396,0,-262266.2173769014,31.0,True,0.0,"[0, 1, 1]",2.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-394296.1637080415,3.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,global_gain_no_update,0,0.0,1,-394296.16370804154,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-394296.16370804154,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-394296.1637080415,3.0,True,0.0,"[2, 1]",2.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,raw_peel,0,0.0,1,-394296.16370804154,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-394296.16370804154,2.0,True,0.0,,
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-394296.1637080415,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-394296.16370804154,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20000,equal3,2000,3,1.4,20000,residual_pp_single,0,0.0,1,-394296.16370804154,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-390430.53351216717,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,global_gain_no_update,0,0.0,1,-390430.53351216717,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-390430.53351216717,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-390430.53351216717,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,raw_peel,0,0.0,1,-390430.53351216717,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-390430.53351216717,2.0,True,0.0,,
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-390430.53351216717,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-390430.53351216717,2.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20001,equal3,2000,3,1.4,20001,residual_pp_single,0,0.0,1,-390430.53351216717,2.0,True,-5.820766091346741e-11,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-390188.57183220657,3.0,True,0.0,"[0, 1, 2]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,global_gain_no_update,0,0.0,1,-390188.57183220657,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-390188.57183220657,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-390188.57183220657,3.0,True,0.0,"[2, 0]",2.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,raw_peel,0,0.0,1,-390188.57183220657,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-390188.57183220657,2.0,True,0.0,,
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-390188.5718322065,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-390188.57183220657,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20002,equal3,2000,3,1.4,20002,residual_pp_single,0,0.0,1,-390188.57183220657,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,Euclidean_X_pp_single_EM,749,0.3745,0,-405476.89904935367,6.0,True,0.0,"[1, 1, 0]",2.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,global_gain_no_update,0,0.0,1,-391805.92832990974,2.0,True,0.0,"[1, 0, 2]",3.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-391805.9283299097,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-391805.9283299097,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,raw_peel,0,0.0,1,-391805.9283299097,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-391805.9283299097,2.0,True,0.0,,
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-391805.9283299097,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-391805.9283299097,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20003,equal3,2000,3,1.4,20003,residual_pp_single,0,0.0,1,-391805.9283299097,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-393081.9722954315,3.0,True,-5.820766091346741e-11,"[2, 0, 1]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,global_gain_no_update,0,0.0,1,-393081.9722954314,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-393081.9722954314,3.0,True,0.0,"[1, 0]",2.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-393081.9722954314,3.0,True,0.0,"[1, 2]",2.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,raw_peel,0,0.0,1,-393081.9722954314,3.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-393081.9722954314,3.0,True,0.0,,
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-393081.9722954314,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-393081.9722954314,2.0,True,0.0,"[1, 2, 0]",3.0
+equal3_n2000_ch1.4_s20004,equal3,2000,3,1.4,20004,residual_pp_single,0,0.0,1,-393081.9722954314,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,Euclidean_X_pp_single_EM,5,0.005,0,-59043.26601016379,4.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,X_kmeans,28,0.028,0,,,,,,
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,global_gain_no_update,5,0.005,0,-59043.26588700096,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,growing_global_gain_EM,5,0.005,0,-59043.265873130425,4.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,growing_sampled_gain_EM,5,0.005,0,-59043.26593806644,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,raw_peel,5,0.005,0,-59043.26587435338,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,raw_peel_repaired,5,0.005,0,-59043.26587435338,4.0,True,0.0,,
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,residual_greedy_pp_best10,5,0.005,0,-59043.26586657156,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,residual_greedy_pp_single,5,0.005,0,-59043.26586991815,5.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20000,heterogeneous3,1000,3,0.8,20000,residual_pp_single,481,0.481,0,-60470.22561320274,21.0,True,0.0,"[2, 1, 2]",2.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,Euclidean_X_pp_single_EM,5,0.005,0,-57753.95414577263,4.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,X_kmeans,17,0.017,0,,,,,,
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,global_gain_no_update,5,0.005,0,-57753.95423362072,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,growing_global_gain_EM,5,0.005,0,-57753.954168398974,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,growing_sampled_gain_EM,5,0.005,0,-57753.95414336201,6.0,True,0.0,"[2, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,raw_peel,5,0.005,0,-57753.95414351448,4.0,True,0.0,"[0, 1, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,raw_peel_repaired,5,0.005,0,-57753.95412890491,2.0,True,0.0,,
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,residual_greedy_pp_best10,5,0.005,0,-57753.954134033585,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,residual_greedy_pp_single,468,0.468,0,-59185.97472369906,7.0,True,0.0,"[1, 2, 2]",2.0
+heterogeneous3_n1000_ch0.8_s20001,heterogeneous3,1000,3,0.8,20001,residual_pp_single,5,0.005,0,-57753.954129573336,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,Euclidean_X_pp_single_EM,2,0.002,0,-58270.738044893485,4.0,True,0.0,"[2, 0, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,X_kmeans,25,0.025,0,,,,,,
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,global_gain_no_update,2,0.002,0,-58270.73747175124,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,growing_global_gain_EM,2,0.002,0,-58270.737443249585,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,growing_sampled_gain_EM,2,0.002,0,-58270.73814155246,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,raw_peel,2,0.002,0,-58270.73742725128,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,raw_peel_repaired,2,0.002,0,-58270.737375929304,2.0,True,0.0,,
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,residual_greedy_pp_best10,2,0.002,0,-58270.73739459674,5.0,True,0.0,"[0, 2, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,residual_greedy_pp_single,2,0.002,0,-58270.73753066393,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20002,heterogeneous3,1000,3,0.8,20002,residual_pp_single,2,0.002,0,-58270.73739623686,4.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,Euclidean_X_pp_single_EM,3,0.003,0,-58468.36211833008,4.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,X_kmeans,36,0.036,0,,,,,,
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,global_gain_no_update,3,0.003,0,-58468.3622277714,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,growing_global_gain_EM,3,0.003,0,-58468.36212656407,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,growing_sampled_gain_EM,3,0.003,0,-58468.36226882374,4.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,raw_peel,3,0.003,0,-58468.36216292203,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,raw_peel_repaired,3,0.003,0,-58468.36204401011,2.0,True,0.0,,
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,residual_greedy_pp_best10,3,0.003,0,-58468.362043972724,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,residual_greedy_pp_single,3,0.003,0,-58468.36227787293,4.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20003,heterogeneous3,1000,3,0.8,20003,residual_pp_single,3,0.003,0,-58468.36213138973,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,Euclidean_X_pp_single_EM,5,0.005,0,-58855.975033459246,5.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,X_kmeans,38,0.038,0,,,,,,
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,global_gain_no_update,5,0.005,0,-58855.975240073196,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,growing_global_gain_EM,5,0.005,0,-58855.97511008055,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,growing_sampled_gain_EM,5,0.005,0,-58855.9754552661,6.0,True,0.0,"[1, 1]",1.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,raw_peel,5,0.005,0,-58855.975087769664,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,raw_peel_repaired,5,0.005,0,-58855.97500394922,2.0,True,0.0,,
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,residual_greedy_pp_best10,5,0.005,0,-58855.97501091917,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,residual_greedy_pp_single,478,0.478,0,-60196.20566895518,21.0,True,0.0,"[2, 1, 2]",2.0
+heterogeneous3_n1000_ch0.8_s20004,heterogeneous3,1000,3,0.8,20004,residual_pp_single,479,0.479,0,-60196.17355742144,10.0,True,0.0,"[2, 2, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-88442.50130205967,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,X_kmeans,6,0.006,0,,,,,,
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,global_gain_no_update,0,0.0,1,-88442.50130243177,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-88442.50130206914,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-88442.50130413898,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,raw_peel,0,0.0,1,-88442.50130746054,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-88442.50130746054,3.0,True,0.0,,
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-88442.50130205974,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-88442.50130206489,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20000,heterogeneous3,1000,3,1.4,20000,residual_pp_single,0,0.0,1,-88442.50130206981,3.0,True,0.0,"[2, 0, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-87142.75838129432,2.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,X_kmeans,2,0.002,0,,,,,,
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,global_gain_no_update,0,0.0,1,-87142.7583812943,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-87142.7583812943,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-87142.75838129432,3.0,True,0.0,"[0, 0]",1.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,raw_peel,0,0.0,1,-87142.7583812943,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-87142.7583812943,4.0,True,0.0,,
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-87142.75838129429,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-87142.7583812943,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20001,heterogeneous3,1000,3,1.4,20001,residual_pp_single,0,0.0,1,-87142.75838129439,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-88359.96734267806,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,X_kmeans,6,0.006,0,,,,,,
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,global_gain_no_update,0,0.0,1,-88359.96734267802,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-88359.96734267799,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-88359.96734268626,4.0,True,0.0,"[2, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,raw_peel,0,0.0,1,-88359.96734267802,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-88359.96734267802,3.0,True,0.0,,
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-88359.96734267799,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-88359.96734267822,2.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20002,heterogeneous3,1000,3,1.4,20002,residual_pp_single,0,0.0,1,-88359.96734267802,2.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-88685.33861359194,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,X_kmeans,6,0.006,0,,,,,,
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,global_gain_no_update,0,0.0,1,-88685.33861356298,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-88685.33861355908,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-88685.33861360012,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,raw_peel,0,0.0,1,-88685.3386135704,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-88685.3386135704,3.0,True,0.0,,
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-88685.33861355789,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-88685.33861362572,2.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20003,heterogeneous3,1000,3,1.4,20003,residual_pp_single,0,0.0,1,-88685.33861356124,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,Euclidean_X_pp_single_EM,481,0.481,0,-91006.27769639756,21.0,True,0.0,"[0, 2, 2]",2.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,X_kmeans,6,0.006,0,,,,,,
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,global_gain_no_update,0,0.0,1,-88229.81444017227,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-88229.81444017227,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-88229.81444017227,4.0,True,0.0,"[1, 1]",1.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,raw_peel,0,0.0,1,-88229.81444017228,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-88229.81444017228,3.0,True,0.0,,
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-88229.81444017228,2.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-88229.81444017228,2.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n1000_ch1.4_s20004,heterogeneous3,1000,3,1.4,20004,residual_pp_single,0,0.0,1,-88229.81444017228,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,Euclidean_X_pp_single_EM,8,0.004,0,-148365.20748238725,2.0,True,0.0,"[1, 0, 2]",3.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,X_kmeans,55,0.0275,0,,,,,,
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,global_gain_no_update,8,0.004,0,-148365.20742401993,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,growing_global_gain_EM,8,0.004,0,-148365.20736862993,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,growing_sampled_gain_EM,8,0.004,0,-148365.20756153006,4.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,raw_peel,8,0.004,0,-148365.2073911016,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,raw_peel_repaired,8,0.004,0,-148365.2073551779,2.0,True,0.0,,
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,residual_greedy_pp_best10,8,0.004,0,-148365.2073674327,4.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,residual_greedy_pp_single,8,0.004,0,-148365.2073674327,4.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20000,heterogeneous3,2000,3,0.8,20000,residual_pp_single,934,0.467,0,-151258.46709252166,13.0,True,0.0,"[0, 2, 2]",2.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,Euclidean_X_pp_single_EM,936,0.468,0,-151130.02359170216,23.0,True,0.0,"[0, 2, 2]",2.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,X_kmeans,44,0.022,0,,,,,,
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,global_gain_no_update,6,0.003,0,-148007.9118138826,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,growing_global_gain_EM,6,0.003,0,-148007.91164722794,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,growing_sampled_gain_EM,6,0.003,0,-148007.9119693483,4.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,raw_peel,6,0.003,0,-148007.91165084863,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,raw_peel_repaired,6,0.003,0,-148007.911624152,2.0,True,0.0,,
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,residual_greedy_pp_best10,6,0.003,0,-148007.91162640142,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,residual_greedy_pp_single,6,0.003,0,-148007.91214422183,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20001,heterogeneous3,2000,3,0.8,20001,residual_pp_single,6,0.003,0,-148007.91166536364,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,Euclidean_X_pp_single_EM,4,0.002,0,-146282.82001781295,3.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,X_kmeans,45,0.0225,0,,,,,,
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,global_gain_no_update,4,0.002,0,-146282.8200787575,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,growing_global_gain_EM,4,0.002,0,-146282.81998407413,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,growing_sampled_gain_EM,4,0.002,0,-146282.82024485417,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,raw_peel,4,0.002,0,-146282.8199824288,4.0,True,0.0,"[0, 1, 1]",2.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,raw_peel_repaired,4,0.002,0,-146282.8199695823,2.0,True,0.0,,
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,residual_greedy_pp_best10,4,0.002,0,-146282.819996366,4.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,residual_greedy_pp_single,4,0.002,0,-146282.819996366,4.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20002,heterogeneous3,2000,3,0.8,20002,residual_pp_single,4,0.002,0,-146282.82004721565,4.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,Euclidean_X_pp_single_EM,5,0.0025,0,-147461.24247541348,4.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,X_kmeans,35,0.0175,0,,,,,,
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,global_gain_no_update,5,0.0025,0,-147461.24247686449,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,growing_global_gain_EM,5,0.0025,0,-147461.24268200458,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,growing_sampled_gain_EM,5,0.0025,0,-147461.24249189562,4.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,raw_peel,5,0.0025,0,-147461.24247242569,4.0,True,0.0,"[0, 1, 1]",2.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,raw_peel_repaired,5,0.0025,0,-147461.24247242569,4.0,True,0.0,,
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,residual_greedy_pp_best10,5,0.0025,0,-147461.2424735255,4.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,residual_greedy_pp_single,5,0.0025,0,-147461.24270281324,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20003,heterogeneous3,2000,3,0.8,20003,residual_pp_single,988,0.494,0,-150669.73139042163,18.0,True,0.0,"[1, 2, 2]",2.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,Euclidean_X_pp_single_EM,910,0.455,0,-150097.99341672967,13.0,True,0.0,"[2, 0, 2]",2.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,X_kmeans,47,0.0235,0,,,,,,
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,global_gain_no_update,9,0.0045,0,-147125.30635278483,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,growing_global_gain_EM,9,0.0045,0,-147125.3063522661,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,growing_sampled_gain_EM,9,0.0045,0,-147125.30659583508,4.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,raw_peel,9,0.0045,0,-147125.30635718527,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,raw_peel_repaired,9,0.0045,0,-147125.30631743098,2.0,True,0.0,,
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,residual_greedy_pp_best10,9,0.0045,0,-147125.30633458216,4.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,residual_greedy_pp_single,9,0.0045,0,-147125.3073061285,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch0.8_s20004,heterogeneous3,2000,3,0.8,20004,residual_pp_single,9,0.0045,0,-147125.30651794735,8.0,True,0.0,"[0, 2, 2]",2.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-227442.80532596138,3.0,True,0.0,"[1, 0, 2]",3.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,X_kmeans,10,0.005,0,,,,,,
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,global_gain_no_update,0,0.0,1,-227442.80532596138,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-227442.80532596135,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-227442.80532596138,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,raw_peel,0,0.0,1,-227442.80532596138,4.0,True,0.0,"[0, 1, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-227442.80532596138,4.0,True,0.0,,
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-227442.80532596135,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-227442.80532596135,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20000,heterogeneous3,2000,3,1.4,20000,residual_pp_single,0,0.0,1,-227442.80532596135,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-226195.38908555268,2.0,True,0.0,"[0, 1, 2]",3.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,X_kmeans,6,0.003,0,,,,,,
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,global_gain_no_update,0,0.0,1,-226195.3890855527,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-226195.38908555268,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-226195.3890855527,3.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,raw_peel,0,0.0,1,-226195.38908556657,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-226195.38908556657,3.0,True,0.0,,
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-226195.38908555266,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-226195.38908555268,3.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20001,heterogeneous3,2000,3,1.4,20001,residual_pp_single,0,0.0,1,-226195.38908556604,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,Euclidean_X_pp_single_EM,939,0.4695,0,-231653.68895068663,18.0,True,0.0,"[0, 2, 2]",2.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,X_kmeans,10,0.005,0,,,,,,
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,global_gain_no_update,0,0.0,1,-225295.0679144398,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-225295.06791443905,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-225295.06791443907,3.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,raw_peel,0,0.0,1,-225295.0679145249,3.0,True,0.0,"[0, 1, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-225295.0679145249,3.0,True,0.0,,
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-225295.067914439,3.0,True,0.0,"[2, 1, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-225295.06791492563,2.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20002,heterogeneous3,2000,3,1.4,20002,residual_pp_single,0,0.0,1,-225295.06791654363,4.0,True,0.0,"[1, 2, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-226577.63701318856,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,X_kmeans,10,0.005,0,,,,,,
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,global_gain_no_update,0,0.0,1,-226577.637013844,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-226577.63701321918,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-226577.63701365713,3.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,raw_peel,0,0.0,1,-226577.63701349375,3.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-226577.63701349375,3.0,True,0.0,,
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-226577.6370131871,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-226577.63701726514,2.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20003,heterogeneous3,2000,3,1.4,20003,residual_pp_single,0,0.0,1,-226577.63701341976,2.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,Euclidean_X_pp_single_EM,987,0.4935,0,-233198.86883782462,28.0,True,0.0,"[2, 0, 2]",2.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,X_kmeans,8,0.004,0,,,,,,
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,global_gain_no_update,1,0.0005,0,-227048.53057546885,2.0,True,0.0,"[0, 2, 1]",3.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,growing_global_gain_EM,1,0.0005,0,-227048.53056478064,3.0,True,0.0,"[1, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,growing_sampled_gain_EM,1,0.0005,0,-227048.5305647861,3.0,True,0.0,"[2, 0]",2.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,raw_peel,1,0.0005,0,-227048.53056476847,4.0,True,0.0,"[0, 0, 1]",2.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,raw_peel_repaired,1,0.0005,0,-227048.53056476847,4.0,True,0.0,,
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,residual_greedy_pp_best10,1,0.0005,0,-227048.53056472322,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,residual_greedy_pp_single,1,0.0005,0,-227048.53056478075,3.0,True,0.0,"[1, 2, 0]",3.0
+heterogeneous3_n2000_ch1.4_s20004,heterogeneous3,2000,3,1.4,20004,residual_pp_single,1,0.0005,0,-227048.53059290806,2.0,True,0.0,"[0, 2, 1]",3.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,Euclidean_X_pp_single_EM,277,0.277,0,-88000.01076419631,7.0,True,0.0,"[1, 3, 2, 2]",3.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,X_kmeans,3,0.003,0,,,,,,
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,global_gain_no_update,3,0.003,0,-85560.45690035867,3.0,True,0.0,"[3, 0, 2, 1]",4.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,growing_global_gain_EM,3,0.003,0,-85560.45688461338,4.0,True,0.0,"[3, 0, 3]",2.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,growing_sampled_gain_EM,3,0.003,0,-85560.45689341842,4.0,True,0.0,"[3, 0, 2]",3.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,raw_peel,3,0.003,0,-85560.45690028943,3.0,True,0.0,"[3, 1, 0, 2]",4.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,raw_peel_repaired,3,0.003,0,-85560.4568820037,2.0,True,0.0,,
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,residual_greedy_pp_best10,3,0.003,0,-85560.45688198942,4.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,residual_greedy_pp_single,3,0.003,0,-85560.45688281287,3.0,True,0.0,"[2, 1, 3, 0]",4.0
+hierarchical4_n1000_ch0.8_s20000,hierarchical4,1000,4,0.8,20000,residual_pp_single,3,0.003,0,-85560.45688199862,4.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,Euclidean_X_pp_single_EM,1,0.001,0,-84038.16890982594,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,X_kmeans,1,0.001,0,,,,,,
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,global_gain_no_update,1,0.001,0,-84038.16894878523,3.0,True,0.0,"[3, 1, 0, 2]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,growing_global_gain_EM,1,0.001,0,-84038.16879401391,4.0,True,0.0,"[2, 1, 2]",2.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,growing_sampled_gain_EM,1,0.001,0,-84038.1688013295,4.0,True,0.0,"[3, 1, 3]",2.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,raw_peel,1,0.001,0,-84038.16894853883,3.0,True,0.0,"[3, 1, 0, 2]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,raw_peel_repaired,1,0.001,0,-84038.1687926151,2.0,True,0.0,,
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,residual_greedy_pp_best10,1,0.001,0,-84038.16879161492,3.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,residual_greedy_pp_single,1,0.001,0,-84038.16892331945,3.0,True,0.0,"[2, 0, 1, 3]",4.0
+hierarchical4_n1000_ch0.8_s20001,hierarchical4,1000,4,0.8,20001,residual_pp_single,1,0.001,0,-84038.16885969165,5.0,True,0.0,"[0, 3, 3, 1]",3.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,Euclidean_X_pp_single_EM,0,0.0,1,-85230.95711100014,4.0,True,0.0,"[2, 3, 3, 0]",3.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,global_gain_no_update,0,0.0,1,-85230.95711100071,3.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,growing_global_gain_EM,0,0.0,1,-85230.95711100014,4.0,True,0.0,"[2, 2, 1]",2.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,growing_sampled_gain_EM,0,0.0,1,-85230.95711100013,4.0,True,0.0,"[3, 1, 2]",3.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,raw_peel,0,0.0,1,-85230.95711100035,3.0,True,0.0,"[0, 2, 3, 1]",4.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,raw_peel_repaired,0,0.0,1,-85230.95711100035,3.0,True,0.0,,
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,residual_greedy_pp_best10,0,0.0,1,-85230.95711100013,4.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,residual_greedy_pp_single,0,0.0,1,-85230.95711100013,4.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch0.8_s20002,hierarchical4,1000,4,0.8,20002,residual_pp_single,334,0.334,0,-87550.92103140666,39.0,True,0.0,"[0, 3, 2, 3]",3.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-85584.98925354707,3.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,global_gain_no_update,0,0.0,1,-85584.9892587701,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,growing_global_gain_EM,0,0.0,1,-85584.98925397135,3.0,True,0.0,"[3, 3, 0]",2.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-85584.98925785325,4.0,True,0.0,"[0, 3, 1]",3.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,raw_peel,0,0.0,1,-85584.9892535404,3.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,raw_peel_repaired,0,0.0,1,-85584.9892535404,3.0,True,0.0,,
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-85584.9892531636,4.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,residual_greedy_pp_single,0,0.0,1,-85584.9892531636,4.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch0.8_s20003,hierarchical4,1000,4,0.8,20003,residual_pp_single,0,0.0,1,-85584.98925318819,4.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,Euclidean_X_pp_single_EM,1,0.001,0,-85946.9144817114,3.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,X_kmeans,1,0.001,0,,,,,,
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,global_gain_no_update,1,0.001,0,-85946.91446791097,3.0,True,0.0,"[3, 0, 2, 0]",3.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,growing_global_gain_EM,1,0.001,0,-85946.9144633885,3.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,growing_sampled_gain_EM,1,0.001,0,-85946.91446354736,4.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,raw_peel,1,0.001,0,-85946.91446774936,3.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,raw_peel_repaired,1,0.001,0,-85946.91446774936,3.0,True,0.0,,
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,residual_greedy_pp_best10,1,0.001,0,-85946.91446297982,3.0,True,0.0,"[3, 0, 2, 1]",4.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,residual_greedy_pp_single,1,0.001,0,-85946.9144630119,3.0,True,0.0,"[3, 0, 1, 2]",4.0
+hierarchical4_n1000_ch0.8_s20004,hierarchical4,1000,4,0.8,20004,residual_pp_single,1,0.001,0,-85946.9144637937,5.0,True,0.0,"[2, 2, 0, 1]",3.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-127023.39007598587,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,global_gain_no_update,0,0.0,1,-127023.39007598607,2.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,growing_global_gain_EM,0,0.0,1,-127023.39007598587,3.0,True,0.0,"[2, 3, 0]",3.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-127023.39007598587,3.0,True,0.0,"[1, 0, 2]",3.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,raw_peel,0,0.0,1,-127023.39007598703,2.0,True,0.0,"[2, 1, 3, 0]",4.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,raw_peel_repaired,0,0.0,1,-127023.39007598703,2.0,True,0.0,,
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-127023.39007598585,3.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,residual_greedy_pp_single,0,0.0,1,-127023.39007598585,3.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n1000_ch1.4_s20000,hierarchical4,1000,4,1.4,20000,residual_pp_single,260,0.26,0,-131441.38053244402,10.0,True,0.0,"[2, 0, 3, 3]",3.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-126296.01569856548,2.0,True,-1.4551915228366852e-11,"[0, 3, 1, 2]",4.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,global_gain_no_update,0,0.0,1,-126296.01569856546,2.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,growing_global_gain_EM,0,0.0,1,-126296.01569856546,3.0,True,0.0,"[0, 0, 3]",2.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-126296.01569856546,3.0,True,0.0,"[2, 3, 1]",3.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,raw_peel,0,0.0,1,-126296.01569856546,2.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,raw_peel_repaired,0,0.0,1,-126296.01569856546,2.0,True,0.0,,
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-126296.01569856546,3.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,residual_greedy_pp_single,0,0.0,1,-126296.01569856546,3.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20001,hierarchical4,1000,4,1.4,20001,residual_pp_single,0,0.0,1,-126296.01569856546,3.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-127497.27076133873,3.0,True,0.0,"[2, 0, 3, 0]",3.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,global_gain_no_update,0,0.0,1,-127497.27076133875,2.0,True,0.0,"[2, 1, 3, 0]",4.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,growing_global_gain_EM,0,0.0,1,-127497.27076133873,3.0,True,0.0,"[1, 2, 1]",2.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-127497.27076133873,3.0,True,0.0,"[2, 3, 0]",3.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,raw_peel,0,0.0,1,-127497.27076133875,2.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,raw_peel_repaired,0,0.0,1,-127497.27076133875,2.0,True,0.0,,
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-127497.27076133873,2.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,residual_greedy_pp_single,0,0.0,1,-127497.27076133873,2.0,True,0.0,"[2, 1, 0, 3]",4.0
+hierarchical4_n1000_ch1.4_s20002,hierarchical4,1000,4,1.4,20002,residual_pp_single,267,0.267,0,-131914.90759835867,11.0,True,0.0,"[0, 3, 2, 2]",3.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-128135.41681112953,3.0,True,0.0,"[3, 1, 0, 2]",4.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,global_gain_no_update,0,0.0,1,-128135.41681112954,2.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,growing_global_gain_EM,0,0.0,1,-128135.41681112954,3.0,True,0.0,"[2, 3, 0]",3.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-128135.41681112953,3.0,True,0.0,"[0, 1, 3]",3.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,raw_peel,0,0.0,1,-128135.41681112954,2.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,raw_peel_repaired,0,0.0,1,-128135.41681112954,2.0,True,0.0,,
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-128135.41681112953,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,residual_greedy_pp_single,0,0.0,1,-128135.41681112953,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch1.4_s20003,hierarchical4,1000,4,1.4,20003,residual_pp_single,0,0.0,1,-128135.41681112954,3.0,True,0.0,"[1, 2, 3, 0]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-128236.74452467242,2.0,True,0.0,"[0, 1, 2, 3]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,global_gain_no_update,0,0.0,1,-128236.74452467242,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,growing_global_gain_EM,0,0.0,1,-128236.74452467242,3.0,True,0.0,"[2, 3, 0]",3.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-128236.74452467242,3.0,True,0.0,"[1, 0, 2]",3.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,raw_peel,0,0.0,1,-128236.74452467244,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,raw_peel_repaired,0,0.0,1,-128236.74452467244,2.0,True,0.0,,
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-128236.74452467242,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,residual_greedy_pp_single,0,0.0,1,-128236.74452467244,3.0,True,-1.4551915228366852e-11,"[3, 0, 2, 1]",4.0
+hierarchical4_n1000_ch1.4_s20004,hierarchical4,1000,4,1.4,20004,residual_pp_single,0,0.0,1,-128236.74452467242,2.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,Euclidean_X_pp_single_EM,656,0.328,0,-220713.29547297338,36.0,True,0.0,"[2, 0, 3, 3]",3.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,global_gain_no_update,0,0.0,1,-215539.46264948137,3.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,growing_global_gain_EM,0,0.0,1,-215539.46264954988,3.0,True,0.0,"[2, 3, 1]",3.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,growing_sampled_gain_EM,0,0.0,1,-215539.46264947776,4.0,True,0.0,"[0, 2, 1]",3.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,raw_peel,0,0.0,1,-215539.46264948053,3.0,True,0.0,"[3, 0, 2, 1]",4.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,raw_peel_repaired,0,0.0,1,-215539.46264948053,3.0,True,0.0,,
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,residual_greedy_pp_best10,0,0.0,1,-215539.4626494775,3.0,True,0.0,"[0, 1, 3, 2]",4.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,residual_greedy_pp_single,0,0.0,1,-215539.4626494821,5.0,True,0.0,"[0, 2, 1, 2]",3.0
+hierarchical4_n2000_ch0.8_s20000,hierarchical4,2000,4,0.8,20000,residual_pp_single,537,0.2685,0,-220901.51980211947,19.0,True,0.0,"[1, 2, 0, 0]",3.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,Euclidean_X_pp_single_EM,1,0.0005,0,-213699.1141170149,3.0,True,0.0,"[0, 2, 3, 1]",4.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,X_kmeans,1,0.0005,0,,,,,,
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,global_gain_no_update,1,0.0005,0,-213699.114108271,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,growing_global_gain_EM,1,0.0005,0,-213699.11411064648,3.0,True,0.0,"[0, 2, 0]",2.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,growing_sampled_gain_EM,1,0.0005,0,-213699.11410658623,4.0,True,0.0,"[1, 3, 0]",3.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,raw_peel,1,0.0005,0,-213699.114108271,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,raw_peel_repaired,1,0.0005,0,-213699.114108271,3.0,True,0.0,,
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,residual_greedy_pp_best10,1,0.0005,0,-213699.11410658906,4.0,True,0.0,"[2, 1, 3, 0]",4.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,residual_greedy_pp_single,1,0.0005,0,-213699.114109201,3.0,True,0.0,"[0, 2, 1, 3]",4.0
+hierarchical4_n2000_ch0.8_s20001,hierarchical4,2000,4,0.8,20001,residual_pp_single,1,0.0005,0,-213699.11411002773,3.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,Euclidean_X_pp_single_EM,1,0.0005,0,-212680.4956768946,4.0,True,0.0,"[1, 3, 2, 1]",3.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,X_kmeans,1,0.0005,0,,,,,,
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,global_gain_no_update,1,0.0005,0,-212680.49567690745,3.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,growing_global_gain_EM,1,0.0005,0,-212680.495677007,3.0,True,0.0,"[3, 3, 0]",2.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,growing_sampled_gain_EM,1,0.0005,0,-212680.4956769038,4.0,True,0.0,"[1, 3, 1]",2.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,raw_peel,1,0.0005,0,-212680.4956769176,3.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,raw_peel_repaired,1,0.0005,0,-212680.4956769176,3.0,True,0.0,,
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,residual_greedy_pp_best10,1,0.0005,0,-212680.4956768946,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,residual_greedy_pp_single,1,0.0005,0,-212680.4956768946,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch0.8_s20002,hierarchical4,2000,4,0.8,20002,residual_pp_single,532,0.266,0,-217983.6555128995,11.0,True,0.0,"[2, 3, 1, 2]",3.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-215554.98032328987,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,global_gain_no_update,0,0.0,1,-215554.9803232891,3.0,True,0.0,"[1, 3, 0, 2]",4.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,growing_global_gain_EM,0,0.0,1,-215554.9803235692,3.0,True,0.0,"[1, 3, 1]",2.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-215554.98032328853,4.0,True,0.0,"[1, 1, 2]",2.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,raw_peel,0,0.0,1,-215554.98032329456,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,raw_peel_repaired,0,0.0,1,-215554.98032329456,3.0,True,0.0,,
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-215554.9803232886,3.0,True,0.0,"[1, 2, 3, 0]",4.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,residual_greedy_pp_single,0,0.0,1,-215554.9803232886,3.0,True,0.0,"[1, 2, 3, 0]",4.0
+hierarchical4_n2000_ch0.8_s20003,hierarchical4,2000,4,0.8,20003,residual_pp_single,0,0.0,1,-215554.98032337398,4.0,True,0.0,"[2, 0, 3, 0]",3.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,Euclidean_X_pp_single_EM,528,0.264,0,-219258.58858271784,19.0,True,0.0,"[3, 1, 0, 0]",3.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,global_gain_no_update,0,0.0,1,-213828.83131992753,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,growing_global_gain_EM,0,0.0,1,-213828.83132196908,3.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,growing_sampled_gain_EM,0,0.0,1,-213828.831319695,4.0,True,0.0,"[3, 1, 3]",2.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,raw_peel,0,0.0,1,-213828.83131992753,3.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,raw_peel_repaired,0,0.0,1,-213828.83131992753,3.0,True,0.0,,
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,residual_greedy_pp_best10,0,0.0,1,-213828.8313196603,3.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,residual_greedy_pp_single,582,0.291,0,-219066.66202808073,26.0,True,0.0,"[2, 3, 1, 3]",3.0
+hierarchical4_n2000_ch0.8_s20004,hierarchical4,2000,4,0.8,20004,residual_pp_single,0,0.0,1,-213828.8313247619,3.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-327391.50807491946,3.0,True,0.0,"[2, 0, 1, 3]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,global_gain_no_update,0,0.0,1,-327391.50807491946,2.0,True,0.0,"[3, 0, 2, 1]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,growing_global_gain_EM,0,0.0,1,-327391.50807491946,3.0,True,0.0,"[3, 1, 2]",3.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-327391.50807491946,3.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,raw_peel,0,0.0,1,-327391.50807491946,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,raw_peel_repaired,0,0.0,1,-327391.50807491946,2.0,True,0.0,,
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-327391.50807491946,3.0,True,0.0,"[0, 1, 2, 3]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,residual_greedy_pp_single,0,0.0,1,-327391.50807491946,3.0,True,0.0,"[0, 1, 2, 3]",4.0
+hierarchical4_n2000_ch1.4_s20000,hierarchical4,2000,4,1.4,20000,residual_pp_single,727,0.3635,0,-337218.7998251255,30.0,True,0.0,"[1, 0, 2, 1]",3.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,Euclidean_X_pp_single_EM,556,0.278,0,-335919.5498456195,10.0,True,0.0,"[0, 2, 1, 0]",3.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,global_gain_no_update,0,0.0,1,-326040.7752986519,2.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,growing_global_gain_EM,0,0.0,1,-326040.77529865195,3.0,True,-5.820766091346741e-11,"[1, 3, 0]",3.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-326040.77529865195,3.0,True,0.0,"[3, 2, 1]",3.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,raw_peel,0,0.0,1,-326040.7752986519,2.0,True,0.0,"[1, 2, 3, 0]",4.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,raw_peel_repaired,0,0.0,1,-326040.7752986519,2.0,True,0.0,,
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-326040.7752986519,2.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,residual_greedy_pp_single,0,0.0,1,-326040.7752986519,2.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch1.4_s20001,hierarchical4,2000,4,1.4,20001,residual_pp_single,0,0.0,1,-326040.77529865195,2.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,Euclidean_X_pp_single_EM,511,0.2555,0,-335339.2461128237,6.0,True,0.0,"[1, 3, 2, 3]",3.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,global_gain_no_update,0,0.0,1,-325553.9496140089,2.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,growing_global_gain_EM,0,0.0,1,-325553.9496140088,3.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-325553.9496140089,3.0,True,0.0,"[3, 2, 1]",3.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,raw_peel,0,0.0,1,-325553.9496140089,2.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,raw_peel_repaired,0,0.0,1,-325553.9496140089,2.0,True,0.0,,
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-325553.9496140088,2.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,residual_greedy_pp_single,0,0.0,1,-325553.9496140088,2.0,True,0.0,"[1, 2, 0, 3]",4.0
+hierarchical4_n2000_ch1.4_s20002,hierarchical4,2000,4,1.4,20002,residual_pp_single,0,0.0,1,-325553.9496140088,3.0,True,0.0,"[2, 0, 1, 3]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-327478.73691768275,2.0,True,0.0,"[1, 3, 2, 0]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,global_gain_no_update,0,0.0,1,-327478.7369176828,2.0,True,0.0,"[3, 1, 2, 0]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,growing_global_gain_EM,0,0.0,1,-327478.7369176828,3.0,True,0.0,"[1, 0, 2]",3.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-327478.73691768275,3.0,True,0.0,"[1, 0, 2]",3.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,raw_peel,0,0.0,1,-327478.7369176828,2.0,True,0.0,"[3, 1, 0, 2]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,raw_peel_repaired,0,0.0,1,-327478.7369176828,2.0,True,0.0,,
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-327478.73691768275,2.0,True,0.0,"[3, 0, 1, 2]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,residual_greedy_pp_single,0,0.0,1,-327478.7369176828,3.0,True,0.0,"[1, 3, 0, 2]",4.0
+hierarchical4_n2000_ch1.4_s20003,hierarchical4,2000,4,1.4,20003,residual_pp_single,0,0.0,1,-327478.7369176828,2.0,True,0.0,"[2, 0, 3, 1]",4.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-326372.07568901236,4.0,True,0.0,"[3, 0, 0, 2]",3.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,global_gain_no_update,0,0.0,1,-326372.0756890123,2.0,True,0.0,"[0, 3, 1, 2]",4.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,growing_global_gain_EM,0,0.0,1,-326372.07568901236,3.0,True,0.0,"[0, 3, 0]",2.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-326372.0756890124,3.0,True,0.0,"[3, 2, 0]",3.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,raw_peel,0,0.0,1,-326372.0756890124,2.0,True,0.0,"[0, 3, 2, 1]",4.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,raw_peel_repaired,0,0.0,1,-326372.0756890124,2.0,True,0.0,,
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-326372.0756890123,2.0,True,0.0,"[2, 0, 1, 3]",4.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,residual_greedy_pp_single,0,0.0,1,-326372.0756890123,2.0,True,0.0,"[2, 0, 1, 3]",4.0
+hierarchical4_n2000_ch1.4_s20004,hierarchical4,2000,4,1.4,20004,residual_pp_single,0,0.0,1,-326372.07568901236,3.0,True,0.0,"[0, 1, 2, 3]",4.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,Euclidean_X_pp_single_EM,0,0.0,1,-121948.63297826686,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,global_gain_no_update,0,0.0,1,-121948.63297823777,4.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,growing_global_gain_EM,0,0.0,1,-121948.63297824681,4.0,True,0.0,[1],1.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,growing_sampled_gain_EM,0,0.0,1,-121948.63298804451,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,raw_peel,0,0.0,1,-121948.63297823777,4.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,raw_peel_repaired,0,0.0,1,-121948.63297823777,4.0,True,0.0,,
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,residual_greedy_pp_best10,0,0.0,1,-121948.63297823786,4.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,residual_greedy_pp_single,0,0.0,1,-121948.63298051187,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20000,symmetric2,1000,2,0.8,20000,residual_pp_single,0,0.0,1,-121948.6329789486,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,Euclidean_X_pp_single_EM,1,0.001,0,-119739.96631147945,4.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,global_gain_no_update,1,0.001,0,-119739.96631149075,4.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,growing_global_gain_EM,1,0.001,0,-119739.96631160608,4.0,True,0.0,[0],1.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,growing_sampled_gain_EM,1,0.001,0,-119739.96631149601,5.0,True,0.0,[1],1.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,raw_peel,1,0.001,0,-119739.9663114933,4.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,raw_peel_repaired,1,0.001,0,-119739.9663114933,4.0,True,0.0,,
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,residual_greedy_pp_best10,1,0.001,0,-119739.96631147902,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,residual_greedy_pp_single,1,0.001,0,-119739.96631228481,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20001,symmetric2,1000,2,0.8,20001,residual_pp_single,1,0.001,0,-119739.96631149779,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,Euclidean_X_pp_single_EM,2,0.002,0,-120527.50401821302,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,X_kmeans,2,0.002,0,,,,,,
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,global_gain_no_update,2,0.002,0,-120527.50402013859,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,growing_global_gain_EM,2,0.002,0,-120527.50403233114,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,growing_sampled_gain_EM,2,0.002,0,-120527.50401954213,4.0,True,0.0,[0],1.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,raw_peel,2,0.002,0,-120527.50402013859,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,raw_peel_repaired,2,0.002,0,-120527.50402013859,3.0,True,0.0,,
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,residual_greedy_pp_best10,2,0.002,0,-120527.50401822547,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,residual_greedy_pp_single,2,0.002,0,-120527.50401871552,4.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20002,symmetric2,1000,2,0.8,20002,residual_pp_single,2,0.002,0,-120527.50401929946,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-122063.22748042713,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,global_gain_no_update,0,0.0,1,-122063.2275012958,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,growing_global_gain_EM,0,0.0,1,-122063.22747904727,4.0,True,0.0,[0],1.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-122063.22747909118,4.0,True,0.0,[1],1.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,raw_peel,0,0.0,1,-122063.22750373889,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,raw_peel_repaired,0,0.0,1,-122063.2274801096,2.0,True,0.0,,
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-122063.22747960407,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,residual_greedy_pp_single,0,0.0,1,-122063.22750450889,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20003,symmetric2,1000,2,0.8,20003,residual_pp_single,0,0.0,1,-122063.22750674015,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,Euclidean_X_pp_single_EM,0,0.0,1,-120512.52147386338,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,global_gain_no_update,0,0.0,1,-120512.52148366478,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,growing_global_gain_EM,0,0.0,1,-120512.52147197133,4.0,True,0.0,[1],1.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,growing_sampled_gain_EM,0,0.0,1,-120512.52147200952,4.0,True,0.0,[0],1.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,raw_peel,0,0.0,1,-120512.52148444924,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,raw_peel_repaired,0,0.0,1,-120512.5214719162,2.0,True,0.0,,
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,residual_greedy_pp_best10,0,0.0,1,-120512.52147190852,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,residual_greedy_pp_single,0,0.0,1,-120512.5214752268,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch0.8_s20004,symmetric2,1000,2,0.8,20004,residual_pp_single,0,0.0,1,-120512.5214947582,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-184370.36353610194,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,global_gain_no_update,0,0.0,1,-184370.36353610194,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,growing_global_gain_EM,0,0.0,1,-184370.36353610194,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-184370.36353610194,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,raw_peel,0,0.0,1,-184370.36353610194,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,raw_peel_repaired,0,0.0,1,-184370.36353610194,3.0,True,0.0,,
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-184370.3635361019,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,residual_greedy_pp_single,0,0.0,1,-184370.36353610194,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20000,symmetric2,1000,2,1.4,20000,residual_pp_single,0,0.0,1,-184370.36353610194,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-182786.41824943724,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,global_gain_no_update,0,0.0,1,-182786.41824943724,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,growing_global_gain_EM,0,0.0,1,-182786.41824943724,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-182786.41824943724,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,raw_peel,0,0.0,1,-182786.41824943724,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,raw_peel_repaired,0,0.0,1,-182786.41824943724,2.0,True,0.0,,
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-182786.4182494372,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,residual_greedy_pp_single,0,0.0,1,-182786.41824943724,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20001,symmetric2,1000,2,1.4,20001,residual_pp_single,0,0.0,1,-182786.41824943724,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-185140.94514076953,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,global_gain_no_update,0,0.0,1,-185140.9451407696,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,growing_global_gain_EM,0,0.0,1,-185140.94514076956,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-185140.94514076953,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,raw_peel,0,0.0,1,-185140.94514076956,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,raw_peel_repaired,0,0.0,1,-185140.94514076956,2.0,True,0.0,,
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-185140.94514076953,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,residual_greedy_pp_single,0,0.0,1,-185140.94514076956,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20002,symmetric2,1000,2,1.4,20002,residual_pp_single,0,0.0,1,-185140.94514076953,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-185585.05656085187,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,global_gain_no_update,0,0.0,1,-185585.05656085187,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,growing_global_gain_EM,0,0.0,1,-185585.05656085187,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-185585.05656085187,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,raw_peel,0,0.0,1,-185585.0565608519,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,raw_peel_repaired,0,0.0,1,-185585.0565608519,2.0,True,0.0,,
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-185585.05656085187,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,residual_greedy_pp_single,0,0.0,1,-185585.05656085187,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20003,symmetric2,1000,2,1.4,20003,residual_pp_single,0,0.0,1,-185585.0565608519,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-185430.44880721733,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,global_gain_no_update,0,0.0,1,-185430.4488072173,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,growing_global_gain_EM,0,0.0,1,-185430.44880721733,3.0,True,0.0,[1],1.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-185430.4488072173,3.0,True,0.0,[0],1.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,raw_peel,0,0.0,1,-185430.4488072173,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,raw_peel_repaired,0,0.0,1,-185430.4488072173,2.0,True,0.0,,
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-185430.4488072173,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,residual_greedy_pp_single,0,0.0,1,-185430.4488072173,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n1000_ch1.4_s20004,symmetric2,1000,2,1.4,20004,residual_pp_single,0,0.0,1,-185430.4488072173,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,Euclidean_X_pp_single_EM,0,0.0,1,-306730.72427460726,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,global_gain_no_update,0,0.0,1,-306730.7242745956,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,growing_global_gain_EM,0,0.0,1,-306730.724274643,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,growing_sampled_gain_EM,0,0.0,1,-306730.72427471157,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,raw_peel,0,0.0,1,-306730.7242745743,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,raw_peel_repaired,0,0.0,1,-306730.7242745743,3.0,True,0.0,,
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,residual_greedy_pp_best10,0,0.0,1,-306730.7242745663,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,residual_greedy_pp_single,0,0.0,1,-306730.72427456826,4.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20000,symmetric2,2000,2,0.8,20000,residual_pp_single,0,0.0,1,-306730.72427456814,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,Euclidean_X_pp_single_EM,0,0.0,1,-300573.6152319515,5.0,True,0.0,"[0, 0]",1.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,global_gain_no_update,0,0.0,1,-300573.61523211945,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,growing_global_gain_EM,0,0.0,1,-300573.61523610866,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,growing_sampled_gain_EM,0,0.0,1,-300573.6152315334,4.0,True,0.0,[0],1.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,raw_peel,0,0.0,1,-300573.61523253,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,raw_peel_repaired,0,0.0,1,-300573.61523253,3.0,True,0.0,,
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,residual_greedy_pp_best10,0,0.0,1,-300573.6152314218,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,residual_greedy_pp_single,0,0.0,1,-300573.6152359175,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20001,symmetric2,2000,2,0.8,20001,residual_pp_single,0,0.0,1,-300573.6152314354,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,Euclidean_X_pp_single_EM,1,0.0005,0,-301065.00180946046,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,X_kmeans,1,0.0005,0,,,,,,
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,global_gain_no_update,1,0.0005,0,-301065.0018084479,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,growing_global_gain_EM,1,0.0005,0,-301065.0018093514,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,growing_sampled_gain_EM,1,0.0005,0,-301065.0018090917,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,raw_peel,1,0.0005,0,-301065.0018084479,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,raw_peel_repaired,1,0.0005,0,-301065.0018084479,3.0,True,0.0,,
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,residual_greedy_pp_best10,1,0.0005,0,-301065.00180839456,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,residual_greedy_pp_single,1,0.0005,0,-301065.00180839456,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20002,symmetric2,2000,2,0.8,20002,residual_pp_single,1,0.0005,0,-301065.001809735,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-304337.31406839757,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,global_gain_no_update,0,0.0,1,-304337.3140683582,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,growing_global_gain_EM,0,0.0,1,-304337.314072878,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-304337.3140666695,4.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,raw_peel,0,0.0,1,-304337.31406860333,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,raw_peel_repaired,0,0.0,1,-304337.31406860333,3.0,True,0.0,,
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-304337.3140666296,5.0,True,0.0,"[1, 1]",1.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,residual_greedy_pp_single,0,0.0,1,-304337.3140674947,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20003,symmetric2,2000,2,0.8,20003,residual_pp_single,0,0.0,1,-304337.314072997,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,Euclidean_X_pp_single_EM,0,0.0,1,-303026.2292725307,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,global_gain_no_update,0,0.0,1,-303026.229269919,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,growing_global_gain_EM,0,0.0,1,-303026.2292767549,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,growing_sampled_gain_EM,0,0.0,1,-303026.22927057056,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,raw_peel,0,0.0,1,-303026.229269919,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,raw_peel_repaired,0,0.0,1,-303026.229269919,3.0,True,0.0,,
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,residual_greedy_pp_best10,0,0.0,1,-303026.22926977696,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,residual_greedy_pp_single,0,0.0,1,-303026.2292697777,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch0.8_s20004,symmetric2,2000,2,0.8,20004,residual_pp_single,0,0.0,1,-303026.2292697901,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-474969.26328564645,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,global_gain_no_update,0,0.0,1,-474969.26328564645,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,growing_global_gain_EM,0,0.0,1,-474969.26328564645,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-474969.26328564645,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,raw_peel,0,0.0,1,-474969.26328564645,3.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,raw_peel_repaired,0,0.0,1,-474969.26328564645,3.0,True,0.0,,
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-474969.26328564645,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,residual_greedy_pp_single,0,0.0,1,-474969.26328564645,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20000,symmetric2,2000,2,1.4,20000,residual_pp_single,0,0.0,1,-474969.2632856465,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-469082.70904822194,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,global_gain_no_update,0,0.0,1,-469082.70904822194,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,growing_global_gain_EM,0,0.0,1,-469082.70904822194,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-469082.70904822194,3.0,True,-5.820766091346741e-11,[0],1.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,raw_peel,0,0.0,1,-469082.70904822194,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,raw_peel_repaired,0,0.0,1,-469082.70904822194,2.0,True,0.0,,
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-469082.7090482219,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,residual_greedy_pp_single,0,0.0,1,-469082.7090482219,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20001,symmetric2,2000,2,1.4,20001,residual_pp_single,0,0.0,1,-469082.70904822194,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-469997.2611363098,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,global_gain_no_update,0,0.0,1,-469997.2611363098,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,growing_global_gain_EM,0,0.0,1,-469997.2611363098,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-469997.2611363098,3.0,True,0.0,[1],1.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,raw_peel,0,0.0,1,-469997.2611363098,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,raw_peel_repaired,0,0.0,1,-469997.2611363098,2.0,True,0.0,,
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-469997.2611363098,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,residual_greedy_pp_single,0,0.0,1,-469997.2611363098,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20002,symmetric2,2000,2,1.4,20002,residual_pp_single,0,0.0,1,-469997.2611363098,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-472343.0183504333,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,global_gain_no_update,0,0.0,1,-472343.0183504333,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,growing_global_gain_EM,0,0.0,1,-472343.0183504334,3.0,True,-5.820766091346741e-11,[0],1.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-472343.0183504333,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,raw_peel,0,0.0,1,-472343.0183504333,3.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,raw_peel_repaired,0,0.0,1,-472343.0183504333,3.0,True,0.0,,
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-472343.0183504333,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,residual_greedy_pp_single,0,0.0,1,-472343.0183504334,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20003,symmetric2,2000,2,1.4,20003,residual_pp_single,0,0.0,1,-472343.0183504333,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-470482.4184594891,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,global_gain_no_update,0,0.0,1,-470482.4184594891,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,growing_global_gain_EM,0,0.0,1,-470482.4184594891,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-470482.4184594891,3.0,True,0.0,[0],1.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,raw_peel,0,0.0,1,-470482.4184594891,2.0,True,0.0,"[0, 1]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,raw_peel_repaired,0,0.0,1,-470482.4184594891,2.0,True,0.0,,
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-470482.41845948907,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,residual_greedy_pp_single,0,0.0,1,-470482.4184594891,2.0,True,0.0,"[1, 0]",2.0
+symmetric2_n2000_ch1.4_s20004,symmetric2,2000,2,1.4,20004,residual_pp_single,0,0.0,1,-470482.4184594891,2.0,True,0.0,"[0, 1]",2.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,Euclidean_X_pp_single_EM,3,0.003,0,-94296.53420908758,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,X_kmeans,1,0.001,0,,,,,,
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,global_gain_no_update,3,0.003,0,-94296.53429341024,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,growing_global_gain_EM,3,0.003,0,-94296.53409594428,4.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,growing_sampled_gain_EM,355,0.355,0,-96229.77348410766,39.0,True,0.0,"[2, 0]",2.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,raw_peel,3,0.003,0,-94296.5342389681,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,raw_peel_repaired,3,0.003,0,-94296.53409304848,2.0,True,0.0,,
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,residual_greedy_pp_best10,3,0.003,0,-94296.53409203317,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,residual_greedy_pp_single,3,0.003,0,-94296.53416879548,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch0.8_s20000,unequal3,1000,3,0.8,20000,residual_pp_single,3,0.003,0,-94296.53409386263,6.0,True,0.0,"[1, 1, 0]",2.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,Euclidean_X_pp_single_EM,6,0.006,0,-88788.67042374107,6.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,X_kmeans,31,0.031,0,,,,,,
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,global_gain_no_update,6,0.006,0,-88788.67034222078,4.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,growing_global_gain_EM,6,0.006,0,-88788.67113349694,4.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,growing_sampled_gain_EM,6,0.006,0,-88788.67070052456,4.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,raw_peel,6,0.006,0,-88788.67221989986,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,raw_peel_repaired,6,0.006,0,-88788.67004556053,2.0,True,0.0,,
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,residual_greedy_pp_best10,6,0.006,0,-88788.67027836491,6.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,residual_greedy_pp_single,6,0.006,0,-88788.6711567712,4.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch0.8_s20001,unequal3,1000,3,0.8,20001,residual_pp_single,425,0.425,0,-89197.37484038547,23.0,True,0.0,"[0, 0, 1]",2.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,Euclidean_X_pp_single_EM,0,0.0,1,-92420.6094325382,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,global_gain_no_update,0,0.0,1,-92420.60943250911,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,growing_global_gain_EM,0,0.0,1,-92420.60943250378,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,growing_sampled_gain_EM,0,0.0,1,-92420.60944632223,4.0,True,0.0,"[0, 1]",2.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,raw_peel,0,0.0,1,-92420.60943250908,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,raw_peel_repaired,0,0.0,1,-92420.60943250908,3.0,True,0.0,,
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,residual_greedy_pp_best10,0,0.0,1,-92420.60943250639,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,residual_greedy_pp_single,0,0.0,1,-92420.60943285101,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch0.8_s20002,unequal3,1000,3,0.8,20002,residual_pp_single,0,0.0,1,-92420.60943274722,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-92827.84780580027,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,X_kmeans,1,0.001,0,,,,,,
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,global_gain_no_update,0,0.0,1,-92827.84784880592,3.0,True,0.0,"[1, 0, 1]",2.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,growing_global_gain_EM,0,0.0,1,-92827.84778687688,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-92827.84780154692,5.0,True,0.0,"[1, 0]",2.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,raw_peel,0,0.0,1,-92827.84784605718,3.0,True,0.0,"[1, 1, 0]",2.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,raw_peel_repaired,0,0.0,1,-92827.84777710988,2.0,True,0.0,,
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-92827.84777720828,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,residual_greedy_pp_single,0,0.0,1,-92827.84782252919,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20003,unequal3,1000,3,0.8,20003,residual_pp_single,0,0.0,1,-92827.84777784973,3.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,Euclidean_X_pp_single_EM,0,0.0,1,-94084.82025299493,4.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,X_kmeans,3,0.003,0,,,,,,
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,global_gain_no_update,0,0.0,1,-94084.82025268889,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,growing_global_gain_EM,0,0.0,1,-94084.82027668205,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,growing_sampled_gain_EM,0,0.0,1,-94084.82025283226,4.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,raw_peel,0,0.0,1,-94084.82025594215,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,raw_peel_repaired,0,0.0,1,-94084.82025594215,3.0,True,0.0,,
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,residual_greedy_pp_best10,0,0.0,1,-94084.82025490553,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,residual_greedy_pp_single,0,0.0,1,-94084.8202791486,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch0.8_s20004,unequal3,1000,3,0.8,20004,residual_pp_single,0,0.0,1,-94084.82026825973,5.0,True,0.0,"[1, 0, 0]",2.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-140148.43270788423,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,global_gain_no_update,0,0.0,1,-140148.43270788423,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-140148.43270788423,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-140148.43270788423,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,raw_peel,0,0.0,1,-140148.43270788423,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-140148.43270788423,2.0,True,0.0,,
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-140148.43270788423,5.0,True,0.0,"[1, 0, 0]",2.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-140148.43270788423,5.0,True,0.0,"[1, 0, 0]",2.0
+unequal3_n1000_ch1.4_s20000,unequal3,1000,3,1.4,20000,residual_pp_single,0,0.0,1,-140148.43270788423,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-138264.650752787,4.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,global_gain_no_update,0,0.0,1,-138264.65075278698,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-138264.65075278698,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-138264.650752787,3.0,True,0.0,"[2, 1]",2.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,raw_peel,0,0.0,1,-138264.65075278698,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-138264.65075278698,2.0,True,0.0,,
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-138264.65075278698,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-138264.65075278698,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20001,unequal3,1000,3,1.4,20001,residual_pp_single,222,0.222,0,-142229.1455770799,10.0,True,0.0,"[0, 2, 0]",2.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-139992.34345043765,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,global_gain_no_update,0,0.0,1,-139992.34345043765,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-139992.34345043765,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-139992.34345043765,3.0,True,0.0,"[2, 0]",2.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,raw_peel,0,0.0,1,-139992.34345043765,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-139992.34345043765,2.0,True,0.0,,
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-139992.34345043765,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-139992.34345043765,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n1000_ch1.4_s20002,unequal3,1000,3,1.4,20002,residual_pp_single,0,0.0,1,-139992.34345043765,2.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,global_gain_no_update,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-140137.5390030971,3.0,True,0.0,"[2, 1]",2.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,raw_peel,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-140137.5390030971,2.0,True,0.0,,
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-140137.5390030971,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20003,unequal3,1000,3,1.4,20003,residual_pp_single,0,0.0,1,-140137.5390030971,4.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-140365.44068247738,2.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,global_gain_no_update,0,0.0,1,-140365.4406824774,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-140365.44068247738,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-140365.44068247743,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,raw_peel,0,0.0,1,-140365.4406824774,3.0,True,-2.9103830456733704e-11,"[2, 1, 1]",2.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-140365.4406824774,3.0,True,-2.9103830456733704e-11,,
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-140365.44068247738,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-140365.4406824774,3.0,True,-2.9103830456733704e-11,"[2, 0, 1]",3.0
+unequal3_n1000_ch1.4_s20004,unequal3,1000,3,1.4,20004,residual_pp_single,0,0.0,1,-140365.44068247738,3.0,True,0.0,"[1, 2, 0]",3.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,Euclidean_X_pp_single_EM,0,0.0,1,-235385.10869556363,5.0,True,0.0,"[1, 1, 0]",2.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,global_gain_no_update,0,0.0,1,-235385.10869556174,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,growing_global_gain_EM,0,0.0,1,-235385.108695588,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,growing_sampled_gain_EM,0,0.0,1,-235385.10869557646,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,raw_peel,0,0.0,1,-235385.1086955647,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,raw_peel_repaired,0,0.0,1,-235385.1086955647,3.0,True,0.0,,
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,residual_greedy_pp_best10,0,0.0,1,-235385.10869556107,6.0,True,0.0,"[0, 1, 0]",2.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,residual_greedy_pp_single,0,0.0,1,-235385.10869556107,6.0,True,0.0,"[0, 1, 0]",2.0
+unequal3_n2000_ch0.8_s20000,unequal3,2000,3,0.8,20000,residual_pp_single,0,0.0,1,-235385.10870309416,3.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,Euclidean_X_pp_single_EM,0,0.0,1,-233353.58326700947,6.0,True,0.0,"[0, 1, 0]",2.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,X_kmeans,1,0.0005,0,,,,,,
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,global_gain_no_update,0,0.0,1,-233353.5832670097,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,growing_global_gain_EM,0,0.0,1,-233353.58326700958,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,growing_sampled_gain_EM,0,0.0,1,-233353.58326701072,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,raw_peel,0,0.0,1,-233353.5832670097,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,raw_peel_repaired,0,0.0,1,-233353.5832670097,3.0,True,0.0,,
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,residual_greedy_pp_best10,0,0.0,1,-233353.58326700947,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,residual_greedy_pp_single,0,0.0,1,-233353.5832670243,3.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n2000_ch0.8_s20001,unequal3,2000,3,0.8,20001,residual_pp_single,0,0.0,1,-233353.58326700944,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,Euclidean_X_pp_single_EM,0,0.0,1,-232637.29837999868,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,X_kmeans,2,0.001,0,,,,,,
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,global_gain_no_update,0,0.0,1,-232637.29837435187,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,growing_global_gain_EM,0,0.0,1,-232637.2983805525,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,growing_sampled_gain_EM,0,0.0,1,-232637.2983785633,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,raw_peel,0,0.0,1,-232637.29837421735,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,raw_peel_repaired,0,0.0,1,-232637.29837421735,3.0,True,0.0,,
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,residual_greedy_pp_best10,0,0.0,1,-232637.29837344927,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,residual_greedy_pp_single,0,0.0,1,-232637.2983738783,5.0,True,0.0,"[0, 1, 0]",2.0
+unequal3_n2000_ch0.8_s20002,unequal3,2000,3,0.8,20002,residual_pp_single,0,0.0,1,-232637.29837389695,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,Euclidean_X_pp_single_EM,0,0.0,1,-233302.6049290329,4.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,global_gain_no_update,0,0.0,1,-233302.60495114644,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,growing_global_gain_EM,0,0.0,1,-233302.6049293428,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,growing_sampled_gain_EM,0,0.0,1,-233302.60492887575,4.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,raw_peel,0,0.0,1,-233302.60492870107,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,raw_peel_repaired,0,0.0,1,-233302.60492870107,3.0,True,0.0,,
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,residual_greedy_pp_best10,0,0.0,1,-233302.60492870476,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,residual_greedy_pp_single,0,0.0,1,-233302.60493106392,2.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch0.8_s20003,unequal3,2000,3,0.8,20003,residual_pp_single,0,0.0,1,-233302.6049287073,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,Euclidean_X_pp_single_EM,0,0.0,1,-232118.86759413395,4.0,True,0.0,"[2, 0, 0]",2.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,X_kmeans,2,0.001,0,,,,,,
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,global_gain_no_update,0,0.0,1,-232118.86759413395,3.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,growing_global_gain_EM,0,0.0,1,-232118.86759413467,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,growing_sampled_gain_EM,0,0.0,1,-232118.86759417946,2.0,True,0.0,"[2, 1]",2.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,raw_peel,0,0.0,1,-232118.86759413395,3.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,raw_peel_repaired,0,0.0,1,-232118.86759413395,3.0,True,0.0,,
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,residual_greedy_pp_best10,0,0.0,1,-232118.86759413392,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,residual_greedy_pp_single,0,0.0,1,-232118.86759414256,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch0.8_s20004,unequal3,2000,3,0.8,20004,residual_pp_single,0,0.0,1,-232118.86759413395,6.0,True,0.0,"[0, 1, 0]",2.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,Euclidean_X_pp_single_EM,0,0.0,1,-358860.3096349428,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,global_gain_no_update,0,0.0,1,-358860.3096349428,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,growing_global_gain_EM,0,0.0,1,-358860.3096349428,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,growing_sampled_gain_EM,0,0.0,1,-358860.3096349428,3.0,True,0.0,"[2, 1]",2.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,raw_peel,0,0.0,1,-358860.3096349428,3.0,True,0.0,"[2, 1, 1]",2.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,raw_peel_repaired,0,0.0,1,-358860.3096349428,3.0,True,0.0,,
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,residual_greedy_pp_best10,0,0.0,1,-358860.30963494274,2.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,residual_greedy_pp_single,0,0.0,1,-358860.3096349428,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20000,unequal3,2000,3,1.4,20000,residual_pp_single,0,0.0,1,-358860.30963494274,2.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,Euclidean_X_pp_single_EM,0,0.0,1,-353606.03095341276,25.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,global_gain_no_update,0,0.0,1,-353606.03095341276,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,growing_global_gain_EM,0,0.0,1,-353606.03095341276,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,growing_sampled_gain_EM,0,0.0,1,-353606.03095341276,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,raw_peel,0,0.0,1,-353606.03095341276,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,raw_peel_repaired,0,0.0,1,-353606.03095341276,2.0,True,0.0,,
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,residual_greedy_pp_best10,0,0.0,1,-353606.03095341264,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,residual_greedy_pp_single,0,0.0,1,-353606.0309534127,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20001,unequal3,2000,3,1.4,20001,residual_pp_single,0,0.0,1,-353606.0309534127,2.0,True,0.0,"[0, 2, 1]",3.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,Euclidean_X_pp_single_EM,0,0.0,1,-354450.6822757083,9.0,True,0.0,"[0, 1, 1]",2.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,global_gain_no_update,0,0.0,1,-354450.6822757083,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,growing_global_gain_EM,0,0.0,1,-354450.6822757083,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,growing_sampled_gain_EM,0,0.0,1,-354450.6822757083,3.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,raw_peel,0,0.0,1,-354450.6822757083,3.0,True,0.0,"[2, 1, 1]",2.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,raw_peel_repaired,0,0.0,1,-354450.6822757083,3.0,True,0.0,,
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,residual_greedy_pp_best10,0,0.0,1,-354450.68227570824,2.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,residual_greedy_pp_single,0,0.0,1,-354450.6822757083,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20002,unequal3,2000,3,1.4,20002,residual_pp_single,0,0.0,1,-354450.6822757083,5.0,True,0.0,"[1, 0, 1]",2.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,Euclidean_X_pp_single_EM,0,0.0,1,-356990.1489165437,2.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,global_gain_no_update,0,0.0,1,-356990.14891654364,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,growing_global_gain_EM,0,0.0,1,-356990.14891654364,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,growing_sampled_gain_EM,0,0.0,1,-356990.14891654364,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,raw_peel,0,0.0,1,-356990.14891654364,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,raw_peel_repaired,0,0.0,1,-356990.14891654364,2.0,True,0.0,,
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,residual_greedy_pp_best10,0,0.0,1,-356990.14891654364,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,residual_greedy_pp_single,0,0.0,1,-356990.14891654364,3.0,True,0.0,"[0, 1, 2]",3.0
+unequal3_n2000_ch1.4_s20003,unequal3,2000,3,1.4,20003,residual_pp_single,0,0.0,1,-356990.1489165437,2.0,True,0.0,"[1, 2, 0]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,Euclidean_X_pp_single_EM,0,0.0,1,-354994.877962717,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,X_kmeans,0,0.0,1,,,,,,
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,global_gain_no_update,0,0.0,1,-354994.877962717,2.0,True,0.0,"[2, 0, 1]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,growing_global_gain_EM,0,0.0,1,-354994.877962717,2.0,True,0.0,"[1, 2]",2.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,growing_sampled_gain_EM,0,0.0,1,-354994.877962717,4.0,True,0.0,"[0, 1]",2.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,raw_peel,0,0.0,1,-354994.877962717,2.0,True,0.0,"[2, 1, 0]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,raw_peel_repaired,0,0.0,1,-354994.877962717,2.0,True,0.0,,
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,residual_greedy_pp_best10,0,0.0,1,-354994.877962717,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,residual_greedy_pp_single,0,0.0,1,-354994.877962717,3.0,True,0.0,"[1, 0, 2]",3.0
+unequal3_n2000_ch1.4_s20004,unequal3,2000,3,1.4,20004,residual_pp_single,0,0.0,1,-354994.877962717,3.0,True,0.0,"[0, 1, 2]",3.0

@@ -1,0 +1,17 @@
+{
+  "input": "Only U,Lambda during fitting; all saved truth/baseline fields after every fit and selection",
+  "profile": "q=max(U diag(Lambda) U.T,1e-4 log(n)/n), retain diagonal",
+  "score": "ell_i(mu)=sum_j q_ij log(mu_j)-mu_j; all proposals accepted by same raw observed mixture objective",
+  "residual": "min_a D(q_i||mu_a), D(q_i||mu)=sum q_i log(q_i/mu)-q_i+mu; not squared again",
+  "pp": "Uniform first node; sample subsequent candidates proportional residual deviance; no node deletion",
+  "greedy_pp": "2+floor(log K) residual sampled candidate trials; minimize full-data post-addition deviance",
+  "global_gain": "Choose all-node candidate maximizing sum_i max(current_min_deviance_i-D(q_i||q_c),0)",
+  "growing": "Begin with global mean q, add candidate by global gain, all-node EM after each addition",
+  "growing_sampled": "Same growing procedure, but 2+floor(log K) residual sampled candidate trials per addition",
+  "replacement": "Try deleting each current component in turn; choose global-gain candidate against retained components; refit with current weights; accept best observed-mixture likelihood improvement >1e-5; one pass",
+  "EM": "max_iter=300,tol=1e-6, floored-simplex weights; same stopping scale including cached observation Gamma sum",
+  "restarts": 10,
+  "RNG": "SeedSequence([graph_seed,method_tag,restart,20261009]); fixed throughout",
+  "limitation": "Same spectral working score; no exact LOO/graph likelihood; design-stage spectra reused; independent seeds tested separately",
+  "graphs": 120
+}

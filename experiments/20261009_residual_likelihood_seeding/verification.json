@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "baseline_graph_errors_match": 120,
+  "graphs_checked": 240,
+  "saved_fit_traces": 6240,
+  "saved_trace_points": 27867,
+  "minimum_objective_increment": -1.1641532182693481e-10,
+  "best10_selected_by_likelihood": 240,
+  "repair_never_decreases_final_likelihood": true,
+  "repair_accepted": {
+    "design_results": 22,
+    "validation_results": 25
+  },
+  "scalar_deviance_max_abs_error": 7.105427357601002e-15,
+  "scalar_global_gain_max_abs_error": 1.7763568394002505e-15,
+  "paired": {
+    "design_results": [
+      {
+        "method": "Euclidean_X_pp_single_EM",
+        "better": 1,
+        "equal": 107,
+        "worse": 12,
+        "lower_objective": 22
+      },
+      {
+        "method": "X_kmeans",
+        "better": 3,
+        "equal": 89,
+        "worse": 28,
+        "lower_objective": 0
+      },
+      {
+        "method": "global_gain_no_update",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 16
+      },
+      {
+        "method": "growing_global_gain_EM",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 14
+      },
+      {
+        "method": "growing_sampled_gain_EM",
+        "better": 1,
+        "equal": 118,
+        "worse": 1,
+        "lower_objective": 20
+      },
+      {
+        "method": "raw_peel_repaired",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 0
+      },
+      {
+        "method": "residual_greedy_pp_best10",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 2
+      },
+      {
+        "method": "residual_greedy_pp_single",
+        "better": 1,
+        "equal": 116,
+        "worse": 3,
+        "lower_objective": 18
+      },
+      {
+        "method": "residual_pp_single",
+        "better": 0,
+        "equal": 107,
+        "worse": 13,
+        "lower_objective": 28
+      }
+    ],
+    "validation_results": [
+      {
+        "method": "Euclidean_X_pp_single_EM",
+        "better": 0,
+        "equal": 101,
+        "worse": 19,
+        "lower_objective": 27
+      },
+      {
+        "method": "X_kmeans",
+        "better": 3,
+        "equal": 89,
+        "worse": 28,
+        "lower_objective": 0
+      },
+      {
+        "method": "global_gain_no_update",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 14
+      },
+      {
+        "method": "growing_global_gain_EM",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 20
+      },
+      {
+        "method": "growing_sampled_gain_EM",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 18
+      },
+      {
+        "method": "raw_peel_repaired",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 0
+      },
+      {
+        "method": "residual_greedy_pp_best10",
+        "better": 1,
+        "equal": 119,
+        "worse": 0,
+        "lower_objective": 0
+      },
+      {
+        "method": "residual_greedy_pp_single",
+        "better": 1,
+        "equal": 112,
+        "worse": 7,
+        "lower_objective": 19
+      },
+      {
+        "method": "residual_pp_single",
+        "better": 1,
+        "equal": 109,
+        "worse": 10,
+        "lower_objective": 22
+      }
+    ]
+  }
+}
