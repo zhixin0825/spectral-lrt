@@ -1,0 +1,4 @@
+Recompiled PDF from unchanged historical TeX; this is not the recovered original PDF.
+This build does not verify the mathematical claims in the historical draft.
+Source commit: ddaffcccc0df2518488128fe6b49d728c45b6ff3
+Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/37873042360
