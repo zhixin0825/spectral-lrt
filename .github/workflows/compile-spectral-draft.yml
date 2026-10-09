@@ -1,0 +1,64 @@
+name: Compile historical spectral LRT draft
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "paper/previous_draft/sbm_spectral_lrt_20261009.tex"
+      - ".github/workflows/compile-spectral-draft.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compile-spectral-draft
+  cancel-in-progress: false
+
+jobs:
+  compile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Install XeLaTeX and Chinese fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk
+      - name: Compile unchanged historical source twice
+        working-directory: paper/previous_draft
+        run: |
+          xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error -jobname=sbm_spectral_lrt_20261009_recompiled sbm_spectral_lrt_20261009.tex
+          xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error -jobname=sbm_spectral_lrt_20261009_recompiled sbm_spectral_lrt_20261009.tex
+          test -s sbm_spectral_lrt_20261009_recompiled.pdf
+          sha256sum sbm_spectral_lrt_20261009.tex sbm_spectral_lrt_20261009_recompiled.pdf > RECOMPILED_SHA256SUMS.txt
+      - name: Record build provenance
+        env:
+          BUILD_SOURCE_SHA: ${{ github.sha }}
+          BUILD_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          Path("paper/previous_draft/RECOMPILED_BUILD.txt").write_text(
+              "Recompiled PDF from unchanged historical TeX; this is not the recovered original PDF.\n"
+              "This build does not verify the mathematical claims in the historical draft.\n"
+              "Source commit: " + os.environ["BUILD_SOURCE_SHA"] + "\n"
+              "Build run: " + os.environ["BUILD_RUN_URL"] + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Commit compiled PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/previous_draft/sbm_spectral_lrt_20261009_recompiled.pdf paper/previous_draft/RECOMPILED_SHA256SUMS.txt paper/previous_draft/RECOMPILED_BUILD.txt
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Compile historical spectral LRT draft to PDF"
+          git pull --rebase origin main
+          git push origin HEAD:main
