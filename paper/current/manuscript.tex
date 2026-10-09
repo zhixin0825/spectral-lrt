@@ -9,7 +9,7 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
 \usepackage{bookmark}
-\hypersetup{pdftitle={Spectral Likelihood-Ratio Decoding for Community Recovery in the Stochastic Block Model},pdfauthor={Zhixin Zhou},pdfsubject={Spectral-only classification, local Chernoff-rate recovery, initialization and empirical evaluation}}
+\hypersetup{pdftitle={Nearly Optimal Community Recovery by Spectral Likelihood Decoding},pdfauthor={Zhixin Zhou},pdfsubject={Spectral-only community recovery, end-to-end Chernoff-exponent guarantees, likelihood initialization and empirical evaluation}}
 \setlength{\parskip}{3pt}
 \setlist{nosep,leftmargin=*}
 \newtheorem{theorem}{Theorem}[section]
@@ -22,7 +22,7 @@
 \newtheorem{remark}[theorem]{Remark}
 \newcommand{\Mis}{\operatorname{Mis}}
 \newcommand{\E}{\mathbb E}
-\newcommand{\PP}{\mathbb \Omega}
+\newcommand{\PP}{\mathbb P}
 \newcommand{\R}{\mathbb R}
 \newcommand{\one}{\mathbf 1}
 \newcommand{\diag}{\operatorname{diag}}
@@ -35,13 +35,13 @@
 \newcommand{\argmax}{\operatorname*{arg\,max}}
 \newcommand{\argmin}{\operatorname*{arg\,min}}
 \numberwithin{equation}{section}
-\title{Spectral Likelihood-Ratio Decoding for Community Recovery\\in the Stochastic Block Model}
+\title{Nearly Optimal Community Recovery by Spectral Likelihood Decoding}
 \author{Zhixin Zhou}
-\date{October 9, 2026\\\small Research manuscript}
+\date{October 10, 2026\\\small Research manuscript}
 \begin{document}
 \maketitle
 \begin{abstract}
-Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We study how to decode this information from the retained spectrum. We propose a spectral-only procedure that starts at the global profile mean, adds candidate profiles by their likelihood gain on all nodes, and refits all components after each addition. For a fixed full-rank stochastic block model at logarithmic density, first-order entrywise eigenspace analysis gives a uniform row-profile approximation to oracle block-count compression. We then prove that an admissible fixed positive floor preserves the leading Chernoff exponent and that the empirical profile EM decoder, from a sufficiently reliable weak start, achieves $e^{-(1+o(1))I_n}$ through subsequent iterations. A spectral warm-start variant gives an end-to-end recovery corollary. The high-probability weak-initialization guarantee for the proposed growing likelihood initializer remains unproved. On two paired collections totaling 240 simulated graphs, growing global-gain seeding or likelihood-accepted parameter replacement removes two severe initialization failures and reduces mean misclassification relative to the tested spectral $k$-means baseline. We also give exact contrast-preservation and objective-convergence results and formulate the additional requirements below logarithmic density.
+Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We show that the leading Chernoff error exponent can be attained by a decoder that uses only the retained adjacency eigenpairs. Our procedure fits a Poisson-form working mixture to positive reconstructed connection profiles. A growing initialization starts at the global profile mean, adds candidate profiles by their likelihood gain on all nodes, and refits after each addition. For a fixed full-rank stochastic block model at density $\log n/n$, with positive block probabilities, positive limiting community proportions, and an admissible fixed positive profile floor, we prove end-to-end recovery for this growing procedure when $K=2$. For general fixed $K$, we add an explicit safeguard: $\lceil\log n\rceil$ independent likelihood-residual++ initializations, fitted only after all $K$ seeds have been selected, compete with the growing fit under the same observed working mixture likelihood. One final EM update and likelihood-ratio decoding give $\mathbb E\,\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}$ without an assumed weak initializer or a $K$-means warm start. The guarantee concerns the leading exponent, with $I_n$ the minimum pairwise Chernoff information. The proof combines empirical spectral linearization, likelihood-based initialization and fit selection, and invariant-basin EM analysis for the dependent spectral profiles. Experiments on two paired collections totaling 240 graphs evaluate the original growing and parameter-replacement procedures; the safeguarded combination has not been evaluated on that full collection. We also state the additional requirements for an extension below logarithmic density.
 \end{abstract}
 \input{intro}
 \input{algorithm}

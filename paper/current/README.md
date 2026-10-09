@@ -1,39 +1,36 @@
-# Current spectral likelihood-ratio manuscript
+# Nearly optimal spectral likelihood decoding
 
-This English research manuscript follows the six-section structure and includes proof appendices, references, and the archived 240-graph evaluation.
+The current manuscript proves end-to-end recovery at the leading error exponent, under fixed known K, fixed positive full-rank B, positive limiting community proportions, density log(n)/n, and an admissible positive profile floor.
 
-The working title is **Spectral Likelihood-Ratio Decoding for Community Recovery in the Stochastic Block Model**.
+## Complete algorithm
 
-## Current algorithm and notation
+Algorithm 1 retains the original global-mean growing fit. Alongside it, run ceil(log(n)) conditionally independent likelihood-residual++ initializations: uniform first node, subsequent seeds sampled proportional to min-seed Poisson deviance, all K seeds chosen before joint fitting. Select the highest final working mixture likelihood across these fits and the growing fit. Perform one final E-step and profile/weight M-step before decoding.
 
-Algorithm 1 is the already tested growing global-gain branch: start at the global profile mean, add a node profile by all-node likelihood gain, refit all components after each addition, and repeat to K components. There is no top-fraction or 1.5K parameter. It is recorded as growing_global_gain_EM and exposed by method='global_gain'. The subset-first global_gain_no_update algorithm is a historical control.
+The exact implementation is Work.certified_growing() in ../../experiments/20261009_residual_likelihood_seeding/residual_seed.py, exposed by method='global_gain_certified'. The original growing_global_gain_EM / method='global_gain' is retained separately. Neither uses a top-fraction parameter or a k-means decoder.
 
-The manuscript follows Zhou--Li notation: P is the K-by-K block probability matrix, p_{kj}=P_{k,z_j}, Mis is the permutation-invariant error, and D_alpha denotes Chernoff information. Omega is the n-by-n graph mean. I_n is the minimum exact pairwise Chernoff information. Zhou--Li is cited as optimal-rate prior work without restating its refined rate.
+## End-to-end results
 
-## What is proved
+- Theorem 3.8 (label thm:two-community-growing) proves the original growing branch itself for K=2.
+- Theorem 3.9 (label thm:certified-likelihood) proves the complete likelihood-restart algorithm for every fixed K.
+- The guarantee is E Mis <= exp(-(1+o(1)) I_n). It does not assume that the algorithm has already initialized correctly.
+- The proof establishes reliable seed coverage, likelihood-based fit selection, and weak posterior responsibilities, then applies the empirical spectral EM theorem.
+- For I_n/log(n) -> J_* > 1, exact recovery follows.
+- Further finite exact EM updates preserve the guarantee. A prescribed polynomial iteration bound gives polynomial complexity.
 
-At logarithmic density with fixed full-rank B and an admissible fixed floor c_0 rho_n, the revised proof establishes:
+The unsafeguarded growing branch is not claimed to be proved for general K. The general-K theorem explicitly includes the safeguard. It is fully likelihood-based; the separate spectral k-means warm-start corollary is not used in this proof.
 
-- Full empirical spectral reconstruction is uniformly o(log n) from oracle block-count compression in row L1.
-- Clipped oracle comparisons retain the leading Chernoff exponent.
-- Actual spectral-profile EM from a sufficiently reliable weak start achieves exp(-(1+o(1)) I_n), through further exact updates and finite adaptive stopping.
-- A provable spectral warm-start variant supplies an end-to-end recovery corollary.
-- Exact contrast preservation, fixed-profile greedy properties, and within-fit objective convergence hold with their stated assumptions.
+## Notation and scope
 
-The unresolved logarithmic-density step for the primary Algorithm 1 is its high-probability weak-start guarantee. This is not implied by the frozen-profile greedy guarantee or objective convergence. The theoretical amplified k-means++ initializer is distinct from the archived fixed ten-start Lloyd baseline.
+P is the K-by-K block probability matrix, p_{kj}=P_{k,z_j}, Mis is permutation-invariant error, D_alpha is the Chernoff quantity, and Omega is the n-by-n graph mean. I_n is the minimum exact pairwise information. Zhou–Li is cited as optimal-rate prior work without repeating its refined rate. The claim is equality of the leading exponent.
 
-## Read and compile
+## Numerical evidence
 
-- manuscript.pdf: compiled reading version.
-- manuscript.tex: main source including the section files.
-- references.bib: bibliography.
-- figures/initialization_failure_repair.pdf: vector diagnostic figure.
-- selected_experiment_results.csv and selected_experiment_models.csv: archived numerical summaries.
+The archived 240-graph comparison remains unchanged and concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the archived spectral k-means baseline 0.3194%, 139/240. It is not a full evaluation of the newly safeguarded combination.
 
-Run PDFLaTeX, BibTeX, and two further PDFLaTeX passes from this directory. The repository workflow compiles source changes and commits the PDF with build provenance.
+The new code was separately verified on 24 fresh SBM cases: likelihood selection never falls below the original growing objective; the final M-step is mandatory; profiles and floored weights satisfy their constraints. These checks do not prove finite-sample superiority in misclassification. See ../../experiments/20261010_certified_likelihood/.
 
-## Existing evidence
+## Build and read
 
-Across 240 graphs, the growing global-gain branch has mean mislabeled fraction 0.0946% and exact recovery on 163 graphs; the ten-start spectral k-means baseline has mean mislabeled fraction 0.3194% and exact recovery on 139 graphs. This is a paired recovery comparison with unequal fitting budgets, not an equal-runtime benchmark or an asymptotic exponent experiment.
+manuscript.pdf is the compiled paper. Run PDFLaTeX, BibTeX, and two additional PDFLaTeX passes from this directory. GitHub Actions records the source commit and SHA256 checksums.
 
-Detailed reports and scripts remain in experiments/20261009_residual_likelihood_seeding/. Original numerical records are unchanged.
+The source retains six main sections, complete proof appendices, the historical experiment implementation, and references. All raw experiment records remain unchanged.

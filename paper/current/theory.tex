@@ -338,6 +338,159 @@ A fixed-factor approximate $K$-means solution has total squared error at most a 
 For a concrete randomized implementation, the $K$-means++ expected squared-error bound is $C_K=8(\log K+2)$ times the optimum~\citep{arthur2007}. Conditional on $U$, Markov's inequality bounds the chance of exceeding $2C_K$ times the optimum by $1/2$ for each independent seeding. Taking at least $(H+2)\log_2 n$ independent seedings and selecting the smallest squared-error potential makes that failure at most $n^{-H-2}$. Any subsequent Lloyd steps can only lower this potential. The zero-optimum case is recovered exactly by the seeding. For fixed $K$ this costs polynomial time and uses only $U$. Choose $H>J_*$, combine this event with the spectral event, and apply Theorem~\ref{thm:local-spectral-em}.
 \end{proof}
 
+
+\subsection{End-to-end likelihood initialization}
+\label{app:end-to-end}
+
+\paragraph{Proof of Theorem~\ref{thm:two-community-growing}.}
+Fix $H>J_*+2$ and work on the event of Lemma~\ref{lem:full-spectral}. All constants below may depend on $H$ and the fixed model. Enlarge its deterministic $a_n\to0$ if necessary to bound both displayed profile errors. Put $\pi_{a,n}=n_a/n$,
+\[
+ m_b=\sum_{a=1}^2\pi_{a,n}B_{ab},\qquad
+ D_{\pi_n}(x\Vert y)=
+ \sum_b\pi_{b,n}\{x_b\log(x_b/y_b)-x_b+y_b\}.
+\]
+Write $q_c^0=\rho_n v_c$ blockwise, where
+\[
+ v_{cb}=\max\left\{\frac{\sum_{j:z_j=b}A_{cj}}{n_b\rho_n},c_0\right\}.
+\]
+This is only an analysis variable. In particular $v_c$ may be a rare extreme candidate, and we do not assume it is near its own community profile. Let
+\[
+ h_a(v)=\sum_b\pi_{b,n}
+ \{B_{ab}\log(v_b/m_b)-(v_b-m_b)\},\qquad
+ \Phi_n(v)=\sum_a\pi_{a,n}[h_a(v)]_+.
+\]
+The global profile mean $\overline q$ differs from the block vector $\rho_nm$ in $\ell_1$ norm by at most $a_nd_n$. The uniform bound on $q_c-q_c^0$, the common positive box, and cancellation of $\log\rho_n$ in score differences give
+\[
+ \left|[\ell_i(q_c)-\ell_i(\overline q)]-d_nh_{z_i}(v_c)\right|
+ \le C\{\|q_i-p_{z_i,*}\|_1+a_nd_n\}.
+\]
+Here the parameter perturbation costs $C\|q_c-q_c^0\|_1+C\|\overline q-\rho_nm\|_1$, because $q_{ij}\le C\rho_n$ and $\log$ is $1/(c_0\rho_n)$-Lipschitz. The remaining observation perturbation multiplies a uniformly bounded log ratio. Since positive part is 1-Lipschitz, summing yields the simultaneous candidate bound
+\[
+ \sup_c\left|\frac{\Delta_2(c)}{nd_n}-\Phi_n(v_c)\right|\le Ca_n.
+\]
+Every true class has a candidate with $\|q_c-p_{a*}\|_1=o(d_n)$ by the average error bound and its positive proportion. The same is true of $q_c^0$, so $v_c\to B_{a*}$. Thus, for
+\[
+ g_0=\max_a\pi_aD_\pi(B_{a*}\Vert m_\infty)>0,
+ \qquad m_{\infty,b}=\sum_a\pi_aB_{ab},
+\]
+the selected candidate satisfies $\Phi_n(v_c)\ge g_0/2$ for large $n$. Positivity follows because the two distinct block rows cannot both equal their mean.
+
+The decisive two-class identity is
+\[
+ \sum_a\pi_{a,n}h_a(v)=-D_{\pi_n}(m\Vert v)\le0.
+\]
+Together with $\Phi_n(v_c)\ge g_0/2$, it forces exactly one of $h_1(v_c),h_2(v_c)$ to be positive. Moreover
+\[
+ h_{\rm pos}(v_c)\ge g_0/2,\qquad
+ h_{\rm neg}(v_c)\le-g_0/2,
+\]
+since each weighted positive or negative magnitude is at least $g_0/2$ and each proportion is at most one. The initial two mixture weights are equal, so they do not alter this score comparison.
+
+Take $\tau_n=\sqrt{a_n}+d_n^{-1}$. At most $(a_n/\tau_n)n=o(n)$ observations have $\|q_i-p_{z_i,*}\|_1>\tau_nd_n$. Every other observation has the correct initial component margin at least $g_0d_n/4$ after the above score perturbations. After a common label alignment, the first E-step therefore satisfies
+\[
+ \frac1n\sum_{i,a}|R_{ia}-Z_{ia}|
+ \le \frac{2a_n}{\tau_n}+2e^{-g_0d_n/4}=o(1).
+\]
+The graph event has failure $O(n^{-H})$, so these responsibilities meet the reliability condition in Theorem~\ref{thm:local-spectral-em}. The evaluated fitting loop always performs its first M-step before it may stop. That theorem gives the claimed exponent for the first resulting decode and all subsequent finite updates, including the evaluated stopping rule. Its exact-recovery implication also applies. \qed
+
+\paragraph{Proof of Theorem~\ref{thm:certified-likelihood}.}
+Again choose a fixed $H>J_*+2$ and condition on the event in Lemma~\ref{lem:full-spectral}. Let $a_n\to0$ bound its average profile error, and write $c_0\rho_n\le q_{ij}\le C_H\rho_n$. True profiles have the same positive box after enlarging $C_H$. Full rank implies distinct block rows; their limiting positive proportions give constants $\kappa,s>0$ such that
+\[
+ \min_{a\ne b}D_{\mathrm P}(p_{a*}\Vert p_{b*})\ge\kappa d_n,\qquad
+ \min_{a\ne b}\|p_{a*}-p_{b*}\|_1\ge sd_n
+\]
+for all sufficiently large $n$.
+
+\emph{Reliable seed coverage.}
+On this box the two derivatives of the scalar deviance are $\log(x/y)$ and $1-x/y$, which are uniformly bounded. Consequently
+\[
+ \begin{split}
+ 0\le D_{\mathrm P}(x\Vert y)&\le Cd_n,\\
+ |D_{\mathrm P}(x\Vert y)-D_{\mathrm P}(x'\Vert y')|
+ &\le C(\|x-x'\|_1+\|y-y'\|_1).
+ \end{split}
+\]
+Set $\tau_n=\sqrt{a_n}+d_n^{-1}$. Call row $i$ good when $\|q_i-p_{z_i,*}\|_1\le\tau_nd_n$; the remaining rows number at most $(a_n/\tau_n)n$. Conditional on previously selected seeds being good and representing distinct classes, every good row in a represented class has residual at most $2C\tau_nd_n$. Every good row in an unrepresented class has residual at least $\kappa d_n/2$, by the Lipschitz bound. Before $K$ seeds have been selected, an unrepresented class supplies at least $\pi_{\min}n/2$ good rows. Hence total sampling mass is at least $cnd_n$, whereas the mass of represented good rows and all bad rows is at most
+\[
+ C(\tau_n+a_n/\tau_n)nd_n.
+\]
+The first uniform seed is bad with probability at most $a_n/\tau_n$. A union bound over the fixed $K$ choices gives single-run failure at most
+\[
+ r_{H,n}\le C_K(\tau_n+a_n/\tau_n)=o(1).
+\]
+The all-zero fallback cannot occur on this successful path while a class remains unrepresented. Conditional on $q$, the restart streams are independent. Their joint failure probability is at most
+\[
+ r_{H,n}^{\lceil\log n\rceil}=n^{-\omega(1)}.
+\]
+This amplification requires no knowledge of $H$ or the separation constants.
+
+\emph{Likelihood selection certifies the winning fit.}
+Define the observation-only saturation constant and soft deviance
+\[
+ S_q=\sum_{i,j}(q_{ij}\log q_{ij}-q_{ij}),\qquad
+ F(\widehat\pi,\widehat p)=
+ -\sum_i\log\sum_k\widehat\pi_k
+       e^{-D_{\mathrm P}(q_i\Vert\widehat p_{k*})}.
+\]
+There is the exact identity
+\[
+ \mathcal L=S_q-F,\qquad
+ F\ge\sum_i\min_kD_{\mathrm P}(q_i\Vert\widehat p_{k*})\ge0.
+\]
+Observation Gamma terms, if restored, are common to every fit. A successful run starts with one good seed for each class and uniform weights. Thus
+\[
+ F_{\rm initial}
+ \le C(a_n+\tau_n)nd_n+n\log K
+ =:\epsilon_nnd_n,\qquad \epsilon_n\to0.
+\]
+Every exact EM update increases $\mathcal L$ and decreases $F$. Selecting the largest final $\mathcal L$ across all runs, including the growing endpoint, therefore gives
+\[
+ F_{\rm selected}\le\epsilon_nnd_n.
+\]
+This argument does not require identifying the successful run, fitting any run to stationarity, or proving anything about the growing branch's basin dynamics.
+
+All candidate means remain in the same box, since they start at rows or the global mean of $q$ and each M-step forms a convex combination. Keeping the previous mean in a zero-mass component preserves the box too. Strong convexity of $x\log x-x$ on the box, followed by Cauchy--Schwarz, gives
+\[
+ D_{\mathrm P}(x\Vert y)
+ \ge\frac{\|x-y\|_2^2}{2C_H\rho_n}
+ \ge\frac{\|x-y\|_1^2}{2C_Hd_n}.
+\]
+Consequently
+\[
+ \sum_i\min_k\|q_i-\widehat p_{k*}\|_1^2
+ \le 2C_H\epsilon_nnd_n^2.
+\]
+Put $\eta_n=\sqrt{a_n}+\epsilon_n^{1/4}+d_n^{-1}$. The fractions of rows farther than $\eta_nd_n$ from their true profile, or from every fitted profile, are at most $a_n/\eta_n$ and $2C_H\epsilon_n/\eta_n^2$, respectively; both tend to zero. Each positive-proportion true class has a row avoiding both bad sets. Its fitted center is within $2\eta_nd_n$ of its true center. The separation $sd_n$ forces different classes to use different fitted centers; with exactly $K$ centers this gives a single label permutation satisfying
+\[
+ \max_a\|\widehat p_{a*}-p_{a*}\|_1\le2\eta_nd_n.
+\]
+
+\emph{The selected responsibilities are weakly consistent.}
+For a row with $\|q_i-p_{z_i,*}\|_1\le\eta_nd_n$, every wrongly matched center is at $\ell_1$ distance at least $sd_n/2$ for large $n$, hence its deviance is at least
+$c_*d_n$, with $c_*=s^2/(8C_H)>0$.
+For the selected fit's exact E-step, write
+\[
+ R_{ik}=
+ \frac{\widehat\pi_k e^{-D_{\mathrm P}(q_i\Vert\widehat p_{k*})}}
+ {\sum_l\widehat\pi_l e^{-D_{\mathrm P}(q_i\Vert\widehat p_{l*})}}.
+\]
+The variational identity is
+\[
+ -\log\sum_k\widehat\pi_k e^{-D_{ik}}
+ =\sum_kR_{ik}D_{ik}
+   +\operatorname{KL}(R_i\Vert\widehat\pi)
+ \ge\sum_kR_{ik}D_{ik}.
+\]
+Summing over the typical rows and bounding each remaining row's responsibility error by two gives
+\[
+ \frac1n\sum_{i,k}|R_{ik}-Z_{ik}|
+ \le\frac{2a_n}{\eta_n}+\frac{2\epsilon_n}{c_*}
+ =:\gamma_n\longrightarrow0
+\]
+after the above permutation. The identity remains valid with zero weights using the usual zero-mass conventions, and also with a feasible fixed weight floor.
+
+This weak-start conclusion fails only if the graph event fails or every restart fails, a probability at most $O(n^{-H})+n^{-\omega(1)}$. Apply Theorem~\ref{thm:local-spectral-em} to the mandatory final M-step. Since $H>J_*+2$ and $I_n=d_nJ_*+o(d_n)$, the initialization failures are negligible at the target exponent scale. This proves the complete decoder's expected-error bound and its exact-recovery consequence. Prescribed polynomial EM iteration limits and $\lceil\log n\rceil$ restarts give polynomial computational cost. \qed
+
 \subsection{Row-independent projection errors}
 
 \begin{proof}[Proof of Theorem~\ref{thm:independent-projection}]

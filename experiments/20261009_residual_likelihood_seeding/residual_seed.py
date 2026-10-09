@@ -135,6 +135,38 @@ class Work:
             mu=fitted['mu']
             stages.append(dict(size=size,event=event,fit_trace=fitted['trace'],objective=fitted['objective']))
         return fitted,np.asarray(ids),stages
+    def certified_growing(self, seed=None):
+        """Growing fit plus independent likelihood-residual restart safeguard.
+
+        The default ceil(log(n)) restart count and final E/M update are part of
+        the statistical algorithm; candidate selection never accesses labels.
+        """
+        grown, grown_ids, grown_events = self.growing()
+        best, best_ids = grown, grown_ids
+        selected = 'growing_global_gain_EM'
+        runs = [dict(method=selected, objective=float(grown['objective']))]
+        count = max(1, int(math.ceil(math.log(self.n))))
+        streams = np.random.SeedSequence(seed).spawn(count)
+        for restart, stream in enumerate(streams):
+            ids, events = self.pp(np.random.default_rng(stream), greedy=False)
+            fitted = self.fit(self.q[ids])
+            runs.append(dict(method='likelihood_residual_pp', restart=restart,
+                             objective=float(fitted['objective']),
+                             seed_ids=ids.tolist(), seed_events=events))
+            if fitted['objective'] > best['objective']:
+                best, best_ids = fitted, ids
+                selected = f'likelihood_residual_pp_{restart}'
+        selected_objective = float(best['objective'])
+        # fit(max_iter=1) performs an E-step, one exact M-step, and decoding.
+        polished = self.fit(best['mu'], weights=best['weights'],
+                            max_iter=1, tol=0.0)
+        audit = dict(restarts=count, selected=selected,
+                     selected_objective=selected_objective,
+                     growing_objective=float(grown['objective']),
+                     final_objective=float(polished['objective']),
+                     initialization_runs=runs, growing_stages=grown_events)
+        return polished, np.asarray(best_ids, int), audit
+
     def repair(self,baseline):
         records=[];best=baseline;accepted=None
         if self.k==1:return best,dict(accepted=accepted,proposals=records)
@@ -152,22 +184,27 @@ class Work:
         return best,dict(accepted=accepted,proposals=records)
 
 
-def fit_spectral_profiles(u,lam,method='repair'):
+def fit_spectral_profiles(u,lam,method='repair',seed=None):
     """Fit without labels, graph adjacency, or a k-means decoder.
 
     method='repair': user's fixed-K smaller peeling followed by one-component
     likelihood replacement; method='global_gain': deterministic growing EM.
+    method='global_gain_certified': growing plus ceil(log(n)) independent
+    likelihood-residual restarts, likelihood selection, and one final E/M step.
+    seed optionally controls only the safeguard random streams.
     Returns labels, positive profile means, weights, objective, and fit trace.
     """
     with threadpool_limits(limits=1):
         work=Work(np.asarray(u),np.asarray(lam))
-        if method=='global_gain':
+        if method=='global_gain_certified':
+            fitted,ids,events=work.certified_growing(seed=seed)
+        elif method=='global_gain':
             fitted,ids,events=work.growing()
         elif method=='repair':
             ids,cores,peel_events,leftover=peel(work.all_scores(),work.k,'scaled_fixed_k')
             fitted=work.fit(work.q[ids])
             fitted,events=work.repair(fitted)
-        else:raise ValueError("method must be 'repair' or 'global_gain'")
+        else:raise ValueError("method must be 'repair', 'global_gain', or 'global_gain_certified'")
         return fitted|dict(seed_ids=ids,events=events)
 
 def run_one(task):

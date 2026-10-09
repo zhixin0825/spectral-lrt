@@ -1,7 +1,7 @@
 \section{Main results in logarithmic density}
 \label{sec:main-results}
 
-This section gives the exact contrast-preservation identity, the oracle benchmark, an abstract exponent-transfer theorem, and a local recovery theorem for the actual empirical spectral EM fit. A separate corollary gives a fully provable spectral warm-start variant. The growing likelihood initializer in Algorithm~1 still requires a statistical initialization guarantee; objective convergence does not provide it.
+This section gives the exact contrast-preservation identity, the oracle benchmark, an abstract exponent-transfer theorem, and a local recovery theorem for the actual empirical spectral EM fit. It then establishes end-to-end recovery for the original two-community growing branch and for the complete general-$K$ likelihood-restart decoder. A separate corollary records a spectral warm-start alternative.
 
 Throughout this section, $K$ is fixed,
 $n_a/n\to\pi_a>0$, $B$ is a fixed symmetric matrix with
@@ -178,7 +178,7 @@ nor objective convergence removes these terms.
 
 
 \subsection{A local recovery theorem for the empirical spectral fit}
-The next results remove the empirical-projection and parameter-fitting conditions from the preceding abstract transfer statement in logarithmic density. The remaining assumption concerns the initial responsibilities. It is not established here for the growing initialization in Algorithm~1.
+The next results remove the empirical-projection and parameter-fitting conditions from the preceding abstract transfer statement in logarithmic density. This local statement temporarily assumes reliable initial responsibilities. The end-to-end results below establish that assumption for the original two-community growing branch and for the complete Algorithm~1.
 
 Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For the fixed floor $c_0\in(0,b_-)$, let
 \[
@@ -218,7 +218,7 @@ Perform at least one responsibility-weighted profile M-step on $q$, followed by 
 The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact fixed floored-simplex optimizer. If a component has zero responsibility mass, define its profile by any fixed positive fallback and use positive weights; on the weak-start event this case does not occur for large $n$. When $J_*>1$, the output exactly recovers all labels with probability tending to one.
 \end{theorem}
 
-This theorem proves the statistical behavior of the actual full-graph spectral fitting stage from a sufficiently reliable weak start. It handles positive clipping and the freely fitted profiles rather than assuming that their LLR errors are already small. The unresolved initialization claim is \eqref{eq:local-initialization} for Algorithm~1: average weak consistency with an unspecified $1-o(1)$ probability is insufficient.
+This theorem proves the statistical behavior of the actual full-graph spectral fitting stage from a sufficiently reliable weak start. It handles positive clipping and the freely fitted profiles rather than assuming that their LLR errors are already small. An initialization proof must establish \eqref{eq:local-initialization}: average weak consistency with an unspecified $1-o(1)$ probability is insufficient. Theorems~\ref{thm:two-community-growing} and~\ref{thm:certified-likelihood} provide the required reliability.
 
 \begin{corollary}[A fully provable spectral warm-start variant]
 \label{cor:provable-warmstart}
@@ -226,7 +226,32 @@ Replace the growing initialization by a fixed-factor approximate $K$-means clust
 One polynomial-time implementation uses $O(\log n)$ independent $K$-means++ seedings and chooses the least squared-error solution.
 \end{corollary}
 
-The corollary establishes that the retained spectral information suffices for the leading oracle exponent. It is a proved warm-start alternative, not a proof that the likelihood-only growing initializer has the same guarantee. The archived ten-start Lloyd baseline is also distinct from the logarithmically amplified initialization used in this corollary.
+This corollary is an alternative initialization. The main end-to-end result below uses likelihood residuals instead. The archived ten-start Lloyd baseline is distinct from either logarithmically amplified initialization.
+
+
+\subsection{End-to-end recovery by likelihood initialization}
+\label{sec:end-to-end}
+The following results remove the weak-start assumption from the algorithmic guarantee.
+
+\begin{theorem}[Original growing decoder for two communities]
+\label{thm:two-community-growing}
+Under the model and admissible floor of Lemma~\ref{lem:full-spectral}, suppose $K=2$. The original global-mean growing branch of Section~2.3, followed by at least one exact profile and weight M-step, satisfies
+\[
+ \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
+\]
+This includes its evaluated finite stopping rule, since the first M-step is mandatory. When $J_*>1$, it exactly recovers all labels with probability tending to one. No likelihood restarts or pure-candidate assumption are needed.
+\end{theorem}
+
+\begin{theorem}[Complete likelihood decoder attains the leading exponent]
+\label{thm:certified-likelihood}
+Under the same model for every fixed $K\ge2$, Algorithm~1 satisfies
+\[
+ \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
+\]
+When $J_*>1$, it exactly recovers all labels with probability tending to one. The initialization, selection, and refinement access only the retained eigenpairs. Each candidate fit may run any prescribed finite number of exact EM updates, with exact unconstrained or floored-simplex weight updates; no convergence to a global mixture maximum is assumed. A polynomial iteration bound gives a polynomial-time algorithm.
+\end{theorem}
+
+The second theorem retains the original growing fit as a candidate and proves the likelihood-residual safeguard. It does not claim that the growing branch without that safeguard has been proved for general $K$. The restart count $\lceil\log n\rceil$ needs no knowledge of $B$, its separation constants, $J_*$, or the desired confidence power.
 
 \subsection{A sufficient independent-row projection condition}
 

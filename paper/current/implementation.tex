@@ -6,11 +6,11 @@ The numerical evidence is archived in the repository
 \begin{center}
 \url{https://github.com/zhixin0825/spectral-lrt}.
 \end{center}
-The principal comparison is in
+The complete safeguarded implementation is \texttt{Work.certified\_growing()} in \texttt{residual\_seed.py}, exposed as \texttt{method='global\_gain\_certified'}. It uses $\lceil\log n\rceil$ independent residual starts and one mandatory final M-step. The archived primary benchmark remains the original growing branch. The principal comparison is in
 \path{experiments/20261009_residual_likelihood_seeding/}.
 Its report, protocol, model-generation script, fitting code, scalar verification, and per-graph summaries define the numerical experiment. The preceding partial-peeling experiment and its diagnosis are in
 \path{experiments/20261009_partial_likelihood_peeling/}.
-Algorithm~1 corresponds to the recorded \texttt{growing\_global\_gain\_EM} branch and the API option \texttt{method='global\_gain'}. It starts at the global profile mean, adds $K-1$ node candidates, and refits after every addition. The \texttt{global\_gain\_no\_update} arm is a separate frozen-profile control with a top-subset first seed. Identical final error counts do not identify the algorithms.
+The original growing branch corresponds to the recorded \texttt{growing\_global\_gain\_EM} arm and the API option \texttt{method='global\_gain'}. It starts at the global profile mean, adds $K-1$ node candidates, and refits after every addition. The \texttt{global\_gain\_no\_update} arm is a separate frozen-profile control with a top-subset first seed. Identical final error counts do not identify the algorithms.
 
 The manuscript's two CSV summaries retain batch-specific, combined, and model-specific results. The diagnostic figure uses saved coordinates and fitted labels rather than a new simulation. Full spectral arrays and objective traces are stored in the previously archived numerical records; the source reports describe their restoration. Reconstructing the profiles from $(U,\Lambda)$ and fitting the working score does not need the original adjacency matrix.
 
@@ -46,7 +46,7 @@ If $\lambda^{ab}$ is the chosen oracle prior log ratio, the empirical comparison
    +\widehat c^{ab}-c_i^{ab}-\lambda^{ab}.
 \label{eq:error_decomposition}
 \end{align}
-The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. For Poisson rather than Bernoulli oracle contrasts, the sparse correction must also be included. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(d_n)$ bound on the raw clipping term in this decomposition. The growing initializer's entrance condition remains unproved.
+The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. For Poisson rather than Bernoulli oracle contrasts, the sparse correction must also be included. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(d_n)$ bound on the raw clipping term in this decomposition. The original growing branch has an end-to-end proof when $K=2$. The likelihood-restart Algorithm~1 has an end-to-end proof for general fixed $K$.
 
 \subsection{Verification of the manuscript}
 The source comprises six numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.

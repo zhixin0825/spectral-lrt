@@ -2,6 +2,8 @@
 % graphicx. Figure generated from saved arrays, not a new experiment.
 \section{Experiments}
 \label{sec:experiments}
+The archived 240-graph comparisons evaluate the original growing branch of Section~\ref{sec:growing-branch} and the separately specified controls. They do not evaluate the complete likelihood-restart Algorithm~1 on that full collection. The new safeguard is a proved algorithmic addition; its separate implementation verification is documented in the repository.
+
 
 We evaluate whether likelihood-based decoding improves on a Euclidean
 decoder of the same retained eigenpairs, and whether global likelihood gains
@@ -95,7 +97,7 @@ the EM auxiliary objective on $\{\widehat\pi_a\ge10^{-8},\ \sum_a \widehat\pi_a=
 No additional floor on means is needed because the observations are positive.
 Final labels maximize $\log \widehat\pi_a+\ell_i(\widehat p_a)$.
 
-The primary deterministic initialization is Algorithm~1, recorded as
+The original deterministic growing branch of Section~\ref{sec:growing-branch} is recorded as
 \texttt{growing\_global\_gain\_EM}. It starts from the global profile mean,
 adds $K-1$ node candidates by their all-node marginal gains, and runs joint
 EM after each addition. It requires no top-subset size and removes no nodes.
@@ -169,7 +171,7 @@ Method&Error (\%)&Exact&Error (\%)&Exact\\
 Top-subset peeling + EM&0.3917&86&0.3725&77\\
 Peeling + replacement&\textbf{0.0967}&86&\textbf{0.0925}&77\\
 Frozen global gain + EM&0.0967&86&0.0925&77\\
-Growing global gain (Algorithm~1)&\textbf{0.0967}&86&\textbf{0.0925}&77\\
+Growing global gain&\textbf{0.0967}&86&\textbf{0.0925}&77\\
 Growing sampled gain + EM&0.3900&86&0.0925&77\\
 Residual++, one start + EM&4.0129&80&3.1675&72\\
 Greedy residual++, one start + EM&1.1192&85&2.3438&74\\
@@ -193,7 +195,7 @@ claiming dominance on every graph.
 \begin{table}[tb]
 \centering
 \small
-\caption{Both batches combined, 40 graphs per model. The main columns use the growing global-gain branch in Algorithm~1. The frozen-profile control has identical recorded error counts.}
+\caption{Both batches combined, 40 graphs per model. The main columns use the growing global-gain branch in the original growing branch. The frozen-profile control has identical recorded error counts.}
 \label{tab:experiment_models}
 \begin{tabular}{lrrrr}
 \toprule

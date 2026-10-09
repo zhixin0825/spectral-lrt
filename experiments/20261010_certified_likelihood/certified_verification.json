@@ -1,0 +1,10 @@
+{
+  "cases": 24,
+  "all_invariants_passed": true,
+  "winner_never_lower_than_original": true,
+  "mandatory_final_M_step_verified": true,
+  "fresh_errors_total": 3157,
+  "selected_residual_runs": 17,
+  "elapsed_seconds": 7.077999999979511,
+  "scope": "24 fresh SBM cases; implementation verification, not replacement for the archived 240-graph benchmark"
+}

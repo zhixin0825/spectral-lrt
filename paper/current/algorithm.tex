@@ -55,6 +55,7 @@ Thus classification uses pairwise working likelihood ratios, with estimated prio
 where $\mathfrak S_K$ is the set of label permutations. The fitted profiles $\widehat p_{a*}$ are responsibility-weighted means of the observed profiles; the implementation does not impose the exact SBM constraint $\widehat p_{aj}=P_{a,z_j}$. Although these profiles have $n$ coordinates, every M-step keeps them in the row convex hull of $q$; Proposition~\ref{prop:profile-hull} records this restriction.
 
 \subsection{Global-mean start and growing likelihood gains}
+\label{sec:growing-branch}
 The procedure starts with the global profile mean,
 \begin{equation}
  \widehat p^{(1)}_1=\frac1n\sum_{i=1}^n q_i,\qquad \widehat\pi^{(1)}_1=1.
@@ -74,7 +75,24 @@ Append $q_{c_t}$ to the current $t-1$ fitted profiles, initialize the $t$ weight
 
 The all-node gain rewards a candidate for explaining evidence not already well fitted. This is a deterministic analogue of the coverage principle behind $k$-means++~\citep{arthur2007}, with likelihood gains replacing squared Euclidean distances. It does not guarantee that a selected node is a population community center.
 
-For fixed profiles, Proposition~\ref{prop:greedy-gain} gives a submodular greedy bound and Proposition~\ref{prop:noiseless-seeding} gives noiseless coverage from a node-profile first seed. They describe the frozen-profile control, not the complete growing algorithm: the latter starts from a mean and changes its profiles between additions. The empirical primary branch is the growing procedure specified here.
+For fixed profiles, Proposition~\ref{prop:greedy-gain} gives a submodular greedy bound and Proposition~\ref{prop:noiseless-seeding} gives noiseless coverage from a node-profile first seed. They describe the frozen-profile control, not the complete growing algorithm: the latter starts from a mean and changes its profiles between additions. The original empirical primary branch is the growing procedure specified here. It supplies one candidate fit for the complete decoder below; the additional likelihood restarts make the general-$K$ guarantee independent of its basin dynamics.
+
+
+\subsection{Likelihood-residual restarts and the complete decoder}
+\label{sec:likelihood-safeguard}
+For general $K$, we supplement the growing fit with $L_n=\lceil\log n\rceil$ independent likelihood-residual initializations. Define the Poisson deviance
+\[
+ D_{\mathrm P}(x\Vert y)=\sum_j\{x_j\log(x_j/y_j)-x_j+y_j\}.
+\]
+Each restart chooses its first node uniformly. Given a set $C$ of selected nodes, it chooses the next node with probability proportional to
+\[
+ r_i(C)=\min_{c\in C}D_{\mathrm P}(q_i\Vert q_c).
+\]
+Already selected nodes have zero sampling mass. If all residuals vanish, choose an unselected node uniformly. Select all $K$ seeds before fitting; initialize the profiles at their $q$ rows and weights at $1/K$, and run the same exact joint EM updates as for the growing fit. The random streams are independent conditional on $q$.
+
+Compare the endpoints of these $L_n$ fits and the original growing fit using exactly the same objective $\mathcal L$ in \eqref{eq:mixture}. Keep the largest value, compute its E-step responsibilities, perform one additional profile and weight M-step, and decode. This final update is part of the algorithm, even when an earlier fit stopped at its iteration cap. Further exact updates are optional. All profiles remain convex combinations of the same positive $q$ rows; a zero-mass component retains its previous profile.
+
+This is a likelihood-based restart safeguard, not a Euclidean warm start. It is an explicit addition to the original growing branch. Theorem~\ref{thm:certified-likelihood} proves the complete general-$K$ algorithm without an initialization assumption. For $K=2$, Theorem~\ref{thm:two-community-growing} shows that the growing branch alone already has the target guarantee.
 
 \subsection{Alternating fitting and parameter replacement}
 At a stage with $s$ components, initialize $\widehat\pi_a=1/s$ and perform soft updates (replace $K$ by $s$ in the displayed sums)
@@ -89,13 +107,14 @@ The responsibilities are computed using log-sum-exp for numerical stability. Pos
 
 \begin{center}
 \fbox{\begin{minipage}{0.93\linewidth}
-\textbf{Algorithm 1: Spectral-only likelihood-gain decoding}\smallskip
+\textbf{Algorithm 1: Spectral likelihood decoding with a restart safeguard}\smallskip
 \begin{enumerate}
 \item Input $K$ and the retained eigenpairs $(U,\Lambda)$; form $q$ by \eqref{eq:profiles}.
-\item Start with the global profile mean in \eqref{eq:first_seed}; set its weight to one.
-\item For $t=2,\ldots,K$, add the unselected node candidate maximizing \eqref{eq:gain} on all $n$ nodes.
-\item After each addition, initialize the stage weights uniformly and run the joint updates \eqref{eq:responsibilities}--\eqref{eq:mstep} to the declared tolerance or iteration limit.
-\item Output the labels in \eqref{eq:decode}, the fitted profiles, weights, and objective trace.
+\item Obtain the global-mean growing fit by \eqref{eq:first_seed}, \eqref{eq:gain}, and the joint EM updates.
+\item Independently run $L_n=\lceil\log n\rceil$ likelihood-residual initializations as in Section~\ref{sec:likelihood-safeguard}; select all $K$ seeds before each joint fit.
+\item Select the largest final $\mathcal L$ across the growing fit and all restarts.
+\item Compute one E-step and one profile and weight M-step on the selected fit. Decode by \eqref{eq:decode}, or continue exact EM before decoding.
+\item Output labels, fitted profiles, weights, and the recorded objectives.
 \end{enumerate}
 \end{minipage}}
 \end{center}
@@ -121,7 +140,7 @@ The fundamental identity is
 \end{equation}
 Here $\mathrm{Id}$ denotes the identity matrix. If $w^{ab}$ lies in the retained empirical space, the linear statistic is preserved exactly. At the population level, full rank gives $\col(\Omega^\circ)=\col(Z)$, so every contrast has the required span membership. The spectral decomposition need not itself optimize a likelihood: it retains a linear space containing the directions in which the likelihood acts.
 
-The executable score additionally involves clipping, estimated profiles, mixture thresholds, and a retained reconstructed diagonal. These perturbations require statistical control. A matrix reconstruction bound alone does not establish the oracle exponent; the local fitting theorem uses the stronger row-profile approximation, the clipping moment bound, and a weak-initialization condition. Theorem~\ref{thm:local-spectral-em} proves that conclusion for the fitting stage from a sufficiently reliable weak start; the growing initializer's entrance guarantee remains unproved.
+The executable score additionally involves clipping, estimated profiles, mixture thresholds, and a retained reconstructed diagonal. These perturbations require statistical control. A matrix reconstruction bound alone does not establish the oracle exponent; the local fitting theorem uses the stronger row-profile approximation, the clipping moment bound, and a weak-initialization condition. Theorem~\ref{thm:local-spectral-em} supplies the fitting guarantee. Theorem~\ref{thm:two-community-growing} establishes its initialization condition for the original growing branch when $K=2$, and Theorem~\ref{thm:certified-likelihood} establishes it for the complete Algorithm~1 for every fixed $K$.
 
 \subsection{Computational cost}
-Forming the full positive reconstruction stores $O(n^2)$ numbers. Caching all candidate scores uses an $n$-by-$n$ matrix and, by direct multiplication, $O(n^3)$ arithmetic. Each subsequent greedy scan costs $O(n^2)$, and one EM iteration costs $O(Kn^2)$. These costs are additional to computing the eigenpairs. The implementation is practical at the tested $n\leq2000$ but does not yet justify a large-network speed claim. Candidate subsampling and blocked score evaluation are natural approximations, whose statistical and computational performance require separate validation.
+Forming the full positive reconstruction stores $O(n^2)$ numbers. Caching all candidate scores uses an $n$-by-$n$ matrix and, by direct multiplication, $O(n^3)$ arithmetic. Each subsequent greedy scan costs $O(n^2)$, and one EM iteration costs $O(Kn^2)$. Algorithm~1 runs $O(\log n)$ additional fits, so its total remains polynomial for a prescribed polynomial iteration bound. These costs are additional to computing the eigenpairs. The implementation is practical at the tested $n\leq2000$ but does not yet justify a large-network speed claim. Candidate subsampling and blocked score evaluation are natural approximations, whose statistical and computational performance require separate validation.

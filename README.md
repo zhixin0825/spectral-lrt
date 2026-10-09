@@ -1,12 +1,14 @@
-# Spectral information and likelihood-ratio inference for the SBM
+# Spectral likelihood decoding for the SBM
 
-**当前修订英文稿（2026-10-09）：** [编译 PDF](paper/current/manuscript.pdf) · [文章与源码说明](paper/current/README.md) · [主 TeX 文件](paper/current/manuscript.tex)。正文已统一参考 Zhou--Li 的符号：P 为社区连接概率矩阵，p_{kj}=P_{k,z_j}，错分率为 Mis，Chernoff 信息为 D_alpha，I_n 是最难社区对的精确信息量。
+**当前论文（2026-10-10）：** [编译 PDF](paper/current/manuscript.pdf) · [源码说明](paper/current/README.md) · [完整证明](paper/current/theory.tex)。
 
-**当前主算法不再含 1.5K：** 使用已经验证的 growing_global_gain_EM（入口 method='global_gain'），从全局 profile 均值开始，每次按所有节点的 likelihood gain 加一个参数并重新拟合，直到 K 个成分。旧的 top-subset-first / global_gain_no_update 只保留为历史实验对照。
+**已闭合的端到端 nearly-optimal 指数：** 固定正满秩 B、固定已知 K、正社区比例、log n/n 密度和合适 profile floor 下，原 growing 算法在 K=2 时直接达到 exp(-(1+o(1)) I_n)。一般 K 的完整算法保留 growing fit，加入 ceil(log n) 次独立 likelihood-residual++ starts，按同一个 working likelihood 选优，再做一次 E/M 更新，得到同一目标。初始化可靠性已在证明中建立，没有假设初始分组已正确。
 
-**本轮新增证明：** 在固定 full-rank B、log n/n 密度和合适正值 floor 下，已证明全图经验谱重建的逐行 L1 近似、clipped Chernoff 指数、实际 profile EM 的局部恢复与盆地不变性，目标为 exp(-(1+o(1)) I_n)。有理论保证的谱 warm start 可给端到端推论。主 growing likelihood 初始化的高概率弱初始化保证仍未证明；不能把该推论冒充主算法的无条件保证。
+**明确算法补充：** 一般 K 的保证包含上述 likelihood 重启保险步骤。入口为 method='global_gain_certified' / Work.certified_growing()；原 method='global_gain' 保持原样，不冒充其一般 K 证明。两者均无 top-fraction 或 1.5K 参数，不用 k-means decoder。
 
-**已有 240 图实验：** growing global gain + EM 在两批 120 图上的平均误分率分别为 0.0967% / 0.0925%，exact recovery 为 86 / 77。合并误分率 0.0946%，exact recovery 163/240。原始数据与历史报告保持原样：[报告及复现](experiments/20261009_residual_likelihood_seeding/REPORT_20261009.md)。
+**可复核链条：** [新理论与实现说明](paper/current/END_TO_END_20261010.md) · [24 个新 SBM 实现检验](experiments/20261010_certified_likelihood/)。这些检验验证 objective 选优和最后更新，并非有限样本误分率优势证明。
+
+**原 240 图实验：** original growing 平均误分率 0.0946%，exact recovery 163/240；谱 k-means baseline 为 0.3194%、139/240。原始记录未改，且不把它们称为完整新组合的测试。
 
 以下为此前阶段的历史结果与归档入口。
 
@@ -87,4 +89,5 @@ python build_report.py
 ## Smaller top-fraction initialization (2026-10-09)
 
 The user-proposed fixed-K `1/(1.5K)` rule reduces decoder-free Poisson profile error from 4.4154% to 0.3917% on the inherited 120 spectra, with 86/120 exact recoveries. The decreasing-r `1/(1.5r)` control reaches 0.5008%. The unequal-block failure is largely repaired, but one balanced graph reaches a bad local solution and the fixed-K population rule can select duplicate parameters. See [the complete paired report](experiments/20261009_partial_likelihood_peeling/REPORT_20261009.md). No final forced completion; all observations enter the unchanged EM.
+
 
