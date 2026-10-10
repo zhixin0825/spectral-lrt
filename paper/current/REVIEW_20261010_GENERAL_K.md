@@ -14,4 +14,16 @@ The main text omits alternative Kmeans warm starts and independent-row projectio
 
 The model, abstract, introduction, theorem statements, proofs, conclusion, and README use the same scalar p. The adaptive floor still depends only on retained eigenpairs. Its fixed multiplier is sufficiently small relative to the probability comparison bound; no additional density parameter is introduced. The clipped-oracle proof uses the deterministic bound (1/2)min_ab P_ab without naming another extremal-probability symbol.
 
-Static source checks and an independent notation audit precede compilation and PDF inspection.
+Static source checks and an independent notation audit passed. The active sources have 91 unique labels, 99 cross references, and 18 citation uses, with no missing references or citation keys. The independent review confirmed that scalar p and fitted profiles remain distinct and that the revised model is equivalent to the previous hypotheses.
+
+## Final build and visual verification
+
+Source commit: ca4f3308a69523cccf495cd4eec49afbdd3190b8
+
+Successful build: https://github.com/zhixin0825/spectral-lrt/actions/runs/38038684029
+
+Compiled PDF commit: 656459a15a5c0e05851ee76cd9f0d9404434eb94
+
+Final PDF: 35 pages, 643713 bytes; SHA-256 `8da21650158fb3a9a6a90db42e979e9d2dce01e1d6678edb54dc9f648f1543fe`.
+
+The final PDFLaTeX pass has no unresolved references or citations, no LaTeX warnings, and no overfull or underfull boxes. All 35 pages were visually inspected. A shortened introduction roadmap removed an orphaned line; the final render changed only pages 3�C5, which were inspected again. No text escapes the margins, and no clipping or overlap remains. Algorithm code and numerical results are unchanged by this notation revision.
