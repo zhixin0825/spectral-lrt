@@ -1,7 +1,7 @@
 \section{Main recovery results}
 \label{sec:main-results}
 
-This section states the oracle benchmark, full-graph spectral approximation, and end-to-end guarantee for every fixed $K$. The model satisfies \eqref{eq:model-conditions}--\eqref{eq:degree-condition}. The oracle calculations require distinct block rows; spectral conditioning supplies a uniformly separated $K$-dimensional signal.
+This section states the oracle benchmark, full-graph spectral approximation, and end-to-end guarantee for every fixed $K$. The model satisfies \eqref{eq:density-condition}--\eqref{eq:model-conditions}. The oracle calculations require distinct block rows; spectral conditioning supplies a uniformly separated $K$-dimensional signal.
 
 \subsection{Spectral information and likelihood contrasts}
 
@@ -60,11 +60,11 @@ There is a constant $C$ depending only on the fixed probability-ratio bounds suc
 all sufficiently large $n$, every $i$, and every $a\ne b$,
 \begin{equation}
  |L_i^{ab}-L_{i,\mathrm{lin}}^{ab}|
- \le C\{P_{\max}\deg(i)+nP_{\max}^2\}.\label{eq:sparse-expansion-error}
+ \le C\{p\deg(i)+np^2\}.\label{eq:sparse-expansion-error}
 \end{equation}
 For every fixed $H>0$ there is a constant $D_H$ such that
-$\Pr\{\deg(i)>D_H nP_{\max}\}\le e^{-H nP_{\max}}$ uniformly in $i$.
-Consequently, the correction is $O(nP_{\max}^2)=o(nP_{\max})$ outside an event of probability at most $e^{-H nP_{\max}}$. It need not be $o(1)$. The condition $P_{\max}\to0$ is used for this sparse-score approximation.
+$\Pr\{\deg(i)>D_H np\}\le e^{-H np}$ uniformly in $i$.
+Consequently, the correction is $O(np^2)=o(np)$ outside an event of probability at most $e^{-H np}$. It need not be $o(1)$. The condition $p\to0$ is used for this sparse-score approximation.
 \end{lemma}
 
 \subsection{The oracle benchmark}
@@ -83,7 +83,7 @@ We use Zhou--Li's profile and Chernoff notation. For $\alpha\in[0,1]$, define
 \end{align}
 Here $p_{a,-i}$ omits the absent self-loop coordinate. The notation $I_n$ is our shorthand for the minimum exact pairwise information; it is not a second definition of a rate.
 
-Under \eqref{eq:model-conditions}--\eqref{eq:degree-condition}, $I_n\asymp nP_{\max}$ and $I_n=\Omega(\log n)$. The normalized matrix may vary with $n$, so a limiting value of $I_n/\log n$ is not required. Zhou and Li~\cite{zhouli2020} studied optimal error rates for SBM community detection; we use their information notation and leading exponent.
+Under \eqref{eq:density-condition}--\eqref{eq:model-conditions}, $I_n\asymp np$ and $I_n=\Omega(\log n)$. The normalized matrix may vary with $n$, so a limiting value of $I_n/\log n$ is not required. Zhou and Li~\cite{zhouli2020} studied optimal error rates for SBM community detection; we use their information notation and leading exponent.
 
 \begin{lemma}[Leading oracle error exponent]
 \label{lem:oracle-exponent}
@@ -169,17 +169,17 @@ with the observable floor from \eqref{eq:profiles}. The comparison $q^0$ uses th
 
 \begin{lemma}[Full-graph spectral approximation]
 \label{lem:full-spectral}
-Under the model above with $0<c_0<c_r/2$, for every fixed $H>0$ there are constants $c_H,C_H>0$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(e^{-H nP_{\max}})$,
+Under the model above with sufficiently small fixed $c_0>0$, for every fixed $H>0$ there are constants $c_H,C_H>0$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(e^{-H np})$,
 \begin{align}
- \max_i\|q_i-q_i^0\|_1&\le a_n nP_{\max},&
- c_HP_{\max}\le q_{ij}&\le C_HP_{\max},\label{eq:full-spectral-close}\\
- \frac1{n^2P_{\max}}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
+ \max_i\|q_i-q_i^0\|_1&\le a_n np,&
+ c_Hp\le q_{ij}&\le C_Hp,\label{eq:full-spectral-close}\\
+ \frac1{n^2p}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
  \label{eq:average-profile-close}
 \end{align}
 The reconstruction uses the empirical eigenpairs of the whole graph. No row-independent replacement or extra leave-one-out computation is required by the algorithm.
 \end{lemma}
 
-The entrywise eigenspace theorem of Abbe et al.~\citep{abbe2020}, the bounded-entry norm tail of Bandeira and van Handel~\citep{bvh2016}, and a direct Bennett row bound supply these inputs. The appendix verifies the assumptions at failure probability $e^{-H nP_{\max}}$. This confidence scale matters when expected degrees grow faster than $\log n$.
+The entrywise eigenspace theorem of Abbe et al.~\citep{abbe2020}, the bounded-entry norm tail of Bandeira and van Handel~\citep{bvh2016}, and a direct Bennett row bound supply these inputs. The appendix verifies the assumptions at failure probability $e^{-H np}$. This confidence scale is needed throughout the range $p=\Omega(\log n/n)$.
 
 \begin{theorem}[Local empirical spectral EM attains the leading exponent]
 \label{thm:local-spectral-em}
@@ -204,7 +204,7 @@ The local theorem controls dependent reconstructed profiles and freely fitted co
 \label{sec:end-to-end}
 \begin{theorem}[Spectral likelihood decoding for arbitrary fixed $K$]
 \label{thm:certified-likelihood}
-For every fixed integer $K\ge2$, under \eqref{eq:model-conditions}--\eqref{eq:degree-condition} and $0<c_0<c_r/2$, Algorithm~1 satisfies
+For every fixed integer $K\ge2$, under \eqref{eq:density-condition}--\eqref{eq:model-conditions} and sufficiently small fixed $c_0>0$, Algorithm~1 satisfies
 \[
  \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]

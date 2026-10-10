@@ -8,19 +8,14 @@ Let $A$ be the adjacency matrix of an undirected graph without self-loops. Condi
  \qquad A_{ji}=A_{ij},\quad A_{ii}=0.
 \label{eq:sbm}
 \end{equation}
-We follow the SBM notation of Zhou and Li~\citep{zhouli2020}: $P=P_n\in(0,1)^{K\times K}$ is the symmetric block probability matrix, $p_{aj}=P_{a,z_j}$, and $p_{a*}$ is the connection profile of community $a$. The known number $K\ge2$ is any fixed integer. Write $Z_{ia}=\one\{z_i=a\}$, $N=Z^\top Z=\diag(n_a)$, and $n_a/n\to\pi_a>0$. Define $P_{\min}=\min_{a,b}P_{ab}$ and $P_{\max}=\max_{a,b}P_{ab}$. The main results assume, for fixed positive constants $c_r,c_s,c_d$,
-\begin{equation}
- P_{\min}\ge c_rP_{\max},\qquad P_{\max}\to0,\qquad
- \sigma_{\min}(N^{1/2}PN^{1/2})\ge c_s nP_{\max},
+We follow Zhou and Li~\citep{zhouli2020}: $P=P_n\in(0,1)^{K\times K}$ is the symmetric block probability matrix, $p_{aj}=P_{a,z_j}$, and $p_{a*}$ is the connection profile of community $a$. The number of communities $K\ge2$ is fixed and known. Write $Z_{ia}=\one\{z_i=a\}$, $N=Z^\top Z=\diag(n_a)$, and assume $n_a/n\to\pi_a>0$. Let $p=\max_{a,b}P_{ab}$. Our assumptions are
+\begin{align}
+ p&=\Omega(\log n/n),\qquad p=o(1),\label{eq:density-condition}\\
+ P_{ab}&\asymp p\quad(a,b\in[K]),\qquad
+ \sigma_{\min}(N^{1/2}PN^{1/2})\asymp np.
  \label{eq:model-conditions}
-\end{equation}
-and
-\begin{equation}
- \min_i\E[\deg(i)\mid z]\ge c_d\log n,\qquad
- \E[\deg(i)\mid z]=\sum_{b=1}^K(n_b-\one\{z_i=b\})P_{z_i b}.
- \label{eq:degree-condition}
-\end{equation}
-The density condition is a lower bound. Expected degrees may differ across communities and may grow faster than $\log n$; neither $P$ nor its normalized shape is fixed. The conditioning assumption in \eqref{eq:model-conditions} supplies the signal separation needed by the retained $K$-dimensional representation. It permits negative signal eigenvalues.
+\end{align}
+The comparison constants are independent of $n$. The signal eigenvalues may have either sign.
 
 The $n\times n$ mean matrix differs from the rank-$K$ matrix $ZPZ^\top$ only on its diagonal:
 \begin{equation}
@@ -39,10 +34,10 @@ All subsequent fitting accesses only $(U,\Lambda)$. This restriction excludes an
 A signed low-rank reconstruction can contain nonpositive entries. To define the logarithms used in candidate scoring, set
 \begin{equation}
  q_{ij}=\max\{\widetilde A_{ij},\varepsilon_n\},\qquad
- \varepsilon_n=\frac{c_0}{n}\max\{\|\Lambda\|_{\mathrm{op}},1\},\qquad 0<c_0<c_r/2.
+ \varepsilon_n=\frac{c_0}{n}\max\{\|\Lambda\|_{\mathrm{op}},1\}.
 \label{eq:profiles}
 \end{equation}
-The floor is computed from the retained eigenvalues. On the spectral event in Lemma~\ref{lem:full-spectral}, it is a fixed positive fraction of $P_{\max}$ and lies below all true block probabilities. It makes the profile logarithms well defined. The adjacency eigendecomposition in \eqref{eq:representation} uses $A$ as given. The reconstruction retains its diagonal. For a candidate profile $\widehat p\in(0,\infty)^n$, define
+Here $c_0>0$ is fixed and sufficiently small relative to the probability comparison bound in \eqref{eq:model-conditions}. The floor is computed from the retained eigenvalues. On the spectral event in Lemma~\ref{lem:full-spectral}, it is a fixed positive fraction of $p$ and lies below all true block probabilities. It makes the profile logarithms well defined. The adjacency eigendecomposition in \eqref{eq:representation} uses $A$ as given. The reconstruction retains its diagonal. For a candidate profile $\widehat p\in(0,\infty)^n$, define
 \begin{equation}
  \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
 \label{eq:working_score}

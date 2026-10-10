@@ -2,17 +2,17 @@
 
 \begin{lemma}[Iterative likelihood replacement certifies a weak start]
 \label{lem:iterative-swap-certification}
-Let $K\ge2$ be fixed, put $P_{\max}=\max_{a,b}P_{ab}$, and suppose
-$nP_{\max}\to\infty$. Assume, for constants $0<c\le C<\infty$,
+Let $K\ge2$ be fixed and suppose $np\to\infty$.
+Assume, for constants $0<c\le C<\infty$,
 $\pi_{\min}>0$, and $s>0$, that
 \begin{align}
  n_a&\ge\pi_{\min}n,\qquad
- cP_{\max}\le q_{ij},p_{aj}\le CP_{\max},
+ cp\le q_{ij},p_{aj}\le Cp,
  \label{eq:swap-profile-box}\\
- \sum_i\|q_i-p_{z_i,*}\|_1&\le a_n n^2P_{\max},
+ \sum_i\|q_i-p_{z_i,*}\|_1&\le a_n n^2p,
  \qquad a_n\longrightarrow0,
  \label{eq:swap-average-error}\\
- \min_{a\ne b}\|p_{a*}-p_{b*}\|_1&\ge s nP_{\max}.
+ \min_{a\ne b}\|p_{a*}-p_{b*}\|_1&\ge s np.
  \label{eq:swap-profile-separation}
 \end{align}
 Start at any $K$ fitted profiles in the convex hull of the rows of $q$
@@ -57,22 +57,22 @@ algorithm stops after at most $C_1\sqrt{\log n}$ accepted replacements,
 where $C_1$ depends only on the constants in
 \eqref{eq:swap-profile-box}. At its endpoint, put
 \[
- b_n=a_n+\zeta_n+\frac{\log K}{nP_{\max}}\longrightarrow0.
+ b_n=a_n+\zeta_n+\frac{\log K}{np}\longrightarrow0.
 \]
 There is a constant $C_2$, depending only on the constants in the
 assumptions and $K$, such that
 \begin{align}
  \max_a\min_kD(p_{a*}\Vert\widehat p_{k*})
-   &\le C_2b_n nP_{\max},
+   &\le C_2b_n np,
    \label{eq:swap-population-loss}\\
  J(\widehat p),\ F(\widehat\pi,\widehat p)
-   &\le C_2b_n n^2P_{\max}.
+   &\le C_2b_n n^2p.
    \label{eq:swap-endpoint-cost}
 \end{align}
 After one common permutation of the fitted components,
 \begin{equation}
  \max_a\|\widehat p_{a*}-p_{a*}\|_1
- \le C_2\sqrt{b_n}\,nP_{\max}.
+ \le C_2\sqrt{b_n}\,np.
  \label{eq:swap-center-matching}
 \end{equation}
 For the endpoint's exact E-step responsibilities $R$, the same
@@ -86,7 +86,7 @@ and the finite EM stopping rules.
 \end{lemma}
 
 \begin{proof}
-Write $\mathcal B_n=[cP_{\max},CP_{\max}]^n$ and enlarge $C$ if
+Write $\mathcal B_n=[cp,Cp]^n$ and enlarge $C$ if
 necessary without changing $c$. All starting and proposed profiles lie
 in $\mathcal B_n$. Each profile M-step is a convex combination of rows
 of $q$, and retaining the previous profile in a zero-mass component
@@ -100,7 +100,7 @@ The scalar derivatives of $D(x\Vert y)$ are $\log(x/y)$ and
 $1-x/y$. They are uniformly bounded on the common box. Consequently,
 for a constant $L$ independent of $n$ and all $x,y,x',y'\in\mathcal B_n$,
 \begin{align}
- 0\le D(x\Vert y)&\le LnP_{\max},
+ 0\le D(x\Vert y)&\le Lnp,
  \label{eq:swap-bounded-divergence}\\
  |D(x\Vert y)-D(x'\Vert y')|
  &\le L\{\|x-x'\|_1+\|y-y'\|_1\}.
@@ -135,7 +135,7 @@ inequality $|\min_k u_k-\min_k v_k|\le\max_k|u_k-v_k|$ and
 \begin{equation}
  \sup_{\widehat p\in\mathcal B_n^K}
  |J(\widehat p)-\overline J(\widehat p)|
- \le La_n n^2P_{\max}.
+ \le La_n n^2p.
  \label{eq:swap-uniform-population-approximation}
 \end{equation}
 The supremum is the reason that adaptively selected centers and
@@ -145,7 +145,7 @@ its at least $\pi_{\min}n$ nodes supplies a candidate $c(a)$ in that
 class with
 \begin{equation}
  \|q_{c(a)}-p_{a*}\|_1
- \le (a_n/\pi_{\min})nP_{\max}.
+ \le (a_n/\pi_{\min})np.
  \label{eq:swap-existing-good-candidate}
 \end{equation}
 These candidates are used only in the proof; the algorithm does not
@@ -169,7 +169,7 @@ $\widehat p^{\mathrm{trial}}$ satisfying
 \begin{equation}
  \overline J(\widehat p^{\mathrm{trial}})
  \le\overline J(\widehat p)-n_av_a
-                  +L\pi_{\min}^{-1}a_n n^2P_{\max}.
+                  +L\pi_{\min}^{-1}a_n n^2p.
  \label{eq:swap-pigeonhole-improvement}
 \end{equation}
 Here the inserted profile may benefit other classes; such benefits are
@@ -198,14 +198,14 @@ empirical hard cost no larger than the proof candidate's cost. Applying
 gives, for a constant $L_1$,
 \[
  J(\widehat p^{(r,c_r)})
- \le J(\widehat p)-n_av_a+L_1a_n n^2P_{\max}.
+ \le J(\widehat p)-n_av_a+L_1a_n n^2p.
 \]
 Uniform proposal weights and \eqref{eq:swap-saturation-identities},
 followed by monotonicity during its fitting, imply that its endpoint has
 \begin{equation}
  F_{\mathrm{proposal}}
  \le F_{\mathrm{current}}-n_av_a
-                  +L_1a_n n^2P_{\max}+n\log K.
+                  +L_1a_n n^2p+n\log K.
  \label{eq:swap-soft-improvement}
 \end{equation}
 This inequality holds for every $a$ and its indicated deletion, so the
@@ -213,10 +213,10 @@ best evaluated endpoint is at least as good. No purity, convergence,
 or basin assumption on the growing initialization has been used.
 
 \emph{The cap is inactive and stopping bounds every population loss.}
-The common box gives $cn^2P_{\max}\le T_n\le Cn^2P_{\max}$.
+The common box gives $cn^2p\le T_n\le Cn^2p$.
 For any feasible weights, \eqref{eq:swap-bounded-divergence} gives
-$0\le F\le Ln^2P_{\max}$, because every exponential in each row's
-weighted sum is at least $e^{-LnP_{\max}}$. Each accepted replacement
+$0\le F\le Ln^2p$, because every exponential in each row's
+weighted sum is at least $e^{-Lnp}$. Each accepted replacement
 decreases $F$ by at least $\zeta_nT_n$. There are therefore at most
 $L/(c\zeta_n)$ accepted rounds. Since this is
 $O(\sqrt{\log n})<M_n$ eventually, the prescribed cap is inactive for
@@ -225,7 +225,7 @@ The algorithm must terminate by rejection of all $K+1$ proposals.
 
 At that endpoint, \eqref{eq:swap-soft-improvement} and rejection give
 \[
- n_av_a\le L_1a_n n^2P_{\max}+n\log K+\zeta_nT_n.
+ n_av_a\le L_1a_n n^2p+n\log K+\zeta_nT_n.
 \]
 Dividing by $n_a\ge\pi_{\min}n$ proves
 \eqref{eq:swap-population-loss}. Summing over $a$ and using
@@ -244,28 +244,28 @@ The Hessian of $\sum_jx_j\log x_j-x_j$ is
 $\operatorname{diag}(1/x_j)$. Strong convexity on $\mathcal B_n$, and
 then Cauchy--Schwarz, give
 \begin{equation}
- D(x\Vert y)\ge\frac{\|x-y\|_2^2}{2CP_{\max}}
-              \ge\frac{\|x-y\|_1^2}{2CnP_{\max}}.
+ D(x\Vert y)\ge\frac{\|x-y\|_2^2}{2Cp}
+              \ge\frac{\|x-y\|_1^2}{2Cnp}.
  \label{eq:swap-strong-convexity}
 \end{equation}
 By \eqref{eq:swap-population-loss}, each true class has a fitted
-center within $C_3\sqrt{b_n}\,nP_{\max}$ in $\ell_1$.
+center within $C_3\sqrt{b_n}\,np$ in $\ell_1$.
 If two distinct classes chose the same center, their mutual distance
-would be at most $2C_3\sqrt{b_n}\,nP_{\max}$, contrary to
+would be at most $2C_3\sqrt{b_n}\,np$, contrary to
 \eqref{eq:swap-profile-separation} for large $n$. With exactly $K$
 true profiles and $K$ fitted profiles, this injection is a bijection.
 It supplies the common permutation in \eqref{eq:swap-center-matching}.
 
-Set $t_n=\sqrt{a_n}+(nP_{\max})^{-1}$ and call row $i$ typical when
-$\|q_i-p_{z_i,*}\|_1\le t_nnP_{\max}$. By
+Set $t_n=\sqrt{a_n}+(np)^{-1}$ and call row $i$ typical when
+$\|q_i-p_{z_i,*}\|_1\le t_nnp$. By
 \eqref{eq:swap-average-error}, the fraction of nontypical rows is at
 most $a_n/t_n\to0$. For a typical row in class $a$ and any incorrectly
 matched component $k\ne a$, separation and the center matching imply
 \[
- \|q_i-\widehat p_{k*}\|_1\ge (s/2)nP_{\max}
+ \|q_i-\widehat p_{k*}\|_1\ge (s/2)np
 \]
 for all sufficiently large $n$. By \eqref{eq:swap-strong-convexity},
-its deviance is at least $c_*nP_{\max}$, with
+its deviance is at least $c_*np$, with
 $c_*=s^2/(8C)>0$. The exact E-step satisfies
 \[
  R_{ik}=\frac{\widehat\pi_ke^{-D(q_i\Vert\widehat p_{k*})}}
@@ -283,7 +283,7 @@ $\sum_k|R_{ik}-Z_{ik}|=2\sum_{k\ne z_i}R_{ik}\le2$ gives
 \[
  \frac1n\sum_{i,k}|R_{ik}-Z_{ik}|
  \le\frac{2a_n}{t_n}+
-       \frac{2F}{c_*n^2P_{\max}}
+       \frac{2F}{c_*n^2p}
  \le\frac{2a_n}{t_n}+\frac{2C_2b_n}{c_*}
  =:\gamma_n\longrightarrow0.
 \]
@@ -298,8 +298,8 @@ every configuration in the box, completing the deterministic proof.
 Fix a confidence constant $H$ sufficiently large that the exceptional
 probability in Lemma~\ref{lem:full-spectral} is negligible relative to
 $e^{-I_n}$. Under the density-uniform form of that lemma, its probability
-is $O(e^{-HnP_{\max}})$, and the upper bound
-$I_n\le C_I nP_{\max}$ allows any fixed $H>C_I$.
+is $O(e^{-Hnp})$, and the upper bound
+$I_n\le C_I np$ allows any fixed $H>C_I$.
 Work on its spectral-profile event. The positive probability ratios,
 positive limiting community proportions, and the spectral conditioning
 assumption give \eqref{eq:swap-profile-box} and
@@ -314,7 +314,7 @@ replacement stage of Algorithm~1. For every sufficiently large $n$ on
 this event, its round cap is inactive and its endpoint E-step obeys
 \eqref{eq:swap-weak-responsibilities}. Thus the local initialization
 condition \eqref{eq:local-initialization} holds with a deterministic
-$\gamma_n\to0$ and $\delta_n=O(e^{-HnP_{\max}})$.
+$\gamma_n\to0$ and $\delta_n=O(e^{-Hnp})$.
 There is no additional randomized-initialization failure. The mandatory
 final profile and weight M-step and
 Theorem~\ref{thm:local-spectral-em} give

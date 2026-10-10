@@ -4,9 +4,7 @@
 
 ## Model and theorem scope
 
-`P=P_n` is the symmetric K-by-K Bernoulli block probability matrix, with `p_kj=P_{k,z_j}` following Zhou�CLi. The main theorem covers every fixed known `K >= 2`. It assumes positive limiting community proportions, comparable positive block probabilities `P_min >= c P_max`, sparsity `P_max -> 0`, minimum expected degree at least `c log n`, and a uniformly nondegenerate rank-K signal: `sigma_min(N^(1/2) P N^(1/2)) >= c n P_max`, where `N=diag(n_1,...,n_K)` and the constants are fixed and positive.
-
-The block matrix need not have a fixed normalized shape, and expected degrees need not be equal. For a node in class a, the expected degree is `sum_b (n_b - 1{a=b}) P_ab`; observed degrees are random. The minimum-degree condition is a lower bound, not an equality specifying every degree.
+`P=P_n` is the symmetric K-by-K Bernoulli block probability matrix, with `p_aj=P_{a,z_j}` following Zhou�CLi. Define `p=max_{a,b}P_ab`. For every fixed known `K >= 2`, the main theorem assumes positive limiting community proportions, `p=Omega(log n/n)`, `p=o(1)`, `P_ab asymp p`, and `sigma_min(N^(1/2) P N^(1/2)) asymp np`, where `N=diag(n_1,...,n_K)`. All comparison constants are independent of n.
 
 The eigenpairs are computed from the original adjacency matrix. Subsequent fitting uses only those retained eigenpairs. The profile floor is `epsilon=1e-4 max(max(abs(Lambda)),1)/n`. The theorem requires the fixed floor constant to be sufficiently small relative to the block-probability comparison constants; positivity alone does not guarantee admissibility of a chosen numerical constant.
 
@@ -23,7 +21,7 @@ Under the theorem's hypotheses, the stopping certificate is reached after `O(sqr
 
 This repeated-replacement rule is an explicit extension of the original growing algorithm. The original single-pass growing branch is a separate procedure, with its two-community theorem recorded in the appendix. The main theorem does not claim a refined multiplicative risk or a new global minimax lower bound.
 
-The fitting objective is `ell_i(p)=sum_j q_ij log p_j - sum_j p_j`. Its relation to the exact Bernoulli likelihood ratio is proved by a sparse Taylor expansion. Its profile divergence is `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`.
+The fitting objective is `ell_i(phat)=sum_j q_ij log phat_j - sum_j phat_j`. Its relation to the exact Bernoulli likelihood ratio is proved by a sparse Taylor expansion. Its profile divergence is `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`.
 
 The default API option is `method='global_gain_certified'`, calling `Work.iterative_certified_growing()` in [residual_seed.py](../../experiments/20261009_residual_likelihood_seeding/residual_seed.py). The original growing branch is `method='global_gain'`; the older independent-residual-restart combination is `method='global_gain_restarts'`. The option `method='repair'` is a historical alternative.
 

@@ -1,7 +1,7 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-Spectral compression can preserve the likelihood information needed for nearly optimal community recovery. In a full-rank SBM, the membership subspace contains the block-constant likelihood contrasts. First-order analysis of the empirical adjacency eigenpairs makes this relation quantitative when the minimum expected degree is $\Omega(\log n)$, and an admissible spectral-scale positivity floor preserves the leading Chernoff exponent. Expected degrees can vary across communities, and the sparse block probabilities need not have a fixed normalized shape.
+Spectral compression can preserve the likelihood information needed for nearly optimal community recovery. In a full-rank SBM, the membership subspace contains the block-constant likelihood contrasts. First-order analysis of the empirical adjacency eigenpairs makes this relation quantitative when $p=\Omega(\log n/n)$, and an admissible spectral-scale positivity floor preserves the leading Chernoff exponent. 
 
 For every fixed $K\ge2$, Algorithm~1 combines global-mean growing initialization with deterministic repeated component replacement and a final EM update. The stopping certificate establishes weakly correct responsibilities, and the local refinement theorem gives
 \[
