@@ -26,9 +26,9 @@ corrected matrix is needed.
 \end{proof}
 
 Full rank cannot be replaced by distinct block rows without a further
-contrast-span condition.  For example, let $P=(d_n/n)ss^\top$ for a positive,
+contrast-span condition.  For example, let $P=(\log n/n)ss^\top$ for a positive,
 nonconstant vector $s$.  Its signal space is spanned by $Zs$, whereas
-the Poisson contrast between communities $a,b$ is
+the sparse log-probability contrast between communities $a,b$ is
 $\log(s_a/s_b)\mathbf1$.  When $s_a\ne s_b$, this constant vector does
 not belong to $\operatorname{span}(Zs)$.  A rank-one signal projection
 does not preserve that contrast by the preceding identity.  This example
@@ -38,7 +38,7 @@ eigenvector.
 
 \subsection{The sparse likelihood correction}
 
-\begin{proof}[Proof of Lemma~\ref{lem:poisson-correction}]
+\begin{proof}[Proof of Lemma~\ref{lem:sparse-expansion}]
 Write $p_{aj}=P_{a,z_j}$ and $p_{bj}=P_{b,z_j}$ for
 $j\ne i$.  The exact binary Bernoulli log-likelihood ratio is
 \[
@@ -48,28 +48,26 @@ $j\ne i$.  The exact binary Bernoulli log-likelihood ratio is
 \]
 For $0\le x\le1/2$, the power series for $\log(1-x)$ implies
 $|\log(1-x)+x|\le Cx^2$.  Since
-$p_{aj},p_{bj}\le b_+d_n/n$, it also implies
-$|\log((1-p_{bj})/(1-p_{aj}))|\le Cd_n/n$ and
+$p_{aj},p_{bj}\le b_+\log n/n$, it also implies
+$|\log((1-p_{bj})/(1-p_{aj}))|\le C\log n/n$ and
 \[
  \left|\log\frac{1-p_{aj}}{1-p_{bj}}+(p_{aj}-p_{bj})\right|
- \le Cd_n^2/n^2.
+ \le C(\log n)^2/n^2.
 \]
-The first term in the exact LLR is the Poisson linear term, and the
-linear approximation to its final term is the Poisson offset.
-Summing the two displayed remainders proves \eqref{eq:poisson-error}.
+The first term is unchanged in the sparse score, and the final term is replaced by its first-order nonedge offset.
+Summing the two displayed remainders proves \eqref{eq:sparse-expansion-error}.
 
 Under any true community, $\deg(i)$ is a sum of independent Bernoulli
-variables with mean at most $b_+d_n$.  For $D>b_+$, exponential Markov
+variables with mean at most $b_+\log n$.  For $D>b_+$, exponential Markov
 inequality with $t=\log(D/b_+)$ and the bound
-$\log\mathbb E e^{t\deg(i)}\le b_+d_n(e^t-1)$ give
+$\log\mathbb E e^{t\deg(i)}\le b_+\log n(e^t-1)$ give
 \[
- \Pr\{\deg(i)>Dd_n\}
- \le\exp\{-d_n[D\log(D/b_+)-D+b_+]\}.
+ \Pr\{\deg(i)>D\log n\}
+ \le\exp\{-\log n[D\log(D/b_+)-D+b_+]\}.
 \]
 The bracket tends to infinity with $D$, so $D_H$ can be chosen for any
 $H$.  On the complementary event the correction is at most
-$C(D_H+1)d_n^2/n=o(d_n)$.  If $d_n=\log n$, this becomes
-$O(\log^2 n/n)$.
+$C(D_H+1)(\log n)^2/n=o(1)$.
 \end{proof}
 
 \subsection{Chernoff information and the oracle exponent}
@@ -85,11 +83,11 @@ incident-edge row in the two hypotheses.  Define
  D^*_{i,ab}&=\max_{0\le \alpha\le1}D_\alpha(p_{a,-i}\Vert p_{b,-i}).
 \end{align*}
 Uniformly for $\alpha\in[0,1]$ and
-$u,v\in[b_-d_n/n,b_+d_n/n]$,
+$u,v\in[b_-\log n/n,b_+\log n/n]$,
 \[
  u^{1-\alpha}v^\alpha+(1-u)^{1-\alpha}(1-v)^\alpha
  =1-\{(1-\alpha)u+\alpha v-u^{1-\alpha}v^\alpha\}
-   +O(d_n^2/n^2).
+   +O((\log n)^2/n^2).
 \]
 For example, the nonedge product expansion follows by writing it as
 $\exp\{(1-\alpha)\log(1-u)+\alpha\log(1-v)\}$;
@@ -99,16 +97,16 @@ bounded for $u,v\le1/2$. Expanding $-\log(1-x)$ and summing gives
  D^*_{i,ab}
  =n\max_{0\le \alpha\le1}\sum_c\pi_{c,n}
   \{(1-\alpha)P_{ac}+\alpha P_{bc}-P_{ac}^{1-\alpha}P_{bc}^\alpha\}
-  +O(d_n^2/n+d_n/n),\label{eq:chernoff-expansion}
+  +O((\log n)^2/n+\log n/n),\label{eq:chernoff-expansion}
 \end{equation}
-where $\pi_{c,n}=n_c/n$. The $O(d_n/n)$ term accounts for the
-excluded node. Since $(n/d_n)P$ is fixed and $\pi_{c,n}\to\pi_c>0$,
-the displayed expression divided by $d_n$ has a finite limit.
+where $\pi_{c,n}=n_c/n$. The $O(\log n/n)$ term accounts for the
+excluded node. Since $(n/\log n)P$ is fixed and $\pi_{c,n}\to\pi_c>0$,
+the displayed expression divided by $\log n$ has a finite limit.
 Distinct normalized block rows make this limit positive: taking
 $\alpha=1/2$ gives one half the positive weighted sum of the squared
-differences of their square roots. Thus $D^*_{i,ab}\asymp d_n$
+differences of their square roots. Thus $D^*_{i,ab}\asymp \log n$
 uniformly over the finitely many pairs and excluded nodes, and
-$I_n\asymp d_n$.
+$I_n\asymp \log n$.
 
 The equal-prior Bayes risk is
 $R_{i,ab}^{\mathrm{or}}=\frac12\sum_x\min\{f_a(x),f_b(x)\}$.
@@ -132,11 +130,11 @@ remain independent, with probabilities
  p_{*,j}=
  \frac{p_{aj}^{1-\alpha_*}p_{bj}^{\alpha_*}}
  {p_{aj}^{1-\alpha_*}p_{bj}^{\alpha_*}+(1-p_{aj})^{1-\alpha_*}(1-p_{bj})^{\alpha_*}}
- \le Cd_n/n.
+ \le C\log n/n.
 \]
 The coefficient of each edge in $L$ is bounded by a constant depending
-only on $b_-,b_+$; hence $\operatorname{Var}_*(L)\le Cd_n$.
-Taking $h_n=d_n^{2/3}$, Chebyshev's inequality gives
+only on $b_-,b_+$; hence $\operatorname{Var}_*(L)\le C\log n$.
+Taking $h_n=(\log n)^{2/3}$, Chebyshev's inequality gives
 $\Pr_*(|L|\le h_n)=1-o(1)$.  The change of measure yields
 \begin{align*}
  R_{i,ab}^{\mathrm{or}}
@@ -145,7 +143,7 @@ $\Pr_*(|L|\le h_n)=1-o(1)$.  The change of measure yields
  &\ge\tfrac12e^{-D^*_{i,ab}-h_n}\Pr_*(|L|\le h_n).
 \end{align*}
 Combining this with \eqref{eq:oracle-upper} proves
-$\log R_{i,ab}^{\mathrm{or}}=-D^*_{i,ab}+o(d_n)$, and hence
+$\log R_{i,ab}^{\mathrm{or}}=-D^*_{i,ab}+o(\log n)$, and hence
 \eqref{eq:oracle-risk}.  For priors $\nu,1-\nu$ bounded away from zero,
 $\min\{\nu f_a,(1-\nu)f_b\}$ is bounded above and below by constant
 multiples of $\min\{f_a,f_b\}$, so its leading exponent is unchanged.
@@ -167,9 +165,9 @@ Selecting a Chernoff maximizer and using $\alpha\le1$ gives
 \[
  \Pr\{\widehat z_i\ne z_i\}
  \le\delta_n+\sum_{b\ne a}\exp\{\tau_n-D^*_{i,ab}\}
- \le\delta_n+(K-1)\exp\{-I_n+o(d_n)\}.
+ \le\delta_n+(K-1)\exp\{-I_n+o(\log n)\}.
 \]
-Since $I_n\asymp d_n$, we have $o(d_n)=o(I_n)$, and
+Since $I_n\asymp \log n$, we have $o(\log n)=o(I_n)$, and
 \eqref{eq:transfer-tail} makes the first term no larger in leading
 exponential order.  Averaging over nodes and using that the
 permutation-invariant error is no larger than the error under any one
@@ -199,14 +197,14 @@ global minimax lower bound over an unspecified parameter space.
 \begin{proof}[Proof of Lemma~\ref{lem:full-spectral}]
 The true no-self-loop mean $\E[A\mid z]$ leaves $\operatorname{col}(Z)$ invariant. In the orthonormal membership basis $ZN^{-1/2}$ its restriction is
 $N^{1/2}PN^{1/2}-\operatorname{diag}(P_{11},\ldots,P_{KK})$.
-Nonsingularity of the fixed matrix $(n/d_n)P$ and positive limiting proportions imply that its $K$ eigenvalues have absolute values between $\kappa_0d_n$ and $C d_n$ for some $\kappa_0>0$ and all large $n$. On the orthogonal complement, the eigenvalues are $-P_{aa}=O(d_n/n)$. Let $U_*$ and $\Lambda_*$ contain these $K$ signal eigenpairs; then
+Nonsingularity of the fixed matrix $(n/\log n)P$ and positive limiting proportions imply that its $K$ eigenvalues have absolute values between $\kappa_0\log n$ and $C \log n$ for some $\kappa_0>0$ and all large $n$. On the orthogonal complement, the eigenvalues are $-P_{aa}=O(\log n/n)$. Let $U_*$ and $\Lambda_*$ contain these $K$ signal eigenpairs; then
 $U_*U_*^\top=\Pi_*$ and $\|U_*\|_{2\to\infty}=O(n^{-1/2})$.
 
-Here $\|M\|_{2\to\infty}=\max_i\|M_i\|_2$. We spell out how the cited entrywise theorem applies. Fix any desired polynomial confidence power. Lei--Rinaldo's spectral norm theorem~\citep[Theorem 5.2]{leirinaldo2015}, with its confidence power chosen arbitrarily large, gives $\|A-\E[A\mid z]\|_{\mathrm{op}}\le C_H\sqrt{d_n}$ outside $O(n^{-H})$. Its upper degree parameter can be taken as $\max\{1,b_+\}d_n$. The signal separation is of order $d_n$, and the eigenvalue condition number is bounded. In the notation of Abbe et al.~\citep[Theorem 2.1]{abbe2020}, take $\gamma=C_H/\sqrt{d_n}$. Their incoherence assumption holds because $\|\E[A\mid z]\|_{2\to\infty}=O(d_n/\sqrt n)$; their row/column independence assumption follows from the independent upper-triangular edges.
+Here $\|M\|_{2\to\infty}=\max_i\|M_i\|_2$. We spell out how the cited entrywise theorem applies. Fix any desired polynomial confidence power. Lei--Rinaldo's spectral norm theorem~\citep[Theorem 5.2]{leirinaldo2015}, with its confidence power chosen arbitrarily large, gives $\|A-\E[A\mid z]\|_{\mathrm{op}}\le C_H\sqrt{\log n}$ outside $O(n^{-H})$. Its upper degree parameter can be taken as $\max\{1,b_+\}\log n$. The signal separation is of order $\log n$, and the eigenvalue condition number is bounded. In the notation of Abbe et al.~\citep[Theorem 2.1]{abbe2020}, take $\gamma=C_H/\sqrt{\log n}$. Their incoherence assumption holds because $\|\E[A\mid z]\|_{2\to\infty}=O(\log n/\sqrt n)$; their row/column independence assumption follows from the independent upper-triangular edges.
 
-For row concentration, their Bernoulli Lemma 7 applies with upper probability $b_+d_n/n$. Choosing its tail parameter large enough gives row failure $O(n^{-H-2})$. For matrices with a fixed number of columns, applying it to the columns and using monotonicity of $\varphi_H$ and of $\varphi_H(x)/x$ to replace the column norms by the Frobenius and maximum-row norms gives the required function
+For row concentration, their Bernoulli Lemma 7 applies with upper probability $b_+\log n/n$. Choosing its tail parameter large enough gives row failure $O(n^{-H-2})$. For matrices with a fixed number of columns, applying it to the columns and using monotonicity of $\varphi_H$ and of $\varphi_H(x)/x$ to replace the column norms by the Frobenius and maximum-row norms gives the required function
 $\varphi_H(x)=C_H/(1\vee\log(1/x))$ for $x>0$, with $\varphi_H(0)=0$.
-The constants absorb the fixed number of columns and the ratio of the signal gap to $d_n$. This function is continuous and nondecreasing, $\varphi_H(x)/x$ is nonincreasing, and both $\gamma$ and $\varphi_H(\gamma)$ tend to zero. Thus the remaining smallness condition in that theorem holds for all sufficiently large $n$.
+The constants absorb the fixed number of columns and the ratio of the signal gap to $\log n$. This function is continuous and nondecreasing, $\varphi_H(x)/x$ is nonincreasing, and both $\gamma$ and $\varphi_H(\gamma)$ tend to zero. Thus the remaining smallness condition in that theorem holds for all sufficiently large $n$.
 
 Apply the theorem separately to the positive and negative signal groups, each a contiguous group of eigenvalues, and concatenate their orthogonal alignments. Repeated eigenvalues within either group cause no difficulty. The theorem allows a non-low-rank mean, so the excluded diagonal has not been silently discarded. The norm event also ensures that the empirical largest-absolute-value eigenpairs are precisely these signal groups. We obtain an orthogonal $R$, $V=UR$, and deterministic $\nu_n\to0$ such that
 \[
@@ -214,16 +212,16 @@ Apply the theorem separately to the positive and negative signal groups, each a 
  \|V-AU_*\Lambda_*^{-1}\|_{2\to\infty}\le\nu_n/\sqrt n.
 \]
 The same polar alignments satisfy the Davis--Kahan bound
-$\|V-U_*\|_{\mathrm{op}}\le C_H/\sqrt{d_n}$.
+$\|V-U_*\|_{\mathrm{op}}\le C_H/\sqrt{\log n}$.
 Put $M=R^\top\Lambda R=V^\top A V$. Since
-$\|\E[A\mid z]\|_{\mathrm{op}}=O(d_n)$,
+$\|\E[A\mid z]\|_{\mathrm{op}}=O(\log n)$,
 \[
  \|M-\Lambda_*\|_{\mathrm{op}}
  \le\|A-\E[A\mid z]\|_{\mathrm{op}}
    +2\|\E[A\mid z]\|_{\mathrm{op}}\|V-U_*\|_{\mathrm{op}}
- \le C_H\sqrt{d_n}.
+ \le C_H\sqrt{\log n}.
 \]
-A degree union bound, with the degree-tail constant chosen for the same confidence power, gives $\max_i\deg(i)\le C_Hd_n$.
+A degree union bound, with the degree-tail constant chosen for the same confidence power, gives $\max_i\deg(i)\le C_H\log n$.
 
 Set $E=V-AU_*\Lambda_*^{-1}$. The exact row decomposition is
 \[
@@ -231,112 +229,112 @@ Set $E=V-AU_*\Lambda_*^{-1}$. The exact row decomposition is
  =E_iMV^\top+
  (AU_*)_i\{\Lambda_*^{-1}MV^\top-U_*^\top\}.
 \]
-The bracket has operator norm $O(d_n^{-1/2})$, while
-$\|(AU_*)_i\|_2\le\deg(i)\|U_*\|_{2\to\infty}\le C_Hd_n/\sqrt n$.
+The bracket has operator norm $O((\log n)^{-1/2})$, while
+$\|(AU_*)_i\|_2\le\deg(i)\|U_*\|_{2\to\infty}\le C_H\log n/\sqrt n$.
 Consequently
 \[
  \|\widetilde A-A\Pi_*\|_{2\to\infty}
- \le C_H(d_n\nu_n+\sqrt{d_n})/\sqrt n
- =o(d_n/\sqrt n).
+ \le C_H(\log n\nu_n+\sqrt{\log n})/\sqrt n
+ =o(\log n/\sqrt n).
 \]
 Cauchy--Schwarz yields the required uniform row $\ell_1$ bound. Entrywise clipping is 1-Lipschitz, so the bound also holds for $q-q^0$. Moreover,
 $|\widetilde A_{ij}|\le\|U_i\|_2\|\Lambda\|_{\mathrm{op}}\|U_j\|_2
-\le C_Hd_n/n$, proving the profile upper bound.
+\le C_H\log n/n$, proving the profile upper bound.
 
 For the average approximation, define the block counts
-$N_{ic}=\sum_{j:z_j=c}A_{ij}$. Because $c_0d_n/n<P_{ac}$, clipping toward $P_{ac}$ cannot increase the coordinate error:
+$N_{ic}=\sum_{j:z_j=c}A_{ij}$. Because $c_0\log n/n<P_{ac}$, clipping toward $P_{ac}$ cannot increase the coordinate error:
 \[
  \|q_i^0-p_{z_i,*}\|_1
  \le\sum_c|N_{ic}-n_cP_{z_i,c}|.
 \]
-Let $F$ be the sum on the right over all $i$. Its expectation is at most $Cn\sqrt{d_n}+Cd_n$; the latter term accounts for the missing diagonal. Changing one independent edge changes $F$ by at most two. The bounded-differences inequality therefore gives
+Let $F$ be the sum on the right over all $i$. Its expectation is at most $Cn\sqrt{\log n}+C\log n$; the latter term accounts for the missing diagonal. Changing one independent edge changes $F$ by at most two. The bounded-differences inequality therefore gives
 \[
- \Pr\{F-\E F>nd_n^{3/4}\}\le e^{-c d_n^{3/2}}.
+ \Pr\{F-\E F>n(\log n)^{3/4}\}\le e^{-c (\log n)^{3/2}}.
 \]
 In logarithmic density this is smaller than any fixed inverse polynomial. Combining this average bound with the uniform $q-q^0$ bound, and enlarging a deterministic vanishing $a_n$, proves all assertions.
 \end{proof}
 
 \paragraph{Clipped oracle comparisons.}
 For later use, fix a true class $a$ and a competitor $b$. Write
-$v_c=\log(P_{ac}/P_{bc})$, $N'_{ic}=\max\{N_{ic},n_cc_0d_n/n\}$, and
+$v_c=\log(P_{ac}/P_{bc})$, $N'_{ic}=\max\{N_{ic},n_cc_0\log n/n\}$, and
 \[
  L_{i,\mathrm{clip}}^{ab}
  =\sum_cN'_{ic}v_c-\sum_c n_c(P_{ac}-P_{bc}).
 \]
-This is a comparison score for the analysis, not a computable oracle supplied to the algorithm. For any $\alpha\in[0,1]$, a coordinate with $v_c\ge0$ has a clipped exponential moment no larger than its unclipped moment. If $v_c<0$, put $\beta=-\alpha v_c\ge0$ and $t_c=n_cc_0d_n/n$. For all sufficiently large $n$, $t_c\le\E_a N_{ic}$, including the excluded self-loop, because $c_0<\min_{a,c}nP_{ac}/d_n$. Jensen's inequality implies
+This is a comparison score for the analysis, not a computable oracle supplied to the algorithm. For any $\alpha\in[0,1]$, a coordinate with $v_c\ge0$ has a clipped exponential moment no larger than its unclipped moment. If $v_c<0$, put $\beta=-\alpha v_c\ge0$ and $t_c=n_cc_0\log n/n$. For all sufficiently large $n$, $t_c\le\E_a N_{ic}$, including the excluded self-loop, because $c_0<\min_{a,c}nP_{ac}/\log n$. Jensen's inequality implies
 \[
  \E_a e^{\beta\max\{N_{ic},t_c\}}
  \le\E_a e^{\beta N_{ic}}+e^{\beta t_c}
  \le2\E_a e^{\beta N_{ic}}.
 \]
-The counts over different column blocks are independent for a fixed node. Thus clipping costs at most a factor $2^K$ in the Chernoff moment. A direct binomial moment expansion, including an $O(d_n/n)$ diagonal correction, gives
+The counts over different column blocks are independent for a fixed node. Thus clipping costs at most a factor $2^K$ in the Chernoff moment. A direct binomial moment expansion, including an $O(\log n/n)$ diagonal correction, gives
 \[
  \log\E_a e^{-\alpha L_{i,\mathrm{raw}}^{ab}}
- =-D_\alpha(p_{a,-i}\Vert p_{b,-i})+O(d_n^2/n+d_n/n),
+ =-D_\alpha(p_{a,-i}\Vert p_{b,-i})+O((\log n)^2/n+\log n/n),
 \]
 where the raw score replaces $N'_{ic}$ by $N_{ic}$.
-For any deterministic $\tau_n=o(d_n)$, exponential Markov inequality at the maximizing $\alpha$ yields
+For any deterministic $\tau_n=o(\log n)$, exponential Markov inequality at the maximizing $\alpha$ yields
 \begin{equation}
  \Pr_a\{L_{i,\mathrm{clip}}^{ab}\le\tau_n\}
- \le2^K\exp\{-D^*_{i,ab}+o(d_n)\}.
+ \le2^K\exp\{-D^*_{i,ab}+o(\log n)\}.
  \label{eq:clipped-chernoff}
 \end{equation}
-The argument controls the error probability directly. It does not assume that clipping changes every rare-row score by $o(d_n)$.
+The argument controls the error probability directly. It does not assume that clipping changes every rare-row score by $o(\log n)$.
 
 \begin{proof}[Proof of Theorem~\ref{thm:local-spectral-em}]
 Choose the confidence power $H>2+\limsup_{n\to\infty}I_n/\log n$ in Lemma~\ref{lem:full-spectral} and work on its event. Constants below may depend on the fixed model and floor but not on the iteration. Suppose a responsibility matrix $R$ has aligned average error at most $\gamma$, with $\gamma$ below a sufficiently small fixed constant. Put
 $N_a=\sum_iR_{ia}$ and $\bar q_a=n_a^{-1}\sum_{i:z_i=a}q_i$.
 Then $|N_a-n_a|\le n\gamma$ and $N_a\ge\pi_{\min}n/2$, where $\pi_{\min}$ is a fixed lower bound on the community proportions for large $n$. The average-profile bound gives
-$\|\bar q_a-p_{a*}\|_1\le C a_nd_n$.
+$\|\bar q_a-p_{a*}\|_1\le C a_n\log n$.
 The M-step identity gives, deterministically,
 \[
  \|\widehat p_a-\bar q_a\|_1
  \le\frac{\sum_i|R_{ia}-Z_{ia}|\|q_i\|_1}{N_a}
        +\left|\frac{n_a}{N_a}-1\right|\|\bar q_a\|_1
- \le C\gamma d_n.
+ \le C\gamma \log n.
 \]
 Hence
 \begin{equation}
  \max_a\|\widehat p_a-p_{a*}\|_1
- \le C(\gamma+a_n)d_n,\qquad
- c_0d_n/n\le\widehat p_{aj}\le C_Hd_n/n.
+ \le C(\gamma+a_n)\log n,\qquad
+ c_0\log n/n\le\widehat p_{aj}\le C_H\log n/n.
  \label{eq:local-profile-fit}
 \end{equation}
-The logarithm is Lipschitz on this common positive range, so its vector $\ell_1$ error is at most $Cn/d_n$ times the profile error. Since $q_{ij}\le C_Hd_n/n$, both the fitted linear contrasts and their offsets differ from the true-profile working contrasts by at most $C(\gamma+a_n)d_n$.
+The logarithm is Lipschitz on this common positive range, so its vector $\ell_1$ error is at most $Cn/\log n$ times the profile error. Since $q_{ij}\le C_H\log n/n$, both the fitted linear contrasts and their offsets differ from the true-profile working contrasts by at most $C(\gamma+a_n)\log n$.
 The fitted log-weight ratios are bounded: in the unconstrained update $N_a/n$ is bounded away from zero; for a fixed positive floor this follows directly from feasibility.
 
 Combining the uniform row $q-q^0$ bound with these parameter bounds gives, for every node and pair,
 \begin{equation}
  |\widehat\ell_i(a)-\widehat\ell_i(b)-L_{i,\mathrm{clip}}^{ab}|
- \le C(\gamma+a_n)d_n+C.
+ \le C(\gamma+a_n)\log n+C.
  \label{eq:local-score-fit}
 \end{equation}
 No independence of $R$, $q$, and the incident edges has been used. With $\gamma=\gamma_n\to0$, a wrong classification implies
-$L_{i,\mathrm{clip}}^{ab}\le o(d_n)$ for some competitor, apart from the initialization or graph exceptional events. Equation~\eqref{eq:clipped-chernoff} and a finite union bound prove the one-update rate.
+$L_{i,\mathrm{clip}}^{ab}\le o(\log n)$ for some competitor, apart from the initialization or graph exceptional events. Equation~\eqref{eq:clipped-chernoff} and a finite union bound prove the one-update rate.
 
 We also verify that further EM updates remain in the required region. Let
 \[
  \kappa=\liminf_n\min_{a\ne b}
- d_n^{-1}D_{\mathrm P}(p_{a*}\Vert p_{b*})>0.
+ (\log n)^{-1}D(p_{a*}\Vert p_{b*})>0.
 \]
-Choose a small fixed basin radius $\gamma_0>0$ so that the error bound from \eqref{eq:local-profile-fit} for $\gamma\le\gamma_0$ is less than $\kappa d_n/8$ in each score comparison for large $n$. Also choose a fixed small $t_0>0$ so that a row with
-$\|q_i-p_{z_i,*}\|_1\le t_0d_n$ has an observation-contrast error less than $\kappa d_n/8$.
-At the population observation $q_i=p_{z_i,*}$, the working margin equals $D_{\mathrm P}(p_{z_i,*}\Vert p_{b*})\ge\kappa d_n/2$ for large $n$. The specified row deviation costs at most $\kappa d_n/8$, and the fitted-parameter and bounded weight corrections together cost at most $\kappa d_n/8$, leaving a correct-class margin of at least $\kappa d_n/4$.
+Choose a small fixed basin radius $\gamma_0>0$ so that the error bound from \eqref{eq:local-profile-fit} for $\gamma\le\gamma_0$ is less than $\kappa \log n/8$ in each score comparison for large $n$. Also choose a fixed small $t_0>0$ so that a row with
+$\|q_i-p_{z_i,*}\|_1\le t_0\log n$ has an observation-contrast error less than $\kappa \log n/8$.
+At the population observation $q_i=p_{z_i,*}$, the working margin equals $D(p_{z_i,*}\Vert p_{b*})\ge\kappa \log n/2$ for large $n$. The specified row deviation costs at most $\kappa \log n/8$, and the fitted-parameter and bounded weight corrections together cost at most $\kappa \log n/8$, leaving a correct-class margin of at least $\kappa \log n/4$.
 The average-profile bound shows that the remaining rows constitute at most $a_n/t_0$ of all nodes. Thus the next E-step has aligned average responsibility error at most
 \[
- b_n=2a_n/t_0+2(K-1)e^{-\kappa d_n/4}\longrightarrow0.
+ b_n=2a_n/t_0+2(K-1)e^{-\kappa \log n/4}\longrightarrow0.
 \]
 This bound holds uniformly for every $R$ in the fixed basin. Eventually $b_n<\gamma_0$, so the basin is invariant. Starting with error $\gamma_n\to0$, every later responsibility matrix has error at most $\max\{\gamma_n,b_n\}=o(1)$.
-Equation~\eqref{eq:local-score-fit} therefore holds with one deterministic $o(d_n)$ bound for every later fitted score on the same event. This includes a data-dependent finite stopping time and needs no union bound over iterations.
+Equation~\eqref{eq:local-score-fit} therefore holds with one deterministic $o(\log n)$ bound for every later fitted score on the same event. This includes a data-dependent finite stopping time and needs no union bound over iterations.
 
-Finally add the initialization failure $\delta_n$ and the graph failure $O(n^{-H})$ to the per-node Chernoff bound and average over nodes. Since $d_n=\log n$ and $H>2+\limsup_{n\to\infty}I_n/\log n$, the graph failure is negligible compared with $e^{-I_n}$, and the assumed initialization reliability preserves the leading exponent. If $\liminf_{n\to\infty}I_n/\log n>1$, multiplying the expected error by $n$ and applying Markov's inequality gives exact recovery with probability tending to one.
+Finally add the initialization failure $\delta_n$ and the graph failure $O(n^{-H})$ to the per-node Chernoff bound and average over nodes. Since $H>2+\limsup_{n\to\infty}I_n/\log n$, the graph failure is negligible compared with $e^{-I_n}$, and the assumed initialization reliability preserves the leading exponent. If $\liminf_{n\to\infty}I_n/\log n>1$, multiplying the expected error by $n$ and applying Markov's inequality gives exact recovery with probability tending to one.
 \end{proof}
 
 \begin{proof}[Proof of Corollary~\ref{cor:provable-warmstart}]
 The spectral norm and Davis--Kahan bounds above give an orthogonal alignment with
-$\|U-U_*R^\top\|_F^2=O(d_n^{-1})$ outside $O(n^{-H})$.
+$\|U-U_*R^\top\|_F^2=O((\log n)^{-1})$ outside $O(n^{-H})$.
 The $K$ distinct population row centers have squared separation at least $2/n$, since the rows of $ZN^{-1/2}$ from different groups are orthogonal, with squared norms $1/n_a$ and $1/n_b$.
-A fixed-factor approximate $K$-means solution has total squared error at most a constant times $\|U-U_*R^\top\|_F^2$. The deterministic center-matching argument (also used in Lei--Rinaldo's clustering bound) then gives $\Mis(\widetilde z,z)=O(d_n^{-1})$: the total squared discrepancy of fitted centers from the population rows is $O(d_n^{-1})$; positive community sizes force one fitted center near each distinct population center; each incorrectly assigned row contributes a constant multiple of $1/n$ to that discrepancy. Hard responsibilities consequently have aligned average error $2\Mis(\widetilde z,z)=O(d_n^{-1})$.
+A fixed-factor approximate $K$-means solution has total squared error at most a constant times $\|U-U_*R^\top\|_F^2$. The deterministic center-matching argument (also used in Lei--Rinaldo's clustering bound) then gives $\Mis(\widetilde z,z)=O((\log n)^{-1})$: the total squared discrepancy of fitted centers from the population rows is $O((\log n)^{-1})$; positive community sizes force one fitted center near each distinct population center; each incorrectly assigned row contributes a constant multiple of $1/n$ to that discrepancy. Hard responsibilities consequently have aligned average error $2\Mis(\widetilde z,z)=O((\log n)^{-1})$.
 
 For a concrete randomized implementation, the $K$-means++ expected squared-error bound is $C_K=8(\log K+2)$ times the optimum~\citep{arthur2007}. Conditional on $U$, Markov's inequality bounds the chance of exceeding $2C_K$ times the optimum by $1/2$ for each independent seeding. Taking at least $(H+2)\log_2 n$ independent seedings and selecting the smallest squared-error potential makes that failure at most $n^{-H-2}$. Any subsequent Lloyd steps can only lower this potential. The zero-optimum case is recovered exactly by the seeding. For fixed $K$ this costs polynomial time and uses only $U$. Choose $H>\limsup_{n\to\infty}I_n/\log n$, combine this event with the spectral event, and apply Theorem~\ref{thm:local-spectral-em}.
 \end{proof}
@@ -355,39 +353,39 @@ Fix $H>2+\limsup_{n\to\infty}I_n/\log n$ and work on the event of Lemma~\ref{lem
 The block values of $q_c^0$ are
 \[
  v_{cb}=\max\left\{\frac{\sum_{j:z_j=b}A_{cj}}{n_b},
-                         \frac{c_0d_n}{n}\right\},
+                         \frac{c_0\log n}{n}\right\},
  \qquad q_{cj}^0=v_{c,z_j}.
 \]
 This is only an analysis variable. In particular $v_c$ may be a rare extreme candidate, and we do not assume it is near its own community profile. Let
 \[
- h_a(v)=\frac{n}{d_n}\sum_b\pi_{b,n}
+ h_a(v)=\frac{n}{\log n}\sum_b\pi_{b,n}
  \{P_{ab}\log(v_b/m_b)-(v_b-m_b)\},\qquad
  \Phi_n(v)=\sum_a\pi_{a,n}[h_a(v)]_+.
 \]
-The global profile mean $\overline q$ differs from $(m_{z_j})_{j=1}^n$ in $\ell_1$ norm by at most $a_nd_n$. The uniform bound on $q_c-q_c^0$ and the common positive box give
+The global profile mean $\overline q$ differs from $(m_{z_j})_{j=1}^n$ in $\ell_1$ norm by at most $a_n\log n$. The uniform bound on $q_c-q_c^0$ and the common positive box give
 \[
- \left|[\ell_i(q_c)-\ell_i(\overline q)]-d_nh_{z_i}(v_c)\right|
- \le C\{\|q_i-p_{z_i,*}\|_1+a_nd_n\}.
+ \left|[\ell_i(q_c)-\ell_i(\overline q)]-\log nh_{z_i}(v_c)\right|
+ \le C\{\|q_i-p_{z_i,*}\|_1+a_n\log n\}.
 \]
 Here the parameter perturbation costs
 $C\|q_c-q_c^0\|_1+C\|\overline q-(m_{z_j})_{j=1}^n\|_1$,
-because $q_{ij}\le C d_n/n$ and $\log$ is $n/(c_0d_n)$-Lipschitz. The remaining observation perturbation multiplies a uniformly bounded log ratio. Since positive part is 1-Lipschitz, summing yields the simultaneous candidate bound
+because $q_{ij}\le C \log n/n$ and $\log$ is $n/(c_0\log n)$-Lipschitz. The remaining observation perturbation multiplies a uniformly bounded log ratio. Since positive part is 1-Lipschitz, summing yields the simultaneous candidate bound
 \[
- \sup_c\left|\frac{\Delta_2(c)}{nd_n}-\Phi_n(v_c)\right|\le Ca_n.
+ \sup_c\left|\frac{\Delta_2(c)}{n\log n}-\Phi_n(v_c)\right|\le Ca_n.
 \]
-Every true class has a candidate with $\|q_c-p_{a*}\|_1=o(d_n)$ by the average error bound and its positive proportion. The same is true of $q_c^0$, so
-$(n/d_n)\sum_b\pi_{b,n}|v_{cb}-P_{ab}|=o(1)$.
+Every true class has a candidate with $\|q_c-p_{a*}\|_1=o(\log n)$ by the average error bound and its positive proportion. The same is true of $q_c^0$, so
+$(n/\log n)\sum_b\pi_{b,n}|v_{cb}-P_{ab}|=o(1)$.
 The fixed normalized matrix and positive limiting proportions imply that
 \[
  g_0=\lim_{n\to\infty}\max_a
- \frac{n\pi_{a,n}}{d_n}
+ \frac{n\pi_{a,n}}{\log n}
  D_{\pi_n}\big((P_{ab})_{b=1}^2\Vert m\big)>0.
 \]
 Positivity follows because the two distinct normalized block rows cannot both equal their mean. Continuity on the normalized common positive box and the candidate bound imply that the selected candidate satisfies $\Phi_n(v_c)\ge g_0/2$ for large $n$.
 
 The decisive two-class identity is
 \[
- \sum_a\pi_{a,n}h_a(v)=-\frac{n}{d_n}D_{\pi_n}(m\Vert v)\le0.
+ \sum_a\pi_{a,n}h_a(v)=-\frac{n}{\log n}D_{\pi_n}(m\Vert v)\le0.
 \]
 Together with $\Phi_n(v_c)\ge g_0/2$, it forces exactly one of $h_1(v_c),h_2(v_c)$ to be positive. Moreover
 \[
@@ -396,18 +394,18 @@ Together with $\Phi_n(v_c)\ge g_0/2$, it forces exactly one of $h_1(v_c),h_2(v_c
 \]
 since each weighted positive or negative magnitude is at least $g_0/2$ and each proportion is at most one. The initial two mixture weights are equal, so they do not alter this score comparison.
 
-Take $\tau_n=\sqrt{a_n}+d_n^{-1}$. At most $(a_n/\tau_n)n=o(n)$ observations have $\|q_i-p_{z_i,*}\|_1>\tau_nd_n$. Every other observation has the correct initial component margin at least $g_0d_n/4$ after the above score perturbations. After a common label alignment, the first E-step therefore satisfies
+Take $\tau_n=\sqrt{a_n}+(\log n)^{-1}$. At most $(a_n/\tau_n)n=o(n)$ observations have $\|q_i-p_{z_i,*}\|_1>\tau_n\log n$. Every other observation has the correct initial component margin at least $g_0\log n/4$ after the above score perturbations. After a common label alignment, the first E-step therefore satisfies
 \[
  \frac1n\sum_{i,a}|R_{ia}-Z_{ia}|
- \le \frac{2a_n}{\tau_n}+2e^{-g_0d_n/4}=o(1).
+ \le \frac{2a_n}{\tau_n}+2e^{-g_0\log n/4}=o(1).
 \]
 The graph event has failure $O(n^{-H})$, so these responsibilities meet the reliability condition in Theorem~\ref{thm:local-spectral-em}. The evaluated fitting loop always performs its first M-step before it may stop. That theorem gives the claimed exponent for the first resulting decode and all subsequent finite updates, including the evaluated stopping rule. Its exact-recovery implication also applies. \qed
 
 \paragraph{Proof of Theorem~\ref{thm:certified-likelihood}.}
-Again choose a fixed $H>2+\limsup_{n\to\infty}I_n/\log n$ and condition on the event in Lemma~\ref{lem:full-spectral}. Let $a_n\to0$ bound its average profile error, and write $c_0d_n/n\le q_{ij}\le C_Hd_n/n$. True profiles have the same positive box after enlarging $C_H$. Full rank implies distinct block rows; their limiting positive proportions give constants $\kappa,s>0$ such that
+Again choose a fixed $H>2+\limsup_{n\to\infty}I_n/\log n$ and condition on the event in Lemma~\ref{lem:full-spectral}. Let $a_n\to0$ bound its average profile error, and write $c_0\log n/n\le q_{ij}\le C_H\log n/n$. True profiles have the same positive box after enlarging $C_H$. Full rank implies distinct block rows; their limiting positive proportions give constants $\kappa,s>0$ such that
 \[
- \min_{a\ne b}D_{\mathrm P}(p_{a*}\Vert p_{b*})\ge\kappa d_n,\qquad
- \min_{a\ne b}\|p_{a*}-p_{b*}\|_1\ge sd_n
+ \min_{a\ne b}D(p_{a*}\Vert p_{b*})\ge\kappa \log n,\qquad
+ \min_{a\ne b}\|p_{a*}-p_{b*}\|_1\ge s\log n
 \]
 for all sufficiently large $n$.
 
@@ -415,14 +413,14 @@ for all sufficiently large $n$.
 On this box the two derivatives of the scalar deviance are $\log(x/y)$ and $1-x/y$, which are uniformly bounded. Consequently
 \[
  \begin{split}
- 0\le D_{\mathrm P}(x\Vert y)&\le Cd_n,\\
- |D_{\mathrm P}(x\Vert y)-D_{\mathrm P}(x'\Vert y')|
+ 0\le D(x\Vert y)&\le C\log n,\\
+ |D(x\Vert y)-D(x'\Vert y')|
  &\le C(\|x-x'\|_1+\|y-y'\|_1).
  \end{split}
 \]
-Set $\tau_n=\sqrt{a_n}+d_n^{-1}$. Call row $i$ good when $\|q_i-p_{z_i,*}\|_1\le\tau_nd_n$; the remaining rows number at most $(a_n/\tau_n)n$. Conditional on previously selected seeds being good and representing distinct classes, every good row in a represented class has residual at most $2C\tau_nd_n$. Every good row in an unrepresented class has residual at least $\kappa d_n/2$, by the Lipschitz bound. Before $K$ seeds have been selected, an unrepresented class supplies at least $\pi_{\min}n/2$ good rows. Hence total sampling mass is at least $cnd_n$, whereas the mass of represented good rows and all bad rows is at most
+Set $\tau_n=\sqrt{a_n}+(\log n)^{-1}$. Call row $i$ good when $\|q_i-p_{z_i,*}\|_1\le\tau_n\log n$; the remaining rows number at most $(a_n/\tau_n)n$. Conditional on previously selected seeds being good and representing distinct classes, every good row in a represented class has residual at most $2C\tau_n\log n$. Every good row in an unrepresented class has residual at least $\kappa \log n/2$, by the Lipschitz bound. Before $K$ seeds have been selected, an unrepresented class supplies at least $\pi_{\min}n/2$ good rows. Hence total sampling mass is at least $cn\log n$, whereas the mass of represented good rows and all bad rows is at most
 \[
- C(\tau_n+a_n/\tau_n)nd_n.
+ C(\tau_n+a_n/\tau_n)n\log n.
 \]
 The first uniform seed is bad with probability at most $a_n/\tau_n$. A union bound over the fixed $K$ choices gives single-run failure at most
 \[
@@ -440,49 +438,49 @@ Define the observation-only saturation constant and soft deviance
  S_q=\sum_{i,j}(q_{ij}\log q_{ij}-q_{ij}),\qquad
  F(\widehat\pi,\widehat p)=
  -\sum_i\log\sum_k\widehat\pi_k
-       e^{-D_{\mathrm P}(q_i\Vert\widehat p_{k*})}.
+       e^{-D(q_i\Vert\widehat p_{k*})}.
 \]
 There is the exact identity
 \[
  \mathcal L=S_q-F,\qquad
- F\ge\sum_i\min_kD_{\mathrm P}(q_i\Vert\widehat p_{k*})\ge0.
+ F\ge\sum_i\min_kD(q_i\Vert\widehat p_{k*})\ge0.
 \]
 Observation Gamma terms, if restored, are common to every fit. A successful run starts with one good seed for each class and uniform weights. Thus
 \[
  F_{\rm initial}
- \le C(a_n+\tau_n)nd_n+n\log K
- =:\epsilon_nnd_n,\qquad \epsilon_n\to0.
+ \le C(a_n+\tau_n)n\log n+n\log K
+ =:\epsilon_nn\log n,\qquad \epsilon_n\to0.
 \]
 Every exact EM update increases $\mathcal L$ and decreases $F$. Selecting the largest final $\mathcal L$ across all runs, including the growing endpoint, therefore gives
 \[
- F_{\rm selected}\le\epsilon_nnd_n.
+ F_{\rm selected}\le\epsilon_nn\log n.
 \]
 This argument does not require identifying the successful run, fitting any run to stationarity, or proving anything about the growing branch's basin dynamics.
 
 All candidate means remain in the same box, since they start at rows or the global mean of $q$ and each M-step forms a convex combination. Keeping the previous mean in a zero-mass component preserves the box too. Strong convexity of $x\log x-x$ on the box, followed by Cauchy--Schwarz, gives
 \[
- D_{\mathrm P}(x\Vert y)
- \ge\frac{n\|x-y\|_2^2}{2C_Hd_n}
- \ge\frac{\|x-y\|_1^2}{2C_Hd_n}.
+ D(x\Vert y)
+ \ge\frac{n\|x-y\|_2^2}{2C_H\log n}
+ \ge\frac{\|x-y\|_1^2}{2C_H\log n}.
 \]
 Consequently
 \[
  \sum_i\min_k\|q_i-\widehat p_{k*}\|_1^2
- \le 2C_H\epsilon_nnd_n^2.
+ \le 2C_H\epsilon_nn(\log n)^2.
 \]
-Put $\eta_n=\sqrt{a_n}+\epsilon_n^{1/4}+d_n^{-1}$. The fractions of rows farther than $\eta_nd_n$ from their true profile, or from every fitted profile, are at most $a_n/\eta_n$ and $2C_H\epsilon_n/\eta_n^2$, respectively; both tend to zero. Each positive-proportion true class has a row avoiding both bad sets. Its fitted center is within $2\eta_nd_n$ of its true center. The separation $sd_n$ forces different classes to use different fitted centers; with exactly $K$ centers this gives a single label permutation satisfying
+Put $\eta_n=\sqrt{a_n}+\epsilon_n^{1/4}+(\log n)^{-1}$. The fractions of rows farther than $\eta_n\log n$ from their true profile, or from every fitted profile, are at most $a_n/\eta_n$ and $2C_H\epsilon_n/\eta_n^2$, respectively; both tend to zero. Each positive-proportion true class has a row avoiding both bad sets. Its fitted center is within $2\eta_n\log n$ of its true center. The separation $s\log n$ forces different classes to use different fitted centers; with exactly $K$ centers this gives a single label permutation satisfying
 \[
- \max_a\|\widehat p_{a*}-p_{a*}\|_1\le2\eta_nd_n.
+ \max_a\|\widehat p_{a*}-p_{a*}\|_1\le2\eta_n\log n.
 \]
 
 \emph{The selected responsibilities are weakly consistent.}
-For a row with $\|q_i-p_{z_i,*}\|_1\le\eta_nd_n$, every wrongly matched center is at $\ell_1$ distance at least $sd_n/2$ for large $n$, hence its deviance is at least
-$c_*d_n$, with $c_*=s^2/(8C_H)>0$.
+For a row with $\|q_i-p_{z_i,*}\|_1\le\eta_n\log n$, every wrongly matched center is at $\ell_1$ distance at least $s\log n/2$ for large $n$, hence its deviance is at least
+$c_*\log n$, with $c_*=s^2/(8C_H)>0$.
 For the selected fit's exact E-step, write
 \[
  R_{ik}=
- \frac{\widehat\pi_k e^{-D_{\mathrm P}(q_i\Vert\widehat p_{k*})}}
- {\sum_l\widehat\pi_l e^{-D_{\mathrm P}(q_i\Vert\widehat p_{l*})}}.
+ \frac{\widehat\pi_k e^{-D(q_i\Vert\widehat p_{k*})}}
+ {\sum_l\widehat\pi_l e^{-D(q_i\Vert\widehat p_{l*})}}.
 \]
 The variational identity is
 \[
@@ -499,7 +497,7 @@ Summing over the typical rows and bounding each remaining row's responsibility e
 \]
 after the above permutation. The identity remains valid with zero weights using the usual zero-mass conventions, and also with a feasible fixed weight floor.
 
-This weak-start conclusion fails only if the graph event fails or every restart fails, a probability at most $O(n^{-H})+n^{-\omega(1)}$. Apply Theorem~\ref{thm:local-spectral-em} to the mandatory final M-step. Since $d_n=\log n$ and $H>2+\limsup_{n\to\infty}I_n/\log n$, the initialization failures are negligible at the target exponent scale. This proves the complete decoder's expected-error bound and its exact-recovery consequence. Prescribed polynomial EM iteration limits and $\lceil\log n\rceil$ restarts give polynomial computational cost. \qed
+This weak-start conclusion fails only if the graph event fails or every restart fails, a probability at most $O(n^{-H})+n^{-\omega(1)}$. Apply Theorem~\ref{thm:local-spectral-em} to the mandatory final M-step. Since $H>2+\limsup_{n\to\infty}I_n/\log n$, the initialization failures are negligible at the target exponent scale. This proves the complete decoder's expected-error bound and its exact-recovery consequence. Prescribed polynomial EM iteration limits and $\lceil\log n\rceil$ restarts give polynomial computational cost. \qed
 
 \subsection{Row-independent projection errors}
 
@@ -512,7 +510,7 @@ $e=(\Pi-\mathrm{Id})w$.  The fixed block assumptions imply
  w\in\operatorname{col}(\Pi_*),\quad
  p\in\operatorname{col}(\Pi_*),\quad
  \|w\|_2\le C\sqrt n,\quad \|w\|_\infty\le C,
- \quad \|p\|_2\le Cd_n/\sqrt n.
+ \quad \|p\|_2\le C\log n/\sqrt n.
 \]
 The constants are uniform over the finitely many contrasts and true
 labels.  For orthogonal projectors,
@@ -526,7 +524,7 @@ error has the quadratic bound
 \begin{equation}
  |p^\top e|
  \le\|p\|_2\|w\|_2\eta_n^2
- \le Cd_n\eta_n^2.\label{eq:quadratic-bias}
+ \le C\log n\eta_n^2.\label{eq:quadratic-bias}
 \end{equation}
 Also,
 $\|e\|_2\le C\sqrt n\eta_n$.  By Cauchy--Schwarz and projector
@@ -542,7 +540,7 @@ $X_j=(A_{ij}-p_j)e_j$ independent and centered.  They satisfy
 $|X_j|\le M$ and
 \begin{equation}
  V=\sum_j\mathbb E X_j^2
- \le b_+d_n/n\|e\|_2^2\le Cd_n\eta_n^2.
+ \le b_+\log n/n\|e\|_2^2\le C\log n\eta_n^2.
  \label{eq:projection-variance}
 \end{equation}
 Here a Bennett bound is stronger than the simpler Bernstein bound at
@@ -565,25 +563,25 @@ exponential Markov inequality optimized in $\lambda$ gives
 with the evident interpretation when $V=0$.
 
 To choose a uniform vanishing error scale, put
-$a_n=\max\{\eta_n^2,e^{-d_n}\}$,
+$a_n=\max\{\eta_n^2,e^{-\log n}\}$,
 $s_n=\log(1/a_n)$.
-Both $a_n\to0$ and $s_n\to\infty$.  Take $t=d_n/\sqrt{s_n}$.
+Both $a_n\to0$ and $s_n\to\infty$.  Take $t=\log n/\sqrt{s_n}$.
 The bound \eqref{eq:bennett} remains valid with $V$ replaced by the
-upper bound $Cd_na_n$, since its exponent is nonincreasing in the
+upper bound $C\log na_n$, since its exponent is nonincreasing in the
 variance argument.  As $u\to\infty$, $h(u)\sim u\log u$, so
 \[
- \frac{Cd_na_n}{M^2}
+ \frac{C\log na_n}{M^2}
  h\left(\frac{M}{Ca_n\sqrt{s_n}}\right)
- =\frac{d_n}{M\sqrt{s_n}}
+ =\frac{\log n}{M\sqrt{s_n}}
    \{s_n-\tfrac12\log s_n+O(1)\}(1+o(1))
- \ge c d_n\sqrt{s_n}
+ \ge c \log n\sqrt{s_n}
 \]
 for all sufficiently large $n$.  Combining this with
 \eqref{eq:quadratic-bias} gives, for
-$\tau_n=d_n/\sqrt{s_n}+Cd_n\eta_n^2=o(d_n)$,
+$\tau_n=\log n/\sqrt{s_n}+C\log n\eta_n^2=o(\log n)$,
 \[
  \Pr\{|A_{i,-i}(\Pi-\mathrm{Id})w|>\tau_n\mid \Pi,H_i\}
- \le2e^{-c d_n\sqrt{s_n}}.
+ \le2e^{-c \log n\sqrt{s_n}}.
 \]
 Union bound over the finitely many contrasts and addition of
 $\Pr(H_i^c)$ prove \eqref{eq:independent-projection-tail} with
@@ -659,13 +657,13 @@ $\ell_x(\widehat p)=\sum_jx_j\log\widehat p_j-\sum_j\widehat p_j$.  Then
 \[
  \ell_x(x)-\ell_x(\widehat p)
  =\sum_j\{x_j\log(x_j/\widehat p_j)-x_j+\widehat p_j\}
- =D_{\mathrm P}(x\Vert\widehat p)\ge0,
+ =D(x\Vert\widehat p)\ge0,
 \]
 with equality precisely when $x=\widehat p$; the inequality follows from
 $\log u\le u-1$.  If a profile has already been selected, selecting a
 duplicate has zero gain.  If profile $\theta_b$ has not been selected,
 then each node in class $b$ gains
-$\min_{a\in S}D_{\mathrm P}(\theta_b\Vert\theta_a)>0$
+$\min_{a\in S}D(\theta_b\Vert\theta_a)>0$
 when it is added.  Therefore some unselected profile has strictly
 positive gain, and greedy cannot select a duplicate before all distinct
 profiles have been selected.  The same strict divergence inequality

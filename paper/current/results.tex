@@ -3,13 +3,7 @@
 
 This section gives the exact contrast-preservation identity, the oracle benchmark, an abstract exponent-transfer theorem, and a local recovery theorem for the actual empirical spectral EM fit. It then establishes end-to-end recovery for the original two-community growing branch and for the complete general-$K$ likelihood-restart decoder. A separate corollary records a spectral warm-start alternative.
 
-Throughout this section, $K$ is fixed, $n_a/n\to\pi_a>0$, and
-$d_n\to\infty$ with $d_n/n\to0$. Unless stated otherwise,
-$(n/d_n)P$ is a fixed symmetric nonsingular matrix whose entries lie in a
-fixed compact subset of $(0,\infty)$. The logarithmic-density regime is
-$d_n=\log n$. The probabilistic oracle calculations do not require
-nonsingularity, but require distinct block rows when all communities are
-to be classified.
+Throughout this section, $K$ is fixed, $n_a/n\to\pi_a>0$, and $(n/\log n)P$ is a fixed positive, symmetric, nonsingular matrix, as in Section~\ref{sec:algorithm}. The oracle calculations themselves only require distinct block rows; full rank is used for the spectral representation.
 
 \subsection{Spectral information and likelihood contrasts}
 
@@ -52,29 +46,27 @@ space.  The actual no-self-loop mean is
 $\mathbb E[A\mid z]=ZPZ^\top-\operatorname{diag}(P_{z_i z_i})$;
 the rank-$K$ statement concerns $ZPZ^\top$, not the no-self-loop mean.
 
-The oracle Poisson contrast is
+The first-order sparse Bernoulli contrast is
 $v^{ab}_j=\log(p_{aj}/p_{bj})$, with score
 \begin{equation}
- L_{i,\mathrm P}^{ab}
+ L_{i,\mathrm{lin}}^{ab}
  =\sum_{j\ne i}A_{ij}v^{ab}_j
   -\sum_{j\ne i}(P_{a,z_j}-P_{b,z_j}).
- \label{eq:oracle-poisson}
+ \label{eq:oracle-linear}
 \end{equation}
 The following result makes its use in a sparse working score precise.
 
-\begin{lemma}[Sparse Bernoulli-to-Poisson correction]
-\label{lem:poisson-correction}
+\begin{lemma}[Sparse Bernoulli likelihood expansion]
+\label{lem:sparse-expansion}
 There is a constant $C$ depending only on the fixed normalized block probabilities such that, for
 all sufficiently large $n$, every $i$, and every $a\ne b$,
 \begin{equation}
- |L_i^{ab}-L_{i,\mathrm P}^{ab}|
- \le C\{(d_n/n)\deg(i)+d_n^2/n\}.\label{eq:poisson-error}
+ |L_i^{ab}-L_{i,\mathrm{lin}}^{ab}|
+ \le C\{(\log n/n)\deg(i)+(\log n)^2/n\}.\label{eq:sparse-expansion-error}
 \end{equation}
 For every fixed $H>0$ there is a constant $D_H$ such that
-$\Pr\{\deg(i)>D_Hd_n\}\le e^{-Hd_n}$ uniformly in $i$.
-Consequently, the correction is $o(d_n)$ outside an event of probability
-$e^{-Hd_n}$.  In logarithmic density its bound on that event is
-$O(\log^2 n/n)=o(1)$.
+$\Pr\{\deg(i)>D_H\log n\}\le e^{-H\log n}$ uniformly in $i$.
+Consequently, the correction is $O((\log n)^2/n)=o(1)$ outside an event of probability at most $n^{-H}$.
 \end{lemma}
 
 \subsection{The oracle benchmark}
@@ -94,7 +86,7 @@ We use Zhou--Li's profile and Chernoff notation. For $\alpha\in[0,1]$, define
 Here $p_{a,-i}$ omits the absent self-loop coordinate. The notation $I_n$ is our shorthand for the minimum exact pairwise information; it is not a second definition of a rate.
 
 For distinct block rows under the fixed normalized probability model,
-$I_n\asymp d_n$. In logarithmic density, $I_n/\log n$ converges to a
+$I_n\asymp\log n$, and $I_n/\log n$ converges to a
 positive finite limit. Zhou and Li~\cite{zhouli2020} studied optimal error
 rates for SBM community detection. We use their notation and the leading
 information scale, without restating their refined rate.
@@ -123,7 +115,7 @@ edges.  It makes the required rare-event control explicit.
 Let $\widehat\ell_i(a)$ be estimated community scores, after one common
 alignment of their labels with the population labels, and classify by
 $\widehat z_i\in\arg\max_a\widehat\ell_i(a)$.
-Suppose there are $\tau_n=o(d_n)$ and $\delta_n\ge0$ such that, for every
+Suppose there are $\tau_n=o(\log n)$ and $\delta_n\ge0$ such that, for every
 $i$, an event $G_i$ satisfies
 \begin{align}
  \Pr(G_i^c)&\le\delta_n,\label{eq:transfer-failure}\\
@@ -140,7 +132,7 @@ Then the permutation-invariant error fraction obeys
  \le\exp\{-(1+o(1))I_n\}.
  \label{eq:conditional-rate}
 \end{equation}
-When $d_n=\log n$ and $\liminf_{n\to\infty}I_n/\log n>1$, this implies
+When $\liminf_{n\to\infty}I_n/\log n>1$, this implies
 $\Pr\{\Mis(\widehat z,z)>0\}\to0$.
 \end{theorem}
 
@@ -176,20 +168,20 @@ nor objective convergence removes these terms.
 \subsection{A local recovery theorem for the empirical spectral fit}
 The next results remove the empirical-projection and parameter-fitting conditions from the preceding abstract transfer statement in logarithmic density. This local statement temporarily assumes reliable initial responsibilities. The end-to-end results below establish that assumption for the original two-community growing branch and for the complete Algorithm~1.
 
-Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For a fixed $c_0>0$ satisfying $c_0<\min_{a,b}nP_{ab}/d_n$, let
+Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For a fixed $c_0>0$ satisfying $c_0<\min_{a,b}nP_{ab}/\log n$, let
 \[
- q^0=\max\{A\Pi_*,c_0\frac{d_n}{n}\},\qquad
- q=\max\{U\Lambda U^\top,c_0\frac{d_n}{n}\},
+ q^0=\max\{A\Pi_*,c_0\frac{\log n}{n}\},\qquad
+ q=\max\{U\Lambda U^\top,c_0\frac{\log n}{n}\},
 \]
 where the maximum is entrywise. The matrix $q^0$ is an analysis comparison using the true memberships; it is not an input to the algorithm.
 
 \begin{lemma}[Full-graph spectral approximation]
 \label{lem:full-spectral}
-Under the fixed normalized full-rank probability model with $d_n=\log n$, for every fixed $H>0$ there are a constant $C_H$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(n^{-H})$,
+Under the model above with $0<c_0<b_-$, for every fixed $H>0$ there are a constant $C_H$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(n^{-H})$,
 \begin{align}
- \max_i\|q_i-q_i^0\|_1&\le a_nd_n,&
- c_0\frac{d_n}{n}\le q_{ij}&\le C_H\frac{d_n}{n},\label{eq:full-spectral-close}\\
- \frac1{nd_n}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
+ \max_i\|q_i-q_i^0\|_1&\le a_n\log n,&
+ c_0\frac{\log n}{n}\le q_{ij}&\le C_H\frac{\log n}{n},\label{eq:full-spectral-close}\\
+ \frac1{n\log n}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
  \label{eq:average-profile-close}
 \end{align}
 The reconstruction uses the empirical eigenpairs of the whole graph. No row-independent replacement or extra leave-one-out computation is required by the algorithm.
@@ -211,7 +203,7 @@ Perform at least one responsibility-weighted profile M-step on $q$, followed by 
  \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
  \label{eq:local-em-rate}
 \end{equation}
-The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact fixed floored-simplex optimizer. If a component has zero responsibility mass, define its profile by any fixed positive fallback and use positive weights; on the weak-start event this case does not occur for large $n$. When $\liminf_{n\to\infty}I_n/\log n>1$, the output exactly recovers all labels with probability tending to one.
+The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact simplex optimizer with a fixed floor $f\in[0,1/K)$. If a component has zero responsibility mass, define its profile by any fixed positive fallback and use positive weights; on the weak-start event this case does not occur for large $n$. When $\liminf_{n\to\infty}I_n/\log n>1$, the output exactly recovers all labels with probability tending to one.
 \end{theorem}
 
 This theorem proves the statistical behavior of the actual full-graph spectral fitting stage from a sufficiently reliable weak start. It handles positive clipping and the freely fitted profiles rather than assuming that their LLR errors are already small. An initialization proof must establish \eqref{eq:local-initialization}: average weak consistency with an unspecified $1-o(1)$ probability is insufficient. Theorems~\ref{thm:two-community-growing} and~\ref{thm:certified-likelihood} provide the required reliability.
@@ -219,7 +211,7 @@ This theorem proves the statistical behavior of the actual full-graph spectral f
 \begin{corollary}[A fully provable spectral warm-start variant]
 \label{cor:provable-warmstart}
 Replace the growing initialization by a fixed-factor approximate $K$-means clustering of the rows of $U$, computed with failure probability $O(n^{-H})$ for any prescribed fixed $H>\limsup_{n\to\infty}I_n/\log n$. Convert its labels to hard responsibilities and apply the profile EM decoder. This variant uses only the retained eigenpairs and satisfies \eqref{eq:local-em-rate}.
-One polynomial-time implementation uses $O(\log n)$ independent $K$-means++ seedings and chooses the least squared-error solution.
+One polynomial-time implementation uses at least $\lceil(H+2)\log_2 n\rceil$ independent $K$-means++ seedings and chooses the least squared-error solution.
 \end{corollary}
 
 This corollary is an alternative initialization. The main end-to-end result below uses likelihood residuals instead. The archived ten-start Lloyd baseline is distinct from either logarithmically amplified initialization.
@@ -274,10 +266,10 @@ $\Pr(H_i^c)\le\gamma_n$.  Define
 \begin{equation}
  L_{i,\Pi}^{ab}=A_{i,-i}\Pi_iw_{-i}^{ab}+c_i^{ab}.
 \end{equation}
-There are deterministic $\tau_n=o(d_n)$ and $h_n\to\infty$ such that
+There are deterministic $\tau_n=o(\log n)$ and $h_n\to\infty$ such that
 \begin{equation}
  \Pr\Big\{\max_{a\ne b}|L_{i,\Pi}^{ab}-L_i^{ab}|>\tau_n\Big\}
- \le\gamma_n+2K^2e^{-h_nd_n}.
+ \le\gamma_n+2K^2e^{-h_n\log n}.
  \label{eq:independent-projection-tail}
 \end{equation}
 Consequently, if

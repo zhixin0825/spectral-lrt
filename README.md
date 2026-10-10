@@ -1,93 +1,27 @@
 # Spectral likelihood decoding for the SBM
 
-**当前论文（2026-10-10）：** [编译 PDF](paper/current/manuscript.pdf) · [源码说明](paper/current/README.md) · [完整证明](paper/current/theory.tex)。
+**当前论文（2026-10-10）：** [编译 PDF](paper/current/manuscript.pdf) · [源码与模型条件](paper/current/README.md) · [完整证明](paper/current/theory.tex) · [全文检查和修正](paper/current/REVIEW_20261010.md)。
 
-**已闭合的端到端 nearly-optimal 指数：** 固定正满秩 B、固定已知 K、正社区比例、log n/n 密度和合适 profile floor 下，原 growing 算法在 K=2 时直接达到 exp(-(1+o(1)) I_n)。一般 K 的完整算法保留 growing fit，加入 ceil(log n) 次独立 likelihood-residual++ starts，按同一个 working likelihood 选优，再做一次 E/M 更新，得到同一目标。初始化可靠性已在证明中建立，没有假设初始分组已正确。
+主模型直接使用 Bernoulli block matrix `P`，假定 `(n/log n)P` 是固定正满秩对称矩阵。允许社区大小和期望 degree 不同。谱信息来自原始 adjacency 的 top-|lambda| K 个 eigenpairs。拟合和分类只使用这些 eigenpairs。
 
-**明确算法补充：** 一般 K 的保证包含上述 likelihood 重启保险步骤。入口为 method='global_gain_certified' / Work.certified_growing()；原 method='global_gain' 保持原样，不冒充其一般 K 证明。两者均无 top-fraction 或 1.5K 参数，不用 k-means decoder。
+**已证明的范围：** 原 global-mean growing 方法在 K=2 达到 oracle Chernoff leading exponent。一般固定 K 的定理对应完整算法：保留 growing fit，加入 `ceil(log n)` 次独立 likelihood-residual 初始化，按同一个谱工作似然选优，最后强制一次 E/M 更新。保证为 `E Mis <= exp(-(1+o(1)) I_n)`；当 `liminf I_n/log n > 1` 时 exact recovery。原 growing 方法的一般 K 保证仍待证明。
 
-**可复核链条：** [新理论与实现说明](paper/current/END_TO_END_20261010.md) · [24 个新 SBM 实现检验](experiments/20261010_certified_likelihood/)。这些检验验证 objective 选优和最后更新，并非有限样本误分率优势证明。
+**必须保留的条件：** 数值实现使用 `q=max(U Lambda U^T,1e-4 log n/n)` 以定义候选评分中的对数。现证明要求 `min_ab nP_ab/log n > 1e-4`。正值截断发生在谱重建之后，原始 adjacency 没有被修改。这里不声称精确图似然最大化或新的全局 minimax 下界。
 
-**原 240 图实验：** original growing 平均误分率 0.0946%，exact recovery 163/240；谱 k-means baseline 为 0.3194%、139/240。原始记录未改，且不把它们称为完整新组合的测试。
+**算法入口：** `method='global_gain_certified'` / `Work.certified_growing()` 是上述完整算法；`method='global_gain'` 是原 growing 分支；默认 `method='repair'` 是历史替换分支。当前算法没有 top-fraction 或 1.5K 参数。
 
-以下为此前阶段的历史结果与归档入口。
+**原 240 图实验：** growing 平均误分率 0.0946%，exact recovery 163/240；谱 K-means baseline 为 0.3194%、139/240。这批结果未评估新完整算法。[24 个新实现检查](experiments/20261010_certified_likelihood/) 验证选优和最后更新，并非误分率优势证明。
 
-**Likelihood++ 设计与完成的谱 profile 实验（2026-10-09）：** [算法和验证结果](experiments/20261009_spectral_em/LIKELIHOOD_PP_DESIGN_20261009.md)。用单点最优 log density 与当前中心 log density 的差作为 ++ 采样权重；高斯时还原 D² sampling。无 k-means decoder 的谱 profile matched greedy 比较：1200 starts 平均误分率 likelihood++ 1.5652%、Euclidean++ 2.8697%；best10 均为 0.0967%、87/120 exact。全部 4800 个 profile fits 收敛；PG decoder 桥接仍有严重负面案例。固定 Y 的 6000-start PG 主比较最后可读 checkpoint 为 78/120 图，随后本地环境路径错误阻断核验，尚未发布全量终点或完整归档。
+## 归档与复现入口
 
-**随机分组初值复验（2026-10-09）：** [120 图、每图 10 个随机 EM starts 的结果](experiments/20261009_spectral_em/RANDOM_INITIALIZATION_20261009.md)。沿用固定 k-means decoder，随机标签初值可行：1200 starts 平均误分率 3.0596%；按同一 likelihood 选出的 10-start 最好解为 0.1000%，接近 k-means 标签起点的 0.0992%，两者 exact recovery 都是 86/120。1199/1200 随机 starts 收敛。这里仍有 k-means 建立的谱坐标；另测随机 decoder 加随机 labels 的单次 Poisson EM 误分率为 8.5096%，不能把主结果当作全流程已去掉 k-means。
-
-**最新接续（2026-10-09）：** [固定谱特征 likelihood 交替更新与独立种子复验](experiments/20261009_spectral_em/LIKELIHOOD_ALTERNATING_UPDATES_20261009.md)。此前 240 图之外新增 120 图：最佳固定 Poisson–Gaussian EM 120/120 收敛，平均误分率从 X-k-means 的 0.3454% 降到 0.0992%，exact recovery 从 73/120 到 86/120。拟合只读原始 A 的 top-K eigenpairs，不读 degree 或原始 A；精确逐节点 LOO 尚未实现。约 93% 的净改善来自第一次 likelihood 重新分组，后续交替更新额外收益较小。旧的 720 图 degree＋regularized-spectral 初始化实验另列于下，不能与本轮混为一批。
-
-本倉庫保存 **SBM 的 degree＋低秩譜資訊、likelihood 初始化，以及與 oracle LRT 的關係**這條研究線的目前成果。
-
-**目前確認的是有限樣本實驗與若干代數關係；尚未完成只用 degree＋top-K 譜資訊即可達到 LRT 最優錯誤指數或參數資訊無損的完整證明。**
-
-## 從這裡開始
-
-| 內容 | 入口 |
+| 内容 | 入口 |
 | --- | --- |
-| 當前研究狀態、已確認結論與待解問題 | [CURRENT_STATUS_20261009.md](docs/CURRENT_STATUS_20261009.md) |
-| 初始分區如何接到 likelihood；真分區何時最大；直接解碼 LLR contrasts | [後續推導](docs/PARTITION_SPECTRAL_LIKELIHOOD_20261009.md) |
-| 720 張圖的完整實驗說明與重現方法 | [實驗目錄](experiments/20261009_likelihood_initialization/) · [README](experiments/20261009_likelihood_initialization/README.txt) |
-| 可離線閱讀的繁體中文完整報告 | [HTML 報告](experiments/20261009_likelihood_initialization/deliverables/sbm_likelihood_initialization_report.html)（下載後開啟） |
-| 全部條件、配對比較與逐圖彙整 | [結果表與圖](experiments/20261009_likelihood_initialization/deliverables/) |
-| 完整逐圖輸出與 SHA256 校驗 | [正式實驗紀錄](experiments/20261009_likelihood_initialization/final/archives/) · [pilot 紀錄](experiments/20261009_likelihood_initialization/pilot_v2/archives/) |
-| 先前理論草稿（歷史版本） | [17 頁 PDF（重新編譯版）](paper/previous_draft/sbm_spectral_lrt_20261009_recompiled.pdf) · [TeX 與版本說明](paper/previous_draft/) |
+| 原 growing 与 residual likelihood 初始化的 240 图比较 | [实验目录](experiments/20261009_residual_likelihood_seeding/) |
+| 历史 partial-peeling 控制和失败分析 | [实验目录](experiments/20261009_partial_likelihood_peeling/) |
+| 历史固定谱特征拟合、随机初始化与 ++ 比较 | [实验目录](experiments/20261009_spectral_em/) |
+| 更早的 720 图 degree 与 normalized-spectrum 实验 | [实验目录](experiments/20261009_likelihood_initialization/) |
+| 原始逐图输出与校验 | [正式记录](experiments/20261009_likelihood_initialization/final/archives/) |
+| 较早理论草稿，仅供历史参考 | [旧稿目录](paper/previous_draft/) |
+| 当前新增端到端证明 | [说明](paper/current/END_TO_END_20261010.md) |
 
-## 目前的實驗結論
-
-正式實驗固定 **n=1800、6 種 SBM、6 個目標平均 degrees（4、6、12、24、64、96）、每條件 20 張圖**，共 **720 張圖**。比較 13 種初始化方法，每法 6 次重啟；參數與方法在正式 graph seeds 100–119 前固定。真實標籤及真實 block probabilities 不用於擬合或選擇重啟。
-
-主方法只使用 degree `D` 與 `W A W` 的 top-`|lambda|` K 組 eigenpairs；另有明確標示、可讀原始 `A` 的 Bernoulli VEM 作為額外資訊比較。
-
-| 代表條件 | 比較基線 | likelihood 型初始化 | 結果 |
-| --- | --- | --- | --- |
-| K=3，degree 異質，d=24 | 鄰居特徵＋degree KMeans：10.050% | Poisson／conditional Gaussian：7.519% | 20/20 張圖改善；配對差 −2.531 百分點 |
-| K=3，等 degree 型，d=24 | 相同特徵 KMeans：3.475% | Full GMM：2.411% | 相同起始中心；20/20 張圖改善 |
-| K=4，等 degree，d=24 | ASE／RRE KMeans：6.811%／6.803% | Poisson／conditional Gaussian：12.842% | 合適的 KMeans 基線較好 |
-| K=2，對稱，d=6 | U-KMeans：15.553% | Poisson／conditional Gaussian：20.669% | 稀疏對稱例子沒有均勻優勢 |
-
-誤分率均為 20 張圖的平均，經標籤置換對齊。K=3「等 degree 型」指 block matrix 列和相同；排除自環帶來 O(d/n) 的有限樣本差異。完整結果、配對區間與負面條件均保留，不只列上表。
-
-### 初始化與 LRT 解碼的結論必須分開
-
-在 K=3 degree 異質、d=64 的條件，PG 初始化誤分率 **0.6778%**，但直接反解譜中心矩陣、還原 block counts、再套 plug-in LLR 後變成 **58.1639%**。19/20 張圖的 top-K 包含負向噪音方向，反解放大弱方向誤差。
-
-這個失敗要求處理信號子空間分離與反解穩定性。**它不等於已證明 degree＋譜資訊必然不足；初始化改善也不等於已驗證 LRT 效果。** 詳見 [研究狀態](docs/CURRENT_STATUS_20261009.md) 與 [實驗限制](experiments/20261009_likelihood_initialization/EXPERIMENT_LIMITATIONS.txt)。
-
-Gaussian mixture 與 Poisson／conditional Gaussian 優化的是工作似然；原始 A 的 VEM 優化 Bernoulli SBM 的 mean-field ELBO；signed 低秩重建上的 Bernoulli-shaped 目標只是 surrogate。倉庫不將它們混称為精確 SBM MLE。
-
-## 重現
-
-```bash
-git clone https://github.com/zhixin0825/spectral-lrt.git
-cd spectral-lrt/experiments/20261009_likelihood_initialization
-python -m pip install -r requirements.txt
-
-# 校驗並還原已歸檔的 720 張正式圖與 27 張 pilot 圖的逐圖輸出。
-python restore_records.py
-
-# 從已保存結果重建表格、圖與報告，不重新擬合。
-python analyze_results.py --input final --out deliverables
-python build_report.py
-```
-
-完整獨立重跑命令、套件版本、種子、各方法輸入及原始資料欄位見 [實驗 README](experiments/20261009_likelihood_initialization/README.txt)。原始 adjacency matrix 未另存；可由已保存的模型與種子重建。每張圖實際用到的 `D、U、Lambda` 與各法預測已原樣保存。
-
-壓縮歸檔只是檔案封裝，不刪除逐圖資料。`restore_records.py` 會依 manifest 檢查檔案，還原為原程式使用的 `final/jobs/` 和 `pilot_v2/jobs/`。
-
-## 後續接續方式
-
-1. 先讀當前研究狀態；歷史草稿中的較強敘述不得直接當作新近核對過的定理。
-2. 新方法使用獨立輸出目錄，保留本輪凍結基準與原始記錄。
-3. 報告時區分「使用原始 A」與「只使用 D、U、Lambda」，並同時比較合理的 U／ASE／RRE 與 degree-aware KMeans 基線。
-4. 對 LRT 或 sublogarithmic regime 的主張，需要另外完成誤差指數與解碼穩定性的理論論證。
-
-![720 張圖的初始化比較](experiments/20261009_likelihood_initialization/deliverables/initialization_comparison.png)
-
-
-## Smaller top-fraction initialization (2026-10-09)
-
-The user-proposed fixed-K `1/(1.5K)` rule reduces decoder-free Poisson profile error from 4.4154% to 0.3917% on the inherited 120 spectra, with 86/120 exact recoveries. The decreasing-r `1/(1.5r)` control reaches 0.5008%. The unequal-block failure is largely repaired, but one balanced graph reaches a bad local solution and the fixed-K population rule can select duplicate parameters. See [the complete paired report](experiments/20261009_partial_likelihood_peeling/REPORT_20261009.md). No final forced completion; all observations enter the unchanged EM.
-
-
+历史报告中的算法、输入信息和未完成状态属于各自阶段，不能代替当前稿件的条件和结论。原实验数据、代码和归档保持原样。后续工作从当前论文与 REVIEW_20261010.md 接续。

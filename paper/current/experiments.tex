@@ -1,4 +1,4 @@
-% Standalone Section 5 fragment. Requires amsmath, amssymb, booktabs,
+% Experiment section fragment. Requires amsmath, amssymb, booktabs,
 % graphicx. Figure generated from saved arrays, not a new experiment.
 \section{Experiments}
 \label{sec:experiments}
@@ -17,7 +17,7 @@ For each model, let $C^{(0)}$ be a fixed symmetric connectivity matrix and
 let $\pi$ be the vector of community proportions. We generate an undirected
 SBM without self-loops, with edge probabilities
 \begin{equation}
-  P_{ab}=\frac{\log n}{n}C_{ab},\qquad
+  P_{ab}=\frac\log n{n}C_{ab},\qquad
   C=\frac{\eta}{D_{\min}(C^{(0)},\pi)}C^{(0)},
   \label{eq:experiment_normalization}
 \end{equation}
@@ -67,8 +67,7 @@ new models. All methods are evaluated on identical eigenpairs within a graph.
 We retain the $K$ eigenpairs of the raw adjacency matrix with largest absolute
 eigenvalues. The implementation requests $K+1$ eigenpairs using the symmetric
 ARPACK solver with tolerance $10^{-8}$ and discards the last one after
-sorting by absolute value. Neither spectral regularization nor degree
-rescaling is used. After this preprocessing, the fitting routines receive
+sorting by absolute value. After this preprocessing, the fitting routines receive
 only $(U,\Lambda)$; adjacency entries, degrees, true labels, and true block
 probabilities are unavailable to fitting and model selection.
 
@@ -77,7 +76,7 @@ probabilities are unavailable to fitting and model selection.
 The archived implementation forms positive spectral profiles
 \begin{equation}
  q_{ij}=\max\left\{(U\Lambda U^\top)_{ij},
-                   10^{-4}\frac{\log n}{n}\right\},\qquad
+                   10^{-4}\frac\log n{n}\right\},\qquad
  \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
  \label{eq:experimental_working_score}
 \end{equation}
@@ -130,16 +129,11 @@ $2+\lfloor\log K\rfloor$ candidate trials per addition and chooses the trial
 that minimizes total residual deviance. We report both one start and ten
 starts; the ten-start fit is selected solely by final $\mathcal L$.
 An additional control selects one set of Euclidean $k$-means++ seeds in
-$X=\sqrt n U\Lambda$ and then runs the same Poisson-profile EM.
+$X=\sqrt n U\Lambda$ and then runs the same profile EM.
 The main Euclidean baseline runs $k$-means in $X$ with ten starts, at most
 300 Lloyd iterations per start, and tolerance $10^{-5}$.
 
-All profile EM fits use at most 300 updates and tolerance $10^{-6}$.
-The stopping rule requires unchanged hard labels, maximum relative mean or
-absolute weight change at most $10^{-3}$, and objective increment at most
-$10^{-6}(1+|\mathcal L-G|)$ in absolute value, where
-$G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is a cached observation-only constant.
-This constant sets the stopping scale and does not affect fitting or selection.
+All profile EM fits use at most 300 updates and tolerance $10^{-6}$, with label, parameter-change and objective-change checks. The exact archived stopping rule is recorded in Appendix~\ref{app:implementation}.
 Randomized seeding uses fixed NumPy seed sequences indexed by graph seed,
 method, and restart. Reported error rates minimize label disagreement over
 all permutations of the $K$ labels. Averages weight graphs equally; ``exact''
@@ -195,7 +189,7 @@ claiming dominance on every graph.
 \begin{table}[tb]
 \centering
 \small
-\caption{Both batches combined, 40 graphs per model. The main columns use the growing global-gain branch in the original growing branch. The frozen-profile control has identical recorded error counts.}
+\caption{Both batches combined, 40 graphs per model. The main columns use the original growing global-gain branch. The frozen-profile control has identical recorded error counts.}
 \label{tab:experiment_models}
 \begin{tabular}{lrrrr}
 \toprule
@@ -237,7 +231,7 @@ assigns every node correctly on its first assignment.
 
 Top-subset peeling selects nodes $858,610,435$ (zero-based IDs), whose true
 communities are $2,3,2$. The profile of node 610 lies near the mixture of
-communities 1 and 3. Its Poisson divergence to their merged mean is $0.3826$,
+communities 1 and 3. Its profile divergence to their merged mean is $0.3826$,
 compared with $5.2433$ to its own community's mean. Its selected subset has
 150 nodes from community 1 and 196 from community 3. Thus a candidate can win
 a subset likelihood comparison by representing a mixture of communities.
@@ -302,5 +296,5 @@ The evidence supports improved decoding of a fixed spectrum and a repair of
 redundant initialization under the declared working likelihood. It does not
 by itself prove that the practical EM endpoint has the oracle error exponent,
 that clipping preserves exact graph likelihood ratios, or that the growing initializer meets the high-probability weak-start condition in Theorem~\ref{thm:local-spectral-em}. Oracle-LRT comparisons, a denser range of $n$ for
-error-exponent estimation, and lower-density regularized experiments remain
+error-exponent estimation, and a full evaluation of Algorithm~1 remain
 outside the archived numerical study.

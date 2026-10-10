@@ -1,40 +1,35 @@
-# Nearly optimal spectral likelihood decoding
+# Spectral likelihood decoding: current manuscript
 
-The current manuscript proves end-to-end recovery at the leading error exponent, under fixed known K, fixed positive symmetric full-rank (n/log(n))P, positive limiting community proportions, and an admissible positive profile floor.
+[Compiled PDF](manuscript.pdf) · [Full proofs](theory.tex) · [Review and corrections, 2026-10-10](REVIEW_20261010.md)
 
-## Complete algorithm
+## Model and theorem scope
 
-Algorithm 1 retains the original global-mean growing fit. Alongside it, run ceil(log(n)) conditionally independent likelihood-residual++ initializations: uniform first node, subsequent seeds sampled proportional to min-seed Poisson deviance, all K seeds chosen before joint fitting. Select the highest final working mixture likelihood across these fits and the growing fit. Perform one final E-step and profile/weight M-step before decoding.
+`P` is the K-by-K Bernoulli block probability matrix, with `p_kj=P_{k,z_j}` following Zhou–Li. The main results assume fixed known K, positive limiting community proportions, and fixed entrywise-positive symmetric full-rank `(n/log n)P`. There is no separate density or connectivity-shape matrix.
 
-The exact implementation is Work.certified_growing() in ../../experiments/20261009_residual_likelihood_seeding/residual_seed.py, exposed by method='global_gain_certified'. The original growing_global_gain_EM / method='global_gain' is retained separately. Neither uses a top-fraction parameter or a k-means decoder.
+This probability scale allows unequal expected degrees. For a node in class a, the expected degree is `sum_b (n_b - 1{a=b})P_ab`; the observed degree is random. The eigenpairs are computed from the original adjacency matrix.
 
-## End-to-end results
+The implemented profile floor is `epsilon=1e-4 log n/n`. The fitting theorems require `min_ab nP_ab/log n > 1e-4`. This is an additional condition, not a consequence of positivity alone. The floor makes logarithms of candidate reconstructed rows well defined; it does not modify the adjacency matrix used for eigendecomposition.
 
-- Theorem 3.8 (label thm:two-community-growing) proves the original growing branch itself for K=2.
-- Theorem 3.9 (label thm:certified-likelihood) proves the complete likelihood-restart algorithm for every fixed K.
-- The guarantee is E Mis <= exp(-(1+o(1)) I_n). It does not assume that the algorithm has already initialized correctly.
-- The proof establishes reliable seed coverage, likelihood-based fit selection, and weak posterior responsibilities, then applies the empirical spectral EM theorem.
-- For liminf I_n/log(n) > 1, exact recovery follows.
-- Further finite exact EM updates preserve the guarantee. A prescribed polynomial iteration bound gives polynomial complexity.
+## Proven algorithms
 
-The unsafeguarded growing branch is not claimed to be proved for general K. The general-K theorem explicitly includes the safeguard. It is fully likelihood-based; the separate spectral k-means warm-start corollary is not used in this proof.
+- Theorem 3.8 proves the original global-mean growing branch for K=2.
+- Theorem 3.9 proves the general fixed-K algorithm with `ceil(log n)` independent likelihood-residual initializations, likelihood selection, and one mandatory final E/M update.
+- The expected error is at most `exp(-(1+o(1)) I_n)`, attaining the leading oracle Chernoff exponent.
+- Exact recovery follows when `liminf I_n/log n > 1`.
+- The unchanged growing branch is not proved for general K. The theorem does not claim a refined multiplicative risk or a new global minimax lower bound.
 
-## Notation and scope
+Algorithm 1 uses only the retained eigenpairs after compression. Residual weights use the explicit profile divergence `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`. Fitting optimizes the spectral working objective `ell_i(p)=sum_j q_ij log p_j-sum_j p_j`; its relation to the exact Bernoulli LLR is proved by a sparse Taylor expansion.
 
-P is the K-by-K block probability matrix, p_{kj}=P_{k,z_j}, Mis is permutation-invariant error, D_alpha is the Chernoff quantity, and the graph mean is written directly as E[A | z]. I_n is the minimum exact pairwise information. Zhou–Li is cited as optimal-rate prior work without repeating its refined rate. The claim is equality of the leading exponent.
+The explicit API option is `method='global_gain_certified'`, calling `Work.certified_growing()` in [residual_seed.py](../../experiments/20261009_residual_likelihood_seeding/residual_seed.py). The default `method='repair'` is a historical alternative. The original growing arm is `method='global_gain'`.
 
 ## Numerical evidence
 
-The archived 240-graph comparison remains unchanged and concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the archived spectral k-means baseline 0.3194%, 139/240. It is not a full evaluation of the newly safeguarded combination.
+The archived 240-graph comparison concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the spectral K-means baseline 0.3194%, 139/240. It does not evaluate the complete safeguarded algorithm on that collection.
 
-The new code was separately verified on 24 fresh SBM cases: likelihood selection never falls below the original growing objective; the final M-step is mandatory; profiles and floored weights satisfy their constraints. These checks do not prove finite-sample superiority in misclassification. See ../../experiments/20261010_certified_likelihood/.
+[Twenty-four new implementation checks](../../experiments/20261010_certified_likelihood/) verify fit selection, the mandatory final update, and numerical constraints. They do not establish a finite-sample accuracy advantage or estimate an asymptotic exponent.
 
-## Build and read
+## Build
 
-manuscript.pdf is the compiled paper. Run PDFLaTeX, BibTeX, and two additional PDFLaTeX passes from this directory. GitHub Actions records the source commit and SHA256 checksums.
+The active manuscript has five main sections, proof appendices, and references. The speculative lower-density extension is excluded from this version. The previous discussion remains in Git history.
 
-The source retains six main sections, complete proof appendices, the historical experiment implementation, and references. All raw experiment records remain unchanged.
-
-## Notation
-
-`P` denotes the actual block probability matrix; no separate connectivity-shape matrix or density factor is used. At logarithmic density, `d_n = log n` and `(n/d_n)P` is fixed. The mean matrix is written directly as `E[A | z]`, and its rank-K comparison as `Z P Z^T`. Exact-recovery conditions use `liminf I_n / log n > 1`. The numerical algorithm and its clipping floor are unchanged.
+From this directory, run PDFLaTeX, BibTeX, and PDFLaTeX twice. GitHub Actions records the source commit and checksums in BUILD.txt and BUILD_SHA256SUMS.txt. Raw experiment records and stopping rules remain unchanged.

@@ -15,6 +15,11 @@ The original growing branch corresponds to the recorded \texttt{growing\_global\
 The manuscript's two CSV summaries retain batch-specific, combined, and model-specific results. The diagnostic figure uses saved coordinates and fitted labels rather than a new simulation. Full spectral arrays and objective traces are stored in the previously archived numerical records; the source reports describe their restoration. Reconstructing the profiles from $(U,\Lambda)$ and fitting the working score does not need the original adjacency matrix.
 
 
+\subsection{Logarithm and weight floors}
+The archived implementation sets $q_{ij}=\max\{(U\Lambda U^\top)_{ij},10^{-4}\log n/n\}$ and uses the exact weight update with floor $f=10^{-8}$. The first operation defines positive arguments for logarithms after spectral reconstruction; it leaves the matrix used for eigendecomposition unchanged. The fitting theory therefore applies to this numerical floor only when $\min_{a,b}nP_{ab}/\log n>10^{-4}$. The floor is not justified for arbitrary positive normalized block entries without that condition. Profiles are positive vectors, and finite-sample reconstructed coordinates are not constrained to lie below one.
+
+The API default \texttt{method='repair'} is a historical replacement branch. To execute Algorithm~1, use \texttt{method='global\_gain\_certified'} explicitly. Neither the default branch nor the original growing branch should be identified with the safeguarded algorithm by name alone.
+
 \subsection{Historical subset controls}
 These controls are retained for reproducibility of earlier experiments and are not steps of Algorithm~1. In the frozen global-gain control, the first candidate maximizes the sum of its largest
 $m_0=\min\{\lfloor2n/(3K)\rfloor,n-K\}$ scores over other nodes, excluding itself. In peeling, when $M$ candidates and $r$ components remain, the selected subset contains
@@ -31,6 +36,9 @@ Its active-set solution starts with every component free. If the free set is $S$
 \end{equation}
 for a suitable multiplier $\lambda$. The active-set procedure enforces this equation; it is not a naive clipping followed by renormalization. The tested function \texttt{\_floored\_weights} implements this exact constrained update. Since the E-step and mean M-step are unchanged, the variational proof applies on the floored-simplex parameter domain.
 
+\subsection{Archived stopping rule}
+The 240-graph profile fits stop only after hard labels are unchanged, maximum relative mean change and absolute weight change are at most $10^{-3}$, and the objective increment is at most $10^{-6}(1+|\mathcal L-G|)$ in absolute value. Here $G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is a cached observation-only constant used solely to scale the numerical stopping tolerance. It does not enter scoring, responsibilities, M-steps or fit selection. The update cap is 300. These historical numerical choices were preserved in this revision.
+
 \subsection{An explicit error decomposition}
 For fitted components matched to labels $a,b$, put
 \begin{equation}
@@ -46,7 +54,7 @@ If $\lambda^{ab}$ is the chosen oracle prior log ratio, the empirical comparison
    +\widehat c^{ab}-c_i^{ab}-\lambda^{ab}.
 \label{eq:error_decomposition}
 \end{align}
-The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. For Poisson rather than Bernoulli oracle contrasts, the sparse correction must also be included. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(d_n)$ bound on the raw clipping term in this decomposition. The original growing branch has an end-to-end proof when $K=2$. The likelihood-restart Algorithm~1 has an end-to-end proof for general fixed $K$.
+The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. If the exact Bernoulli contrast is replaced by the first-order sparse contrast, Lemma~\ref{lem:sparse-expansion} accounts for the additional Taylor remainder. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(\log n)$ bound on the raw clipping term in this decomposition. The original growing branch has an end-to-end proof when $K=2$. The likelihood-restart Algorithm~1 has an end-to-end proof for general fixed $K$.
 
 \subsection{Verification of the manuscript}
-The source comprises six numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.
+The source comprises five numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.

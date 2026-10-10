@@ -8,12 +8,16 @@ Let $A$ be the adjacency matrix of an undirected graph without self-loops. Condi
  \qquad A_{ji}=A_{ij},\quad A_{ii}=0.
 \label{eq:sbm}
 \end{equation}
-We follow the SBM notation of Zhou and Li~\citep{zhouli2020}: $P\in(0,1)^{K\times K}$ is the block probability matrix, $p_{kj}=P_{k,z_j}$, and $p_{k*}=(p_{k1},\ldots,p_{kn})$ is the connection profile of community $k$. The number $K\ge2$ is fixed and known. Write $Z_{ia}=\one\{z_i=a\}$, $n_a=\sum_i Z_{ia}$, and $\pi_{a,n}=n_a/n\to\pi_a>0$. The matrix $P$ may depend on $n$. In the logarithmic-density regime, put $d_n=\log n$ and assume that $(n/d_n)P$ is fixed, symmetric and full rank, and define
+We follow the SBM notation of Zhou and Li~\citep{zhouli2020}: $P\in(0,1)^{K\times K}$ is the block probability matrix, $p_{kj}=P_{k,z_j}$, and $p_{k*}=(p_{k1},\ldots,p_{kn})$ is the connection profile of community $k$. The number $K\ge2$ is fixed and known. Write $Z_{ia}=\one\{z_i=a\}$, $n_a=\sum_i Z_{ia}$, and $\pi_{a,n}=n_a/n\to\pi_a>0$. The matrix $P$ depends on $n$: throughout the main results, $(n/\log n)P$ is a fixed, entrywise positive, symmetric, full-rank matrix. Thus each $P_{ab}$ is a fixed positive multiple of $\log n/n$. Define
 \[
- b_-=\min_{a,b}\frac{nP_{ab}}{d_n}>0,\qquad
- b_+=\max_{a,b}\frac{nP_{ab}}{d_n}<\infty.
+ b_-=\min_{a,b}\frac{nP_{ab}}{\log n}>0,\qquad
+ b_+=\max_{a,b}\frac{nP_{ab}}{\log n}<\infty.
 \]
-Full rank need not imply positive definiteness; disassortative signal directions are retained.
+Full rank need not imply positive definiteness; disassortative signal directions are retained. For $z_i=a$, the expected degree is
+\[
+ \E[\deg(i)\mid z]=\sum_{b=1}^K(n_b-\one\{a=b\})P_{ab}.
+\]
+It is of order $\log n$, with a coefficient that may differ between communities. No equality of expected degrees is assumed, and observed degrees remain random.
 
 The $n\times n$ mean matrix differs from the rank-$K$ matrix $ZPZ^\top$ only on its diagonal:
 \begin{equation}
@@ -26,21 +30,21 @@ The small diagonal correction matters for exact identities. The representation c
  \widetilde A=U\Lambda U^\top.
 \label{eq:representation}
 \end{equation}
-All subsequent fitting accesses only $(U,\Lambda)$. This restriction excludes an additional edge-based refinement. It also excludes computing separate leave-one-out eigendecompositions as an undeclared algorithmic step. In the logarithmic regime we use the adjacency eigenpairs without degree regularization or separately stored degrees.
+All subsequent fitting accesses only $(U,\Lambda)$. This restriction excludes an additional edge-based refinement. It also excludes computing separate leave-one-out eigendecompositions as an undeclared algorithmic step. The representation is computed from the original adjacency matrix.
 
-\subsection{Positive profiles and a working likelihood}
-We construct the positive profiles
+\subsection{Spectral profile scores}
+A signed low-rank reconstruction can contain nonpositive entries. To define the logarithms used in candidate scoring, set
 \begin{equation}
  q_{ij}=\max\{\widetilde A_{ij},\varepsilon_n\},\qquad
- \varepsilon_n=c_0d_n/n,\qquad c_0=10^{-4}.
+ \varepsilon_n=c_0\frac\log n{n},\qquad c_0>0.
 \label{eq:profiles}
 \end{equation}
-The evaluated implementation retains the reconstructed diagonal. The logarithmic-density local recovery results assume $c_0<b_-$; the raw oracle results do not need this additional floor margin. For $\widehat p\in(0,\infty)^n$ define
+The constant $c_0$ is fixed; its tested value is recorded in Appendix~\ref{app:implementation}. The statistical fitting theorems require $c_0<b_-$, so $\varepsilon_n<P_{ab}$ for every block pair. This is an explicit additional condition on the chosen logarithm floor. The evaluated implementation retains the reconstructed diagonal. For a candidate profile $\widehat p\in(0,\infty)^n$, define
 \begin{equation}
  \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
 \label{eq:working_score}
 \end{equation}
-Observation-only terms, including Gamma constants, have been omitted. They cancel from the all-node gains and responsibility comparisons and do not change the mixture maximizer. Although this is the algebraic form of a Poisson log likelihood, $q_{ij}$ are dependent, generally noninteger quantities. We therefore use it as a \emph{working} score, rather than assert that the spectral observations follow an independent Poisson model.
+The score is motivated by the first-order sparse expansion of a Bernoulli log likelihood: $\log(1-p)=-p+O(p^2)$. Lemma~\ref{lem:sparse-expansion} controls the resulting pairwise approximation. Because $q$ is a dependent spectral reconstruction, \eqref{eq:working_score} defines a working fitting criterion. It is not the exact likelihood of the original graph. Terms depending only on $q_i$ do not affect candidate comparisons or fitting.
 
 For profiles $\widehat p_1,\ldots,\widehat p_K$ and weights $\widehat\pi\in\Delta_K$, the working mixture objective is
 \begin{equation}
@@ -84,13 +88,14 @@ For fixed profiles, Proposition~\ref{prop:greedy-gain} gives a submodular greedy
 
 \subsection{Likelihood-residual restarts and the complete decoder}
 \label{sec:likelihood-safeguard}
-For general $K$, we supplement the growing fit with $L_n=\lceil\log n\rceil$ independent likelihood-residual initializations. Define the Poisson deviance
+For general $K$, we supplement the growing fit with $L_n=\lceil\log n\rceil$ independent likelihood-residual initializations. Define the profile divergence
 \[
- D_{\mathrm P}(x\Vert y)=\sum_j\{x_j\log(x_j/y_j)-x_j+y_j\}.
+ D(x\Vert y)=\sum_j\{x_j\log(x_j/y_j)-x_j+y_j\}.
 \]
+It is nonnegative and equals the score loss $\ell_x(x)-\ell_x(y)$ for the score in \eqref{eq:working_score}; it does not require a distributional model for $q$.
 Each restart chooses its first node uniformly. Given a set $C$ of selected nodes, it chooses the next node with probability proportional to
 \[
- r_i(C)=\min_{c\in C}D_{\mathrm P}(q_i\Vert q_c).
+ r_i(C)=\min_{c\in C}D(q_i\Vert q_c).
 \]
 Already selected nodes have zero sampling mass. If all residuals vanish, choose an unselected node uniformly. Select all $K$ seeds before fitting; initialize the profiles at their $q$ rows and weights at $1/K$, and run the same exact joint EM updates as for the growing fit. The random streams are independent conditional on $q$.
 
@@ -107,7 +112,7 @@ At a stage with $s$ components, initialize $\widehat\pi_a=1/s$ and perform soft 
  &\widehat\pi_a^{\mathrm{new}}&=N_a/n.
 \label{eq:mstep}
 \end{align}
-The responsibilities are computed using log-sum-exp for numerical stability. Positive $q$ ensures that positive-weight components have positive updated means. The evaluated implementation constrains $\widehat\pi_a\geq10^{-8}$ and replaces the unconstrained weight update in \eqref{eq:mstep} by the exact optimizer of $\sum_aN_a\log\widehat\pi_a$ on that floored simplex. If no floor is active, this reduces to $N_a/n$. Both exact versions maximize the variational M-step, giving objective monotonicity and boundedness within that stage. Proposition~\ref{prop:em-monotonicity} proves convergence of the objective within each fit; it does not prove global optimality or correct community recovery. Because the implementation reinitializes weights when it adds a component, we do not assert monotonicity between stages.
+The responsibilities are computed using log-sum-exp for numerical stability. Positive $q$ ensures that positive-weight components have positive updated means. An optional fixed weight floor $f\in[0,1/K)$ replaces the unconstrained weight update in \eqref{eq:mstep} by the exact optimizer of $\sum_aN_a\log\widehat\pi_a$ on that floored simplex. If no floor is active, this reduces to $N_a/n$. The tested floor is given in Appendix~\ref{app:implementation}. Both exact versions maximize the variational M-step, giving objective monotonicity and boundedness within that stage. Proposition~\ref{prop:em-monotonicity} proves convergence of the objective within each fit; it does not prove global optimality or correct community recovery. Because the implementation reinitializes weights when it adds a component, we do not assert monotonicity between stages.
 
 \begin{center}
 \fbox{\begin{minipage}{0.93\linewidth}

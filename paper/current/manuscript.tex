@@ -29,7 +29,6 @@
 \newcommand{\col}{\operatorname{col}}
 \newcommand{\rank}{\operatorname{rank}}
 \newcommand{\tr}{\operatorname{tr}}
-\newcommand{\KL}{D_{\mathrm{Pois}}}
 \newcommand{\norm}[1]{\lVert #1\rVert}
 \newcommand{\abs}[1]{\lvert #1\rvert}
 \newcommand{\argmax}{\operatorname*{arg\,max}}
@@ -41,12 +40,11 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We show that the leading Chernoff error exponent can be attained by a decoder that uses only the retained adjacency eigenpairs. Our procedure fits a Poisson-form working mixture to positive reconstructed connection profiles. A growing initialization starts at the global profile mean, adds candidate profiles by their likelihood gain on all nodes, and refits after each addition. For a stochastic block model in which $(n/\log n)P$ is fixed, entrywise positive, symmetric and full rank, with positive limiting community proportions and an admissible fixed positive profile floor, we prove end-to-end recovery for this growing procedure when $K=2$. For general fixed $K$, we add an explicit safeguard: $\lceil\log n\rceil$ independent likelihood-residual++ initializations, fitted only after all $K$ seeds have been selected, compete with the growing fit under the same observed working mixture likelihood. One final EM update and likelihood-ratio decoding give $\mathbb E\,\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}$ without an assumed weak initializer or a $K$-means warm start. The guarantee concerns the leading exponent, with $I_n$ the minimum pairwise Chernoff information. The proof combines empirical spectral linearization, likelihood-based initialization and fit selection, and invariant-basin EM analysis for the dependent spectral profiles. Experiments on two paired collections totaling 240 graphs evaluate the original growing and parameter-replacement procedures; the safeguarded combination has not been evaluated on that full collection. We also state the additional requirements for an extension below logarithmic density.
+Spectral clustering compresses a network into a small number of eigenpairs, whereas likelihood-ratio classification uses block-dependent logarithmic contrasts. We show that the leading Chernoff error exponent can be attained by a decoder that uses only the retained adjacency eigenpairs. Our procedure fits a likelihood-based working mixture to reconstructed connection profiles. A growing initialization starts at the global profile mean, adds candidate profiles by their likelihood gain on all nodes, and refits after each addition. For a stochastic block model in which $(n/\log n)P$ is fixed, entrywise positive, symmetric and full rank, with positive limiting community proportions and a fixed logarithm floor below all true connection probabilities, we prove end-to-end recovery for this growing procedure when $K=2$. For general fixed $K$, we add an explicit safeguard: $\lceil\log n\rceil$ independent likelihood-residual++ initializations, fitted only after all $K$ seeds have been selected, compete with the growing fit under the same observed working mixture likelihood. One final EM update and likelihood-ratio decoding give $\mathbb E\,\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}$ without an assumed weak initializer or a $K$-means warm start. The guarantee concerns the leading exponent, with $I_n$ the minimum pairwise Chernoff information. The proof combines empirical spectral linearization, likelihood-based initialization and fit selection, and invariant-basin EM analysis for the dependent spectral profiles. Experiments on two paired collections totaling 240 graphs evaluate the original growing and parameter-replacement procedures; the safeguarded combination has not been evaluated on that full collection.
 \end{abstract}
 \input{intro}
 \input{algorithm}
 \input{results}
-\input{sparse}
 \input{experiments}
 \input{conclusion}
 \appendix
