@@ -1,6 +1,6 @@
 """Likelihood-residual seeding and one-component replacement.
 
-Only U,Lambda enter production methods. Poisson spectral profile working score
+Only U,Lambda enter production methods. The spectral profile working score
 is inherited; no exact graph/LOO likelihood or k-means++ recovery theorem.
 """
 import os
@@ -15,21 +15,39 @@ import re
 import sys
 import time
 import numpy as np
-import pandas as pd
 from scipy.special import gammaln,logsumexp
-from sklearn.cluster import kmeans_plusplus
 from threadpoolctl import threadpool_limits
 
 ROOT=Path(__file__).resolve().parent
 PARTIAL=ROOT.parent/'spectral_partial_peel_20261009'
 if not PARTIAL.exists(): PARTIAL=ROOT.parent/'20261009_partial_likelihood_peeling'
-sys.path.insert(0,str(PARTIAL))
-from partial_peeling import peel
 OLD=ROOT.parent/'spectral_greedy_peel_20261009'
 if not OLD.exists(): OLD=ROOT.parent/'20261009_greedy_likelihood_peeling'
-sys.path.insert(0,str(OLD))
-from profile_peeling import metric,as_json,LEGACY
-from poisson_em import _floored_weights
+
+def _load_historical_helpers():
+    """Load old benchmark/peeling dependencies only when that arm is used."""
+    sys.path.insert(0,str(PARTIAL))
+    sys.path.insert(0,str(OLD))
+    from partial_peeling import peel
+    from profile_peeling import metric,as_json,LEGACY
+    return peel,metric,as_json,LEGACY
+
+def _floored_weights(counts, floor=1e-8):
+    """Exact maximizer of sum(counts * log(weights)) on a floored simplex."""
+    counts=np.asarray(counts,dtype=float);k=len(counts)
+    if not 0 <= floor < 1/k or np.any(counts < 0):
+        raise ValueError('Invalid simplex floor or class counts')
+    if counts.sum() <= 0:return np.full(k,1/k)
+    free=np.ones(k,dtype=bool);result=np.full(k,floor)
+    for _ in range(k+1):
+        mass=1-floor*np.count_nonzero(~free)
+        if counts[free].sum() <= 0:
+            result[free]=mass/np.count_nonzero(free);break
+        trial=counts[free]*(mass/counts[free].sum())
+        below=trial < floor
+        if not np.any(below):result[free]=trial;break
+        free[np.flatnonzero(free)[below]]=False
+    return result
 
 PROTOCOL=dict(
  input='Only U,Lambda during fitting; all saved truth/baseline fields after every fit and selection',
@@ -48,9 +66,21 @@ PROTOCOL=dict(
  limitation='Same spectral working score; no exact LOO/graph likelihood; design-stage spectra reused; independent seeds tested separately')
 
 class Work:
-    def __init__(self,u,lam):
-        self.u,self.lam=u,lam;self.n,self.k=u.shape
-        self.q=np.maximum((u*lam)@u.T,1e-4*np.log(self.n)/self.n)
+    def __init__(self,u,lam,floor_mode='adaptive',floor_constant=1e-4):
+        self.u,self.lam=np.asarray(u,dtype=float),np.asarray(lam,dtype=float)
+        if self.u.ndim != 2 or len(self.u) < 2 or self.u.shape[1] < 1:
+            raise ValueError('u must have at least two rows and one column')
+        self.n,self.k=self.u.shape
+        if self.lam.shape != (self.k,) or not np.all(np.isfinite(self.u)) or not np.all(np.isfinite(self.lam)):
+            raise ValueError('Finite u and one finite eigenvalue per column are required')
+        if not np.isfinite(floor_constant) or floor_constant <= 0:
+            raise ValueError('floor_constant must be positive and finite')
+        self.spectral_scale=max(float(np.max(np.abs(self.lam))),1.)
+        if floor_mode == 'adaptive':scale=self.spectral_scale
+        elif floor_mode == 'historical':scale=math.log(self.n)
+        else:raise ValueError("floor_mode must be 'adaptive' or 'historical'")
+        self.floor_mode=floor_mode;self.profile_floor=floor_constant*scale/self.n
+        self.q=np.maximum((self.u*self.lam)@self.u.T,self.profile_floor)
         self.entropy=(self.q*np.log(self.q)-self.q).sum(1)
         self.gamma_sum=float(gammaln(self.q+1).sum())
         self.singleton_scores=None
@@ -135,17 +165,17 @@ class Work:
             mu=fitted['mu']
             stages.append(dict(size=size,event=event,fit_trace=fitted['trace'],objective=fitted['objective']))
         return fitted,np.asarray(ids),stages
-    def certified_growing(self, seed=None):
+    def restart_certified_growing(self, seed=None):
         """Growing fit plus independent likelihood-residual restart safeguard.
 
-        The default ceil(log(n)) restart count and final E/M update are part of
+        The density-adaptive restart count and final E/M update are part of
         the statistical algorithm; candidate selection never accesses labels.
         """
         grown, grown_ids, grown_events = self.growing()
         best, best_ids = grown, grown_ids
         selected = 'growing_global_gain_EM'
         runs = [dict(method=selected, objective=float(grown['objective']))]
-        count = max(1, int(math.ceil(math.log(self.n))))
+        count = max(1, int(math.ceil(max(math.log(self.n),self.spectral_scale))))
         streams = np.random.SeedSequence(seed).spawn(count)
         for restart, stream in enumerate(streams):
             ids, events = self.pp(np.random.default_rng(stream), greedy=False)
@@ -167,6 +197,67 @@ class Work:
                      initialization_runs=runs, growing_stages=grown_events)
         return polished, np.asarray(best_ids, int), audit
 
+    def iterative_certified_growing(self):
+        """Grow, then refit every one-component global-gain replacement.
+
+        Every proposal resets all weights to 1/K. Accepted rounds improve the
+        same observed mixture objective by at least sum(q)/sqrt(log(n)). The
+        final E/M update is mandatory even when no replacement is accepted.
+        """
+        current,ids,growing_events=self.growing()
+        threshold=float(self.q.sum()/math.sqrt(math.log(self.n)))
+        max_rounds=max(1,int(math.ceil(math.log(self.n)**2)))
+        rounds=[];accepted=0;selected_ids=np.asarray(ids,int).copy()
+        stop_reason='round_cap'
+        while accepted < max_rounds:
+            baseline_objective=float(current['objective'])
+            uniform=np.full(self.k,1/self.k)
+            uniform_fit=self.fit(current['mu'],weights=uniform)
+            best=uniform_fit;best_event=dict(method='uniform_refit')
+            proposals=[dict(method='uniform_refit',initial_weights=uniform.tolist(),
+                objective=float(uniform_fit['objective']),
+                improvement=float(uniform_fit['objective']-baseline_objective),
+                fit_trace=uniform_fit['trace'])]
+            for removed in range(self.k) if self.k > 1 else ():
+                retained=np.delete(current['mu'],removed,axis=0)
+                # Scan every node; previous seed IDs remain eligible.
+                candidate,event=self.global_candidate(retained)
+                initial=current['mu'].copy();initial[removed]=self.q[candidate]
+                fitted=self.fit(initial,weights=uniform)
+                proposals.append(dict(method='replacement',removed_component=removed,
+                    candidate=candidate,initial_weights=uniform.tolist(),
+                    objective=float(fitted['objective']),
+                    improvement=float(fitted['objective']-baseline_objective),
+                    candidate_event=event,fit_trace=fitted['trace']))
+                if fitted['objective'] > best['objective']:
+                    best=fitted;best_event=dict(method='replacement',
+                        removed_component=removed,candidate=candidate)
+            improvement=float(best['objective']-baseline_objective)
+            accept=improvement >= threshold
+            rounds.append(dict(round=len(rounds),baseline_objective=baseline_objective,
+                best_proposal_objective=float(best['objective']),
+                best_improvement=improvement,threshold=threshold,
+                accepted=bool(accept),selected=best_event,proposals=proposals))
+            if not accept:
+                stop_reason='no_threshold_improvement';break
+            current=best;accepted+=1
+            if best_event['method']=='replacement':
+                selected_ids=np.append(selected_ids,best_event['candidate'])
+        selected_objective=float(current['objective'])
+        polished=self.fit(current['mu'],weights=current['weights'],max_iter=1,tol=0.)
+        audit=dict(method='iterative_global_gain_certified',floor_mode=self.floor_mode,
+            profile_floor=self.profile_floor,spectral_scale=self.spectral_scale,
+            threshold=threshold,max_accepted_rounds=max_rounds,accepted_rounds=accepted,
+            stop_reason=stop_reason,
+            stop_certificate=stop_reason=='no_threshold_improvement',
+            selected_objective=selected_objective,final_objective=float(polished['objective']),
+            rounds=rounds,growing_stages=growing_events)
+        return polished,selected_ids,audit
+
+    def certified_growing(self, seed=None):
+        """Compatibility name for deterministic certification; seed is unused."""
+        return self.iterative_certified_growing()
+
     def repair(self,baseline):
         records=[];best=baseline;accepted=None
         if self.k==1:return best,dict(accepted=accepted,proposals=records)
@@ -184,30 +275,37 @@ class Work:
         return best,dict(accepted=accepted,proposals=records)
 
 
-def fit_spectral_profiles(u,lam,method='repair',seed=None):
+def fit_spectral_profiles(u,lam,method='global_gain_certified',seed=None,floor_mode='adaptive'):
     """Fit without labels, graph adjacency, or a k-means decoder.
 
     method='repair': user's fixed-K smaller peeling followed by one-component
     likelihood replacement; method='global_gain': deterministic growing EM.
-    method='global_gain_certified': growing plus ceil(log(n)) independent
-    likelihood-residual restarts, likelihood selection, and one final E/M step.
-    seed optionally controls only the safeguard random streams.
+    method='global_gain_certified': deterministic iterative replacement with
+    uniform-weight proposals, objective threshold, and one final E/M step.
+    method='global_gain_restarts': independent residual-likelihood restarts.
+    seed controls only the restart method. floor_mode='historical' reproduces
+    the earlier log(n)/n profile floor; new fits default to the spectral scale.
     Returns labels, positive profile means, weights, objective, and fit trace.
     """
     with threadpool_limits(limits=1):
-        work=Work(np.asarray(u),np.asarray(lam))
+        work=Work(np.asarray(u),np.asarray(lam),floor_mode=floor_mode)
         if method=='global_gain_certified':
-            fitted,ids,events=work.certified_growing(seed=seed)
+            fitted,ids,events=work.iterative_certified_growing()
+        elif method=='global_gain_restarts':
+            fitted,ids,events=work.restart_certified_growing(seed=seed)
         elif method=='global_gain':
             fitted,ids,events=work.growing()
         elif method=='repair':
+            peel,_,_,_=_load_historical_helpers()
             ids,cores,peel_events,leftover=peel(work.all_scores(),work.k,'scaled_fixed_k')
             fitted=work.fit(work.q[ids])
             fitted,events=work.repair(fitted)
-        else:raise ValueError("method must be 'repair', 'global_gain', or 'global_gain_certified'")
+        else:raise ValueError("method must be 'repair', 'global_gain', 'global_gain_certified', or 'global_gain_restarts'")
         return fitted|dict(seed_ids=ids,events=events)
 
 def run_one(task):
+    peel,metric,as_json,_=_load_historical_helpers()
+    from sklearn.cluster import kmeans_plusplus
     path,out,restarts=task;path,out=Path(path),Path(out);started=time.perf_counter()
     model,n,ch,seed=re.fullmatch(r'(.+)_n(\d+)_ch([\d.]+)_s(\d+)',path.stem).groups()
     seed=int(seed);arrays={};outputs=[];records={};restart_outputs=[]
@@ -220,7 +318,8 @@ def run_one(task):
     with np.load(path,allow_pickle=False) as source:
         u,lam=source['u'],source['lam'];arrays.update(u=u,lam=lam)
         with threadpool_limits(limits=1):
-            work=Work(u,lam)
+            # These benchmark arms intentionally reproduce the saved protocol.
+            work=Work(u,lam,floor_mode='historical')
             scores=work.all_scores()
             ids,cores,events,leftover=peel(scores,work.k,'scaled_fixed_k')
             original=work.fit(work.q[ids])
@@ -276,6 +375,7 @@ def run_one(task):
     return rows,restart_rows,payload['elapsed']
 
 def summarize(rows,restarts,out):
+    import pandas as pd
     f=pd.DataFrame(rows).sort_values(['graph','method']);f.to_csv(out/'per_graph.csv',index=False)
     r=pd.DataFrame(restarts).sort_values(['graph','restart']);r.to_csv(out/'per_restart.csv',index=False)
     summary=f.groupby('method').agg(graphs=('graph','size'),mean_error=('error_rate','mean'),exact=('exact','sum'),
@@ -294,6 +394,8 @@ def summarize(rows,restarts,out):
     print(summary.to_string(),flush=True)
 
 def main():
+    _,_,_,LEGACY=_load_historical_helpers()
+    import pandas as pd
     parser=argparse.ArgumentParser();parser.add_argument('--input-dir',type=Path,default=LEGACY/'full120/inputs')
     parser.add_argument('--out',type=Path,default=ROOT/'design_results');parser.add_argument('--workers',type=int,default=4)
     parser.add_argument('--failure-only',action='store_true');parser.add_argument('--resume',action='store_true')
@@ -320,3 +422,4 @@ def main():
     summarize(rows,restarts,out)
 
 if __name__=='__main__':main()
+

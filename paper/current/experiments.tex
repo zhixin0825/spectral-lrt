@@ -2,7 +2,7 @@
 % graphicx. Figure generated from saved arrays, not a new experiment.
 \section{Experiments}
 \label{sec:experiments}
-The archived 240-graph comparisons evaluate the original growing branch of Section~\ref{sec:growing-branch} and the separately specified controls. They do not evaluate the complete likelihood-restart Algorithm~1 on that full collection. The new safeguard is a proved algorithmic addition; its separate implementation verification is documented in the repository.
+The archived 240-graph comparisons evaluate the original growing branch of Section~\ref{sec:growing-branch} and the separately specified controls. They do not evaluate the complete repeated-replacement Algorithm~1 on that full collection. The repeated replacement is a proved algorithmic extension; its separate implementation verification is documented in the repository.
 
 
 We evaluate whether likelihood-based decoding improves on a Euclidean
@@ -298,3 +298,40 @@ by itself prove that the practical EM endpoint has the oracle error exponent,
 that clipping preserves exact graph likelihood ratios, or that the growing initializer meets the high-probability weak-start condition in Theorem~\ref{thm:local-spectral-em}. Oracle-LRT comparisons, a denser range of $n$ for
 error-exponent estimation, and a full evaluation of Algorithm~1 remain
 outside the archived numerical study.
+
+
+\subsection{Fresh checks of the fixed-$K$ certified procedure}
+\label{sec:fresh-fixed-k}
+The new implementation was checked on 24 SBM graphs with
+$K\in\{3,4,6\}$, $n\in\{256,512\}$, two graph seeds for each configuration,
+and mean expected-degree targets $4\log n$ or $2\sqrt n$. Community sizes
+are balanced up to rounding, but the symmetric block matrices have
+unequal row sums, hence unequal expected degrees. Fitting receives only
+the retained eigenpairs. Truth is used afterwards to report errors.
+\begin{center}
+\begin{tabular}{ccrrr}
+\toprule
+$K$ & Mean degree target & Graphs & Exact graphs & Errors/nodes\\
+\midrule
+3 & $4\log n$ & 4 & 4 & 0/1536 \\
+3 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
+4 & $4\log n$ & 4 & 3 & 1/1536 \\
+4 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
+6 & $4\log n$ & 4 & 0 & 6/1536 \\
+6 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
+\bottomrule
+\end{tabular}
+\end{center}
+All 24 runs stopped by rejecting every proposal at the specified threshold,
+and every proposal started from uniform weights. There were 7 mislabeled
+nodes among 9216 nodes, with 19 exact graph recoveries. The smallest
+recorded within-fit objective increment was $-1.46\times10^{-11}$,
+consistent with floating-point rounding. An additional diagnostic started
+the replacement procedure from an injected three-component collapsed fit:
+it accepted two consecutive replacements and then reached its stopping
+certificate with zero label errors. Checks also covered a zero spectrum,
+preservation of the historical floor option, and the public deterministic
+API. These finite samples verify the implemented procedure and its
+stopping logic; they do not estimate its asymptotic exponent.
+The script and machine-readable results are archived with the implementation.
+

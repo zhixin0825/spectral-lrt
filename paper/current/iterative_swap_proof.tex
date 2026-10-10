@@ -1,0 +1,331 @@
+\subsection{Deterministic likelihood replacement for every fixed $K$}
+
+\begin{lemma}[Iterative likelihood replacement certifies a weak start]
+\label{lem:iterative-swap-certification}
+Let $K\ge2$ be fixed, put $P_{\max}=\max_{a,b}P_{ab}$, and suppose
+$nP_{\max}\to\infty$. Assume, for constants $0<c\le C<\infty$,
+$\pi_{\min}>0$, and $s>0$, that
+\begin{align}
+ n_a&\ge\pi_{\min}n,\qquad
+ cP_{\max}\le q_{ij},p_{aj}\le CP_{\max},
+ \label{eq:swap-profile-box}\\
+ \sum_i\|q_i-p_{z_i,*}\|_1&\le a_n n^2P_{\max},
+ \qquad a_n\longrightarrow0,
+ \label{eq:swap-average-error}\\
+ \min_{a\ne b}\|p_{a*}-p_{b*}\|_1&\ge s nP_{\max}.
+ \label{eq:swap-profile-separation}
+\end{align}
+Start at any $K$ fitted profiles in the convex hull of the rows of $q$
+and any feasible simplex weights. A fixed weight floor
+$f\in[0,1/K)$ is allowed. Define
+\begin{align}
+ D(x\Vert y)&=\sum_j\{x_j\log(x_j/y_j)-x_j+y_j\},\notag\\
+ J(\widehat p)&=\sum_i\min_{k\le K}D(q_i\Vert\widehat p_{k*}),
+ \label{eq:swap-hard-cost}\\
+ F(\widehat\pi,\widehat p)
+ &=-\sum_i\log\sum_{k=1}^K\widehat\pi_k
+       e^{-D(q_i\Vert\widehat p_{k*})},
+ \label{eq:swap-soft-cost}\\
+ T_n&=\sum_{i,j}q_{ij},\qquad
+ \zeta_n=(\log n)^{-1/2},\qquad
+ M_n=\lceil(\log n)^2\rceil.
+ \label{eq:swap-stopping-constants}
+\end{align}
+
+At each replacement round form the following $K+1$ proposals.
+One proposal starts at the current profiles with weights $1/K$.
+For each component $r$, retain the other $K-1$ profiles and choose
+\begin{equation}
+ c_r\in\argmax_{c\in[n]}
+ \sum_i\left(\ell_i(q_c)-\max_{k\ne r}
+                         \ell_i(\widehat p_{k*})\right)_+.
+ \label{eq:swap-candidate-rule}
+\end{equation}
+Replace profile $r$ by $q_{c_r}$ and initialize all $K$ weights at
+$1/K$. Fit each proposal by any prescribed finite number of exact EM
+updates, including zero updates, whose M-steps maximize over the stated
+weight simplex. A zero-mass profile retains its previous value.
+Select the endpoint with largest $\mathcal L$ and accept it only when
+its objective increase is at least $\zeta_nT_n$; otherwise stop.
+After $M_n$ accepted rounds, return the current fit without further
+replacement. Candidate scans in \eqref{eq:swap-candidate-rule} include
+all node IDs, even those used in previous rounds. All ties are resolved
+deterministically.
+
+For all sufficiently large $n$, the cap $M_n$ is not reached, and the
+algorithm stops after at most $C_1\sqrt{\log n}$ accepted replacements,
+where $C_1$ depends only on the constants in
+\eqref{eq:swap-profile-box}. At its endpoint, put
+\[
+ b_n=a_n+\zeta_n+\frac{\log K}{nP_{\max}}\longrightarrow0.
+\]
+There is a constant $C_2$, depending only on the constants in the
+assumptions and $K$, such that
+\begin{align}
+ \max_a\min_kD(p_{a*}\Vert\widehat p_{k*})
+   &\le C_2b_n nP_{\max},
+   \label{eq:swap-population-loss}\\
+ J(\widehat p),\ F(\widehat\pi,\widehat p)
+   &\le C_2b_n n^2P_{\max}.
+   \label{eq:swap-endpoint-cost}
+\end{align}
+After one common permutation of the fitted components,
+\begin{equation}
+ \max_a\|\widehat p_{a*}-p_{a*}\|_1
+ \le C_2\sqrt{b_n}\,nP_{\max}.
+ \label{eq:swap-center-matching}
+\end{equation}
+For the endpoint's exact E-step responsibilities $R$, the same
+permutation gives a deterministic $\gamma_n\to0$ such that
+\begin{equation}
+ \frac1n\sum_{i,a}|R_{ia}-Z_{ia}|\le\gamma_n.
+ \label{eq:swap-weak-responsibilities}
+\end{equation}
+The statement is uniform over the starting fit, all selected candidates,
+and the finite EM stopping rules.
+\end{lemma}
+
+\begin{proof}
+Write $\mathcal B_n=[cP_{\max},CP_{\max}]^n$ and enlarge $C$ if
+necessary without changing $c$. All starting and proposed profiles lie
+in $\mathcal B_n$. Each profile M-step is a convex combination of rows
+of $q$, and retaining the previous profile in a zero-mass component
+preserves this property. Thus the same box contains every profile at
+every replacement round. Uniform weights are feasible because
+$f<1/K$. Exact EM never decreases $\mathcal L$, including with the
+floored simplex, by Proposition~\ref{prop:em-monotonicity}.
+
+\emph{Score identities and bounds uniform over fitted profiles.}
+The scalar derivatives of $D(x\Vert y)$ are $\log(x/y)$ and
+$1-x/y$. They are uniformly bounded on the common box. Consequently,
+for a constant $L$ independent of $n$ and all $x,y,x',y'\in\mathcal B_n$,
+\begin{align}
+ 0\le D(x\Vert y)&\le LnP_{\max},
+ \label{eq:swap-bounded-divergence}\\
+ |D(x\Vert y)-D(x'\Vert y')|
+ &\le L\{\|x-x'\|_1+\|y-y'\|_1\}.
+ \label{eq:swap-uniform-lipschitz}
+\end{align}
+These bounds apply to random fitted profiles and extreme candidate rows;
+they make no assumption that a selected candidate is close to its true
+class profile. Define the observation-only constant
+\[
+ S_q=\sum_{i,j}(q_{ij}\log q_{ij}-q_{ij}).
+\]
+Since $\ell_i(\widehat p_{k*})=\ell_i(q_i)-D(q_i\Vert\widehat p_{k*})$,
+the working objective satisfies the exact identities and inequalities
+\begin{equation}
+ \mathcal L=S_q-F,\qquad
+ 0\le J\le F,\qquad
+ F(\mathbf1/K,\widehat p)\le J(\widehat p)+n\log K.
+ \label{eq:swap-saturation-identities}
+\end{equation}
+For example, the last inequality follows by retaining a minimizing
+term in each row's sum. It does not compare weights from different
+fits by an unstated monotonicity assumption.
+
+Introduce the population hard cost
+\[
+ \overline J(\widehat p)=
+ \sum_{a=1}^K n_a\min_kD(p_{a*}\Vert\widehat p_{k*}).
+\]
+For any fixed $K$-tuple $\widehat p\in\mathcal B_n^K$, the elementary
+inequality $|\min_k u_k-\min_k v_k|\le\max_k|u_k-v_k|$ and
+\eqref{eq:swap-uniform-lipschitz} imply
+\begin{equation}
+ \sup_{\widehat p\in\mathcal B_n^K}
+ |J(\widehat p)-\overline J(\widehat p)|
+ \le La_n n^2P_{\max}.
+ \label{eq:swap-uniform-population-approximation}
+\end{equation}
+The supremum is the reason that adaptively selected centers and
+data-dependent stopping do not require additional probability bounds.
+For every true class $a$, averaging \eqref{eq:swap-average-error} over
+its at least $\pi_{\min}n$ nodes supplies a candidate $c(a)$ in that
+class with
+\begin{equation}
+ \|q_{c(a)}-p_{a*}\|_1
+ \le (a_n/\pi_{\min})nP_{\max}.
+ \label{eq:swap-existing-good-candidate}
+\end{equation}
+These candidates are used only in the proof; the algorithm does not
+know their labels.
+
+\emph{A population replacement supplied by pigeonhole.}
+Fix the current $K$ centers. Assign each of the $K$ true profiles to a
+minimizing center, using any deterministic tie rule, and write
+$k(a)$ for this assignment and
+$v_a=D(p_{a*}\Vert\widehat p_{k(a),*})$.
+If $k(a)$ is assigned no true profile other than $a$, remove $k(a)$.
+If $k(a)$ is assigned at least two true profiles, at most $K-1$ centers
+can have any assigned profile, so choose an unassigned center to remove.
+In either case, every true class $b\ne a$ retains its assigned minimizing
+center. Inserting the exact profile $p_{a*}$ would therefore lower
+$\overline J$ by at least $n_av_a$, because the new loss of class $a$
+is zero and the losses of the other classes cannot increase. Inserting
+the actual row $q_{c(a)}$ instead, \eqref{eq:swap-existing-good-candidate}
+and \eqref{eq:swap-uniform-lipschitz} give a replacement configuration
+$\widehat p^{\mathrm{trial}}$ satisfying
+\begin{equation}
+ \overline J(\widehat p^{\mathrm{trial}})
+ \le\overline J(\widehat p)-n_av_a
+                  +L\pi_{\min}^{-1}a_n n^2P_{\max}.
+ \label{eq:swap-pigeonhole-improvement}
+\end{equation}
+Here the inserted profile may benefit other classes; such benefits are
+unneeded for the inequality. Exact score ties cause no difficulty because
+the retained minimizing center is still available to every other class.
+
+\emph{The implemented gain finds a replacement at least as good.}
+For a removed component $r$, write
+\[
+ J_{-r}=\sum_i\min_{k\ne r}D(q_i\Vert\widehat p_{k*}),
+ \qquad
+ h_i^{-r}=\max_{k\ne r}\ell_i(\widehat p_{k*}).
+\]
+Directly from the score identity,
+\begin{equation}
+ J(\widehat p^{(r,c)})
+ =J_{-r}-\sum_i(\ell_i(q_c)-h_i^{-r})_+,
+ \label{eq:swap-global-gain-exact}
+\end{equation}
+where $\widehat p^{(r,c)}$ replaces $r$ by $q_c$. Thus
+\eqref{eq:swap-candidate-rule} is an exact minimization of the
+post-replacement hard cost for that deletion. In particular the candidate
+chosen for the deletion in \eqref{eq:swap-pigeonhole-improvement} has
+empirical hard cost no larger than the proof candidate's cost. Applying
+\eqref{eq:swap-uniform-population-approximation} to both configurations
+gives, for a constant $L_1$,
+\[
+ J(\widehat p^{(r,c_r)})
+ \le J(\widehat p)-n_av_a+L_1a_n n^2P_{\max}.
+\]
+Uniform proposal weights and \eqref{eq:swap-saturation-identities},
+followed by monotonicity during its fitting, imply that its endpoint has
+\begin{equation}
+ F_{\mathrm{proposal}}
+ \le F_{\mathrm{current}}-n_av_a
+                  +L_1a_n n^2P_{\max}+n\log K.
+ \label{eq:swap-soft-improvement}
+\end{equation}
+This inequality holds for every $a$ and its indicated deletion, so the
+best evaluated endpoint is at least as good. No purity, convergence,
+or basin assumption on the growing initialization has been used.
+
+\emph{The cap is inactive and stopping bounds every population loss.}
+The common box gives $cn^2P_{\max}\le T_n\le Cn^2P_{\max}$.
+For any feasible weights, \eqref{eq:swap-bounded-divergence} gives
+$0\le F\le Ln^2P_{\max}$, because every exponential in each row's
+weighted sum is at least $e^{-LnP_{\max}}$. Each accepted replacement
+decreases $F$ by at least $\zeta_nT_n$. There are therefore at most
+$L/(c\zeta_n)$ accepted rounds. Since this is
+$O(\sqrt{\log n})<M_n$ eventually, the prescribed cap is inactive for
+all sufficiently large $n$ under the stated deterministic assumptions.
+The algorithm must terminate by rejection of all $K+1$ proposals.
+
+At that endpoint, \eqref{eq:swap-soft-improvement} and rejection give
+\[
+ n_av_a\le L_1a_n n^2P_{\max}+n\log K+\zeta_nT_n.
+\]
+Dividing by $n_a\ge\pi_{\min}n$ proves
+\eqref{eq:swap-population-loss}. Summing over $a$ and using
+\eqref{eq:swap-uniform-population-approximation} proves the asserted
+bound on $J$. The rejected current-centers uniform-weight proposal has
+endpoint cost at most $J+n\log K$, so its rejection also implies
+\[
+ F_{\mathrm{current}}\le J+n\log K+\zeta_nT_n.
+\]
+This proves the bound on $F$ in \eqref{eq:swap-endpoint-cost}. The
+additional proposal is needed: small current weights can otherwise
+make $F$ large even when $J$ and all center errors are small.
+
+\emph{A single center matching and weak responsibilities.}
+The Hessian of $\sum_jx_j\log x_j-x_j$ is
+$\operatorname{diag}(1/x_j)$. Strong convexity on $\mathcal B_n$, and
+then Cauchy--Schwarz, give
+\begin{equation}
+ D(x\Vert y)\ge\frac{\|x-y\|_2^2}{2CP_{\max}}
+              \ge\frac{\|x-y\|_1^2}{2CnP_{\max}}.
+ \label{eq:swap-strong-convexity}
+\end{equation}
+By \eqref{eq:swap-population-loss}, each true class has a fitted
+center within $C_3\sqrt{b_n}\,nP_{\max}$ in $\ell_1$.
+If two distinct classes chose the same center, their mutual distance
+would be at most $2C_3\sqrt{b_n}\,nP_{\max}$, contrary to
+\eqref{eq:swap-profile-separation} for large $n$. With exactly $K$
+true profiles and $K$ fitted profiles, this injection is a bijection.
+It supplies the common permutation in \eqref{eq:swap-center-matching}.
+
+Set $t_n=\sqrt{a_n}+(nP_{\max})^{-1}$ and call row $i$ typical when
+$\|q_i-p_{z_i,*}\|_1\le t_nnP_{\max}$. By
+\eqref{eq:swap-average-error}, the fraction of nontypical rows is at
+most $a_n/t_n\to0$. For a typical row in class $a$ and any incorrectly
+matched component $k\ne a$, separation and the center matching imply
+\[
+ \|q_i-\widehat p_{k*}\|_1\ge (s/2)nP_{\max}
+\]
+for all sufficiently large $n$. By \eqref{eq:swap-strong-convexity},
+its deviance is at least $c_*nP_{\max}$, with
+$c_*=s^2/(8C)>0$. The exact E-step satisfies
+\[
+ R_{ik}=\frac{\widehat\pi_ke^{-D(q_i\Vert\widehat p_{k*})}}
+               {\sum_l\widehat\pi_le^{-D(q_i\Vert\widehat p_{l*})}}.
+\]
+Its row-wise variational identity is
+\[
+ -\log\sum_k\widehat\pi_ke^{-D(q_i\Vert\widehat p_{k*})}
+ =\sum_kR_{ik}D(q_i\Vert\widehat p_{k*})
+       +\operatorname{KL}(R_i\Vert\widehat\pi)
+ \ge\sum_kR_{ik}D(q_i\Vert\widehat p_{k*}).
+\]
+Summing over typical rows and using
+$\sum_k|R_{ik}-Z_{ik}|=2\sum_{k\ne z_i}R_{ik}\le2$ gives
+\[
+ \frac1n\sum_{i,k}|R_{ik}-Z_{ik}|
+ \le\frac{2a_n}{t_n}+
+       \frac{2F}{c_*n^2P_{\max}}
+ \le\frac{2a_n}{t_n}+\frac{2C_2b_n}{c_*}
+ =:\gamma_n\longrightarrow0.
+\]
+The identities remain valid for zero weights with the usual convention
+that the corresponding responsibilities vanish. In particular, no
+unstated lower bound on the endpoint's fitted mixture weights is
+required for this weak-start argument. All bounds are simultaneous for
+every configuration in the box, completing the deterministic proof.
+\end{proof}
+
+\paragraph{Proof of Theorem~\ref{thm:certified-likelihood}.}
+Fix a confidence constant $H$ sufficiently large that the exceptional
+probability in Lemma~\ref{lem:full-spectral} is negligible relative to
+$e^{-I_n}$. Under the density-uniform form of that lemma, its probability
+is $O(e^{-HnP_{\max}})$, and the upper bound
+$I_n\le C_I nP_{\max}$ allows any fixed $H>C_I$.
+Work on its spectral-profile event. The positive probability ratios,
+positive limiting community proportions, and the spectral conditioning
+assumption give \eqref{eq:swap-profile-box} and
+\eqref{eq:swap-profile-separation}, with constants that may depend on
+$H$. Its average-profile bound is exactly
+\eqref{eq:swap-average-error}. The growing fit starts at a row mean and
+only appends rows and takes convex profile updates, so all of its
+endpoint profiles lie in the required row convex hull.
+
+Apply Lemma~\ref{lem:iterative-swap-certification} to the deterministic
+replacement stage of Algorithm~1. For every sufficiently large $n$ on
+this event, its round cap is inactive and its endpoint E-step obeys
+\eqref{eq:swap-weak-responsibilities}. Thus the local initialization
+condition \eqref{eq:local-initialization} holds with a deterministic
+$\gamma_n\to0$ and $\delta_n=O(e^{-HnP_{\max}})$.
+There is no additional randomized-initialization failure. The mandatory
+final profile and weight M-step and
+Theorem~\ref{thm:local-spectral-em} give
+\[
+ \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
+\]
+The same theorem covers any further exact updates and their stated
+finite stopping rules. If $\liminf I_n/\log n>1$, multiplying the
+expected error fraction by $n$ and applying Markov's inequality proves
+exact recovery with probability tending to one. All replacement
+proposals use only $q$, hence only the retained eigenpairs, and the
+number of replacement rounds and the fitting iteration budgets are
+polynomial by construction. No recovery property of the unrepaired
+growing endpoint is needed. \qed

@@ -1,35 +1,41 @@
 # Spectral likelihood decoding: current manuscript
 
-[Compiled PDF](manuscript.pdf) · [Full proofs](theory.tex) · [Review and corrections, 2026-10-10](REVIEW_20261010.md)
+[Compiled PDF](manuscript.pdf) �� [Full proofs](theory.tex) �� [Review and corrections, 2026-10-10](REVIEW_20261010.md)
 
 ## Model and theorem scope
 
-`P` is the K-by-K Bernoulli block probability matrix, with `p_kj=P_{k,z_j}` following Zhou–Li. The main results assume fixed known K, positive limiting community proportions, and fixed entrywise-positive symmetric full-rank `(n/log n)P`. There is no separate density or connectivity-shape matrix.
+`P=P_n` is the symmetric K-by-K Bernoulli block probability matrix, with `p_kj=P_{k,z_j}` following Zhou�CLi. The main theorem covers every fixed known `K >= 2`. It assumes positive limiting community proportions, comparable positive block probabilities `P_min >= c P_max`, sparsity `P_max -> 0`, minimum expected degree at least `c log n`, and a uniformly nondegenerate rank-K signal: `sigma_min(N^(1/2) P N^(1/2)) >= c n P_max`, where `N=diag(n_1,...,n_K)` and the constants are fixed and positive.
 
-This probability scale allows unequal expected degrees. For a node in class a, the expected degree is `sum_b (n_b - 1{a=b})P_ab`; the observed degree is random. The eigenpairs are computed from the original adjacency matrix.
+The block matrix need not have a fixed normalized shape, and expected degrees need not be equal. For a node in class a, the expected degree is `sum_b (n_b - 1{a=b}) P_ab`; observed degrees are random. The minimum-degree condition is a lower bound, not an equality specifying every degree.
 
-The implemented profile floor is `epsilon=1e-4 log n/n`. The fitting theorems require `min_ab nP_ab/log n > 1e-4`. This is an additional condition, not a consequence of positivity alone. The floor makes logarithms of candidate reconstructed rows well defined; it does not modify the adjacency matrix used for eigendecomposition.
+The eigenpairs are computed from the original adjacency matrix. Subsequent fitting uses only those retained eigenpairs. The profile floor is `epsilon=1e-4 max(max(abs(Lambda)),1)/n`. The theorem requires the fixed floor constant to be sufficiently small relative to the block-probability comparison constants; positivity alone does not guarantee admissibility of a chosen numerical constant.
 
-## Proven algorithms
+## Proven algorithm
 
-- Theorem 3.8 proves the original global-mean growing branch for K=2.
-- Theorem 3.9 proves the general fixed-K algorithm with `ceil(log n)` independent likelihood-residual initializations, likelihood selection, and one mandatory final E/M update.
-- The expected error is at most `exp(-(1+o(1)) I_n)`, attaining the leading oracle Chernoff exponent.
-- Exact recovery follows when `liminf I_n/log n > 1`.
-- The unchanged growing branch is not proved for general K. The theorem does not claim a refined multiplicative risk or a new global minimax lower bound.
+Algorithm 1 is deterministic and covers every fixed `K >= 2`:
 
-Algorithm 1 uses only the retained eigenpairs after compression. Residual weights use the explicit profile divergence `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`. Fitting optimizes the spectral working objective `ell_i(p)=sum_j q_ij log p_j-sum_j p_j`; its relation to the exact Bernoulli LLR is proved by a sparse Taylor expansion.
+1. Fit one component at the global profile mean, then add K?1 node candidates using all-node likelihood gains and refit after each addition.
+2. In each replacement round, fit the current profiles from uniform weights and fit one globally selected replacement for each possible component removal, also from uniform weights. Every replacement scan considers all node IDs.
+3. Accept the largest trial likelihood only when its improvement is at least `T/sqrt(log n)`, where `T=sum_ij q_ij`. Repeat until no trial meets the threshold, with an accepted-round cap of `ceil((log n)^2)`.
+4. Perform one final E/M update and decode.
 
-The explicit API option is `method='global_gain_certified'`, calling `Work.certified_growing()` in [residual_seed.py](../../experiments/20261009_residual_likelihood_seeding/residual_seed.py). The default `method='repair'` is a historical alternative. The original growing arm is `method='global_gain'`.
+Under the theorem's hypotheses, the stopping certificate is reached after `O(sqrt(log n))` accepted rounds, before the cap. The certificate proves weak recovery for the fitted responsibilities; the final refinement then yields expected misclassification at most `exp(-(1+o(1)) I_n)`. This attains the leading oracle Chernoff exponent. Exact recovery follows when `liminf I_n/log n > 1`.
+
+This repeated-replacement rule is an explicit extension of the original growing algorithm. The original single-pass growing branch is a separate procedure, with its two-community theorem recorded in the appendix. The main theorem does not claim a refined multiplicative risk or a new global minimax lower bound.
+
+The fitting objective is `ell_i(p)=sum_j q_ij log p_j - sum_j p_j`. Its relation to the exact Bernoulli likelihood ratio is proved by a sparse Taylor expansion. Its profile divergence is `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`.
+
+The default API option is `method='global_gain_certified'`, calling `Work.iterative_certified_growing()` in [residual_seed.py](../../experiments/20261009_residual_likelihood_seeding/residual_seed.py). The original growing branch is `method='global_gain'`; the older independent-residual-restart combination is `method='global_gain_restarts'`. The option `method='repair'` is a historical alternative.
 
 ## Numerical evidence
 
-The archived 240-graph comparison concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the spectral K-means baseline 0.3194%, 139/240. It does not evaluate the complete safeguarded algorithm on that collection.
+The archived 240-graph comparison concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the recorded spectral baseline's 0.3194% and 139/240. These runs used the earlier floor `1e-4 log n/n`. They do not evaluate the repeated-replacement Algorithm 1.
 
-[Twenty-four new implementation checks](../../experiments/20261010_certified_likelihood/) verify fit selection, the mandatory final update, and numerical constraints. They do not establish a finite-sample accuracy advantage or estimate an asymptotic exponent.
+[Fresh checks](../../experiments/20261009_residual_likelihood_seeding/general_k_fresh_checks.json), generated by [check_general_k.py](../../experiments/20261009_residual_likelihood_seeding/check_general_k.py), cover 24 graphs with K=3,4,6, n=256,512, and both logarithmic and square-root expected-degree scales. They verify uniform trial weights, the stopping certificate, objective monotonicity to numerical tolerance, constraints, determinism, and the mandatory final update. Nineteen of these graphs have exact recovery, with seven errors among 9,216 nodes in total. A separate injected collapsed-endpoint check accepts two successive replacement rounds and ends with zero errors.
+
+These are finite-sample implementation checks, not a broad comparative accuracy benchmark or an estimate of an asymptotic exponent. The archived earlier [random-restart checks](../../experiments/20261010_certified_likelihood/) concern the previous algorithm.
 
 ## Build
 
-The active manuscript has five main sections, proof appendices, and references. The speculative lower-density extension is excluded from this version. The previous discussion remains in Git history.
+The active manuscript has five main sections, proof appendices, and references. From this directory, run PDFLaTeX, BibTeX, and PDFLaTeX twice. GitHub Actions records the source commit and checksums in BUILD.txt and BUILD_SHA256SUMS.txt. The archived experiment records and their numerical settings are retained.
 
-From this directory, run PDFLaTeX, BibTeX, and PDFLaTeX twice. GitHub Actions records the source commit and checksums in BUILD.txt and BUILD_SHA256SUMS.txt. Raw experiment records and stopping rules remain unchanged.

@@ -1,12 +1,13 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-Spectral compression can preserve the likelihood information needed for nearly optimal community recovery. In a full-rank SBM, the membership subspace contains the block-constant likelihood contrasts. First-order analysis of the empirical adjacency eigenpairs makes this relation quantitative at logarithmic density, and an admissible fixed positive floor preserves the leading Chernoff exponent. The subsequent likelihood and EM analysis controls the dependent whole-graph profiles.
+Spectral compression can preserve the likelihood information needed for nearly optimal community recovery. In a full-rank SBM, the membership subspace contains the block-constant likelihood contrasts. First-order analysis of the empirical adjacency eigenpairs makes this relation quantitative when the minimum expected degree is $\Omega(\log n)$, and an admissible spectral-scale positivity floor preserves the leading Chernoff exponent. Expected degrees can vary across communities, and the sparse block probabilities need not have a fixed normalized shape.
 
-For $K=2$, the original growing likelihood procedure has an end-to-end guarantee. For general fixed $K$, Algorithm~1 supplements the growing fit with $\lceil\log n\rceil$ independent likelihood-residual++ initializations, compares the fitted candidates using the same observed working mixture likelihood, and performs a final EM update before decoding. The resulting recovery bound is
+For every fixed $K\ge2$, Algorithm~1 combines global-mean growing initialization with deterministic repeated component replacement and a final EM update. The stopping certificate establishes weakly correct responsibilities, and the local refinement theorem gives
 \[
  \mathbb E\,\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]
-Initialization and likelihood selection are part of the proof; weak recovery is not an assumption imposed on an unspecified initializer. The guarantee matches the leading oracle exponent and yields exact recovery above the corresponding logarithmic information threshold.
+Initialization and likelihood selection are part of the proof. The guarantee matches the leading oracle exponent and yields exact recovery above the corresponding logarithmic information threshold. The original single-pass growing procedure is a separate algorithm; its two-community guarantee is recorded in the appendix.
 
-The paired 240-graph experiments evaluate the original growing and parameter-replacement procedures. They support the usefulness of all-node likelihood gains and likelihood-accepted repairs in resolving severe initialization failures. A full evaluation of the safeguarded combination remains to be carried out. Removing the safeguard while retaining the general fixed-$K$ theorem and reducing the cost of full profile reconstruction are separate extensions of the completed logarithmic-density theory.
+The paired 240-graph experiments evaluate the original growing and historical parameter-replacement procedures. They support the usefulness of all-node likelihood gains and likelihood-accepted repairs in resolving severe initialization failures. The new repeated-replacement algorithm has additional implementation checks, but a broad accuracy benchmark remains to be carried out. Reducing the cost of full profile reconstruction and establishing a general fixed-$K$ theorem for growing initialization alone are further questions.
+

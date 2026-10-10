@@ -6,7 +6,7 @@ The numerical evidence is archived in the repository
 \begin{center}
 \url{https://github.com/zhixin0825/spectral-lrt}.
 \end{center}
-The complete safeguarded implementation is \texttt{Work.certified\_growing()} in \texttt{residual\_seed.py}, exposed as \texttt{method='global\_gain\_certified'}. It uses $\lceil\log n\rceil$ independent residual starts and one mandatory final M-step. The archived primary benchmark remains the original growing branch. The principal comparison is in
+The implementation of Algorithm~1 is \texttt{Work.iterative\_certified\_growing()} in \texttt{residual\_seed.py}, exposed as \texttt{method='global\_gain\_certified'}. It starts with the global-mean growing fit and then iterates deterministic component replacement. Each round fits the current profiles from uniform weights and, for each component removal, fits the globally selected replacement from uniform weights. Every node ID participates in each replacement scan. The largest trial objective is accepted only if its improvement is at least $T/\sqrt{\log n}$, where $T=\sum_{ij}q_{ij}$. The accepted-round cap is $\lceil(\log n)^2\rceil$, followed by one mandatory final E/M update. Under the theorem's hypotheses, the stopping certificate is reached in $O(\sqrt{\log n})$ accepted rounds, before the cap. The earlier residual-restart implementation is exposed separately as \texttt{method='global\_gain\_restarts'}. The archived primary benchmark remains the original growing branch. The principal comparison is in
 \path{experiments/20261009_residual_likelihood_seeding/}.
 Its report, protocol, model-generation script, fitting code, scalar verification, and per-graph summaries define the numerical experiment. The preceding partial-peeling experiment and its diagnosis are in
 \path{experiments/20261009_partial_likelihood_peeling/}.
@@ -16,9 +16,16 @@ The manuscript's two CSV summaries retain batch-specific, combined, and model-sp
 
 
 \subsection{Logarithm and weight floors}
-The archived implementation sets $q_{ij}=\max\{(U\Lambda U^\top)_{ij},10^{-4}\log n/n\}$ and uses the exact weight update with floor $f=10^{-8}$. The first operation defines positive arguments for logarithms after spectral reconstruction; it leaves the matrix used for eigendecomposition unchanged. The fitting theory therefore applies to this numerical floor only when $\min_{a,b}nP_{ab}/\log n>10^{-4}$. The floor is not justified for arbitrary positive normalized block entries without that condition. Profiles are positive vectors, and finite-sample reconstructed coordinates are not constrained to lie below one.
+The current implementation sets
+\[
+ q_{ij}=\max\{(U\Lambda U^\top)_{ij},\varepsilon_n\},\qquad
+ \varepsilon_n=10^{-4}\frac{\max\{\|\Lambda\|_{\mathrm{op}},1\}}n,
+\]
+and uses the exact weight update with floor $f=10^{-8}$. The spectral scale is computed from the retained eigenvalues. The theorem requires the chosen fixed floor constant to be sufficiently small relative to the block-probability comparison constants. On the spectral approximation event, this gives a floor of order $P_{\max}$ strictly below every $P_{ab}$. The value $10^{-4}$ does not supply such a guarantee for arbitrarily small $P_{\min}/P_{\max}$. This operation defines positive logarithm arguments after spectral reconstruction. Profiles are positive vectors, and finite-sample reconstructed coordinates are not constrained to lie below one.
 
-The API default \texttt{method='repair'} is a historical replacement branch. To execute Algorithm~1, use \texttt{method='global\_gain\_certified'} explicitly. Neither the default branch nor the original growing branch should be identified with the safeguarded algorithm by name alone.
+The archived 240-graph results used the earlier floor $10^{-4}\log n/n$. Those recorded runs and their summaries are retained as historical evidence. Their settings should not be substituted for the adaptive floor of Algorithm~1 when testing densities above logarithmic order.
+
+The API default \texttt{method='global\_gain\_certified'} executes Algorithm~1. The historical replacement branch is \texttt{method='repair'}, the original growing branch is \texttt{method='global\_gain'}, and the earlier random-restart combination is \texttt{method='global\_gain\_restarts'}. These options implement different procedures.
 
 \subsection{Historical subset controls}
 These controls are retained for reproducibility of earlier experiments and are not steps of Algorithm~1. In the frozen global-gain control, the first candidate maximizes the sum of its largest
@@ -54,7 +61,8 @@ If $\lambda^{ab}$ is the chosen oracle prior log ratio, the empirical comparison
    +\widehat c^{ab}-c_i^{ab}-\lambda^{ab}.
 \label{eq:error_decomposition}
 \end{align}
-The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. If the exact Bernoulli contrast is replaced by the first-order sparse contrast, Lemma~\ref{lem:sparse-expansion} accounts for the additional Taylor remainder. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(\log n)$ bound on the raw clipping term in this decomposition. The original growing branch has an end-to-end proof when $K=2$. The likelihood-restart Algorithm~1 has an end-to-end proof for general fixed $K$.
+The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. If the exact Bernoulli contrast is replaced by the first-order sparse contrast, Lemma~\ref{lem:sparse-expansion} accounts for the additional Taylor remainder. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(nP_{\max})$ bound on the raw clipping term in this decomposition. Algorithm~1 has an end-to-end proof for every fixed $K\ge2$ under the stated minimum-degree, sparsity and signal conditions. Its deterministic repeated-replacement certificate supplies the local theorem's initialization requirement.
 
 \subsection{Verification of the manuscript}
 The source comprises five numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.
+
