@@ -1,0 +1,40 @@
+{
+  "filename": "spectral_partition_mcmc_evidence_20261011.zip",
+  "size_bytes": 44066516,
+  "sha256": "332f804846920f8e9bc54027ad01a341b093c39dab2b1ced1bfb930cf80ed06a",
+  "raw_file_count": 1728,
+  "result_directories": [
+    "results_diagnostics",
+    "results_global_n1024",
+    "results_global_pilot",
+    "results_global_weak",
+    "results_k6",
+    "results_long",
+    "results_n1024",
+    "results_pilot",
+    "results_prototype_n1024",
+    "results_prototype_pilot",
+    "results_prototype_replication",
+    "results_replication",
+    "results_spectral_pilot"
+  ],
+  "source_sha256": {
+    "benchmark.py": "0522c28ae35b2139339d2b786faa1a15e09ab735dcd9625944f9a4ca48a99933",
+    "build_evidence.py": "c88f5804e59cd70694e89dcf86e90c77a5033588f9838ef2630a8d1b7fb318dd",
+    "diagnostics.py": "6295a206bc72b681e19ea7a0b2fc05d8304f31e6361d4ce032d3d528ad1dbef5",
+    "engine.py": "df6616c31dea666c4d1a40b519a3117aefc356eaa0d56cb3261e6c5c907bdece",
+    "final_audit.py": "e94db246d2a0b1e8d54601284239b25156c6e77b91fdd046929bb08d6c342fa2",
+    "global_mcmc.py": "cacfec86fe27d599051543730af7938f2fcf81ebd0e1515cbe4b19ec8e0ded97",
+    "independent_global_validation.py": "410619e307f7967aae5258525c1dec7effdc22ae3960c2f1704592dd869dec1d",
+    "independent_prototype_validation.py": "a08214165a68a928b014295a8c76b9b05a4c73dafa7e1f8b41e9482886500d60",
+    "independent_spectral_validation.py": "f19c257b1f0d1a0d430b51a2d255e91cd4f174a43ff5bc8acf7f3084f4a51cdf",
+    "independent_validation.py": "2828df1f3023c8196607c99d5958d8f68e54cdef79b56956c5fd8e80eec4481e",
+    "prototype_mcmc.py": "2136f2b1373887102ee27b519ee3f218e7c316a4035848780cf32494385464ec",
+    "run_global.py": "ab226d7261e7ae0667742fb5d049233f60ee9d38a6e2717230e5abc2754f204f",
+    "run_k6.py": "287f50b5b6ce57553b58dbd219f336fc94bebcda8cd5dd825320eb439b2dca53",
+    "run_prototype_global.py": "f913e4528780f9411200133f1cd537aafd2433af124debb557835a38352dfa65",
+    "run_spectral_global.py": "2e6e72ac3727959f91dc6d4bdac62121b525022886733d486f18b63713e84d57",
+    "spectral_mcmc.py": "7dd8c96dd388619ac4abe1658d7bb002b44f73d89d2b2b33041ec0a9cc42be3d",
+    "summarize_results.py": "38b823d4933809a53ad24f597d7c4975a7c267f6bc4aad2d9f14da4f4e635ccc"
+  }
+}

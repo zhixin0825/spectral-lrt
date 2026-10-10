@@ -1,0 +1,4 @@
+model,n,signal_target,method,selection,runs,graphs,exact_runs,near_1pct_runs,exact_fraction,near_1pct_fraction,error_rate_mean,error_rate_median,error_rate_q10,error_rate_q90,error_rate_min,error_rate_max,signal_achieved_min,signal_achieved_max,elapsed_mean,empty_group_runs
+balanced2,512,1.35,gibbs,best_posterior,4,2,1,1,0.25,0.25,0.34765625,0.4521484375,0.13300781250000002,0.4787109375,0.0,0.486328125,1.350000000000001,1.350000000000001,6.630665300122928,0
+balanced2,512,1.35,gibbs6,best_posterior,4,2,4,4,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.350000000000001,1.350000000000001,41.067340899957344,0
+balanced2,512,1.35,pt,best_posterior,4,2,2,2,0.5,0.5,0.2412109375,0.234375,0.0,0.487890625,0.0,0.49609375,1.350000000000001,1.350000000000001,39.00943992496468,0

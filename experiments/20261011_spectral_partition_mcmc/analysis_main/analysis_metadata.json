@@ -1,0 +1,66 @@
+{
+  "inputs": [
+    "C:\\Users\\zhura\\.codex\\.chatgpt-projects\\g-p-6ac8251779f08191bf32926c3ee0192a\\experiments\\20261011_spectral_partition_mcmc\\results_pilot",
+    "C:\\Users\\zhura\\.codex\\.chatgpt-projects\\g-p-6ac8251779f08191bf32926c3ee0192a\\experiments\\20261011_spectral_partition_mcmc\\results_replication"
+  ],
+  "final_rows": 440,
+  "best_posterior_rows": 440,
+  "distinct_graphs": 40,
+  "superseded_duplicate_final_rows": 0,
+  "superseded_duplicate_best_rows": 0,
+  "near_error_threshold": 0.01,
+  "missing_archives": [],
+  "fixed_trace_choices": [
+    {
+      "model": "balanced2",
+      "n": 512,
+      "signal_target": 1.35,
+      "signal_achieved": 1.350000000000001,
+      "graph_seed": 0,
+      "graph_id": "balanced2_n512_signal1p35_seed0",
+      "start": 0,
+      "rule": "First metadata-sorted achieved-strong graph and start, never selected by outcome.",
+      "methods_share_initial_labels": true
+    },
+    {
+      "model": "unequal3",
+      "n": 512,
+      "signal_target": 1.35,
+      "signal_achieved": 1.35,
+      "graph_seed": 0,
+      "graph_id": "unequal3_n512_signal1p35_seed0",
+      "start": 0,
+      "rule": "First metadata-sorted achieved-strong graph and start, never selected by outcome.",
+      "methods_share_initial_labels": true
+    },
+    {
+      "model": "hierarchy4",
+      "n": 512,
+      "signal_target": 1.35,
+      "signal_achieved": 1.3499999999999972,
+      "graph_seed": 0,
+      "graph_id": "hierarchy4_n512_signal1p35_seed0",
+      "start": 0,
+      "rule": "First metadata-sorted achieved-strong graph and start, never selected by outcome.",
+      "methods_share_initial_labels": true
+    },
+    {
+      "model": "disassort3",
+      "n": 512,
+      "signal_target": 1.35,
+      "signal_achieved": 1.3499999999999996,
+      "graph_seed": 0,
+      "graph_id": "disassort3_n512_signal1p35_seed0",
+      "start": 0,
+      "rule": "First metadata-sorted achieved-strong graph and start, never selected by outcome.",
+      "methods_share_initial_labels": true
+    }
+  ],
+  "primary": "Final states in final.csv. Gibbs6 endpoint selected by endpoint working posterior only.",
+  "hitting": "First recorded <=1% error hit; recordings can miss excursions between frames.",
+  "occupation": "Fraction of saved frames in the last 20% of the selected trajectory.",
+  "strong": "Achieved oracle Chernoff information I/log n >= 1.",
+  "sample_unit": "Runs share graphs; graph/start runs are not independent graph replicates.",
+  "best": "Best-posterior endpoints reported separately and never substituted for final samplers.",
+  "limitation": "Recovery measurements do not establish posterior mixing or a recovery theorem."
+}

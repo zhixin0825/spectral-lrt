@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "elapsed_seconds": 4.908458099933341,
+  "scope": "Exact conditional global MH density and actual interacting-chain cold marginal; no mixing guarantee.",
+  "conditional_target_reason": "For each fixed donor d, the corrected kernel preserves p(z_0); donor remains unchanged. Independent replica Gibbs updates and these conditional moves preserve the product target.",
+  "transition_checks": [
+    {
+      "n": 4,
+      "k": 2,
+      "states": 16,
+      "donors_checked": 16,
+      "noise": 0.05,
+      "max_detailed_balance_residual": 6.505213034913027e-19,
+      "max_stationary_total_variation_residual": 5.898059818321144e-17,
+      "max_transition_row_sum_error": 2.220446049250313e-16,
+      "max_proposal_probability_sum_error": 1.1102230246251565e-16,
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "states": 81,
+      "donors_checked": 81,
+      "noise": 0.05,
+      "max_detailed_balance_residual": 1.0842021724855044e-19,
+      "max_stationary_total_variation_residual": 9.324138683375338e-17,
+      "max_transition_row_sum_error": 4.440892098500626e-16,
+      "max_proposal_probability_sum_error": 2.220446049250313e-16,
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "states": 81,
+      "donors_checked": 81,
+      "noise": 0.4,
+      "max_detailed_balance_residual": 3.2526065174565133e-19,
+      "max_stationary_total_variation_residual": 9.410874857174178e-17,
+      "max_transition_row_sum_error": 5.551115123125783e-16,
+      "max_proposal_probability_sum_error": 3.3306690738754696e-16,
+      "passed": true
+    }
+  ],
+  "empirical_checks": [
+    {
+      "n": 4,
+      "k": 2,
+      "samples": 40000,
+      "betas": [
+        1.0,
+        2.0,
+        4.0
+      ],
+      "noise": 0.05,
+      "proposal_interval": 5,
+      "cold_marginal_total_variation": 0.00938156315435457,
+      "max_recorded_score_error": 5.329070518200751e-15,
+      "donor_copy_accepted": [
+        0,
+        515,
+        605
+      ],
+      "donor_copy_tries": [
+        0,
+        4202,
+        4198
+      ],
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "samples": 40000,
+      "betas": [
+        1.0,
+        2.0,
+        4.0,
+        8.0,
+        16.0,
+        32.0
+      ],
+      "noise": 0.05,
+      "proposal_interval": 5,
+      "cold_marginal_total_variation": 0.01789672975360307,
+      "max_recorded_score_error": 5.329070518200751e-15,
+      "donor_copy_accepted": [
+        0,
+        54,
+        64,
+        51,
+        63,
+        89
+      ],
+      "donor_copy_tries": [
+        0,
+        1716,
+        1672,
+        1599,
+        1644,
+        1769
+      ],
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "samples": 40000,
+      "betas": [
+        1.0,
+        2.0,
+        4.0
+      ],
+      "noise": 0.4,
+      "proposal_interval": 1,
+      "cold_marginal_total_variation": 0.01730884732548467,
+      "max_recorded_score_error": 2.6645352591003757e-15,
+      "donor_copy_accepted": [
+        0,
+        5030,
+        4956
+      ],
+      "donor_copy_tries": [
+        0,
+        21095,
+        20905
+      ],
+      "passed": true
+    }
+  ]
+}

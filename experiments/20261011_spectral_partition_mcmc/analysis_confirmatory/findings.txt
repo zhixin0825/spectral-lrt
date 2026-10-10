@@ -1,0 +1,30 @@
+Confirmatory conditions remain separate from the n=512 main experiment.
+Input directories: results_n1024 and results_k6 only.
+Six graphs: two each for n=1024 balanced K=2, n=1024 hierarchical K=4,
+and n=512 balanced K=6. Two random starts per graph and method.
+All conditions achieved oracle Chernoff information I/log(n)=1.35.
+Gibbs, ICM and tempering used 2000 sweeps; EM used at most 200 rounds.
+No duplicate endpoints and no missing trajectory archives.
+
+Final-state exact recovery:
+n=1024 balanced K=2: Gibbs 0/4, Gibbs6 0/4, PT 0/4, EM 0/4,
+ICM 0/4, spectral k-means 2/2.
+n=1024 hierarchical K=4: Gibbs 2/4, Gibbs6 2/4, PT 2/4, EM 0/4,
+ICM 0/4, spectral k-means 2/2.
+n=512 balanced K=6: Gibbs 4/4, Gibbs6 4/4, PT 4/4, EM 0/4,
+ICM 1/4, spectral k-means 2/2.
+
+Gibbs6 selects its endpoint using the working posterior among six cold
+chains, never using truth labels. Best-posterior exact counts happen to
+match final-state exact counts in these conditions; they are still saved
+and interpreted separately.
+
+The four generated plot panels were visually inspected. Confirmatory
+trace plots use graph seed 0 and random start 0 by a metadata-only rule.
+They show a long random plateau for balanced K=2 at n=1024, successive
+partial recovery plateaus for hierarchical K=4, and fast recovery for K=6.
+The endpoint plot combines distinct model columns with distinct sample
+sizes: K=2 and K=4 have n=1024; K=6 has n=512.
+
+These are small-sample finite-budget recovery observations. Runs on one
+graph are dependent, and successful recovery does not establish mixing.

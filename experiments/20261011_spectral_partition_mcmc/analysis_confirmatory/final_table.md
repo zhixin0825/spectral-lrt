@@ -1,0 +1,20 @@
+| Model | n | I / log n | Method | Graphs / runs | Exact | <=1% error | Mean error | Median error |
+|---|---:|---:|---|---:|---:|---:|---:|---:|
+| Balanced K=2 | 1024 | 1.35 | EM | 2 / 4 | 0/4 | 0/4 | 49.22% | 49.22% |
+| Balanced K=2 | 1024 | 1.35 | Gibbs | 2 / 4 | 0/4 | 0/4 | 48.83% | 48.88% |
+| Balanced K=2 | 1024 | 1.35 | Gibbs, 6 starts | 2 / 4 | 0/4 | 0/4 | 49.12% | 49.02% |
+| Balanced K=2 | 1024 | 1.35 | ICM | 2 / 4 | 0/4 | 0/4 | 49.22% | 49.22% |
+| Balanced K=2 | 1024 | 1.35 | Parallel tempering | 2 / 4 | 0/4 | 0/4 | 48.32% | 49.02% |
+| Balanced K=2 | 1024 | 1.35 | Spectral k-means | 2 / 2 | 2/2 | 2/2 | 0.00% | 0.00% |
+| Balanced K=6 | 512 | 1.35 | EM | 2 / 4 | 0/4 | 0/4 | 80.37% | 80.37% |
+| Balanced K=6 | 512 | 1.35 | Gibbs | 2 / 4 | 4/4 | 4/4 | 0.00% | 0.00% |
+| Balanced K=6 | 512 | 1.35 | Gibbs, 6 starts | 2 / 4 | 4/4 | 4/4 | 0.00% | 0.00% |
+| Balanced K=6 | 512 | 1.35 | ICM | 2 / 4 | 1/4 | 1/4 | 28.61% | 32.71% |
+| Balanced K=6 | 512 | 1.35 | Parallel tempering | 2 / 4 | 4/4 | 4/4 | 0.00% | 0.00% |
+| Balanced K=6 | 512 | 1.35 | Spectral k-means | 2 / 2 | 2/2 | 2/2 | 0.00% | 0.00% |
+| Hierarchical K=4 | 1024 | 1.35 | EM | 2 / 4 | 0/4 | 0/4 | 72.80% | 72.80% |
+| Hierarchical K=4 | 1024 | 1.35 | Gibbs | 2 / 4 | 2/4 | 2/4 | 14.87% | 11.52% |
+| Hierarchical K=4 | 1024 | 1.35 | Gibbs, 6 starts | 2 / 4 | 2/4 | 2/4 | 12.11% | 12.11% |
+| Hierarchical K=4 | 1024 | 1.35 | ICM | 2 / 4 | 0/4 | 0/4 | 44.14% | 42.77% |
+| Hierarchical K=4 | 1024 | 1.35 | Parallel tempering | 2 / 4 | 2/4 | 2/4 | 12.40% | 12.35% |
+| Hierarchical K=4 | 1024 | 1.35 | Spectral k-means | 2 / 2 | 2/2 | 2/2 | 0.00% | 0.00% |

@@ -1,0 +1,16 @@
+Long-run binary diagnostics remain separate from the main experiment.
+Input directory: results_long only. These reuse two n=512 balanced K=2
+graphs from the main experiment, so they are not additional graph replicates.
+Two random starts per graph; achieved I/log(n)=1.35; 5000 sweeps.
+No duplicate endpoints and no missing trajectory archives.
+
+Final-state exact recovery: Gibbs 1/4, Gibbs6 4/4, parallel tempering 2/4.
+Best-posterior exact counts match these final-state counts in this batch.
+Gibbs6 selects its endpoint using the working posterior among six independent
+cold chains and has the same six-chain sweep budget as six-replica tempering.
+
+Both generated plots were visually inspected. The fixed graph seed 0,
+start 0 trajectory shows long random plateaus followed by abrupt recovery,
+but the four-run endpoint summary includes chains that remain trapped.
+Thus longer runs can recover some failed starts, while tempering is not
+a uniform rescue in this finite experiment. This does not establish mixing.

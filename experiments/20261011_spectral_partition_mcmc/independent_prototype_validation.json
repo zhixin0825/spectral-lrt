@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "elapsed_seconds": 0.736187000060454,
+  "scope": "All ordered small-network prototype templates, independent-MH target, and actual prototype/Gibbs sampler; no large-network mixing or recovery guarantee.",
+  "target_reason": "Uniform ordered prototype list is current-label independent. Both proposal densities use the same list. Corrected kernel, list mixture and Gibbs composition preserve the same p(C).",
+  "conditional_checks": [
+    {
+      "n": 4,
+      "k": 2,
+      "states": 16,
+      "ordered_templates": 12,
+      "max_detailed_balance_residual": 3.469446951953614e-18,
+      "max_stationary_total_variation_residual": 5.898059818321144e-17,
+      "max_transition_row_sum_error": 2.220446049250313e-16,
+      "max_proposal_normalization_error": 2.220446049250313e-16,
+      "max_centered_vs_uncentered_squared_distance_error": 0.0,
+      "min_node_proposal_probability": 0.1000044646471732,
+      "uniform_template_mixture_detailed_balance_residual": 1.3010426069826053e-18,
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "states": 81,
+      "ordered_templates": 24,
+      "max_detailed_balance_residual": 4.336808689942018e-19,
+      "max_stationary_total_variation_residual": 7.112366251504909e-17,
+      "max_transition_row_sum_error": 4.440892098500626e-16,
+      "max_proposal_normalization_error": 6.661338147750939e-16,
+      "max_centered_vs_uncentered_squared_distance_error": 8.881784197001252e-16,
+      "min_node_proposal_probability": 0.06666675718764824,
+      "uniform_template_mixture_detailed_balance_residual": 8.131516293641283e-20,
+      "passed": true
+    }
+  ],
+  "empirical_checks": [
+    {
+      "n": 4,
+      "k": 2,
+      "samples": 40000,
+      "seed": 83032,
+      "cold_marginal_total_variation": 0.007072278384099649,
+      "max_recorded_score_error": 8.881784197001252e-16,
+      "global_accepted": 18837,
+      "global_tried": 42000,
+      "accepted_trace_consistent": true,
+      "passed": true
+    },
+    {
+      "n": 4,
+      "k": 3,
+      "samples": 40000,
+      "seed": 83033,
+      "cold_marginal_total_variation": 0.018337907370981173,
+      "max_recorded_score_error": 1.7763568394002505e-15,
+      "global_accepted": 5665,
+      "global_tried": 42000,
+      "accepted_trace_consistent": true,
+      "passed": true
+    }
+  ]
+}
