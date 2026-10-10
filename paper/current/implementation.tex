@@ -6,7 +6,11 @@ The numerical evidence is archived in the repository
 \begin{center}
 \url{https://github.com/zhixin0825/spectral-lrt}.
 \end{center}
-Algorithm~1 calls \texttt{Work.iterative\_certified\_growing()} in \texttt{residual\_seed.py}, exposed as \texttt{method='global\_gain\_certified'}. It starts with the global-mean growing fit and then iterates deterministic component replacement. Each round fits the current profiles from uniform weights and, for each component removal, fits the globally selected replacement from uniform weights. Every node ID participates in each replacement scan. The largest trial objective is accepted only if its improvement is at least $T/\sqrt{\log n}$, where $T=\sum_{ij}q_{ij}$. The accepted-round cap is $\lceil(\log n)^2\rceil$, followed by one mandatory final E/M update. Under the theorem's hypotheses, the stopping certificate is reached in $O(\sqrt{\log n})$ accepted rounds, before the cap. The earlier residual-restart implementation is exposed separately as \texttt{method='global\_gain\_restarts'}. The archived primary benchmark remains the original growing branch. The principal comparison is in
+Algorithm~1 is implemented in \texttt{residual\_seed.py}. Its method is
+\begin{center}
+\texttt{Work.iterative\_certified\_growing()}.
+\end{center}
+The public API defaults to \texttt{method='global\_gain\_certified'}. It starts with the global-mean growing fit and then iterates deterministic component replacement. Each round fits the current profiles from uniform weights and, for each component removal, fits the globally selected replacement from uniform weights. Every node ID participates in each replacement scan. The largest trial objective is accepted only if its improvement is at least $T/\sqrt{\log n}$, where $T=\sum_{ij}q_{ij}$. The accepted-round cap is $\lceil(\log n)^2\rceil$, followed by one mandatory final E/M update. Under the theorem's hypotheses, the stopping certificate is reached in $O(\sqrt{\log n})$ accepted rounds, before the cap. The earlier residual-restart implementation is exposed separately as \texttt{method='global\_gain\_restarts'}. The archived primary benchmark remains the original growing branch. The principal comparison is in
 \path{experiments/20261009_residual_likelihood_seeding/}.
 Its report, protocol, model-generation script, fitting code, scalar verification, and per-graph summaries define the numerical experiment. The preceding partial-peeling experiment and its diagnosis are in
 \path{experiments/20261009_partial_likelihood_peeling/}.
