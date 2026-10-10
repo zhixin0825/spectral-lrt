@@ -1,0 +1,52 @@
+{
+  "graphs": 60,
+  "max_eigen_residual_frobenius": 1.076751787811479e-13,
+  "max_eigen_orthogonality_error": 4.52372910726312e-15,
+  "unique_adjacency_hashes": 60,
+  "engine_direct_replays": [
+    {
+      "graph_id": "k5_log_degree_disassortative_unequal_s202615110",
+      "score_family": "bernoulli",
+      "identical_labels": true,
+      "loss": 1672.2949446657965
+    },
+    {
+      "graph_id": "k5_log_degree_disassortative_unequal_s202615110",
+      "score_family": "sparse",
+      "identical_labels": true,
+      "loss": 1594.0361475718528
+    },
+    {
+      "graph_id": "k6_dense_weak_general_unequal_s202616221",
+      "score_family": "bernoulli",
+      "identical_labels": true,
+      "loss": 2597.2419446772874
+    },
+    {
+      "graph_id": "k6_dense_weak_general_unequal_s202616221",
+      "score_family": "sparse",
+      "identical_labels": true,
+      "loss": 2239.6404332899974
+    }
+  ],
+  "paired_error_comparisons": {
+    "u_kmeans_10": {
+      "full_better": 26,
+      "equal": 27,
+      "full_worse": 7,
+      "mean_full_minus_baseline": -0.009375000000000003
+    },
+    "u_lambda_kmeans_10": {
+      "full_better": 21,
+      "equal": 28,
+      "full_worse": 11,
+      "mean_full_minus_baseline": -0.003489583333333335
+    },
+    "sparse_replacement": {
+      "full_better": 8,
+      "equal": 43,
+      "full_worse": 9,
+      "mean_full_minus_baseline": -0.00015625000000000223
+    }
+  }
+}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,13 +29,14 @@ Arash~A. Amini, Aiyou Chen, Peter~J. Bickel, and Elizaveta Levina.
   2097--2122, 2013.
 \newblock \doi{10.1214/13-AOS1138}.
 
-\bibitem[Bandeira and van Handel(2016)]{bvh2016}
+\bibitem[Bandeira and van Handel(2016)]{bandeiravhandel2016}
 Afonso~S. Bandeira and Ramon van Handel.
 \newblock Sharp nonasymptotic bounds on the norm of random matrices with
   independent entries.
 \newblock \emph{The Annals of Probability}, 44\penalty0 (4):\penalty0
   2479--2506, 2016.
 \newblock \doi{10.1214/15-AOP1025}.
+\newblock URL \url{https://arxiv.org/abs/1408.6185}.
 
 \bibitem[Gao et~al.(2017)Gao, Ma, Zhang, and Zhou]{gao2017}
 Chao Gao, Zongming Ma, Anderson~Y. Zhang, and Harrison~H. Zhou.
@@ -50,13 +51,6 @@ Paul~W. Holland, Kathryn~Blackmond Laskey, and Samuel Leinhardt.
 \newblock Stochastic blockmodels: First steps.
 \newblock \emph{Social Networks}, 5\penalty0 (2):\penalty0 109--137, 1983.
 \newblock \doi{10.1016/0378-8733(83)90021-7}.
-
-\bibitem[Nemhauser et~al.(1978)Nemhauser, Wolsey, and Fisher]{nemhauser1978}
-George~L. Nemhauser, Laurence~A. Wolsey, and Marshall~L. Fisher.
-\newblock An analysis of approximations for maximizing submodular set
-  functions---{I}.
-\newblock \emph{Mathematical Programming}, 14:\penalty0 265--294, 1978.
-\newblock \doi{10.1007/BF01588971}.
 
 \bibitem[Suwan et~al.(2016)Suwan, Lee, Tang, Sussman, Tang, and
   Priebe]{suwan2016}

@@ -1,215 +1,185 @@
-\section{Main recovery results}
+\section{Recovery for every fixed \texorpdfstring{$K$}{K} at general density}
 \label{sec:main-results}
 
-This section states the oracle benchmark, full-graph spectral approximation, and end-to-end guarantee for every fixed $K$. The model satisfies \eqref{eq:density-condition}--\eqref{eq:model-conditions}. The oracle calculations require distinct block rows; spectral conditioning supplies a uniformly separated $K$-dimensional signal.
+We first state the complete algorithmic guarantee, then identify the deterministic replacement argument and the probability estimates that prove it. Throughout, the model satisfies \eqref{eq:model-conditions}--\eqref{eq:density-condition} and the chosen $c_0$ satisfies the admissibility condition following \eqref{eq:profiles}.
 
-\subsection{Spectral information and likelihood contrasts}
-
-For communities $a\ne b$, define the block-constant Bernoulli contrast
-and the nonedge offset by
-\begin{align}
- w^{ab}_j
- &=\log\frac{p_{aj}(1-p_{bj})}{p_{bj}(1-p_{aj})},\label{eq:oracle-contrast}\\
- c_i^{ab}
- &=\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
-\end{align}
-The oracle incident-edge log-likelihood ratio is
-\begin{equation}
- L_i^{ab}=A_iw^{ab}+c_i^{ab},\label{eq:oracle-llr}
-\end{equation}
-where $A_i$ is row $i$ of $A$.  Its diagonal coordinate contributes zero.
-
-\begin{proposition}[Exact preservation of retained contrasts]
-\label{prop:exact-preservation}
-Let $U$ contain any orthonormal collection of eigenvectors of the
-symmetric matrix $A$, let $\Lambda$ contain their eigenvalues, and set
-$\Pi=UU^\top$ and $\widetilde A=U\Lambda U^\top$.
-Then $\widetilde A=A\Pi$ and, for every vector $w$,
-\begin{equation}
- \widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w.\label{eq:preservation-error}
-\end{equation}
-In particular, $w\in\operatorname{col}(U)$ implies exact preservation.
-Moreover, if $P$ is nonsingular, then the rank-$K$ comparison matrix
-$ZPZ^\top$ has column space
-$\operatorname{col}(Z)$, and every $w^{ab}$ belongs to this population
-signal space.
-\end{proposition}
-
-The proposition explains the likelihood interpretation without requiring
-the eigendecomposition itself to compute $\log P$.  The eigendecomposition
-retains directions; the likelihood decoder assigns the appropriate
-contrast coefficients to those directions.  It also states the precise
-limitation: the empirical retained space need not equal the population
-space.  The actual no-self-loop mean is
-$\mathbb E[A\mid z]=ZPZ^\top-\operatorname{diag}(P_{z_i z_i})$;
-the rank-$K$ statement concerns $ZPZ^\top$, not the no-self-loop mean.
-
-The first-order sparse Bernoulli contrast is
-$v^{ab}_j=\log(p_{aj}/p_{bj})$, with score
-\begin{equation}
- L_{i,\mathrm{lin}}^{ab}
- =\sum_{j\ne i}A_{ij}v^{ab}_j
-  -\sum_{j\ne i}(P_{a,z_j}-P_{b,z_j}).
- \label{eq:oracle-linear}
-\end{equation}
-The following result makes its use in a sparse working score precise.
-
-\begin{lemma}[Sparse Bernoulli likelihood expansion]
-\label{lem:sparse-expansion}
-There is a constant $C$ depending only on the fixed probability-ratio bounds such that, for
-all sufficiently large $n$, every $i$, and every $a\ne b$,
-\begin{equation}
- |L_i^{ab}-L_{i,\mathrm{lin}}^{ab}|
- \le C\{p\deg(i)+np^2\}.\label{eq:sparse-expansion-error}
-\end{equation}
-For every fixed $H>0$ there is a constant $D_H$ such that
-$\Pr\{\deg(i)>D_H np\}\le e^{-H np}$ uniformly in $i$.
-Consequently, the correction is $O(np^2)=o(np)$ outside an event of probability at most $e^{-H np}$. It need not be $o(1)$. The condition $p\to0$ is used for this sparse-score approximation.
-\end{lemma}
-
-\subsection{The oracle benchmark}
-
-We use Zhou--Li's profile and Chernoff notation. For $\alpha\in[0,1]$, define
+\subsection{The oracle information and the main theorem}
+For communities $a\ne b$, define the exact product-Bernoulli Chernoff information, using Zhou--Li's profile notation,
 \begin{align}
  D_\alpha(p_{a,-i}\Vert p_{b,-i})
- &=-\sum_{j\ne i}\log\!\left[
- p_{aj}^{1-\alpha}p_{bj}^{\alpha}
- +(1-p_{aj})^{1-\alpha}(1-p_{bj})^\alpha\right],\label{eq:chernoff-information}\\
- \alpha^*_{i,ab}
- &\in\argmax_{\alpha\in[0,1]}D_\alpha(p_{a,-i}\Vert p_{b,-i}),
- \qquad D^*_{i,ab}=D_{\alpha^*_{i,ab}}(p_{a,-i}\Vert p_{b,-i}),\\
- I_n&=\min_{i,\ a\ne b}D^*_{i,ab}.
+  &=-\sum_{j\ne i}\log\{p_{aj}^{1-\alpha}p_{bj}^{\alpha}
+           +(1-p_{aj})^{1-\alpha}(1-p_{bj})^{\alpha}\},
+  \label{eq:chernoff-information}\\
+ D^*_{i,ab}&=\max_{\alpha\in[0,1]}
+                 D_\alpha(p_{a,-i}\Vert p_{b,-i}),
+ &I_n&=\min_{i,\ a\ne b}D^*_{i,ab}.
  \label{eq:exact-information}
 \end{align}
-Here $p_{a,-i}$ omits the absent self-loop coordinate. The notation $I_n$ is our shorthand for the minimum exact pairwise information; it is not a second definition of a rate.
-
-Under \eqref{eq:density-condition}--\eqref{eq:model-conditions}, $I_n\asymp np$ and $I_n=\Omega(\log n)$. The normalized matrix may vary with $n$, so a limiting value of $I_n/\log n$ is not required. Zhou and Li~\cite{zhouli2020} studied optimal error rates for SBM community detection; we use their information notation and leading exponent.
-
-\begin{lemma}[Leading oracle error exponent]
-\label{lem:oracle-exponent}
-Consider the binary experiment in which $z_i\in\{a,b\}$ has equal prior
-probabilities and all other labels and $P$ are known.  Its Bayes risk
-$R_{i,ab}^{\mathrm{or}}$ satisfies, uniformly in $i$,
+The absent self-loop coordinate is excluded. The uniform shape and separation conditions imply $I_n\asymp np$, even if $P/p$ does not converge. For the binary experiment that reveals the other labels and the true parameters, with equal prior probabilities or fixed priors bounded away from zero and one, the oracle Bayes risk satisfies
 \begin{equation}
  R_{i,ab}^{\mathrm{or}}=\exp\{-(1+o(1))D^*_{i,ab}\}.
  \label{eq:oracle-risk}
 \end{equation}
-The same leading exponent holds for fixed prior probabilities bounded
-away from zero and one.
-\end{lemma}
+The appendix proves this leading form directly by exponential tilting. Zhou and Li~\citep{zhouli2020} studied optimal error rates; no refined multiplicative rate from that work is asserted here.
 
-\subsection{Transfer to estimated spectral scores}
-
-The theorem below accommodates scores estimated from the entire graph,
-so it does not assume independence of a node's score and its incident
-edges.  It makes the required rare-event control explicit.
-
-\begin{theorem}[Likelihood-ratio exponent transfer]
-\label{thm:exponent-transfer}
-Let $\widehat\ell_i(a)$ be estimated community scores, after one common
-alignment of their labels with the population labels, and classify by
-$\widehat z_i\in\arg\max_a\widehat\ell_i(a)$.
-Suppose there are $\tau_n=o(I_n)$ and $\delta_n\ge0$ such that, for every
-$i$, an event $G_i$ satisfies
-\begin{align}
- \Pr(G_i^c)&\le\delta_n,\label{eq:transfer-failure}\\
- \max_{a\ne b}
- |\widehat\ell_i(a)-\widehat\ell_i(b)-L_i^{ab}|
- &\le\tau_n\quad\text{on }G_i,\label{eq:transfer-score}\\
- \liminf_{n\to\infty}\frac{-\log\delta_n}{I_n}&\ge1,
- \label{eq:transfer-tail}
-\end{align}
-where $-\log0=+\infty$.
-Then the permutation-invariant error fraction obeys
+\begin{theorem}[Nearly optimal spectral likelihood recovery]
+\label{thm:main-recovery}
+For every fixed $K\ge2$, Algorithm~1 obeys
 \begin{equation}
- \mathbb E\,\Mis(\widehat z,z)
- \le\exp\{-(1+o(1))I_n\}.
- \label{eq:conditional-rate}
+ \E\Mis(\widehat z,z)\le\exp\{-(1+o(1))I_n\}.
+ \label{eq:main-rate}
 \end{equation}
-When $\liminf_{n\to\infty}I_n/\log n>1$, this implies
+If $\liminf_{n\to\infty}I_n/\log n>1$, then
 $\Pr\{\Mis(\widehat z,z)>0\}\to0$.
+The initialization and replacement use only the retained eigenpairs, and no weak-initialization assumption is imposed. Growing and replacement trials may use any finite number of exact EM updates, with at least one M-step per fit. The mandatory final E/M update is part of the algorithm. Any further finite sequence of exact EM updates, including a data-dependent stopping time, preserves the bound. With polynomial iteration caps, the algorithm takes polynomial time.
 \end{theorem}
 
-The condition on $\delta_n$ is essential.  An error approximation that
-holds with probability $1-o(1)$ can still fail much more frequently than
-the oracle makes an error, and therefore need not preserve its exponent.
-The theorem asserts an upper bound on the recovery error.  In the binary
-oracle experiment, data processing and Lemma~\ref{lem:oracle-exponent}
-also give the matching leading lower bound for any decoder using only
-the graph's spectral summary.
+The density condition is $p=\Omega(\log n/n)$. Together with probability comparability, it implies expected degrees $\Omega(\log n)$ and permits larger orders. This theorem covers both sparse sequences $p\to0$ and dense sequences with probabilities bounded away from one. The proof does not require a fixed normalized matrix or a restriction such as $np=O(\log n)$.
 
-For the working scores actually fitted in Section~2, set
-$\widehat w^{ab}_j=\log(\widehat p_{aj}/\widehat p_{bj})$ and
-$\widehat c^{ab}=-\sum_j(\widehat p_{aj}-\widehat p_{bj})
-+\log(\widehat\pi_a/\widehat\pi_b)$.
-Writing $q_i=\widetilde A_i+(q_i-\widetilde A_i)$ yields the exact
-decomposition
+The guarantee attains the leading binary oracle Chernoff exponent. Revealing the other labels and parameters can only help binary testing, which explains the benchmark. This argument is not a new global minimax lower bound for an unspecified parameter class.
+
+\subsection{The deterministic replacement contraction}
+Define the profile divergence and the hard and soft fitting losses by
 \begin{align}
- \widehat\ell_i(a)-\widehat\ell_i(b)-L_i^{ab}
- ={}& A_i(\Pi-\mathrm{Id})w^{ab}\notag\\
- &+\widetilde A_i(\widehat w^{ab}-w^{ab})\notag\\
- &+(q_i-\widetilde A_i)\widehat w^{ab}
-   +(\widehat c^{ab}-c_i^{ab}).\label{eq:four-errors}
+ D(x\Vert y)&=\sum_j\left\{x_j\log\frac{x_j}{y_j}
+                  +(1-x_j)\log\frac{1-x_j}{1-y_j}\right\},
+ \label{eq:profile-divergence}\\
+ G(\mathcal C)&=\sum_i\min_kD(q_i\Vert\mu_k),
+ &\mathcal C&=(\mu_1,\ldots,\mu_K),\notag\\
+ F(\widehat\pi,\mathcal C)
+    &=-\sum_i\log\sum_k\widehat\pi_k e^{-D(q_i\Vert\mu_k)}.
+ \label{eq:soft-loss}
 \end{align}
-Thus projection, estimated contrasts, clipping, and offsets must all be
-controlled at the scale in Theorem~\ref{thm:exponent-transfer}.
-The sum includes the reconstructed diagonal used by the implemented
-working score; its discrepancy with the oracle's excluded diagonal is
-included in the displayed decomposition.  Neither average reconstruction accuracy
-nor objective convergence removes these terms.
+There is the exact identity
+\begin{equation}
+ \mathcal L=S_q-F,\quad S_q=\sum_i\ell_i(q_i),\qquad
+ G\le F,\qquad F(K^{-1}\mathbf1,\mathcal C)\le G+n\log K.
+ \label{eq:soft-hard}
+\end{equation}
+Thus selecting the greatest observed working likelihood minimizes $F$.
 
+The population argument uses exactly $K$ true profiles and $K$ fitted profiles. Put
+$G_*(\mathcal C)=\sum_an_a\min_kD(p_{a*}\Vert\mu_k)$.
 
-\subsection{A local recovery theorem for the empirical spectral fit}
-The following approximation controls the empirical reconstruction computed from the whole graph. Set $\Pi_*=ZN^{-1}Z^\top$ and
-\[
- q^0=\max\{A\Pi_*,\varepsilon_n\},\qquad
- q=\max\{U\Lambda U^\top,\varepsilon_n\},
-\]
-with the observable floor from \eqref{eq:profiles}. The comparison $q^0$ uses the true memberships only in the analysis.
-
-\begin{lemma}[Full-graph spectral approximation]
-\label{lem:full-spectral}
-Under the model above with sufficiently small fixed $c_0>0$, for every fixed $H>0$ there are constants $c_H,C_H>0$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(e^{-H np})$,
-\begin{align}
- \max_i\|q_i-q_i^0\|_1&\le a_n np,&
- c_Hp\le q_{ij}&\le C_Hp,\label{eq:full-spectral-close}\\
- \frac1{n^2p}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
- \label{eq:average-profile-close}
-\end{align}
-The reconstruction uses the empirical eigenpairs of the whole graph. No row-independent replacement or extra leave-one-out computation is required by the algorithm.
+\begin{lemma}[A replacement removes at least a $1/K$ fraction]
+\label{lem:population-replacement}
+For any list $\mathcal C$ of $K$ fitted profiles, there exist $a,r\in[K]$ such that replacing $\mu_r$ by $p_{a*}$ gives
+\begin{equation}
+ G_*(\mathcal C^{r\leftarrow p_{a*}})
+       \le(1-1/K)G_*(\mathcal C).
+ \label{eq:population-contraction}
+\end{equation}
+Duplicate fitted profiles are allowed. The conclusion uses only nonnegative losses and $D(p_{a*}\Vert p_{a*})=0$.
 \end{lemma}
 
-The entrywise eigenspace theorem of Abbe et al.~\citep{abbe2020}, the bounded-entry norm tail of Bandeira and van Handel~\citep{bvh2016}, and a direct Bennett row bound supply these inputs. The appendix verifies the assumptions at failure probability $e^{-H np}$. This confidence scale is needed throughout the range $p=\Omega(\log n/n)$.
+\begin{proof}
+For every true class choose a minimizing center $\phi(a)$. Choose $a$ whose contribution $n_aD(p_{a*}\Vert\mu_{\phi(a)})$ is greatest, and hence at least $G_*/K$. If $\phi:[K]\to[K]$ is not onto, delete an index outside its image. If it is onto, it is a bijection; delete $\phi(a)$. In both cases all other classes retain a chosen old center. Inserting $p_{a*}$ sets the chosen class's loss to zero without increasing any other class's loss.
+\end{proof}
 
-\begin{theorem}[Local empirical spectral EM attains the leading exponent]
-\label{thm:local-spectral-em}
-Use the model and admissible observable floor of Lemma~\ref{lem:full-spectral}. Let the initial responsibilities $R^{(0)}=(R^{(0)}_{ia})$ have nonnegative rows summing to one. They may depend on the entire graph. Suppose that, after a common label alignment, for deterministic $\gamma_n\to0$ and $\delta_n\ge0$,
-\begin{equation}
- \Pr\!\left\{\frac1n\sum_{i,a}|R^{(0)}_{ia}-Z_{ia}|>\gamma_n\right\}
- \le\delta_n,\qquad
- \liminf\frac{-\log\delta_n}{I_n}\ge1.
- \label{eq:local-initialization}
-\end{equation}
-Perform at least one responsibility-weighted profile M-step on $q$, followed by the score classification in \eqref{eq:decode}. Then
-\begin{equation}
- \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
- \label{eq:local-em-rate}
-\end{equation}
-The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact simplex optimizer with a fixed floor $f\in[0,1/K)$. If a component has zero responsibility mass, retain its previous profile; on the weak-start event this case does not occur for large $n$. When $\liminf_{n\to\infty}I_n/\log n>1$, the output exactly recovers all labels with probability tending to one.
-\end{theorem}
+The algorithm does not know $\phi$ or $p_{a*}$. It tests all deletion positions and uses observed node candidates. The uniform average approximation below makes this population argument stable for those operations.
 
-The local theorem controls dependent reconstructed profiles and freely fitted component means. The next theorem establishes its initialization condition through the repeated-replacement certificate.
-
-\subsection{End-to-end recovery for every fixed order}
-\label{sec:end-to-end}
-\begin{theorem}[Spectral likelihood decoding for arbitrary fixed $K$]
-\label{thm:certified-likelihood}
-For every fixed integer $K\ge2$, under \eqref{eq:density-condition}--\eqref{eq:model-conditions} and sufficiently small fixed $c_0>0$, Algorithm~1 satisfies
+\begin{theorem}[Deterministic likelihood-loss contraction]
+\label{thm:replacement-contraction}
+Suppose the observed and true profiles, and the initial fitted means, lie in
 \[
- \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
+ [c p,\,\min\{C p,1-b\}]^n
 \]
-If $\liminf I_n/\log n>1$, it recovers all labels with probability tending to one. The growing initialization, replacements, and refinement access only $(U,\Lambda)$. Every proposal begins with uniform weights and may use any prescribed finite number of exact EM updates. No assumed weak initializer or global mixture optimum is required. A polynomial EM iteration cap gives polynomial runtime.
+for fixed positive $c,C,b$, and
+\begin{equation}
+ \frac1{n^2p}\sum_i\|q_i-p_{z_i,*}\|_1\le a_n\to0.
+ \label{eq:replacement-input}
+\end{equation}
+Assume $n_a\ge\pi_0n$, $np\to\infty$, and fixed $K$. The replacement rounds in Algorithm~1 satisfy, for constants $B,M$ independent of the round,
+\begin{align}
+ F_{t+1}&\le (1-1/K)F_t+B a_n n^2p+n\log K,
+ \label{eq:replacement-contraction}\\
+ \frac{F_{T_n}}{n^2p}
+ &\le M(1-1/K)^{T_n}+KB a_n+\frac{K\log K}{np}
+   =o(1).
+ \label{eq:replacement-weak-loss}
+\end{align}
+This holds for any initial simplex weights, including zero weights, and does not assume convergence of any trial to a stationary point or global optimum.
 \end{theorem}
 
-The guarantee covers the repeated replacement rule in Section~\ref{sec:likelihood-safeguard}. It follows from the deterministic certificate in Lemma~\ref{lem:iterative-swap-certification}, then the mandatory final M-step and Theorem~\ref{thm:local-spectral-em}. The original growing branch is retained as its initializer. A separate appendix result records the guarantee for that branch alone when $K=2$.
+On the common box, $D$ is uniformly Lipschitz in each profile's $\ell_1$ norm. Therefore $|G-G_*|\le C a_n n^2p$ simultaneously for every possible fitted center list. Each true class has an observed candidate within $(a_n/\pi_0)np$ of its true profile. The best empirical replacement consequently inherits \eqref{eq:population-contraction} up to $O(a_n n^2p)$. Equation~\eqref{eq:soft-hard}, uniform trial weights and EM monotonicity convert this to \eqref{eq:replacement-contraction}. The proof in Appendix~\ref{app:replacement-proof} supplies all perturbation details.
 
+A single replacement pass only gives a fixed contraction and does not establish \eqref{eq:replacement-weak-loss}. Repetition is the algorithmic step that removes the general-$K$ initialization gap. In contrast, the complete growing-only trajectory need not preserve a pure component at every stage; the proof does not assume that property.
+
+\subsection{Full-graph spectral approximation with sufficient confidence}
+Let $\Pi_*=Z(Z^\top Z)^{-1}Z^\top$ and define the comparison
+\[
+ q^0=\operatorname{clip}(A\Pi_*,\varepsilon_n,1-\varepsilon_n).
+\]
+The true labels and separate leave-one-out eigendecompositions are not algorithm inputs.
+
+\begin{lemma}[Full-graph approximation at general density]
+\label{lem:full-spectral}
+For every fixed $H>0$, there are $C_H<\infty$, a deterministic $a_{H,n}\to0$, and an event $G_H$ with
+\begin{equation}
+ \Pr(G_H^c)\le C_H e^{-Hnp},
+ \label{eq:spectral-failure}
+\end{equation}
+on which
+\begin{align}
+ \max_i\|q_i-q_i^0\|_1&\le a_{H,n}np,
+ &\frac1{n^2p}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_{H,n},
+ \label{eq:general-profile-errors}\\
+ cp\le q_{ij}&\le\min\{C_Hp,1-cp\},
+ &\frac\kappa4np\le s&\le2np.
+ \label{eq:general-profile-box}
+\end{align}
+The constants depend on the fixed model bounds and the chosen $c_0$. In particular all true probabilities lie inside the clipping interval on $G_H$ for sufficiently large $n$.
+\end{lemma}
+
+The probability in \eqref{eq:spectral-failure} is needed when $I_n\gg\log n$. An arbitrary fixed inverse-polynomial failure bound need not be smaller than $e^{-I_n}$. We instead use the exponential tail of Bandeira and van Handel~\citep[Corollary 3.12 and Remark 3.13]{bandeiravhandel2016}, and verify the row concentration in Abbe et al.~\citep[Theorem 2.1 and Lemma 7]{abbe2020} at that same scale. Appendix~\ref{app:general-full-spectral} treats the signed signal subspaces and the exact no-self-loop mean.
+
+The profile box in \eqref{eq:general-profile-box} is uniformly bounded away from one as well: when $C_Hp\le1/2$ this is immediate, and otherwise $cp\ge c/(2C_H)$. It therefore supplies the hypothesis of Theorem~\ref{thm:replacement-contraction}.
+
+\subsection{Low fitting loss and the final likelihood update}
+\begin{lemma}[Small soft loss certifies weak responsibilities]
+\label{lem:low-loss-responsibilities}
+For every deterministic $\xi_n\to0$, on $G_H$ consider all fits with exactly $K$ profiles in the common box and
+$F\le\xi_n n^2p$. After one common label permutation for each fit, its exact E-step responsibilities obey
+\begin{equation}
+ \frac1n\sum_{i,a}|R_{ia}-Z_{ia}|=o(1).
+ \label{eq:weak-responsibilities}
+\end{equation}
+The error bound is deterministic and uniform over this class of fits and all simplex weights; no independent initialization is required.
+\end{lemma}
+
+The proof first uses the strong convexity bound
+$D(x\Vert y)\ge\|x-y\|_1^2/(2C_Hnp)$.
+Together with the average profile approximation and separation of the true profiles, this matches the $K$ fitted profiles to the $K$ true profiles. The exact variational identity
+\begin{equation}
+ F_i=\sum_aR_{ia}D(q_i\Vert\widehat p_a)
+             +\operatorname{KL}(R_i\Vert\widehat\pi)
+       \ge\sum_aR_{ia}D(q_i\Vert\widehat p_a)
+ \label{eq:variational-loss}
+\end{equation}
+then bounds the responsibility mass on wrongly matched profiles. This is why an objective-based selection suffices even if a trial stopped before convergence.
+
+\begin{theorem}[Local empirical EM preserves the oracle exponent]
+\label{thm:local-spectral-em}
+Let an initial responsibility matrix, possibly using the whole graph, have aligned average error at most a deterministic $\gamma_n\to0$ except on an event of probability $\delta_n$, where
+\[
+ \liminf_{n\to\infty}\frac{-\log\delta_n}{I_n}\ge1.
+\]
+One profile and weight M-step on $q$, followed by likelihood classification, satisfies \eqref{eq:main-rate}. The conclusion holds after any further finite exact EM updates and any finite data-dependent stopping time after that first M-step.
+\end{theorem}
+
+The M-step gives parameter-profile error $O\{(\gamma_n+a_{H,n})np\}$. For rare rows, clipping is handled directly by a Chernoff moment argument with a deterministic envelope for the random spectral threshold. It costs at most $2^K$ in the moment, including both clipping sides; it is not asserted to perturb every rare-row score by $o(I_n)$. A deterministic invariant-basin argument controls all later updates on the same graph event. These steps are proved in Appendix~\ref{app:general-local-em}.
+
+Combining Theorem~\ref{thm:replacement-contraction}, Lemma~\ref{lem:low-loss-responsibilities}, and Theorem~\ref{thm:local-spectral-em} proves Theorem~\ref{thm:main-recovery}. The only exceptional event is $G_H^c$; choose a fixed $H>1+\limsup I_n/(np)$. No additional randomized seeding failure remains.
+
+\subsection{Why the complete nonedge term matters}
+The sparse score used in earlier experiments is
+$\sum_jq_{ij}\log\widehat p_j-\sum_j\widehat p_j$.
+For $p=o(1)$, its oracle contrast differs from the complete Bernoulli contrast by
+$O\{p\deg(i)+np^2\}=o(np)$
+on the appropriate degree event. The needed remainder is relative to $I_n$, not an absolute $o(1)$. This permits expected degrees far above $\log n$ within sparse models.
+
+For dense graphs, the discarded term can change the leading exponent. In the balanced model
+\[
+ P=\begin{pmatrix}0.8&0.2\\0.2&0.2\end{pmatrix},
+\]
+only edges to the first block discriminate the hypotheses. For $m$ such potential neighbors, the correct threshold is $N/m=1/2$, with information $0.22314355\,m$. The sparse score instead uses $N/m=0.6/\log4$, whose smaller directional error exponent is $0.13905314\,m$. This loss occurs even with the true parameters. Algorithm~1 retains the full Bernoulli expression to cover the full density range of \eqref{eq:density-condition}.

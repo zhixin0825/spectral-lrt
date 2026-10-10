@@ -1,0 +1,82 @@
+{
+  "n": 320,
+  "k": 2,
+  "density": "dense",
+  "family": "disassortative_unequal",
+  "repeat": 0,
+  "seed": 202612210,
+  "graph_id": "k2_dense_disassortative_unequal_s202612210",
+  "graph": {
+    "block_sizes": [
+      100,
+      220
+    ],
+    "block_proportions": [
+      0.3125,
+      0.6875
+    ],
+    "target_mean_degree": 57.419999999999995,
+    "expected_degree_by_block": [
+      77.9570464426567,
+      48.084978889701496
+    ],
+    "empirical_mean_degree": 57.0375,
+    "P_eigenvalues": [
+      -0.2831068572056057,
+      0.3896567479525199
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 527.3272132167223
+    },
+    "full_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 527.3272132167223
+    },
+    "sparse_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 462.1131195247973
+    },
+    "sparse_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 462.1131195247973
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "inertia": 12.738205613142407
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "inertia": 28884.743296353547
+    }
+  },
+  "audit": {
+    "em_updates": 12,
+    "largest_em_loss_increase": 4.547473508864641e-13,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 6
+  },
+  "seconds": 0.08591702300054749,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

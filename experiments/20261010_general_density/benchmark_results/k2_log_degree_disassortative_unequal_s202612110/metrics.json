@@ -1,0 +1,82 @@
+{
+  "n": 320,
+  "k": 2,
+  "density": "log_degree",
+  "family": "disassortative_unequal",
+  "repeat": 0,
+  "seed": 202612110,
+  "graph_id": "k2_log_degree_disassortative_unequal_s202612110",
+  "graph": {
+    "block_sizes": [
+      100,
+      220
+    ],
+    "block_proportions": [
+      0.3125,
+      0.6875
+    ],
+    "target_mean_degree": 17.304962987381316,
+    "expected_degree_by_block": [
+      23.494319109992,
+      14.491619295285549
+    ],
+    "empirical_mean_degree": 17.16875,
+    "P_eigenvalues": [
+      -0.08532138079792503,
+      0.11743287358240556
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 567.3796862364732
+    },
+    "full_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 567.3796862364732
+    },
+    "sparse_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 545.2523493363719
+    },
+    "sparse_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "final_soft_loss": 545.2523493363719
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "inertia": 52.65134977488195
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 2,
+      "inertia": 12910.268623168084
+    }
+  },
+  "audit": {
+    "em_updates": 16,
+    "largest_em_loss_increase": 0.0,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 6
+  },
+  "seconds": 0.1384325760000138,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

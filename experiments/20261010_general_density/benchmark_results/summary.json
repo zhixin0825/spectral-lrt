@@ -1,0 +1,109 @@
+{
+  "graphs": 60,
+  "expected_graphs": 60,
+  "n": 320,
+  "methods": {
+    "full_growing": {
+      "mean_misclassification": 0.29692708333333334,
+      "median_misclassification": 0.125,
+      "perfect_graphs": 18
+    },
+    "full_replacement": {
+      "mean_misclassification": 0.29692708333333334,
+      "median_misclassification": 0.125,
+      "perfect_graphs": 18
+    },
+    "sparse_growing": {
+      "mean_misclassification": 0.2970833333333333,
+      "median_misclassification": 0.125,
+      "perfect_graphs": 18
+    },
+    "sparse_replacement": {
+      "mean_misclassification": 0.2970833333333333,
+      "median_misclassification": 0.125,
+      "perfect_graphs": 18
+    },
+    "u_kmeans_10": {
+      "mean_misclassification": 0.30630208333333336,
+      "median_misclassification": 0.15000000000000002,
+      "perfect_graphs": 17
+    },
+    "u_lambda_kmeans_10": {
+      "mean_misclassification": 0.3004166666666667,
+      "median_misclassification": 0.1296875,
+      "perfect_graphs": 18
+    }
+  },
+  "group_results": {
+    "assortative_log_degree": {
+      "full_growing": 0.008125000000000004,
+      "full_replacement": 0.008125000000000004,
+      "sparse_growing": 0.008125000000000004,
+      "sparse_replacement": 0.008125000000000004,
+      "u_kmeans_10": 0.008125000000000004,
+      "u_lambda_kmeans_10": 0.008125000000000004
+    },
+    "assortative_dense": {
+      "full_growing": 0.0,
+      "full_replacement": 0.0,
+      "sparse_growing": 0.0,
+      "sparse_replacement": 0.0,
+      "u_kmeans_10": 0.0,
+      "u_lambda_kmeans_10": 0.0
+    },
+    "disassortative_unequal_log_degree": {
+      "full_growing": 0.37875000000000003,
+      "full_replacement": 0.37875000000000003,
+      "sparse_growing": 0.3775,
+      "sparse_replacement": 0.3775,
+      "u_kmeans_10": 0.4078125,
+      "u_lambda_kmeans_10": 0.39187500000000003
+    },
+    "disassortative_unequal_dense": {
+      "full_growing": 0.0740625,
+      "full_replacement": 0.0740625,
+      "sparse_growing": 0.0734375,
+      "sparse_replacement": 0.0734375,
+      "u_kmeans_10": 0.09531250000000001,
+      "u_lambda_kmeans_10": 0.08406250000000001
+    },
+    "weak_general_unequal_log_degree": {
+      "full_growing": 0.6631250000000001,
+      "full_replacement": 0.6631250000000001,
+      "sparse_growing": 0.664375,
+      "sparse_replacement": 0.664375,
+      "u_kmeans_10": 0.6625,
+      "u_lambda_kmeans_10": 0.6584375
+    },
+    "weak_general_unequal_dense": {
+      "full_growing": 0.6575,
+      "full_replacement": 0.6575,
+      "sparse_growing": 0.6590625,
+      "sparse_replacement": 0.6590625,
+      "u_kmeans_10": 0.6640625000000001,
+      "u_lambda_kmeans_10": 0.6599999999999999
+    }
+  },
+  "audit": {
+    "em_updates": 15444,
+    "candidate_argmin_checks": 874,
+    "replacement_rounds": 127,
+    "accepted_replacements": 7,
+    "maximum_em_loss_increase": 2.7284841053187847e-12,
+    "maximum_replacement_loss_increase": 0.0,
+    "maximum_final_loss_increase": 2.0463630789890885e-12,
+    "all_mandatory_final_updates_executed": true
+  },
+  "full_replacement_vs_growing": {
+    "better": 0,
+    "equal": 60,
+    "worse": 0,
+    "mean_error_change": 0.0
+  },
+  "sparse_replacement_vs_growing": {
+    "better": 0,
+    "equal": 60,
+    "worse": 0,
+    "mean_error_change": 0.0
+  }
+}

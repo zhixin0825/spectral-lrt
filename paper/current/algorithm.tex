@@ -1,157 +1,145 @@
-\section{Spectral likelihood-ratio decoding}
+\section{Spectral likelihood decoding}
 \label{sec:algorithm}
 
 \subsection{Model and retained information}
-Let $A$ be the adjacency matrix of an undirected graph without self-loops. Conditional on community labels $z=(z_1,\ldots,z_n)\in[K]^n$, its upper-triangular entries are independent and
+Let $A$ be the adjacency matrix of an undirected graph without self-loops. Conditional on $z\in[K]^n$, the upper-triangular entries are independent, with
 \begin{equation}
  A_{ij}\sim\operatorname{Bernoulli}(P_{z_i z_j}),\quad i<j,
  \qquad A_{ji}=A_{ij},\quad A_{ii}=0.
-\label{eq:sbm}
+ \label{eq:sbm}
 \end{equation}
-We follow Zhou and Li~\citep{zhouli2020}: $P=P_n\in(0,1)^{K\times K}$ is the symmetric block probability matrix, $p_{aj}=P_{a,z_j}$, and $p_{a*}$ is the connection profile of community $a$. The number of communities $K\ge2$ is fixed and known. Write $Z_{ia}=\one\{z_i=a\}$, $N=Z^\top Z=\diag(n_a)$, and assume $n_a/n\to\pi_a>0$. Let $p=\max_{a,b}P_{ab}$. Our assumptions are
+We follow Zhou and Li~\citep{zhouli2020}: $P$ is the symmetric block probability matrix, $p_{aj}=P_{a,z_j}$, and $p_{a*}$ is the connection profile of community $a$. Write $Z_{ia}=\one\{z_i=a\}$, $n_a=\sum_iZ_{ia}$, $\pi_{a,n}=n_a/n$, and
+\[
+ p=\max_{a,b}P_{ab}.
+\]
+The known community number $K\ge2$ is any fixed integer. Our uniform model and density conditions are, for fixed positive constants $\pi_0,\kappa,\eta$,
 \begin{align}
- p&=\Omega(\log n/n),\qquad p=o(1),\label{eq:density-condition}\\
- P_{ab}&\asymp p\quad(a,b\in[K]),\qquad
- \sigma_{\min}(N^{1/2}PN^{1/2})\asymp np.
- \label{eq:model-conditions}
+ n_a&\ge\pi_0n,\qquad P_{ab}\ge\kappa p\quad(a,b\in[K]),\qquad
+ \sigma_{\min}(P)\ge\kappa p,
+ \label{eq:model-conditions}\\
+ p&\le1-\eta,\qquad p=\Omega(\log n/n).
+ \label{eq:density-condition}
 \end{align}
-The comparison constants are independent of $n$. The signal eigenvalues may have either sign.
+We may take $\kappa\le1$. Neither $P/p$ nor the community proportions need converge. The probability matrix may vary with $n$ within these bounds. In particular, there is no requirement that $(n/\log n)P$ be fixed.
 
-The $n\times n$ mean matrix differs from the rank-$K$ matrix $ZPZ^\top$ only on its diagonal:
+For $z_i=a$, the expected degree is
 \begin{equation}
- \E[A\mid z]=ZPZ^\top-\diag(P_{z_i z_i}).
-\label{eq:mean}
+ \E[\deg(i)\mid z]
+   =\sum_b(n_b-\one\{a=b\})P_{ab}.
+ \label{eq:expected-degree}
 \end{equation}
-The small diagonal correction matters for exact identities. The representation consists of the $K$ empirical eigenpairs of $A$ with largest absolute eigenvalues:
+These expectations lie between $\kappa(n-1)p$ and $np$ and may differ across communities. Thus they are uniformly of order $np$, and \eqref{eq:density-condition} implies that all expected degrees are $\Omega(\log n)$. The density condition permits intermediate densities and constant edge probabilities. The probability-comparability and singular-value conditions ensure a uniformly separated, well-conditioned signal; degree alone does not imply identifiability.
+
+Retain the $K$ eigenpairs of the original adjacency matrix with largest absolute eigenvalues:
 \begin{equation}
  AU=U\Lambda,\qquad U^\top U=I_K,\qquad
  \widetilde A=U\Lambda U^\top.
-\label{eq:representation}
+ \label{eq:representation}
 \end{equation}
-All subsequent fitting accesses only $(U,\Lambda)$. This restriction excludes an additional edge-based refinement. It also excludes computing separate leave-one-out eigendecompositions as an undeclared algorithmic step. The representation is computed from the original adjacency matrix.
+Both signs of signal eigenvalues are allowed. Every subsequent operation uses only $(U,\Lambda)$, including initialization, fitting, replacement and classification.
 
-\subsection{Spectral profile scores}
-A signed low-rank reconstruction can contain nonpositive entries. To define the logarithms used in candidate scoring, set
+\subsection{Why spectral information can retain a likelihood ratio}
+For testing $z_i=a$ against $z_i=b$ with the other labels and $P$ known, put
 \begin{equation}
- q_{ij}=\max\{\widetilde A_{ij},\varepsilon_n\},\qquad
- \varepsilon_n=\frac{c_0}{n}\max\{\|\Lambda\|_{\mathrm{op}},1\}.
-\label{eq:profiles}
+ w_j^{ab}=\log\frac{p_{aj}(1-p_{bj})}{p_{bj}(1-p_{aj})},\qquad
+ c_i^{ab}=\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
+ \label{eq:oracle-contrast}
 \end{equation}
-Here $c_0>0$ is fixed and sufficiently small relative to the probability comparison bound in \eqref{eq:model-conditions}. The floor is computed from the retained eigenvalues. On the spectral event in Lemma~\ref{lem:full-spectral}, it is a fixed positive fraction of $p$ and lies below all true block probabilities. It makes the profile logarithms well defined. The adjacency eigendecomposition in \eqref{eq:representation} uses $A$ as given. The reconstruction retains its diagonal. For a candidate profile $\widehat p\in(0,\infty)^n$, define
-\begin{equation}
- \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
-\label{eq:working_score}
-\end{equation}
-The score is motivated by the first-order sparse expansion of a Bernoulli log likelihood: $\log(1-p)=-p+O(p^2)$. Lemma~\ref{lem:sparse-expansion} controls the resulting pairwise approximation. Because $q$ is a dependent spectral reconstruction, \eqref{eq:working_score} defines a working fitting criterion. It is not the exact likelihood of the original graph. Terms depending only on $q_i$ do not affect candidate comparisons or fitting.
+The exact incident-edge Bernoulli LLR is $L_i^{ab}=A_iw^{ab}+c_i^{ab}$. Extending $w_i^{ab}$ by the same block formula does not change it because $A_{ii}=0$. The contrast vector is block constant.
 
-For profiles $\widehat p_1,\ldots,\widehat p_K$ and weights $\widehat\pi\in\Delta_K$, the working mixture objective is
+\begin{proposition}[Preservation of likelihood contrasts]
+\label{prop:exact-preservation}
+With $\Pi=UU^\top$, the identity
 \begin{equation}
- \mathcal L(\widehat\pi,\widehat p)=\sum_{i=1}^n\log\!\left(\sum_{a=1}^K\widehat\pi_a e^{\ell_i(\widehat p_a)}\right).
-\label{eq:mixture}
+ \widetilde A=A\Pi,\qquad
+ \widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w
+ \label{eq:projection-identity}
 \end{equation}
-The final label is
-\begin{equation}
- \widehat z_i=\argmax_{a\in[K]}\{\ell_i(\widehat p_a)+\log\widehat\pi_a\}.
-\label{eq:decode}
-\end{equation}
-Thus classification uses pairwise working likelihood ratios, with estimated prior weights determining the thresholds. We evaluate the permutation-invariant mislabeled fraction
-\begin{equation}
- \Mis(\widehat z,z)=\min_{\sigma\in\mathfrak S_K}\frac1n\sum_{i=1}^n\one\{\sigma(\widehat z_i)\ne z_i\},
-\end{equation}
-where $\mathfrak S_K$ is the set of label permutations. The fitted profiles $\widehat p_{a*}$ are responsibility-weighted means of the observed profiles; the implementation does not impose the exact SBM constraint $\widehat p_{aj}=P_{a,z_j}$. Although these profiles have $n$ coordinates, every M-step keeps them in the row convex hull of $q$; Proposition~\ref{prop:profile-hull} records this restriction.
+holds for every vector $w$. If $w\in\operatorname{col}(U)$, the corresponding linear statistic is preserved exactly. If $P$ is nonsingular, then $\operatorname{col}(ZPZ^\top)=\operatorname{col}(Z)$, which contains every $w^{ab}$.
+\end{proposition}
 
-\subsection{Global-mean start and growing likelihood gains}
+The first identity follows from the eigenvector equation. For the second assertion, use the factorization
+$ZPZ^\top=(ZN^{-1/2})(N^{1/2}PN^{1/2})(ZN^{-1/2})^\top$, where $N=Z^\top Z$. Thus the spectral decomposition retains directions on which the likelihood acts; it need not itself optimize a likelihood. The actual mean is
+\begin{equation}
+ \E[A\mid z]=ZPZ^\top-\operatorname{diag}(P_{z_i z_i}).
+ \label{eq:mean}
+\end{equation}
+The statistical analysis below accounts for this diagonal correction and for the difference between the empirical and population subspaces.
+
+\subsection{Observed profiles and the complete Bernoulli score}
+To define logarithms of reconstructed probabilities, set
+\begin{equation}
+ s=\max\{1,\|\Lambda\|_{\mathrm{op}}\},\qquad
+ \varepsilon_n=c_0s/n,\qquad
+ q_{ij}=\operatorname{clip}(\widetilde A_{ij},\varepsilon_n,1-\varepsilon_n),
+ \label{eq:profiles}
+\end{equation}
+where $0<c_0<\min\{\kappa,\eta,1\}/8$ is a fixed algorithm parameter and $\operatorname{clip}(x,l,u)=\min\{u,\max\{l,x\}\}$. The admissibility of $c_0$ is an explicit model condition on this chosen logarithm floor. The scale $s$ is calculated from the retained eigenvalues. This operation occurs after eigendecomposition. The reconstructed diagonal is retained. Since $s\le n$ for an adjacency matrix and $c_0<1/8$, the interval is nonempty even on exceptional graphs.
+
+For $\widehat p\in(0,1)^n$, the working score is
+\begin{equation}
+ \ell_i(\widehat p)
+ =\sum_{j=1}^n\{q_{ij}\log\widehat p_j
+           +(1-q_{ij})\log(1-\widehat p_j)\}.
+ \label{eq:working-score}
+\end{equation}
+The second term retains the information in absent edges at every density. The $q_i$ are dependent fractional profiles, so this is a working fitting criterion. Its relation to the exact incident-edge likelihood is established by the probability bounds in Section~\ref{sec:main-results}.
+For fitted profiles $\widehat p_1,\ldots,\widehat p_K$ and weights $\widehat\pi\in\Delta_K$, fit
+\begin{equation}
+ \mathcal L(\widehat\pi,\widehat p)
+ =\sum_i\log\sum_a\widehat\pi_a e^{\ell_i(\widehat p_a)},\qquad
+ \widehat z_i=\argmax_a\{\ell_i(\widehat p_a)+\log\widehat\pi_a\}.
+ \label{eq:mixture-and-decode}
+\end{equation}
+The output error is the permutation-invariant fraction
+$\Mis(\widehat z,z)=\min_{\sigma\in\mathfrak S_K}n^{-1}\sum_i\one\{\sigma(\widehat z_i)\ne z_i\}$.
+
+\subsection{Growing initialization and exact updates}
 \label{sec:growing-branch}
-The procedure starts with the global profile mean,
+Start one profile at the global mean $n^{-1}\sum_iq_i$. At stage $t=2,\ldots,K$, if the existing profiles are $\widehat p_1,\ldots,\widehat p_{t-1}$, compute
 \begin{equation}
- \widehat p^{(1)}_1=\frac1n\sum_{i=1}^n q_i,\qquad \widehat\pi^{(1)}_1=1.
- \label{eq:first_seed}
+ h_i=\max_{a<t}\ell_i(\widehat p_a),\qquad
+ \Delta(c)=\sum_i(\ell_i(q_c)-h_i)_+.
+ \label{eq:growing-gain}
 \end{equation}
-This is the fitted one-component solution, rather than a node chosen using a top-fraction subset. It requires no subset-size parameter and removes no observations.
+Append a node profile maximizing this all-node gain, excluding previously added node IDs, initialize the $t$ weights uniformly, and jointly fit all $t$ profiles. No observations are removed. The fitted profiles supply the next stage. This is the existing global-mean growing construction with the complete score \eqref{eq:working-score}.
 
-At stage $t=2,\ldots,K$, let $\widehat p^{(t-1)}_1,\ldots,\widehat p^{(t-1)}_{t-1}$ be the profiles fitted at the preceding stage and set
-$h_i^{(t-1)}=\max_{a<t}\ell_i(\widehat p^{(t-1)}_a)$.
-For a node candidate $c$ not previously added, define
-\begin{equation}
- \Delta_t(c)=\sum_{i=1}^n\bigl(\ell_i(q_c)-h_i^{(t-1)}\bigr)_+,
- \qquad c_t\in\argmax_c\Delta_t(c).
- \label{eq:gain}
-\end{equation}
-Append $q_{c_t}$ to the current $t-1$ fitted profiles, initialize the $t$ weights uniformly, and fit all $t$ profiles jointly on all $n$ observations by the updates below. The fitted endpoint supplies the next stage's profiles. A global mean counts as the first component, so only $K-1$ node candidates are added. Previously chosen node IDs are excluded from subsequent candidate scans, and ties are broken deterministically.
-
-The all-node gain rewards profiles that improve the fit to observations. The growing endpoint initializes the following fixed-$K$ replacement procedure. Its guarantee is established by a stopping certificate for the common objective.
-
-\subsection{Repeated global-gain replacement}
-\label{sec:likelihood-safeguard}
-Define the profile divergence
-\begin{equation}
- D(x\Vert y)=\sum_j\{x_j\log(x_j/y_j)-x_j+y_j\},\qquad
- T_n=\sum_{i,j}q_{ij}.
- \label{eq:repair-threshold}
-\end{equation}
-The divergence equals the score loss $\ell_x(x)-\ell_x(y)$. Starting at the $K$-component growing endpoint, evaluate these proposals in each round:
-\begin{enumerate}
-\item Refit the current profiles with weights initialized at $1/K$.
-\item For each component $r$, remove it and choose a row $q_{c_r}$ maximizing
-\[
- \sum_i\left(\ell_i(q_c)-\max_{a\ne r}\ell_i(\widehat p_a)\right)_+.
-\]
-Replace profile $r$ by $q_{c_r}$, initialize all weights at $1/K$, and jointly refit. The candidate scan includes all $n$ rows, including previously selected nodes.
-\end{enumerate}
-Each proposal may use any prescribed finite number of exact EM updates, including zero. Compare all endpoints and the current fit by the same $\mathcal L$. Accept the best proposal if its increase is at least $T_n/\sqrt{\log n}$, and repeat. Stop if no proposal attains that increase. For a deterministic iteration limit, stop after $\lceil(\log n)^2\rceil$ accepted rounds. This cap is eventually inactive on the spectral event.
-
-At the chosen endpoint, compute the E-step responsibilities and perform one additional profile and weight M-step before decoding. A zero-mass component retains its previous profile. The extra uniform-weight proposal and uniform starts for replacements are part of the certificate; they prevent fitted component weights from hiding a poorly covered population profile.
-
-Theorem~\ref{thm:certified-likelihood} proves this deterministic procedure for every fixed $K$. The key observation is that with $K$ true profiles and $K$ fitted components, a missing true profile can improve a one-component replacement: either its nearest component serves only that profile, or another component is unused by all nearest-profile assignments. Rejection of all global-gain replacements consequently forces coverage of every true profile. The proof controls the soft mixture objective as well as the hard profile divergence.
-
-\subsection{Alternating fitting and parameter replacement}
-At a stage with $s$ components, initialize $\widehat\pi_a=1/s$ and perform soft updates (replace $K$ by $s$ in the displayed sums)
+At any component count, the exact E/M updates are
 \begin{align}
- \tau_{ia}&=\frac{\widehat\pi_a e^{\ell_i(\widehat p_a)}}{\sum_b\widehat\pi_b e^{\ell_i(\widehat p_b)}},
- &N_a&=\sum_i\tau_{ia},\label{eq:responsibilities}\\
- \widehat p_{aj}^{\mathrm{new}}&=\frac{\sum_i\tau_{ia}q_{ij}}{N_a},
+ R_{ia}&=\frac{\widehat\pi_a e^{\ell_i(\widehat p_a)}}
+                  {\sum_b\widehat\pi_b e^{\ell_i(\widehat p_b)}},
+ &N_a&=\sum_iR_{ia},\label{eq:responsibilities}\\
+ \widehat p_{aj}^{\mathrm{new}}&=\frac{\sum_iR_{ia}q_{ij}}{N_a},
  &\widehat\pi_a^{\mathrm{new}}&=N_a/n.
-\label{eq:mstep}
+ \label{eq:mstep}
 \end{align}
-The responsibilities are computed using log-sum-exp for numerical stability. Positive $q$ ensures that positive-weight components have positive updated means. An optional fixed weight floor $f\in[0,1/K)$ replaces the unconstrained weight update in \eqref{eq:mstep} by the exact optimizer of $\sum_aN_a\log\widehat\pi_a$ on that floored simplex. If no floor is active, this reduces to $N_a/n$. The tested floor is given in Appendix~\ref{app:implementation}. Both exact versions maximize the variational M-step, giving objective monotonicity and boundedness within that stage. Proposition~\ref{prop:em-monotonicity} proves convergence of the objective within each fit; it does not prove global optimality or correct community recovery. Because the implementation reinitializes weights when it adds a component, we do not assert monotonicity between stages.
+A component of zero responsibility mass retains its previous profile. Each fit performs at least one M-step. Further exact updates may use any prescribed finite iteration bound and any stopping rule within that bound. All means remain convex combinations of the same $q$ rows, and each E/M pair increases the same working objective. The update formula is unchanged by including the nonedge term: maximizing a weighted Bernoulli cross-entropy still gives the weighted mean.
+
+\subsection{Repeated likelihood replacement for every fixed \texorpdfstring{$K$}{K}}
+\label{sec:replacement}
+The general-$K$ guarantee uses a deterministic repetition of the existing single-component replacement operation. Set $T_n=\lceil\log n\rceil$. In each round, refer all trials to the same current fit. For each component $r\in[K]$, delete its profile and compute
+\begin{equation}
+ h_i^{(-r)}=\max_{a\ne r}\ell_i(\widehat p_a),\qquad
+ c_r\in\argmax_{c\in[n]}\sum_i(\ell_i(q_c)-h_i^{(-r)})_+.
+ \label{eq:replacement-gain}
+\end{equation}
+Replace profile $r$ by $q_{c_r}$, initialize the trial's weights uniformly, and run a finite exact EM fit. The candidate scan here includes every node ID, including previously used IDs. Compare the $K$ trial endpoints and the unchanged current fit using $\mathcal L$, and keep the largest value. Ties are deterministic, with the current fit retained on an objective tie. The algorithm may stop after a full round with no improving trial; the contraction below certifies sufficiently small loss at that point.
+
+After the replacement rounds, compute the selected fit's responsibilities and perform one mandatory profile and weight M-step before decoding. This last step converts the weak responsibilities certified by the objective into the required local likelihood accuracy. Additional exact EM updates after this step are allowed.
 
 \begin{center}
 \fbox{\begin{minipage}{0.93\linewidth}
-\textbf{Algorithm 1: Spectral likelihood decoding with repeated replacement}\smallskip
+\textbf{Algorithm 1: Spectral likelihood with repeated parameter replacement}
 \begin{enumerate}
-\item Input $K$ and the retained eigenpairs $(U,\Lambda)$; form $q$ by \eqref{eq:profiles}.
-\item Obtain the global-mean growing fit by \eqref{eq:first_seed}, \eqref{eq:gain}, and the joint EM updates.
-\item Evaluate the uniform-weight refit and all $K$ global-gain replacements described in Section~\ref{sec:likelihood-safeguard}.
-\item Accept the best proposal if its likelihood gain is at least $T_n/\sqrt{\log n}$ and return to step 3. Stop on rejection or after $\lceil(\log n)^2\rceil$ accepted rounds.
-\item Compute one E-step and one profile and weight M-step. Decode by \eqref{eq:decode}, or continue exact EM before decoding.
-\item Output labels, fitted profiles, weights, and the recorded objectives.
+\item Form $q$ from the retained eigenpairs by \eqref{eq:profiles}.
+\item Obtain $K$ fitted profiles by global-mean growing and joint EM.
+\item For $T_n=\lceil\log n\rceil$ rounds, test all $K$ deletion positions; choose each replacement node by \eqref{eq:replacement-gain}, jointly fit it from uniform weights, and retain the greatest working likelihood across the trials and the old fit.
+\item Perform one final E-step and profile/weight M-step, then classify by \eqref{eq:mixture-and-decode}.
 \end{enumerate}
 \end{minipage}}
 \end{center}
 
-The archived experiments evaluate the original growing branch and a historical single replacement pass after partial peeling. The repeated procedure in Algorithm~1 additionally resets proposal weights uniformly, evaluates a uniform-weight refit, and iterates to the specified gain threshold. Its implementation checks are reported separately.
-
-The numerical experiments use the exact floored-simplex weight update, finite stopping tolerances, and an iteration cap. Objective convergence in exact arithmetic does not replace checking the finite-run stopping rule or floating-point error. We report those numerical checks separately.
-
-\subsection{Why the representation can retain an LLR}
-Suppose temporarily that $P$ and the other labels are known. For testing $z_i=a$ against $z_i=b$, define, for $j\ne i$,
-\begin{equation}
- w_j^{ab}=\log\frac{p_{aj}(1-p_{bj})}{p_{bj}(1-p_{aj})},
- \qquad c_i^{ab}=\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
-\label{eq:oracle_weights}
-\end{equation}
-The oracle Bernoulli LLR is $L_i^{ab}=\sum_{j\ne i}A_{ij}w_j^{ab}+c_i^{ab}$. Extend $w_i^{ab}$ by the same block formula. Because $A_{ii}=0$, this extension does not change the oracle linear statistic. The contrast vector is block constant, hence belongs to $\col(Z)$.
-
-The fundamental identity is
-\begin{equation}
- \widetilde A=A\Pi,\qquad \Pi=UU^\top,
- \qquad (\widetilde A_i-A_i)w^{ab}=A_i(\Pi-\mathrm{Id})w^{ab}.
-\label{eq:projection_identity}
-\end{equation}
-Here $\mathrm{Id}$ denotes the identity matrix. If $w^{ab}$ lies in the retained empirical space, the linear statistic is preserved exactly. At the population level, full rank gives $\col(ZPZ^\top)=\col(Z)$, so every contrast has the required span membership. The spectral decomposition need not itself optimize a likelihood: it retains a linear space containing the directions in which the likelihood acts.
-
-The executable score additionally involves clipping, estimated profiles, mixture thresholds, and a retained reconstructed diagonal. These perturbations require statistical control. A matrix reconstruction bound alone does not establish the oracle exponent; the local fitting theorem uses the stronger row-profile approximation, the clipping moment bound, and a weak-initialization condition. Theorem~\ref{thm:local-spectral-em} supplies the fitting guarantee. Theorem~\ref{thm:certified-likelihood} establishes its initialization condition for Algorithm~1 for every fixed $K$.
+This is an explicit change from a single replacement pass. The proof gives a loss contraction for all $K$ fitted profiles simultaneously and is valid for every fixed $K$, including unequal communities and either sign of signal eigenvalues. It requires no random restart, no Euclidean initializer, and no assumption that growing alone reaches the correct basin. The unchanged growing-only path is a separate algorithm; its unrestricted general-$K$ convergence is not claimed here.
 
 \subsection{Computational cost}
-Forming the full positive reconstruction stores $O(n^2)$ numbers. Caching all candidate scores uses an $n$-by-$n$ matrix and, by direct multiplication, $O(n^3)$ arithmetic. Each subsequent greedy scan costs $O(n^2)$, and one EM iteration costs $O(Kn^2)$. Algorithm~1 accepts $O(\sqrt{\log n})$ replacement rounds on the spectral event and has a deterministic $\lceil(\log n)^2\rceil$ cap. Each round evaluates $K+1$ fits and $K$ candidate scans, so a prescribed polynomial EM iteration bound gives polynomial total cost. These costs are additional to computing the eigenpairs. The implementation is practical at the tested $n\leq2000$ but does not yet justify a large-network speed claim. Candidate subsampling and blocked score evaluation are natural approximations, whose statistical and computational performance require separate validation.
-
+Forming and storing $q$ requires $O(n^2)$ storage. The complete node-candidate score matrix can be cached using $O(n^3)$ arithmetic and $O(n^2)$ storage. With current component scores cached, all $K$ deletion scans in a round cost $O(Kn^2+K^2n)$: obtain the minimum and second minimum divergences of each row to handle every deletion. If each trial uses at most $J$ EM updates, its fitting cost is $O(JKn^2)$. The $O(\log n)$ rounds therefore cost $O(JK^2n^2\log n)$ in addition to the candidate cache and growing fits. The direct implementation is polynomial in $n$ for fixed $K$ and polynomial $J$. It does not yet provide a subquadratic storage claim.

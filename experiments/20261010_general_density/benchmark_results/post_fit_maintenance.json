@@ -1,0 +1,256 @@
+{
+  "change": "Clip rounded global mean to the same interval already enforced by the M-step.",
+  "reason": "Empty adjacency at n=11 otherwise rejects a valid initial profile because the rounded mean is below epsilon.",
+  "engine_at_fitting_sha256": "b57648fb6ffaf0582858814bbf6a7c7c2d2c23d3bae912508c2a0a3cd385a204",
+  "current_engine_sha256": "fe237773225c9c1e1e88bcac23bb1b079f63ddb11307810bf61ac4a8d7a1870e",
+  "empty_graph_n11_decodes": true,
+  "empty_graph_loss": -0.0,
+  "all_60_initial_means_unchanged": true,
+  "checks": [
+    {
+      "graph": "k2_dense_assortative_s202612200",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_dense_assortative_s202612201",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_dense_disassortative_unequal_s202612210",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_dense_disassortative_unequal_s202612211",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_dense_weak_general_unequal_s202612220",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_dense_weak_general_unequal_s202612221",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_assortative_s202612100",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_assortative_s202612101",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_disassortative_unequal_s202612110",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_disassortative_unequal_s202612111",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_weak_general_unequal_s202612120",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k2_log_degree_weak_general_unequal_s202612121",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_assortative_s202613200",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_assortative_s202613201",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_disassortative_unequal_s202613210",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_disassortative_unequal_s202613211",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_weak_general_unequal_s202613220",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_dense_weak_general_unequal_s202613221",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_assortative_s202613100",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_assortative_s202613101",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_disassortative_unequal_s202613110",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_disassortative_unequal_s202613111",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_weak_general_unequal_s202613120",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k3_log_degree_weak_general_unequal_s202613121",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_assortative_s202614200",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_assortative_s202614201",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_disassortative_unequal_s202614210",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_disassortative_unequal_s202614211",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_weak_general_unequal_s202614220",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_dense_weak_general_unequal_s202614221",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_assortative_s202614100",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_assortative_s202614101",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_disassortative_unequal_s202614110",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_disassortative_unequal_s202614111",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_weak_general_unequal_s202614120",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k4_log_degree_weak_general_unequal_s202614121",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_assortative_s202615200",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_assortative_s202615201",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_disassortative_unequal_s202615210",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_disassortative_unequal_s202615211",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_weak_general_unequal_s202615220",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_dense_weak_general_unequal_s202615221",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_assortative_s202615100",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_assortative_s202615101",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_disassortative_unequal_s202615110",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_disassortative_unequal_s202615111",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_weak_general_unequal_s202615120",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k5_log_degree_weak_general_unequal_s202615121",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_assortative_s202616200",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_assortative_s202616201",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_disassortative_unequal_s202616210",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_disassortative_unequal_s202616211",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_weak_general_unequal_s202616220",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_dense_weak_general_unequal_s202616221",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_assortative_s202616100",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_assortative_s202616101",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_disassortative_unequal_s202616110",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_disassortative_unequal_s202616111",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_weak_general_unequal_s202616120",
+      "initial_mean_unchanged": true
+    },
+    {
+      "graph": "k6_log_degree_weak_general_unequal_s202616121",
+      "initial_mean_unchanged": true
+    }
+  ],
+  "interpretation": "The only changed expression is bitwise unchanged on every archived graph, so all saved benchmark paths and results are unaffected. The frozen protocol hash points to engine_at_fitting.py.",
+  "benchmark_at_fitting_sha256": "11bfe35a327ac7dc9b6e01782d35d04e58b1d7d6c2241bbcb463c2fbe3d82544",
+  "current_benchmark_sha256": "0ad459999657ed63c23b3e7c8b93d3c89c704ecc6d9c8ce28e3a4e94ab5ba5ec",
+  "reproduction_cli_maintenance": "Add --output-dir and safe rerun/pilot defaults. Reuse existing results only when the complete frozen protocol matches; worker processes receive the explicit directory. No graph generation or fitting calculation changed.",
+  "archived_output_protocol_guard_checked": true
+}

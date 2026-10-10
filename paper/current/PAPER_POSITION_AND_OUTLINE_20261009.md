@@ -1,3 +1,5 @@
+> Historical record. Superseded for current model, algorithm and theorem scope by [README.md](README.md) and [REVIEW_20261010.md](REVIEW_20261010.md). The original content below is retained as a dated record.
+
 # 当前论文结构与证明状态
 
 2026-10-10 更新，取代此前提纲。论文题目为 Nearly Optimal Community Recovery by Spectral Likelihood Decoding。

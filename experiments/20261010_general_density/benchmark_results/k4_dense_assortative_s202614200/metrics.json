@@ -1,0 +1,90 @@
+{
+  "n": 320,
+  "k": 4,
+  "density": "dense",
+  "family": "assortative",
+  "repeat": 0,
+  "seed": 202614200,
+  "graph_id": "k4_dense_assortative_s202614200",
+  "graph": {
+    "block_sizes": [
+      80,
+      80,
+      80,
+      80
+    ],
+    "block_proportions": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "target_mean_degree": 57.419999999999995,
+    "expected_degree_by_block": [
+      57.41999999999999,
+      57.41999999999999,
+      57.41999999999999,
+      57.41999999999999
+    ],
+    "empirical_mean_degree": 57.78125,
+    "P_eigenvalues": [
+      0.4021008403361343,
+      0.4021008403361343,
+      0.4021008403361347,
+      0.7237815126050424
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "final_soft_loss": 1178.682545798843
+    },
+    "full_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "final_soft_loss": 1178.682545798843
+    },
+    "sparse_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "final_soft_loss": 1066.9207860560489
+    },
+    "sparse_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "final_soft_loss": 1066.9207860560489
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "inertia": 37.31372937770374
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 4,
+      "inertia": 47434.771382271814
+    }
+  },
+  "audit": {
+    "em_updates": 31,
+    "largest_em_loss_increase": 1.1368683772161603e-12,
+    "replacement_rounds": 3,
+    "accepted_replacements": 1,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 1.1368683772161603e-12,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 18
+  },
+  "seconds": 0.1308700500003397,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

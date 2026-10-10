@@ -1,19 +1,209 @@
-% Experiment section fragment. Requires amsmath, amssymb, booktabs,
-% graphicx. Figure generated from saved arrays, not a new experiment.
+% Experiments for the current decoder and explicitly separated historical arms.
 \section{Experiments}
 \label{sec:experiments}
-The archived 240-graph comparisons evaluate the original growing branch of Section~\ref{sec:growing-branch} and the separately specified controls. They do not evaluate the complete repeated-replacement Algorithm~1 on that full collection. The repeated replacement is a proved algorithmic extension; its separate implementation verification is documented in the repository.
+We report two distinct numerical collections. A new 60-graph audit evaluates
+the current full-Bernoulli Algorithm~1: global-mean growing followed by
+at most $\lceil\log n\rceil$ rounds of deterministic parameter replacement
+and a mandatory final M-step. The earlier 240-graph collection evaluates
+historical sparse-score procedures and is preserved under its original
+protocol. The two collections use different scores, clipping rules, and
+fitting budgets; their results are reported separately. We also give an
+exactly certified population example explaining why a guarantee for growing
+alone cannot permit arbitrary finite intermediate EM budgets.
 
+\subsection{Current full-Bernoulli decoder: design and comparisons}
+The new design contains $n=320$ vertices and
+$K\in\{2,3,4,5,6\}$, three matrix families, two density settings, and two
+independent graph seeds per cell, giving $5\times3\times2\times2=60$ graphs.
+The families are a balanced assortative model, an unequal-size
+disassortative model, and an unequal-size weak general model. Their block
+matrices are entrywise positive, symmetric, and full rank. The second family
+has negative signal eigenvalues; the third includes directions with weak
+finite-sample separation. The exact matrices, block sizes, and seeds are
+fixed in the saved protocol.
 
-We evaluate whether likelihood-based decoding improves on a Euclidean
-decoder of the same retained eigenpairs, and whether global likelihood gains
-prevent redundant initialization. The experiments use a spectral profile
-working likelihood. They do not evaluate an exact leave-one-out graph
-likelihood or estimate an asymptotic error exponent from finite samples.
+Each probability matrix is scaled so that the average expected degree,
+computed using the actual integer block sizes and excluding self-loops,
+equals either $3\log n$ or $0.18(n-1)$. Expected degrees may differ between
+blocks. Both density settings use the same decoder and score; no adjacency
+regularization or edge-based refinement is applied.
 
-\subsection{Models and protocol}
+Every method receives the same $K$ raw adjacency eigenpairs with largest
+absolute eigenvalues. The full-score and sparse-score controls use exactly
+the same clipped reconstruction $q$. For this audit the clipping endpoints
+are $\varepsilon$ and $1-\varepsilon$, where
+\[
+ \varepsilon=10^{-4}\frac{\max\{1,\max_a|\Lambda_{aa}|\}}n.
+\]
+The reconstructed diagonal is retained. Thus the score-family comparison
+changes the working criterion while keeping the spectral information and
+clipping identical. It is not a comparison of graph likelihoods computed
+from different observations.
 
-For each model, let $C^{(0)}$ be a fixed symmetric connectivity matrix and
+For each score family, the growing fit takes at most 100 EM updates at
+each stage, with unchanged labels and soft-loss change at most $10^{-9}n$
+required for early stopping. Replacement tests every possible component
+removal, chooses its new node profile by the all-node likelihood gain,
+resets the trial weights uniformly, and takes one M-step. At most
+$\lceil\log 320\rceil=6$ rounds are allowed. The incumbent is retained unless
+a trial improves the same soft loss; if none improves it, repeating the
+unchanged deterministic round would give the same result. Both the growing
+baseline and the replacement decoder receive one final M-step before
+classification. The weight updates in this new audit are the unconstrained
+exact EM updates. These settings differ from the historical floored-weight
+and one-pass replacement controls below.
+
+The Euclidean baselines run ten Lloyd starts on $\sqrt n U$ and
+$\sqrt n U\Lambda$, respectively, with at most 300 iterations per start.
+Ground truth is used to generate and evaluate the graphs; it is not passed
+to fitting, candidate ranking, likelihood selection, or stopping. Detailed
+entry points and data locations are given in Appendix~\ref{app:implementation}.
+
+\subsection{Current decoder: results and numerical audit}
+Table~\ref{tab:general_density} reports mean mislabeled fractions. Each
+family--density row averages ten graphs spanning the five values of $K$
+and two seeds. These are descriptive averages over the declared design,
+not repeated observations from one fixed parameter setting.
+
+\begin{table}[tb]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{New 60-graph audit of the current full-Bernoulli decoder. Entries
+are mislabeled fractions, not percentages. Within each score family,
+growing and replacement have identical errors on every graph. Each
+family--density row contains ten graphs.}
+\label{tab:general_density}
+\begin{tabular}{llrrrr}
+\toprule
+Family&Density&Full score&Sparse score&$U$ $k$-means&$U\Lambda$ $k$-means\\
+\midrule
+Assortative&$3\log n$&0.008125&0.008125&0.008125&0.008125\\
+Assortative&Dense&0&0&0&0\\
+Unequal disassortative&$3\log n$&0.378750&0.377500&0.407813&0.391875\\
+Unequal disassortative&Dense&0.074063&0.073438&0.095313&0.084063\\
+Weak general&$3\log n$&0.663125&0.664375&0.662500&0.658438\\
+Weak general&Dense&0.657500&0.659063&0.664063&0.660000\\
+\midrule
+All 60 graphs&&0.296927&0.297083&0.306302&0.300417\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The full decoder has lower error than $U$ $k$-means on 26 graphs, equal
+error on 27, and higher error on seven. Against $U\Lambda$ $k$-means, the
+corresponding counts are 21, 28, and 11. Against the sparse-score control,
+they are eight, 43, and nine. Thus the small difference between the full and
+sparse aggregate errors does not establish a systematic finite-sample
+advantage of either score. The full criterion is used by the general-density
+algorithm for the statistical reason developed in the theory.
+
+Replacement does not change the mislabeled fraction on any of the 60
+graphs, for either score family. Seven trials are accepted by the strict
+floating-point loss comparison, but their apparent improvements are only
+$2.27\times10^{-13}$ to $2.05\times10^{-12}$, with unchanged labels.
+They are rounding-level changes, not substantive empirical replacement
+improvements. This observation is consistent with a repair mechanism that
+is unnecessary once growing has reached a suitable fitted basin; it is not
+an initialization theorem for growing alone.
+
+All decoders perform poorly on the weak general family. In particular,
+full rank and positive entries do not imply strong separation at $n=320$.
+The archive includes the population signal eigenvalues and degree scales
+for these cases. None of the weak-signal graphs is removed from the summary.
+Increasing the density within this small design does not eliminate their
+large errors.
+
+The audit records 15,444 EM updates. The largest positive soft-loss change
+is $2.73\times10^{-12}$; selected loss never increases across 127 evaluated
+replacement rounds. All 874 candidate scans retain every candidate loss
+and agree with the saved minimizing node ID. Every mandatory final M-step
+is executed; its largest positive loss change is $2.05\times10^{-12}$.
+These numerical checks agree with monotonicity to floating-point precision.
+The 60 adjacency matrices are distinct, symmetric, and have zero diagonal.
+Their saved eigenpairs have maximum residual
+$\|AU-U\Lambda\|_F=1.08\times10^{-13}$ and maximum orthogonality error
+$4.53\times10^{-15}$. Direct calls to the fitting-time engine on two difficult
+graphs, using both score families, reproduce the archived labels exactly.
+
+The implementation, fixed protocol, original graphs and probability
+matrices, retained eigenpairs, all fitted outputs, and complete candidate
+and EM traces are in
+\begin{center}
+\path{experiments/20261010_general_density/}.
+\end{center}
+The files \path{benchmark_results/summary.json} and
+\path{benchmark_results/per_graph_methods.csv} contain aggregate and all
+360 graph--method results. The protocol records the fitting-time code version
+and its hashes, alongside the data records; this new collection does not
+overwrite the earlier experiment.
+
+\subsection{A certified finite-stage population failure of growing}
+\label{sec:population_growing_failure}
+An explicit five-block example distinguishes convergence of an EM objective
+from a guarantee for arbitrary finite intermediate fitting budgets. For this
+population diagnostic only, write
+\begin{equation}
+ P=\frac d n
+ \begin{pmatrix}
+ .0071&.0914&.0119&.0129&.0132\\
+ .0914&2.7252&.2538&.2125&.2722\\
+ .0119&.2538&.0285&.0276&.0300\\
+ .0129&.2125&.0276&.0294&.0289\\
+ .0132&.2722&.0300&.0289&.0321
+ \end{pmatrix},\qquad
+ \pi=(.02,.57,.065,.22,.125).
+ \label{eq:population_growing_example}
+\end{equation}
+Here $d\to\infty$ controls the probability scale of this example, with
+$d/n\to0$; it introduces no additional assumption on the main model and
+does not require equal block degrees. The displayed shape matrix is positive
+definite: the leading principal determinants after multiplying it by
+$10^4$ are exactly $71$, $1099496$, $22194480$, $49511806$, and $22302154$.
+
+Use population block profiles, the archived sparse working score, the exact
+weight update with floor $10^{-8}$, and one M-step after each added center.
+With block indices starting at one, the growing procedure selects blocks
+$4,1,5,4$. Its limiting centers are
+\[
+ (p_{2*},p_{4*},p_{1*},m_{35},p_{4*}),\qquad
+ m_{35}=\frac{\pi_3p_{3*}+\pi_5p_{5*}}{\pi_3+\pi_5}.
+\]
+The fourth center merges blocks 3 and 5, while two centers duplicate block
+4. Consequently the limiting mislabeled fraction is $13/200=0.065$.
+After the penultimate M-step, block 3 has changed its preferred component,
+but the previous mixed center still contains it. The next global gain then
+selects block 4 again. The old mixed component has exponentially small
+responsibilities whose normalized M-step is itself dominated by block 4;
+setting these responsibilities to numerical zero is not needed for the
+failure. Excluding selected node IDs also does not exclude other nodes of
+the same block.
+
+The limiting candidate comparisons and assignments are certified with exact
+rational intervals for logarithms, using an explicit series remainder. The
+smallest candidate-selection margin is greater than $7.98\times10^{-7}$;
+the vanishing component's soft M-step has a unique dominating block with
+margin greater than $7.58\times10^{-4}$. Numerical calculations that normalize
+the M-step in log space reproduce error $0.065$ for
+$d=10^5,10^6,10^8,10^{10},10^{12}$, including 100 additional final EM updates.
+One deterministic replacement round, with one M-step per proposal, removes
+a duplicate center and inserts block 3, reducing the error to zero. At
+$d=10^6$, the centered per-node working log likelihood rises from
+$-17.505006$ to $-1.169355$.
+
+This is a population counterexample to a guarantee allowing just one
+intermediate M-step. It does not establish failure when every growing stage
+is fitted to convergence: two M-steps per stage succeed in this same example.
+It is also not a sampled-graph failure theorem. The complete matrix, strict
+comparison certificates, score traces, and successful replacement trials are
+in \path{experiments/20261010_general_density/population_audit/}.
+The general-$K$ guarantee for Algorithm~1 instead uses the deterministic
+replacement argument in Theorem~\ref{thm:main-recovery}, without assuming
+that growing alone has already found every community.
+
+\subsection{Historical sparse-score collection: models and protocol}
+
+The earlier 240-graph collection uses the sparse working score and its original fitting settings. It is retained as historical evidence; these graphs were not rerun with the new full-Bernoulli Algorithm~1. For this archived design, let $C^{(0)}$ be a fixed symmetric connectivity matrix and
 let $\pi$ be the vector of community proportions. We generate an undirected
 SBM without self-loops, with edge probabilities
 \begin{equation}
@@ -71,32 +261,32 @@ sorting by absolute value. After this preprocessing, the fitting routines receiv
 only $(U,\Lambda)$; adjacency entries, degrees, true labels, and true block
 probabilities are unavailable to fitting and model selection.
 
-\subsection{Implementations and comparisons}
+\subsection{Historical sparse-score implementations and comparisons}
 
 The archived implementation forms positive spectral profiles
 \begin{equation}
  q_{ij}=\max\left\{(U\Lambda U^\top)_{ij},
                    10^{-4}\frac\log n{n}\right\},\qquad
- \ell_i(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
+ \ell_i^{\mathrm{sp}}(\widehat p)=\sum_{j=1}^n q_{ij}\log\widehat p_j-\sum_{j=1}^n\widehat p_j.
  \label{eq:experimental_working_score}
 \end{equation}
 The reconstructed diagonal is retained, even though the generated graphs
 have zero diagonal. Thus this is a declared positive-profile working score,
 not the original Bernoulli graph likelihood. Component means are unrestricted
-$n$-dimensional profile means. Every likelihood arm uses the same soft EM
+$n$-dimensional profile means. Every likelihood arm in this historical collection uses the same soft EM
 updates and observed working objective
 \begin{equation}
- \mathcal L(\widehat\pi,\widehat p)=\sum_{i=1}^n\log\left[
-   \sum_{a=1}^K \widehat\pi_a\exp\{\ell_i(\widehat p_a)\}\right].
+ \mathcal L_{\mathrm{sp}}(\widehat\pi,\widehat p)=\sum_{i=1}^n\log\left[
+   \sum_{a=1}^K \widehat\pi_a\exp\{\ell_i^{\mathrm{sp}}(\widehat p_a)\}\right].
 \end{equation}
 EM initializes equal component weights except when refitting a replacement
 proposal, where the current weights are retained. The mean update is the
 responsibility-weighted average of $q_i$. The weight update exactly maximizes
 the EM auxiliary objective on $\{\widehat\pi_a\ge10^{-8},\ \sum_a \widehat\pi_a=1\}$.
 No additional floor on means is needed because the observations are positive.
-Final labels maximize $\log \widehat\pi_a+\ell_i(\widehat p_a)$.
+Final labels maximize $\log \widehat\pi_a+\ell_i^{\mathrm{sp}}(\widehat p_a)$.
 
-The original deterministic growing branch of Section~\ref{sec:growing-branch} is recorded as
+The historical growing arm uses the global-mean and all-node-gain structure of Section~\ref{sec:growing-branch}, with the archived sparse score and clipping rule above. It is recorded as
 \texttt{growing\_global\_gain\_EM}. It starts from the global profile mean,
 adds $K-1$ node candidates by their all-node marginal gains, and runs joint
 EM after each addition. It requires no top-subset size and removes no nodes.
@@ -115,10 +305,10 @@ EM. \emph{Peeling plus replacement} fits this initialization, deletes each
 component temporarily, proposes the globally most useful node against the
 remaining $K-1$ means, and refits all nodes. All $K$ proposals use the same
 original fitted endpoint; the best proposal is accepted only if its final
-$\mathcal L$ exceeds the current best by more than $10^{-5}$. This is one
+$\mathcal L_{\mathrm{sp}}$ exceeds the current best by more than $10^{-5}$. This is one
 replacement pass, not repeated optimization.
 
-The API option \texttt{method='global\_gain'} invokes the primary growing algorithm; it does not invoke the frozen-profile control. \emph{Residual++} samples
+In the historical API, \texttt{method='global\_gain'} invokes the growing arm and does not invoke the frozen-profile control. The following randomized procedures are archived comparison arms, not steps of the current Algorithm~1. \emph{Residual++} samples
 the first node uniformly and later nodes proportionally to
 \begin{equation}
  d_i=\min_{a\in S}\sum_j
@@ -127,7 +317,7 @@ the first node uniformly and later nodes proportionally to
 This deviance is not squared again. Its greedy variant samples
 $2+\lfloor\log K\rfloor$ candidate trials per addition and chooses the trial
 that minimizes total residual deviance. We report both one start and ten
-starts; the ten-start fit is selected solely by final $\mathcal L$.
+starts; the ten-start fit is selected solely by final $\mathcal L_{\mathrm{sp}}$.
 An additional control selects one set of Euclidean $k$-means++ seeds in
 $X=\sqrt n U\Lambda$ and then runs the same profile EM.
 The main Euclidean baseline runs $k$-means in $X$ with ten starts, at most
@@ -140,13 +330,13 @@ all permutations of the $K$ labels. Averages weight graphs equally; ``exact''
 counts graphs with no mislabeled node. True labels are accessed only after
 all fitting and likelihood-based selections finish.
 
-\subsection{Recovery results}
+\subsection{Historical sparse-score recovery results}
 
 Table~\ref{tab:experiment_summary} gives the paired results in the design and
 independent batches. Global-gain initialization, peeling plus replacement,
 growing global gain, and ten-start greedy residual++ have the same per-graph
-error counts in both batches. Across all 240 graphs, the main deterministic
-method has average error $0.0946\%$, compared with $0.3194\%$ for the ten-start
+error counts in both batches. Across all 240 graphs, the archived growing
+arm has average error $0.0946\%$, compared with $0.3194\%$ for the ten-start
 Euclidean baseline, and exactly recovers 163 graphs compared with 139.
 These are finite-sample recovery comparisons with unequal optimization
 budgets, rather than equal-runtime comparisons.
@@ -155,7 +345,7 @@ budgets, rather than equal-runtime comparisons.
 \centering
 \small
 \caption{Average mislabeled fraction in percent; exact recovery counts are
-out of 120 graphs per batch. All profile arms use the same EM score.}
+out of 120 graphs per batch. Historical sparse-score arms only; this table does not evaluate the current Algorithm~1.}
 \label{tab:experiment_summary}
 \begin{tabular}{lrrrr}
 \toprule
@@ -189,7 +379,7 @@ claiming dominance on every graph.
 \begin{table}[tb]
 \centering
 \small
-\caption{Both batches combined, 40 graphs per model. The main columns use the original growing global-gain branch. The frozen-profile control has identical recorded error counts.}
+\caption{Both batches combined, 40 graphs per model. The likelihood columns use the archived sparse-score growing branch. The frozen-profile control has identical recorded error counts.}
 \label{tab:experiment_models}
 \begin{tabular}{lrrrr}
 \toprule
@@ -212,7 +402,7 @@ corresponding counts are 46 and 40. This behavior is consistent with the
 importance of the logarithmic-density recovery threshold, but the experiment
 does not establish that threshold or the leading error exponent.
 
-\subsection{A failure of subset scores and its repair}
+\subsection{Historical subset-score failure and its repair}
 
 One design graph with $n=2000$, $K=3$, and $\eta=0.8$ illustrates the
 initialization mechanism. Its normalized connectivity matrix is approximately
@@ -264,9 +454,9 @@ labels are aligned to truth for display only.}
 \label{fig:initialization_repair}
 \end{figure}
 
-\subsection{Numerical verification and computational scope}
+\subsection{Historical numerical verification and computational scope}
 
-All returned profile fits satisfy the declared stopping rule in the 240-graph
+All returned historical profile fits satisfy the declared stopping rule in the 240-graph
 comparison. The 120 original peeling errors are reproduced exactly. The
 archive contains 6240 EM traces, including replacement proposals, growing
 stages, and restart fits, with 27867 recorded trace points. The smallest
@@ -292,46 +482,24 @@ claim. The data sizes $n\le2000$ establish feasibility for this implementation;
 candidate-pool approximations and blockwise computations require separate
 large-graph validation.
 
-The evidence supports improved decoding of a fixed spectrum and a repair of
-redundant initialization under the declared working likelihood. It does not
-by itself prove that the practical EM endpoint has the oracle error exponent,
-that clipping preserves exact graph likelihood ratios, or that the growing initializer meets the high-probability weak-start condition in Theorem~\ref{thm:local-spectral-em}. Oracle-LRT comparisons, a denser range of $n$ for
-error-exponent estimation, and a full evaluation of Algorithm~1 remain
-outside the archived numerical study.
+The archived comparisons support improved decoding of a fixed spectrum in
+several heterogeneous models and identify a concrete failure of subset
+initialization. The new 60-graph study directly evaluates the current
+Algorithm~1 and records its weak-signal failures and its lack of a substantive
+replacement improvement on that particular collection. Neither collection
+estimates an asymptotic error exponent, proves uniform dominance over
+$k$-means, or replaces the model assumptions and analysis of
+Theorems~\ref{thm:main-recovery} and~\ref{thm:local-spectral-em}.
 
-
-\subsection{Fresh checks of the fixed-\texorpdfstring{$K$}{K} certified procedure}
-\label{sec:fresh-fixed-k}
-The new implementation was checked on 24 SBM graphs with
-$K\in\{3,4,6\}$, $n\in\{256,512\}$, two graph seeds for each configuration,
-and mean expected-degree targets $4\log n$ or $2\sqrt n$. Community sizes
-are balanced up to rounding, but the symmetric block matrices have
-unequal row sums, hence unequal expected degrees. Fitting receives only
-the retained eigenpairs. Truth is used afterwards to report errors.
-\begin{center}
-\begin{tabular}{ccrrr}
-\toprule
-$K$ & Mean degree target & Graphs & Exact graphs & Errors/nodes\\
-\midrule
-3 & $4\log n$ & 4 & 4 & 0/1536 \\
-3 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
-4 & $4\log n$ & 4 & 3 & 1/1536 \\
-4 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
-6 & $4\log n$ & 4 & 0 & 6/1536 \\
-6 & $2\sqrt n$ & 4 & 4 & 0/1536 \\
-\bottomrule
-\end{tabular}
-\end{center}
-All 24 runs stopped by rejecting every proposal at the specified threshold,
-and every proposal started from uniform weights. There were 7 mislabeled
-nodes among 9216 nodes, with 19 exact graph recoveries. The smallest
-recorded within-fit objective increment was $-1.46\times10^{-11}$,
-consistent with floating-point rounding. An additional diagnostic started
-the replacement procedure from an injected three-component collapsed fit:
-it accepted two consecutive replacements and then reached its stopping
-certificate with zero label errors. Checks also covered a zero spectrum,
-preservation of the historical floor option, and the public deterministic
-API. These finite samples verify the implemented procedure and its
-stopping logic; they do not estimate its asymptotic exponent.
-The script and machine-readable results are archived with the implementation.
-
+\paragraph{Companion sparse threshold-certificate checks.}
+A separately retained sparse-score implementation tests a uniform-weight
+refit together with the replacement trials and accepts only gains of at
+least $(\sum_{ij}q_{ij})/\sqrt{\log n}$. Its archived checks contain 24
+graphs with $n\in\{256,512\}$, $K\in\{3,4,6\}$, two degree scales,
+and two seeds in one heterogeneous assortative family. They record 19 exact
+recoveries and seven errors among 9,216 nodes; no natural growing endpoint
+requires an accepted replacement in that collection. A separate injected
+collapsed population endpoint is repaired in two accepted rounds. These
+checks concern the companion sparse threshold rule, not the complete
+Bernoulli Algorithm~1. They remain available as
+\path{general_k_fresh_checks.json} beside that implementation.

@@ -1,3 +1,6 @@
 Compiled research manuscript.
-Source commit: ca4f3308a69523cccf495cd4eec49afbdd3190b8
-Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/38038684029
+Source files: this merged revision, verified by BUILD_SHA256SUMS.txt.
+Build: local PDFLaTeX / BibTeX / subsequent PDFLaTeX passes, 2026-10-10 UTC.
+Pages: 31. Final compiler log: no warnings, undefined references/citations, overfull or underfull boxes.
+Visual review: all 31 pages of the scalar-p revision individually inspected in ranges 1-9, 10-20 and 21-31.
+The repository workflow will record the source commit and remote build URL when it rebuilds this revision.

@@ -1,0 +1,82 @@
+{
+  "n": 320,
+  "k": 2,
+  "density": "log_degree",
+  "family": "disassortative_unequal",
+  "repeat": 1,
+  "seed": 202612111,
+  "graph_id": "k2_log_degree_disassortative_unequal_s202612111",
+  "graph": {
+    "block_sizes": [
+      100,
+      220
+    ],
+    "block_proportions": [
+      0.3125,
+      0.6875
+    ],
+    "target_mean_degree": 17.304962987381316,
+    "expected_degree_by_block": [
+      23.494319109992,
+      14.491619295285549
+    ],
+    "empirical_mean_degree": 17.18125,
+    "P_eigenvalues": [
+      -0.08532138079792503,
+      0.11743287358240556
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.006249999999999978,
+      "ari": 0.974595041322314,
+      "n_output_classes": 2,
+      "final_soft_loss": 620.0196019773837
+    },
+    "full_replacement": {
+      "misclassification": 0.006249999999999978,
+      "ari": 0.974595041322314,
+      "n_output_classes": 2,
+      "final_soft_loss": 620.0196019773837
+    },
+    "sparse_growing": {
+      "misclassification": 0.006249999999999978,
+      "ari": 0.974595041322314,
+      "n_output_classes": 2,
+      "final_soft_loss": 593.1557643687111
+    },
+    "sparse_replacement": {
+      "misclassification": 0.006249999999999978,
+      "ari": 0.974595041322314,
+      "n_output_classes": 2,
+      "final_soft_loss": 593.1557643687111
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.006249999999999978,
+      "ari": 0.974595041322314,
+      "n_output_classes": 2,
+      "inertia": 63.15890034336207
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0031250000000000444,
+      "ari": 0.9872490751410031,
+      "n_output_classes": 2,
+      "inertia": 15613.143546596395
+    }
+  },
+  "audit": {
+    "em_updates": 18,
+    "largest_em_loss_increase": 0.0,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 6
+  },
+  "seconds": 0.0820429730001706,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

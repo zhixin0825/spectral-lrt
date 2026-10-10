@@ -1,0 +1,86 @@
+{
+  "n": 320,
+  "k": 3,
+  "density": "log_degree",
+  "family": "weak_general_unequal",
+  "repeat": 0,
+  "seed": 202613120,
+  "graph_id": "k3_log_degree_weak_general_unequal_s202613120",
+  "graph": {
+    "block_sizes": [
+      165,
+      107,
+      48
+    ],
+    "block_proportions": [
+      0.515625,
+      0.334375,
+      0.15
+    ],
+    "target_mean_degree": 17.304962987381316,
+    "expected_degree_by_block": [
+      18.012758894345254,
+      16.663894251469472,
+      16.300963614329625
+    ],
+    "empirical_mean_degree": 17.7125,
+    "P_eigenvalues": [
+      0.005822877753367171,
+      0.012689131787419742,
+      0.1588705280766431
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.621875,
+      "ari": -0.0013964284917101664,
+      "n_output_classes": 3,
+      "final_soft_loss": 981.0490289559364
+    },
+    "full_replacement": {
+      "misclassification": 0.621875,
+      "ari": -0.0013964284917101664,
+      "n_output_classes": 3,
+      "final_soft_loss": 981.0490289559364
+    },
+    "sparse_growing": {
+      "misclassification": 0.61875,
+      "ari": -0.0014088473749945935,
+      "n_output_classes": 3,
+      "final_soft_loss": 936.4662396346255
+    },
+    "sparse_replacement": {
+      "misclassification": 0.61875,
+      "ari": -0.0014088473749945935,
+      "n_output_classes": 3,
+      "final_soft_loss": 936.4662396346255
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.621875,
+      "ari": 0.0018498963596184782,
+      "n_output_classes": 3,
+      "inertia": 332.654724010157
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.603125,
+      "ari": 0.0025563648561400107,
+      "n_output_classes": 3,
+      "inertia": 27316.247188548095
+    }
+  },
+  "audit": {
+    "em_updates": 279,
+    "largest_em_loss_increase": 0.0,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 10
+  },
+  "seconds": 0.23366461800014804,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

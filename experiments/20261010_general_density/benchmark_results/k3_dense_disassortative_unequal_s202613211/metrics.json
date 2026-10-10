@@ -1,0 +1,86 @@
+{
+  "n": 320,
+  "k": 3,
+  "density": "dense",
+  "family": "disassortative_unequal",
+  "repeat": 1,
+  "seed": 202613211,
+  "graph_id": "k3_dense_disassortative_unequal_s202613211",
+  "graph": {
+    "block_sizes": [
+      67,
+      107,
+      146
+    ],
+    "block_proportions": [
+      0.209375,
+      0.334375,
+      0.45625
+    ],
+    "target_mean_degree": 57.419999999999995,
+    "expected_degree_by_block": [
+      61.57942044736446,
+      59.90801581477765,
+      53.687816012639566
+    ],
+    "empirical_mean_degree": 57.54375,
+    "P_eigenvalues": [
+      -0.24108826623328858,
+      -0.1813968514468243,
+      0.5393503537285022
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "final_soft_loss": 963.2416898372969
+    },
+    "full_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "final_soft_loss": 963.2416898372969
+    },
+    "sparse_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "final_soft_loss": 860.814610812122
+    },
+    "sparse_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "final_soft_loss": 860.814610812122
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "inertia": 86.57864284044801
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 3,
+      "inertia": 49995.104390330765
+    }
+  },
+  "audit": {
+    "em_updates": 25,
+    "largest_em_loss_increase": 1.3642420526593924e-12,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 10
+  },
+  "seconds": 0.10391044600055466,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

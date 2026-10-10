@@ -1,3 +1,5 @@
+> Companion sparse-score revision: the general-K threshold-certificate proof was completed in `452ca1d67cb23981ca3e6a7debf23433a6d660e8`, and this audit includes the scalar-p notation revision `6cbb58e` and final companion build audit `f250231`. That proof is retained with its implementation and checks. For the current full-Bernoulli density extension and direct contraction, see [README.md](README.md) and [REVIEW_20261010.md](REVIEW_20261010.md). The sparse-score model described below belongs to the companion revision.
+
 # General fixed-order and density extension audit
 
 The main theorem covers every fixed integer K >= 2. Define p=max_ab P_ab. Its density assumptions are p=Omega(log n/n) and p=o(1), with P_ab asymp p, positive community proportions, and sigma_min(N^(1/2) P N^(1/2)) asymp np. The minimum expected-degree assumption and the separate P_min, P_max, c_r, c_s, c_d notation have been removed. All probability, information, reconstruction, and objective scales use p, np, or n^2p.
@@ -26,4 +28,4 @@ Compiled PDF commit: 656459a15a5c0e05851ee76cd9f0d9404434eb94
 
 Final PDF: 35 pages, 643713 bytes; SHA-256 `8da21650158fb3a9a6a90db42e979e9d2dce01e1d6678edb54dc9f648f1543fe`.
 
-The final PDFLaTeX pass has no unresolved references or citations, no LaTeX warnings, and no overfull or underfull boxes. All 35 pages were visually inspected. A shortened introduction roadmap removed an orphaned line; the final render changed only pages 3�C5, which were inspected again. No text escapes the margins, and no clipping or overlap remains. Algorithm code and numerical results are unchanged by this notation revision.
+The final PDFLaTeX pass has no unresolved references or citations, no LaTeX warnings, and no overfull or underfull boxes. All 35 pages were visually inspected. A shortened introduction roadmap removed an orphaned line; the final render changed only pages 3-5, which were inspected again. No text escapes the margins, and no clipping or overlap remains. Algorithm code and numerical results are unchanged by this notation revision.

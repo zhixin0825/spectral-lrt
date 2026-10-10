@@ -1,743 +1,532 @@
-\section{Proofs of spectral preservation and statistical results}
+\section{Probability bounds and local likelihood fitting}
 \label{app:statistical-proofs}
 
-\subsection{Exact preservation and the population contrast space}
+Throughout the proofs, $p=\max_{a,b}P_{ab}$ is the probability scale in \eqref{eq:model-conditions}--\eqref{eq:density-condition}. The assumption $p=\Omega(\log n/n)$ ensures $\log n\le Cnp$ for a fixed constant $C$ and all sufficiently large $n$. All constants may depend on the fixed model bounds, the constant implicit in this density lower bound, $K$, and the admissible $c_0$, but not on the particular sequence of normalized matrices.
 
-\begin{proof}[Proof of Proposition~\ref{prop:exact-preservation}]
-Since $AU=U\Lambda$, multiplication by $U^\top$ gives
-$A\Pi=AUU^\top=U\Lambda U^\top=\widetilde A$.  Therefore
-$\widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w$.  If $w\in\operatorname{col}(U)$,
-then $\Pi w=w$ and the difference vanishes.
+\subsection{Uniform information and the oracle leading exponent}
+\label{app:uniform-density-bounds}
 
-Let $N=Z^\top Z=\operatorname{diag}(n_1,\ldots,n_K)$, which is
-nonsingular since all communities are nonempty.  The columns of
-$ZN^{-1/2}$ are orthonormal, and
-\[
- ZPZ^\top=(ZN^{-1/2})(N^{1/2}PN^{1/2})(ZN^{-1/2})^\top.
-\]
-Nonsingularity of $P$ makes the central matrix nonsingular.  Hence
-$ZPZ^\top$ has rank $K$ and column space $\operatorname{col}(Z)$.
-For each contrast, define
-$\xi_c^{ab}=\log\{P_{ac}(1-P_{bc})/[P_{bc}(1-P_{ac})]\}$.
-Then $w^{ab}=Z\xi^{ab}$, which proves membership in that space.
-Finally, subtracting $\operatorname{diag}(P_{z_i z_i})$ from $ZPZ^\top$
-gives the actual no-self-loop mean, so no rank assertion about that
-corrected matrix is needed.
-\end{proof}
-
-Full rank cannot be replaced by distinct block rows without a further
-contrast-span condition.  For example, let $P=ss^\top$ for a positive,
-nonconstant vector $s$.  Its signal space is spanned by $Zs$, whereas
-the sparse log-probability contrast between communities $a,b$ is
-$\log(s_a/s_b)\mathbf1$.  When $s_a\ne s_b$, this constant vector does
-not belong to $\operatorname{span}(Zs)$.  A rank-one signal projection
-does not preserve that contrast by the preceding identity.  This example
-only concerns projection onto the population rank-one space; it is not
-an impossibility claim for every statistic computed from one empirical
-eigenvector.
-
-
-\subsection{The sparse likelihood correction}
-
-\begin{proof}[Proof of Lemma~\ref{lem:sparse-expansion}]
-Write $p_{aj}=P_{a,z_j}$ and $p_{bj}=P_{b,z_j}$ for $j\ne i$.
-The exact binary Bernoulli log-likelihood ratio is
-\[
- L_i^{ab}=\sum_{j\ne i}A_{ij}\log\frac{p_{aj}}{p_{bj}}
- +\sum_{j\ne i}A_{ij}\log\frac{1-p_{bj}}{1-p_{aj}}
- +\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
-\]
-For $0\le x\le1/2$, the power series for $\log(1-x)$ implies
-$|\log(1-x)+x|\le Cx^2$. Since $p_{aj},p_{bj}\le p\to0$,
-\[
- \left|\log\frac{1-p_{bj}}{1-p_{aj}}\right|\le C p,
+There are constants $c,C>0$ such that
+\begin{equation}
+ \min_{a\ne b}\|p_{a*}-p_{b*}\|_1\ge cnp,
  \qquad
- \left|\log\frac{1-p_{aj}}{1-p_{bj}}+(p_{aj}-p_{bj})\right|
- \le C p^2.
-\]
-The first term is unchanged in the sparse score, and the final term is
-replaced by its first-order nonedge offset. Summing proves
-\eqref{eq:sparse-expansion-error}.
-
-Under any true community, $\deg(i)$ is a sum of independent Bernoulli
-variables with mean at most $np$. For $D>1$, exponential Markov
-inequality with $t=\log D$ gives
-\[
- \Pr\{\deg(i)>D np\}
- \le\exp\{-np(D\log D-D+1)\}.
-\]
-The bracket tends to infinity with $D$. Thus, for every fixed $H>0$,
-the degree bound holds uniformly in $i$ outside probability
-$e^{-H np}$; a union bound has the same form after increasing
-$D$, because $np\ge c\log n$.
-On that event the likelihood correction is
-$O_H(np^2)=o(np)$.
-This error need not tend to zero in absolute value: its relevant scale
-is the information $I_n\asymp np$ established below.
-\end{proof}
-
-\begin{remark}[Scope of the sparse working score]
-The density lower bound is $p=\Omega(\log n/n)$.
-The assumption $p\to0$ is used separately to make the first-order
-Bernoulli correction negligible relative to $I_n$. No result here
-identifies this sparse score with the exact Bernoulli likelihood when
-the block probabilities stay bounded away from zero.
-\end{remark}
-
-
-\subsection{Chernoff information and the oracle exponent}
-
-\begin{proof}[Proof of Lemma~\ref{lem:oracle-exponent}]
-Let $f_a,f_b$ denote the product Bernoulli mass functions of the
-incident-edge row under the two hypotheses. Define
-\begin{align*}
- D_\alpha(p_{a,-i}\Vert p_{b,-i})
- &=-\log\sum_x f_a(x)^{1-\alpha}f_b(x)^\alpha\\
- &=-\sum_{j\ne i}\log\big\{p_{aj}^{1-\alpha}p_{bj}^\alpha
-                    +(1-p_{aj})^{1-\alpha}(1-p_{bj})^\alpha\big\},\\
- D^*_{i,ab}&=\max_{0\le\alpha\le1}D_\alpha(p_{a,-i}\Vert p_{b,-i}).
-\end{align*}
-Uniformly for $\alpha\in[0,1]$ and $u,v\in[\min_{a,b}P_{ab},p]$,
-\[
- u^{1-\alpha}v^\alpha+(1-u)^{1-\alpha}(1-v)^\alpha
- =1-\{(1-\alpha)u+\alpha v-u^{1-\alpha}v^\alpha\}
-   +O(p^2).
-\]
-For example, the nonedge product expansion follows by writing it as
-$\exp\{(1-\alpha)\log(1-u)+\alpha\log(1-v)\}$.
-Expanding $-\log(1-x)$ and summing gives
-\begin{equation}
- D^*_{i,ab}
- =n\max_{0\le\alpha\le1}\sum_c\pi_{c,n}
-  \{(1-\alpha)P_{ac}+\alpha P_{bc}-P_{ac}^{1-\alpha}P_{bc}^\alpha\}
-  +O(np^2+p),\label{eq:chernoff-expansion}
+ cnp\le D(p_{a*}\Vert p_{b*})\le Cnp,
+ \qquad
+ cnp\le D^*_{i,ab}\le Cnp.
+ \label{eq:uniform-information-scale}
 \end{equation}
-where $\pi_{c,n}=n_c/n$. The $O(p)$ term accounts for the
-excluded node. A fixed limiting normalized matrix is unnecessary.
-Indeed, $\sigma_{\min}(N^{1/2}PN^{1/2})\ge c np$ implies
-$\sigma_{\min}(P)\ge cp$, since $\|N^{1/2}\|_{\mathrm{op}}^2\le n$.
-Consequently, for every $a\ne b$,
+To verify the lower bounds, note that
 \[
- \sum_c\pi_{c,n}(\sqrt{P_{ac}}-\sqrt{P_{bc}})^2
- \ge\frac{\pi_{\min}}{4p}\|P_{a*}-P_{b*}\|_2^2
- \ge c'p.
+ \|P_{a*}-P_{b*}\|_2
+ =\|(e_a-e_b)^\top P\|_2
+ \ge\sqrt2\,\kappa p.
 \]
-Here $P_{a*}$ denotes the $K$-coordinate block row in this display.
-Taking $\alpha=1/2$ in \eqref{eq:chernoff-expansion} proves a uniform
-lower bound $D^*_{i,ab}\ge c' np$ for large $n$.
-The upper bound $D^*_{i,ab}\le C np$ follows from the same
-expansion. Thus $D^*_{i,ab}\asymp np$ and
-$I_n\asymp np$, uniformly over all pairs and excluded nodes.
-
-The equal-prior Bayes risk is
-$R_{i,ab}^{\mathrm{or}}=\frac12\sum_x\min\{f_a(x),f_b(x)\}$.
-Since $\min\{u,v\}\le u^{1-\alpha}v^\alpha$,
-\begin{equation}
- R_{i,ab}^{\mathrm{or}}\le\tfrac12 e^{-D^*_{i,ab}}.
- \label{eq:oracle-upper}
-\end{equation}
-A matching leading lower bound follows by exponential tilting. Let
-$\alpha_*$ maximize the Chernoff information and set
+Positive community proportions transfer this bound to the full
+profiles.  In particular their squared Euclidean separation is at
+least $cnp^2$.  The scalar Bernoulli entropy has second
+derivative $1/[x(1-x)]\ge1/p$ on the interval between two
+true probabilities.  This proves the KL lower bound.  For Chernoff
+information, use its value at $\alpha=1/2$ and
 \[
- f_*(x)=e^{D^*_{i,ab}}f_a(x)^{1-\alpha_*}f_b(x)^{\alpha_*},
- \qquad L(x)=\log\frac{f_a(x)}{f_b(x)}.
+ -\log\{\sqrt{uv}+\sqrt{(1-u)(1-v)}\}
+ \ge\tfrac12(\sqrt u-\sqrt v)^2
+ \ge\frac{(u-v)^2}{8p}.
 \]
-The two positive product distributions differ and the endpoint
-derivatives have opposite signs. Hence $\alpha_*\in(0,1)$, and
-differentiating the normalization gives $\mathbb E_*L=0$.
-The tilted incident edges remain independent, with probabilities
-\[
- p_{*,j}=
- \frac{p_{aj}^{1-\alpha_*}p_{bj}^{\alpha_*}}
- {p_{aj}^{1-\alpha_*}p_{bj}^{\alpha_*}
- +(1-p_{aj})^{1-\alpha_*}(1-p_{bj})^{\alpha_*}}
- \le C p.
-\]
-The edge coefficient in $L$ is uniformly bounded because
-$P_{ab}\asymp p$ and $p\to0$.
-Thus $\operatorname{Var}_*(L)\le C np$.
-Take $h_n=(np)^{2/3}$. Chebyshev's inequality gives
-$\Pr_*(|L|\le h_n)=1-o(1)$, and the change of measure yields
-\begin{align*}
- R_{i,ab}^{\mathrm{or}}
- &=\tfrac12 e^{-D^*_{i,ab}}
-   \mathbb E_*\min\{e^{\alpha_*L},e^{-(1-\alpha_*)L}\}\\
- &\ge\tfrac12 e^{-D^*_{i,ab}-h_n}\Pr_*(|L|\le h_n).
-\end{align*}
-Together with \eqref{eq:oracle-upper}, this proves
-$\log R_{i,ab}^{\mathrm{or}}=-D^*_{i,ab}+o(np)$ and hence
-\eqref{eq:oracle-risk}. Fixed prior probabilities bounded away from
-zero and one change this risk by at most fixed factors, preserving
-the leading exponent.
-\end{proof}
+Omitting one coordinate changes the bound by $O(p)$.
+For the upper bounds use $P_{ab}\ge\kappa p$ for every block pair and
+$1-p\ge\eta$ in the usual Bernoulli KL upper bound.
+Consequently $I_n\asymp np$.
 
-\subsection{Transfer of the leading exponent}
+\paragraph{The oracle leading exponent.}
+The binary oracle Bayes risk obeys
+$R^{\mathrm{or}}_{i,ab}=\exp\{-(1+o(1))D^*_{i,ab}\}$ uniformly.
+For completeness, the upper bound is the exact Chernoff bound.
+For the lower bound, tilt the product Bernoulli law by its
+Chernoff-maximizing $\alpha$.  This maximizer is interior because
+the two distributions differ and the endpoint divergences are zero.
+The tilted mean of the oracle LLR is therefore zero.  The logit
+contrasts are bounded uniformly under
+\eqref{eq:model-conditions}--\eqref{eq:density-condition}, and each tilted Bernoulli
+success probability is at most $Cp$, so the tilted LLR
+variance is at most $Cnp$.  With $h=(np)^{2/3}$, Chebyshev's inequality
+gives tilted probability $1-o(1)$ to $|L|\le h$.  On this event,
+the two change-of-measure factors entering the binary Bayes risk
+are both at least $e^{-D^*-h}$.  This proves the lower bound with
+an $o(np)$ exponent loss.  Fixed nonzero prior odds add only $O(1)$
+to the testing threshold.
 
-\begin{proof}[Proof of Theorem~\ref{thm:exponent-transfer}]
-Suppose the true label of node $i$ is $a$.  If $G_i$ occurs and the
-classifier prefers $b\ne a$, then
-$\widehat\ell_i(a)-\widehat\ell_i(b)\le0$, and consequently
-$L_i^{ab}\le\tau_n$.  For every $\alpha\in[0,1]$,
-\[
- \Pr_a\{L_i^{ab}\le\tau_n\}
- \le e^{\alpha\tau_n}\mathbb E_a e^{-\alpha L_i^{ab}}
- =\exp\{\alpha\tau_n-D_\alpha(p_{a,-i}\Vert p_{b,-i})\}.
-\]
-Selecting a Chernoff maximizer and using $\alpha\le1$ gives
-\[
- \Pr\{\widehat z_i\ne z_i\}
- \le\delta_n+\sum_{b\ne a}\exp\{\tau_n-D^*_{i,ab}\}
- \le\delta_n+(K-1)\exp\{-I_n+o(I_n)\}.
-\]
-Because $\tau_n=o(I_n)$,
-\eqref{eq:transfer-tail} makes the first term no larger in leading
-exponential order.  Averaging over nodes and using that the
-permutation-invariant error is no larger than the error under any one
-common alignment proves \eqref{eq:conditional-rate}.
-
-The expected number of errors under that alignment is at most
-$n\exp\{-(1+o(1))I_n\}$. If
-$\liminf_{n\to\infty}I_n/\log n>1$, Markov's inequality gives vanishing
-probability of even one error, which proves the exact recovery assertion.
-No conclusion when $I_n/\log n\to1$ follows from this argument.
-\end{proof}
-
-The matching binary lower bound mentioned after the theorem has a direct
-decision-theoretic justification.  Conditional on all other labels, the
-rest of the graph is independent of the incident-edge row and has the
-same distribution under $a$ and $b$.  Revealing the other labels and
-true parameters cannot increase the Bayes risk.  A function of the
-graph's spectral summary is also a function of the full graph; its risk
-in that binary experiment is therefore at least
-$R_{i,ab}^{\mathrm{or}}$.  This argument does not, by itself, assert a
-global minimax lower bound over an unspecified parameter space.
-
-
-
-\subsection{Full-graph reconstruction and local empirical EM}
-\label{app:local-em}
+\subsection{Exponential-confidence full-graph approximation}
+\label{app:general-full-spectral}
 
 \begin{proof}[Proof of Lemma~\ref{lem:full-spectral}]
-The true no-self-loop mean $\E[A\mid z]$ leaves $\operatorname{col}(Z)$
-invariant. In the orthonormal membership basis $ZN^{-1/2}$ its
-restriction is
-$N^{1/2}PN^{1/2}-\operatorname{diag}(P_{11},\ldots,P_{KK})$.
-The conditioning assumption implies that its $K$ signal eigenvalues
-have absolute values between $c np$ and $C np$ for large
-$n$. On the orthogonal complement, the eigenvalues are $-P_{aa}$,
-with absolute values at most $p$. Let $U_*,\Lambda_*$ contain
-the signal eigenpairs. Then $U_*U_*^\top=\Pi_*$ and
-$\|U_*\|_{2\to\infty}=O(n^{-1/2})$.
+The actual mean $M=\mathbb E[A\mid z]$ leaves
+$\operatorname{col}(Z)$ invariant.  In its orthonormal membership
+basis, the restriction of $M$ equals
+\[
+ (Z^\top Z)^{1/2}P(Z^\top Z)^{1/2}
+       -\operatorname{diag}(P_{11},\ldots,P_{KK}).
+\]
+Its $K$ signal eigenvalues have absolute values between $cnp$ and
+$Cnp$.  On the orthogonal complement, the eigenvalues are
+$-P_{aa}$ and have magnitude at most $p$.
+Let $U_*,\Lambda_*$ denote the signal eigenpairs.  Then
+$U_*U_*^\top=\Pi_*$ and
+$\|U_*\|_{2\to\infty}\le C/\sqrt n$.
 
-Here $\|M\|_{2\to\infty}=\max_i\|M_i\|_2$. Fix any $H>0$.
-The bounded-entry spectral norm inequality of Bandeira and van
-Handel~\citep[Corollary 3.12 and Remark 3.13]{bvh2016} gives, for
-$t\ge0$ and absolute constants,
+We establish all probabilistic bounds at the scale $e^{-Hnp}$.
+For the centered symmetric matrix $A-M$, its independent
+upper-triangular entries have absolute value at most one and
+maximum row variance sum at most $np$.  The centered-entry form of
+Bandeira--van Handel's spectral norm bound
+\citep[Corollary 3.12 and Remark 3.13]{bandeiravhandel2016} gives
 \[
- \Pr\{\|A-\E[A\mid z]\|_{\mathrm{op}}
-              >C\sqrt{np}+t\}
- \le n e^{-t^2/C}.
+ \Pr\{\|A-M\|_{\mathrm{op}}>C\sqrt{np}+t\}
+       \le n\exp(-t^2/C).
 \]
-Taking $t=C_H\sqrt{np}$ absorbs the factor $n$ because
-$np\ge c\log n$. Thus the noise norm is at most
-$C_H\sqrt{np}$ outside $O(e^{-H np})$.
-In the notation of Abbe et al.~\citep[Theorem 2.1]{abbe2020}, the
-signal separation is comparable to $np$, the eigenvalue
-condition number is bounded, and we take
-$\gamma=C_H/\sqrt{np}$.
-Their incoherence assumption holds since
-$\|\E[A\mid z]\|_{2\to\infty}=O(np/\sqrt n)$ and
-$np\le n$. Row/column independence follows from the
-independent upper-triangular edges.
+Set $t=C_H\sqrt{np}$.  Since $\log n\le Cnp$, the constant can
+be chosen so that
+\begin{equation}
+ \Pr\{\|A-M\|_{\mathrm{op}}>C_H\sqrt{np}\}
+       \le e^{-Hnp}.
+ \label{eq:exponential-spectral-norm}
+\end{equation}
+All confidence powers used within the proof may be increased to
+absorb its finitely many union bounds.
 
-We verify their row concentration at the same exponential confidence.
-For a fixed matrix $W$ with at most $K$ columns, put
-$m=\|W\|_{2\to\infty}$ and
-$x=\|W\|_F/(\sqrt n m)\in(0,1]$; $m=0$ is trivial.
-Every scalar column sum of $(A-\E[A\mid z])_{i*}W$ has summands bounded
-by $m$ and variance at most $npm^2x^2$.
-Bennett's inequality at threshold
-$B npm/(1\vee\log(1/x))$ gives an exponent at least
+We next verify the entrywise eigenspace bound, including its
+confidence.  The Bernoulli row inequality of Abbe et al.
+\citep[Lemma 7]{abbe2020} states that, for a fixed vector $w$,
+independent Bernoulli $X_j$ with means at most the model bound $p$, and $\alpha\ge0$,
 \[
- npx^2
- h\!\left(\frac{B}{x^2(1\vee\log(1/x))}\right)
- \ge\frac{B}{2}np,
- \qquad h(u)=(1+u)\log(1+u)-u,
+ \Pr\left\{\left|\sum_jw_j(X_j-\mathbb EX_j)\right|
+  >\frac{(2+\alpha)np\|w\|_\infty}
+   {1\vee\log(\sqrt n\|w\|_\infty/\|w\|_2)}\right\}
+       \le2e^{-\alpha np}.
 \]
-for all $0<x\le1$ and all sufficiently large fixed $B$.
-For $x\le e^{-1}$ this follows from
+Choose a fixed $\alpha>H+2C$, where $C$ satisfies $\log n\le Cnp$.
+Applying this bound to each of the at most
+$K$ columns verifies their row-concentration assumption, with
+total failure at most $e^{-Hnp}$ and with concentration function
 \[
- \log\{B/[x^2\log(1/x)]\}\ge\log(1/x),\qquad
- h(u)\ge u\log(u)/2
-\]
-for sufficiently large $u$.
-For $x\ge e^{-1}$ it follows by monotonicity of the Bennett exponent
-in its variance bound. Choosing $B$ sufficiently large and applying
-a union bound over the fixed number of columns proves their A4 with
-per-row failure at most $e^{-H np}/n$ and
-\[
- \varphi_H(x)=\frac{C_H}{1\vee\log(1/x)}\quad(x>0),
+ \varphi_H(x)=\frac{C_H}{1\vee\log(1/x)},\quad x>0,
  \qquad \varphi_H(0)=0.
 \]
-The function is continuous and nondecreasing, and
-$\varphi_H(x)/x$ is nonincreasing. Both $\gamma$ and
-$\varphi_H(\gamma)$ tend to zero, so their smallness assumption holds
-for large $n$. We may take both failure parameters in their theorem
-to be $O(e^{-H np})$, after adjusting the constants.
+For matrices, the column norms can be replaced by the Frobenius
+and maximum row norms because $\varphi_H$ is nondecreasing and
+$\varphi_H(x)/x$ is nonincreasing.  The fixed number of columns
+only changes $C_H$.
 
-Apply that theorem separately to the positive and negative signal
-groups and concatenate the polar orthogonal alignments. Repeated
-eigenvalues within either group cause no difficulty. The theorem
-allows a non-low-rank mean, so the diagonal correction has been
-retained. The noise norm event identifies the retained empirical
-eigenpairs with these signal groups. We obtain an orthogonal $R$,
-$V=UR$, and a deterministic $\nu_n\to0$ such that
-\[
+The signal condition number is bounded.  Choose
+$\gamma=C_H/\sqrt{np}$.  Their incoherence assumption follows from
+$\|M\|_{2\to\infty}\le np/\sqrt n$ and $np\le n$;
+their row/column independence assumption follows from independent
+upper-triangular edges.  The norm assumption follows from
+\eqref{eq:exponential-spectral-norm}.  Finally
+$\gamma\to0$ and $\varphi_H(\gamma)\to0$, as required for the
+smallness condition in their Theorem 2.1.
+
+Apply that theorem to the positive and negative signal groups
+separately.  Each is a contiguous eigenvalue group with a gap of
+order $np$ to its complement.  Concatenating the polar alignments
+gives an orthogonal $R$ and $V=UR$ such that
+\begin{equation}
  \|V\|_{2\to\infty}\le C_H/\sqrt n,\qquad
- \|V-AU_*\Lambda_*^{-1}\|_{2\to\infty}\le\nu_n/\sqrt n.
-\]
-The same alignments satisfy Davis--Kahan's bound
+ \|V-AU_*\Lambda_*^{-1}\|_{2\to\infty}
+        \le\nu_{H,n}/\sqrt n,
+ \label{eq:general-first-order}
+\end{equation}
+where $\nu_{H,n}\to0$.  Repeated eigenvalues inside a group do not
+affect this argument.  The non-low-rank-mean form of the theorem
+accounts for the absent diagonal.  The norm event also ensures
+that the empirical eigenpairs with largest absolute eigenvalues
+are precisely these signal groups.
+
+Davis--Kahan with the same polar alignments gives
 $\|V-U_*\|_{\mathrm{op}}\le C_H/\sqrt{np}$.
-Set $M=R^\top\Lambda R=V^\top AV$. Since
-$\|\E[A\mid z]\|_{\mathrm{op}}=O(np)$,
+Put $T=R^\top\Lambda R=V^\top AV$.  Since
+$\|M\|_{\mathrm{op}}=O(np)$,
 \[
- \|M-\Lambda_*\|_{\mathrm{op}}
- \le\|A-\E[A\mid z]\|_{\mathrm{op}}
- +2\|\E[A\mid z]\|_{\mathrm{op}}\|V-U_*\|_{\mathrm{op}}
+ \|T-\Lambda_*\|_{\mathrm{op}}
+ \le\|A-M\|_{\mathrm{op}}
+       +2\|M\|_{\mathrm{op}}\|V-U_*\|_{\mathrm{op}}
  \le C_H\sqrt{np}.
 \]
-The degree union bound from Lemma~\ref{lem:sparse-expansion} also
-gives $\max_i\deg(i)\le C_H np$ at the stated confidence.
+A degree Chernoff bound, followed by a union bound and use of
+$\log n\le Cnp$, also gives
+$\max_i\deg(i)\le C_Hnp$ at the same confidence.  Hence
+$\|(AU_*)_i\|_2\le C_Hnp/\sqrt n$.
 
-Set $E=V-AU_*\Lambda_*^{-1}$. The exact row decomposition is
+Writing $E_1=V-AU_*\Lambda_*^{-1}$, the exact decomposition is
 \[
- (\widetilde A-A\Pi_*)_i
- =E_iMV^\top+(AU_*)_i
-       \{\Lambda_*^{-1}MV^\top-U_*^\top\}.
+ (U\Lambda U^\top-A\Pi_*)_i
+ = (E_1)_iTV^\top
+   +(AU_*)_i\{\Lambda_*^{-1}TV^\top-U_*^\top\}.
 \]
-The bracket has operator norm $O((np)^{-1/2})$, while
-$\|(AU_*)_i\|_2\le C_H np/\sqrt n$.
-Consequently
+The bracket has operator norm $O((np)^{-1/2})$.  Therefore
 \[
- \|\widetilde A-A\Pi_*\|_{2\to\infty}
- \le\frac{C_H}{\sqrt n}
-       \{np\nu_n+\sqrt{np}\}
+ \|U\Lambda U^\top-A\Pi_*\|_{2\to\infty}
+ \le C_H(np\nu_{H,n}+\sqrt{np})/\sqrt n
  =o(np/\sqrt n).
 \]
-Cauchy--Schwarz gives the uniform row $\ell_1$ bound. For a fixed
-realization of the random floor $\varepsilon_n$, the clipping map
-$x\mapsto\max\{x,\varepsilon_n\}$ is 1-Lipschitz. Applying this same
-map to both reconstructions therefore gives the $q-q^0$ bound without
-conditioning on the floor. Moreover,
-\[
- |\widetilde A_{ij}|
- \le\|U_i\|_2\|\Lambda\|_{\mathrm{op}}\|U_j\|_2
- \le C_H p.
-\]
-The nonnegative adjacency matrix has spectral radius
-$\|\Lambda\|_{\mathrm{op}}=\lambda_1(A)$. The row sums of its mean,
-together with the noise norm bound, give for large $n$
-\[
- c np\le\|\Lambda\|_{\mathrm{op}}
- \le np+C_H\sqrt{np}
- =(1+o(1))np.
-\]
-Hence the admissible adaptive floor satisfies
-$c'p\le\varepsilon_n=c_0\max\{\|\Lambda\|_{\mathrm{op}},1\}/n
-\le \min_{a,b}P_{ab}/2$ on this event for large $n$, because
-$c_0$ is sufficiently small relative to the probability comparison bound. This also proves the
-common positive box used in the fitting arguments.
+Cauchy--Schwarz and the coordinatewise Lipschitz property of
+clipping give the first bound in
+\eqref{eq:general-profile-errors}.  This remains true when the
+common clipping threshold is random.
 
-For the average approximation, let
-$N_{ic}=\sum_{j:z_j=c}A_{ij}$. Since $\varepsilon_n<P_{ac}$ on this
-event, clipping toward $P_{ac}$ cannot increase the coordinate error:
+The Perron eigenvalue of $M$ is between its minimum and maximum
+row sums.  These sums lie in
+$[(n-1)\kappa p,np]$.
+The norm event consequently gives
+$(\kappa/4)np\le s\le2np$ for all sufficiently large $n$.
+Thus every true probability lies strictly between the clipping
+endpoints.  The entrywise bound
+\[
+ |(U\Lambda U^\top)_{ij}|
+ \le\|U_i\|_2\|\Lambda\|_{\mathrm{op}}\|U_j\|_2
+ \le C_Hp
+\]
+then proves \eqref{eq:general-profile-box}.
+
+For the remaining average bound, write
+$N_{ic}=\sum_{j:z_j=c}A_{ij}$.  Projection onto the block-constant
+space and contraction of clipping toward a true probability give
 \[
  \|q_i^0-p_{z_i,*}\|_1
- \le\sum_c|N_{ic}-n_cP_{z_i,c}|.
+       \le\sum_c|N_{ic}-n_cP_{z_i,c}|.
 \]
-Let $F$ be the sum on the right over all $i$.
-Its expectation is at most $Cn\sqrt{np}+Cnp$; the
-last term accounts for the missing diagonal.
-Changing one independent edge changes $F$ by at most two.
-The bounded-differences inequality gives
+Let $F$ be the sum of the right-hand side over $i$.
+Then $\mathbb EF\le Cn\sqrt{np}+Cnp$, where $Cnp$ includes the
+missing-diagonal correction.  Changing one independent edge
+changes $F$ by at most two.  The bounded-differences inequality
+at deviation $n(np)^{3/4}$ yields
 \[
- \Pr\{F-\E F>n(np)^{3/4}\}
- \le e^{-c(np)^{3/2}}.
+ \Pr\{F-\mathbb EF>n(np)^{3/4}\}
+       \le\exp(-c(np)^{3/2}).
 \]
-This is smaller than $e^{-H np}$ for every fixed $H$ and large
-$n$. Combining these estimates and enlarging a deterministic vanishing
-$a_n$ proves every assertion on a common event of probability
-$1-O(e^{-H np})$.
+This is smaller than $e^{-Hnp}$ eventually for every fixed $H$.
+Combine it with the uniform reconstruction error and enlarge a
+deterministic $a_{H,n}\to0$ to finish the proof.
 \end{proof}
 
-\paragraph{Clipped oracle comparisons with a random floor.}
-Let $G_H$ be the graph event just proved. Fix a true class $a$ and a
-competitor $b$, and write
-$v_c=\log(P_{ac}/P_{bc})$,
-$N'_{ic}=\max\{N_{ic},n_c\varepsilon_n\}$, and
+\subsection{Clipping at a threshold estimated from the spectrum}
+\label{app:general-clipped-chernoff}
+
+Fix true class $a$ and competitor $b$, and write
 \[
- L_{i,\mathrm{clip}}^{ab}
- =\sum_cN'_{ic}v_c-\sum_c n_c(P_{ac}-P_{bc}).
+ w_c=\log\frac{P_{ac}(1-P_{bc})}{P_{bc}(1-P_{ac})},
+ \qquad b_c=\log\frac{1-P_{ac}}{1-P_{bc}},
+ \qquad
+ N'_{ic}=n_c\operatorname{clip}
+       (N_{ic}/n_c,\varepsilon_n,1-\varepsilon_n).
 \]
-The floor depends on the whole graph, so its value cannot be
-conditioned on while asserting independence of the block counts.
-Instead, on $G_H$ it has the deterministic upper bound
-$\overline\varepsilon_n=\min_{a,b}P_{ab}/2$.
-Put $t_c=n_c\overline\varepsilon_n$.
-For large $n$, $t_c\le\E_aN_{ic}$, also in the block containing the
-excluded self-loop. For $\alpha\in[0,1]$, define the independent
-count envelopes
-\[
- B_c(N_{ic})=
- \begin{cases}
-  e^{-\alpha v_cN_{ic}},&v_c\ge0,\\
-  e^{-\alpha v_c\max\{N_{ic},t_c\}},&v_c<0.
- \end{cases}
-\]
-There is the pathwise inequality
-\[
- e^{-\alpha L_{i,\mathrm{clip}}^{ab}}\one_{G_H}
- \le e^{\alpha\sum_c n_c(P_{ac}-P_{bc})}
-       \prod_c B_c(N_{ic}).
-\]
-When $v_c<0$, put $\beta=-\alpha v_c\ge0$.
-Jensen's inequality and $t_c\le\E_aN_{ic}$ give
-\[
- \E_a e^{\beta\max\{N_{ic},t_c\}}
- \le\E_a e^{\beta N_{ic}}+e^{\beta t_c}
- \le2\E_a e^{\beta N_{ic}}.
-\]
-The right-hand envelopes have deterministic thresholds, so their
-moments factor over the independent column-block counts.
-Thus clipping costs at most $2^K$ in this restricted Chernoff moment.
-A direct binomial moment expansion, including the excluded diagonal,
-gives uniformly in $\alpha$
-\[
- \log\E_a e^{-\alpha L_{i,\mathrm{raw}}^{ab}}
- =-D_\alpha(p_{a,-i}\Vert p_{b,-i})
-      +O(np^2+p),
-\]
-where the raw score replaces $N'_{ic}$ by $N_{ic}$.
-Since $p\to0$, this remainder is $o(np)$.
-For any deterministic $\tau_n=o(np)$, Markov's inequality at
-the Chernoff maximizer therefore yields
+The true-profile working contrast based on $q_i^0$ is
 \begin{equation}
- \Pr_a\{L_{i,\mathrm{clip}}^{ab}\le\tau_n,\ G_H\}
- \le2^K\exp\{-D^*_{i,ab}+o(np)\}.
- \label{eq:clipped-chernoff}
+ L_{i,\mathrm{clip}}^{ab}
+       =\sum_c N'_{ic}w_c+\sum_c n_cb_c.
+ \label{eq:general-clipped-score}
 \end{equation}
-This comparison handles the adaptive floor without an independence
-assumption, and does not require clipping every rare-row score to
-change it by $o(np)$.
+For every deterministic $t_n=o(np)$, it satisfies
+\begin{equation}
+ \Pr_a\{G_H,\ L_{i,\mathrm{clip}}^{ab}\le t_n\}
+       \le2^K\exp\{-D^*_{i,ab}+o(np)\}.
+ \label{eq:general-clipped-chernoff}
+\end{equation}
+The event $G_H$ is from
+Lemma~\ref{lem:full-spectral}.  We prove the statement
+without conditioning on the random clipping threshold.
+
+Put $\varepsilon_+=2c_0p$.  On $G_H$,
+$\varepsilon_n\le\varepsilon_+$; and for all sufficiently large
+$n$ every binomial mean $\mathbb E_aN_{ic}$ lies inside
+$[n_c\varepsilon_+,n_c(1-\varepsilon_+)]$, including the omitted
+self-loop.  If $w_c<0$, then on $G_H$,
+\[
+ N'_{ic}\le\max\{N_{ic},n_c\varepsilon_+\}.
+\]
+If $w_c\ge0$, then on $G_H$,
+\[
+ N'_{ic}\ge\min\{N_{ic},n_c(1-\varepsilon_+)\}.
+\]
+These are deterministic-threshold bounds in the direction that
+upper-bounds $\exp(-\alpha w_cN'_{ic})$ for $\alpha\in[0,1]$.
+
+For $\beta\ge0$ and $u\le\mathbb EN$,
+\[
+ \mathbb Ee^{\beta\max(N,u)}
+ \le\mathbb Ee^{\beta N}+e^{\beta u}
+ \le2\mathbb Ee^{\beta N}.
+\]
+For $\beta\le0$ and $v\ge\mathbb EN$, the analogous inequality is
+\[
+ \mathbb Ee^{\beta\min(N,v)}
+ \le\mathbb Ee^{\beta N}+e^{\beta v}
+ \le2\mathbb Ee^{\beta N}.
+\]
+The second step in each line is Jensen's inequality.  The
+deterministic envelopes depend on independent block counts, so
+their exponential moments factor.  Hence
+\begin{equation}
+ \mathbb E_a\left[\mathbf1_{G_H}
+        e^{-\alpha L_{i,\mathrm{clip}}^{ab}}\right]
+ \le2^K\exp\{-D_\alpha(p_{a,-i}\Vert p_{b,-i})+O(p)\}.
+ \label{eq:general-clipped-moment}
+\end{equation}
+The only offset discrepancy between the raw working contrast and
+the oracle LLR is $b_{z_i}$ from retaining the reconstructed
+diagonal.  It is $O(p)$, and in particular is $o(np)$.
+Exponential Markov inequality at a maximizing $\alpha$ proves
+\eqref{eq:general-clipped-chernoff}.  No independence of
+$\varepsilon_n$ and the incident edges has been asserted.
+
+\subsection{Deterministic fitting bounds and an invariant basin}
+\label{app:general-local-em}
+
+On $G_H$, all observed profiles and their convex combinations
+belong to the box
+\begin{equation}
+ cp\le x_j\le
+          \min\{C_Hp,1-cp\}.
+ \label{eq:general-common-box}
+\end{equation}
+True profiles also lie in this box after adjusting its constants.
+Ratios $x_j/y_j$ are uniformly bounded.  The same is true of
+$(1-x_j)/(1-y_j)$: if $C_Hp\le1/2$, both complements
+are at least $1/2$; otherwise they are at least
+$c/(2C_H)$.  As a consequence, on this box,
+\begin{align}
+ 0\le D(x\Vert y)&\le C_Hnp,\\
+ |D(x\Vert y)-D(x'\Vert y')|
+   &\le C_H(\|x-x'\|_1+\|y-y'\|_1),
+ \label{eq:general-deviance-lipschitz}\\
+ D(x\Vert y)&\ge
+                 \frac{\|x-y\|_1^2}{2C_Hnp}.
+ \label{eq:general-deviance-coercive}
+\end{align}
+The Lipschitz claim follows by differentiating the scalar
+divergence; its two derivatives are
+$\operatorname{logit}(x)-\operatorname{logit}(y)$ and
+$(y-x)/[y(1-y)]$.  The lower bound follows from
+$[x(1-x)]^{-1}\ge(C_Hp)^{-1}$ and Cauchy--Schwarz.
+The derivative of the fitting score with respect to a parameter
+coordinate $y$ is $(q-y)/[y(1-y)]$, which is also uniformly bounded
+on the common box.
 
 \begin{proof}[Proof of Theorem~\ref{thm:local-spectral-em}]
-Choose a fixed $H>2+\limsup_n I_n/(np)$ in
-Lemma~\ref{lem:full-spectral} and work on $G_H$.
-The limsup is finite by the oracle information bounds.
-Constants below may depend on the model bounds and floor, but not on
-the iteration. Suppose an aligned responsibility matrix $R$ has
-average error at most $\gamma$, with $\gamma$ below a sufficiently
-small fixed constant. Put $N_a=\sum_iR_{ia}$ and
-$\bar q_a=n_a^{-1}\sum_{i:z_i=a}q_i$.
-Then $|N_a-n_a|\le n\gamma$ and $N_a\ge\pi_{\min}n/2$.
-The average-profile bound gives
-$\|\bar q_a-p_{a*}\|_1\le Ca_n np$.
-The M-step identity gives, deterministically,
+Fix $H>1+\limsup I_n/(np)$, finite by \eqref{eq:uniform-information-scale}. Suppose $R$ is a responsibility matrix whose aligned average
+error is at most $\gamma$, below a sufficiently small fixed
+constant.  Write $N_a=\sum_iR_{ia}$ and
+$\bar q_a=n_a^{-1}\sum_{i:z_i=a}q_i$.  The average profile bound
+gives $\|\bar q_a-p_{a*}\|_1\le C_Ha_{H,n}np$.
+Moreover $|N_a-n_a|\le n\gamma$ and
+$N_a\ge\pi_0n/2$.  The exact M-step identity implies
 \[
  \|\widehat p_a-\bar q_a\|_1
  \le\frac{\sum_i|R_{ia}-Z_{ia}|\|q_i\|_1}{N_a}
- +\left|\frac{n_a}{N_a}-1\right|\|\bar q_a\|_1
- \le C\gamma np.
+    +\left|\frac{n_a}{N_a}-1\right|\|\bar q_a\|_1
+ \le C_H\gamma np.
 \]
 Consequently
 \begin{equation}
  \max_a\|\widehat p_a-p_{a*}\|_1
- \le C(\gamma+a_n)np,\qquad
- c'p\le\widehat p_{aj}\le C_Hp.
- \label{eq:local-profile-fit}
+       \le C_H(\gamma+a_{H,n})np.
+ \label{eq:general-local-profile-fit}
 \end{equation}
-The logarithm is $C/p$-Lipschitz on the common positive box.
-Since $q_{ij}\le C_Hp$, fitted linear contrasts and offsets
-therefore differ from their true-profile working counterparts by at
-most $C(\gamma+a_n)np$.
-The fitted log-weight ratios are bounded: the unconstrained weights
-$N_a/n$ are bounded away from zero; a fixed positive weight floor gives
-the same bound directly.
+The updated weights have bounded log-ratios: this follows from
+$N_a/n\ge\pi_0/2$ for the unconstrained update, or from a fixed
+positive floor for the exact floored-simplex optimizer.
 
-Combining the uniform $q-q^0$ bound with these parameter bounds gives,
-for every node and pair,
+Define $\widehat\ell_i(a)=\ell_i(\widehat p_a)+\log\widehat\pi_a$. Using the score derivatives just established and the uniform
+$q-q^0$ bound, every fitted contrast therefore satisfies
 \begin{equation}
- |\widehat\ell_i(a)-\widehat\ell_i(b)-L_{i,\mathrm{clip}}^{ab}|
- \le C(\gamma+a_n)np+C.
- \label{eq:local-score-fit}
+ \left|\widehat\ell_i(a)-\widehat\ell_i(b)
+       -L_{i,\mathrm{clip}}^{ab}\right|
+       \le C_H(\gamma+a_{H,n})np+C_H.
+ \label{eq:general-local-score-fit}
 \end{equation}
-No independence of $R$, $q$, and the incident edges is used.
-For $\gamma=\gamma_n\to0$, a wrong classification on the weak-start
-and graph events implies
-$L_{i,\mathrm{clip}}^{ab}\le o(np)$ for a competitor.
-Equation~\eqref{eq:clipped-chernoff} and a finite union bound prove the
-one-update rate after adding the two exceptional-event probabilities.
+This is a deterministic bound on $G_H$, uniform over all such
+responsibilities.  It requires no independence among the fit,
+the spectrum, and the incident edges.  If $\gamma=\gamma_n\to0$,
+a wrong label implies
+$L_{i,\mathrm{clip}}^{ab}\le o(np)$ for some competitor, apart
+from the graph and initialization failures.  Equation
+\eqref{eq:general-clipped-chernoff} therefore proves the
+one-update leading exponent.
 
-For further updates, the conditioning assumption and the positive box
-give a fixed $\kappa>0$ with
-$\min_{a\ne b}D(p_{a*}\Vert p_{b*})\ge\kappa np$ for large
-$n$. Choose a fixed basin radius $\gamma_0>0$ so that the fitted-score
-error for $\gamma\le\gamma_0$ is less than
-$\kappa np/8$ in each comparison. Choose a fixed small $t_0>0$
-so that $\|q_i-p_{z_i,*}\|_1\le t_0 np$ costs less than
-$\kappa np/8$ in the observation contrast.
-At $q_i=p_{z_i,*}$, the population working margin is
-$D(p_{z_i,*}\Vert p_{b*})\ge\kappa np$.
-After the observation, parameter, and bounded weight corrections,
-each specified row retains a correct-class margin of at least
-$\kappa np/4$ for large $n$.
-The average-profile bound leaves at most $a_n/t_0$ exceptional rows.
-The next E-step thus has aligned average responsibility error at most
+To handle all later exact updates, use the uniform true-profile
+margin $D(p_{a*}\Vert p_{b*})\ge cnp$ from
+\eqref{eq:uniform-information-scale}.  Choose a sufficiently
+small fixed responsibility radius $\gamma_0$ and row tolerance
+$t_0>0$.  Equations \eqref{eq:general-local-profile-fit} and
+\eqref{eq:general-deviance-lipschitz} then imply a correct-class
+margin of at least $c'np$ whenever $\gamma\le\gamma_0$ and
+$\|q_i-p_{z_i,*}\|_1\le t_0np$.  At most $a_{H,n}/t_0$ of the
+rows violate the latter condition.  The next E-step hence has
+aligned average responsibility error at most
+\begin{equation}
+ b_{H,n}=2a_{H,n}/t_0+2(K-1)e^{-c'np}\longrightarrow0.
+ \label{eq:general-basin-invariance}
+\end{equation}
+For large $n$, this is below $\gamma_0$.  Starting at error
+$\gamma_n\to0$, every later responsibility matrix consequently
+has error at most $\max\{\gamma_n,b_{H,n}\}=o(1)$ on the same
+event.  The score bound has one deterministic $o(np)$ remainder
+for all later iterations.  This covers any finite, possibly
+data-dependent stopping time after the first M-step without
+an iteration union bound.
+
+If the weak-initialization failure probability $\delta_n$
+satisfies
+$\liminf(-\log\delta_n)/I_n\ge1$, choose
+$H>1+\limsup I_n/(np)$, which is finite by
+\eqref{eq:uniform-information-scale}.  Summing the pairwise
+clipped bounds and adding the exceptional probabilities gives
 \[
- b_n=2a_n/t_0+2(K-1)e^{-\kappa np/4}\longrightarrow0.
+ \mathbb E\operatorname{Mis}(\widehat z,z)
+ \le\delta_n+C_He^{-Hnp}
+       +(K-1)2^K\exp\{-I_n+o(np)\}
+ \le\exp\{-(1+o(1))I_n\}.
 \]
-This holds uniformly throughout the fixed basin. Eventually
-$b_n<\gamma_0$, so the basin is invariant. Starting from
-$\gamma_n\to0$, every later responsibility matrix has error at most
-$\max\{\gamma_n,b_n\}=o(1)$. Equation~\eqref{eq:local-score-fit} then
-has one deterministic $o(np)$ bound for every later score on
-the same event, including a data-dependent finite stopping time.
-No union bound over iterations is needed.
-
-Finally, add the initialization failure $\delta_n$ and the graph
-failure $O(e^{-H np})$ to the per-node Chernoff bound and average
-over nodes. The chosen $H$ makes the graph failure negligible relative
-to $e^{-I_n}$, and the initialization reliability preserves that
-exponent. If $\liminf I_n/\log n>1$, multiplying the expected error by
-$n$ and applying Markov's inequality proves exact recovery.
+For a deterministic initialization or replacement proof valid
+on $G_H$, the only exceptional probability is the graph failure,
+so there is no additional random-start confidence requirement.
+Finally $\liminf I_n/\log n>1$ implies exact recovery by
+Markov's inequality applied to the number of mislabeled nodes.
 \end{proof}
 
 
-\subsection{End-to-end likelihood initialization}
-\label{app:end-to-end}
+\section{Deterministic initialization by likelihood replacement}
+\label{app:replacement-proof}
 
-\begin{theorem}[Original growing branch for two communities]
-\label{thm:two-community-growing}
-Under \eqref{eq:density-condition}--\eqref{eq:model-conditions} and the
-admissible observable floor, the global-mean growing branch alone for
-$K=2$, followed by at least one exact profile and weight M-step, satisfies
-$\E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}$.
-The same conclusion holds at any subsequent finite exact-EM stopping
-time, and exact recovery holds if $\liminf I_n/\log n>1$.
-\end{theorem}
+\subsection{Exact EM and the profile constraint}
+For any nonnegative responsibilities with rows summing to one, define
+\[
+ \mathcal Q(R,\widehat\pi,\widehat p)
+ =\sum_{i,a}R_{ia}\{\log\widehat\pi_a+\ell_i(\widehat p_a)-\log R_{ia}\}.
+\]
+The log-sum inequality gives $\mathcal Q\le\mathcal L$, with equality at the E-step. For fixed $R$, the profile-coordinate objective is
+\[
+ \left(\sum_iR_{ia}q_{ij}\right)\log\widehat p_{aj}
+ +\left(N_a-\sum_iR_{ia}q_{ij}\right)\log(1-\widehat p_{aj}).
+\]
+Its maximizer for $N_a>0$ is the weighted mean in \eqref{eq:mstep}; maximizing $\sum_aN_a\log\widehat\pi_a$ over the simplex gives $\widehat\pi_a=N_a/n$. Thus every exact E/M pair raises $\mathcal L$ and lowers $F$. A zero-mass component contributes nothing to this objective and may retain its previous profile. All nonzero-mass updates are convex combinations of the $q$ rows. These observations also prove that all means remain in the common box on $G_H$.
 
-\paragraph{Proof of Theorem~\ref{thm:two-community-growing}.}
-Fix $H>2+\limsup_{n\to\infty}I_n/(np)$ and work on the event of Lemma~\ref{lem:full-spectral}. All constants below may depend on $H$ and the fixed model. Enlarge its deterministic $a_n\to0$ if necessary to bound both displayed profile errors. Put $\pi_{a,n}=n_a/n$,
-\[
- m_b=\sum_{a=1}^2\pi_{a,n}P_{ab},\qquad
- D_{\pi_n}(x\Vert y)=
- \sum_b\pi_{b,n}\{x_b\log(x_b/y_b)-x_b+y_b\}.
-\]
-The block values of $q_c^0$ are
-\[
- v_{cb}=\max\left\{\frac{\sum_{j:z_j=b}A_{cj}}{n_b},
-                         \varepsilon_n\right\},
- \qquad q_{cj}^0=v_{c,z_j}.
-\]
-This is only an analysis variable. In particular $v_c$ may be a rare extreme candidate, and we do not assume it is near its own community profile. Let
-\[
- h_a(v)=\frac1{p}\sum_b\pi_{b,n}
- \{P_{ab}\log(v_b/m_b)-(v_b-m_b)\},\qquad
- \Phi_n(v)=\sum_a\pi_{a,n}[h_a(v)]_+.
-\]
-The global profile mean $\overline q$ differs from $(m_{z_j})_{j=1}^n$ in $\ell_1$ norm by at most $a_n np$. The uniform bound on $q_c-q_c^0$ and the common positive box give
-\[
- \left|[\ell_i(q_c)-\ell_i(\overline q)]-nph_{z_i}(v_c)\right|
- \le C\{\|q_i-p_{z_i,*}\|_1+a_n np\}.
-\]
-Here the parameter perturbation costs
-$C\|q_c-q_c^0\|_1+C\|\overline q-(m_{z_j})_{j=1}^n\|_1$,
-because $q_{ij}\le C p$ and $\log$ is $C/p$-Lipschitz. The remaining observation perturbation multiplies a uniformly bounded log ratio. Since positive part is 1-Lipschitz, summing yields the simultaneous candidate bound
-\[
- \sup_c\left|\frac{\Delta_2(c)}{n^2p}-\Phi_n(v_c)\right|\le Ca_n.
-\]
-Every true class has a candidate with $\|q_c-p_{a*}\|_1=o(np)$ by the average error bound and its positive proportion. The same is true of $q_c^0$, so
-$p^{-1}\sum_b\pi_{b,n}|v_{cb}-P_{ab}|=o(1)$.
-The uniform conditioning and positive community proportions imply that
-\[
- g_0=\liminf_{n\to\infty}\max_a
- \frac{\pi_{a,n}}{p}
- D_{\pi_n}\big((P_{ab})_{b=1}^2\Vert m\big)>0.
-\]
-Positivity follows because the conditioned block rows are uniformly separated relative to $p$ and cannot both approach their mean at that scale. Uniform Lipschitz continuity after dividing all block values by $p$ and the candidate bound imply that the selected candidate satisfies $\Phi_n(v_c)\ge g_0/2$ for large $n$.
+Since $D(q_i\Vert\widehat p_a)\ge0$, the objective is bounded above by the observation-only saturated score $S_q$. Consequently an infinite exact EM sequence has convergent objective values. This fact alone gives neither a global optimum nor community recovery. The replacement argument below supplies the latter conclusion from a different, finite-round bound.
 
-The decisive two-class identity is
+\subsection{Empirical replacement and soft-loss contraction}
+\begin{proof}[Proof of Theorem~\ref{thm:replacement-contraction}]
+In this proof use its deterministic common-box assumption and write $\beta=1-1/K$. The Bernoulli divergence derivatives are
 \[
- \sum_a\pi_{a,n}h_a(v)=-\frac1{p}D_{\pi_n}(m\Vert v)\le0.
+ \partial_xD(x\Vert y)=\log\frac{x(1-y)}{y(1-x)},\qquad
+ \partial_yD(x\Vert y)=\frac{y-x}{y(1-y)}
 \]
-Together with $\Phi_n(v_c)\ge g_0/2$, it forces exactly one of $h_1(v_c),h_2(v_c)$ to be positive. Moreover
+for one coordinate. The box makes both derivatives uniformly bounded by a constant $L$. The multivariate divergence therefore satisfies
 \[
- h_{\rm pos}(v_c)\ge g_0/2,\qquad
- h_{\rm neg}(v_c)\le-g_0/2,
+ |D(x\Vert y)-D(x'\Vert y')|
+ \le L(\|x-x'\|_1+\|y-y'\|_1).
 \]
-since each weighted positive or negative magnitude is at least $g_0/2$ and each proportion is at most one. The initial two mixture weights are equal, so they do not alter this score comparison.
+For any admissible center list $\mathcal C$, define the population loss using the same $n_a$ as in the sample. Taking minima is Lipschitz under a uniform coordinatewise perturbation, so
+\begin{equation}
+ \sup_{\mathcal C}|G(\mathcal C)-G_*(\mathcal C)|
+   \le L\sum_i\|q_i-p_{z_i,*}\|_1
+   \le La_n n^2p.
+ \label{eq:uniform-hard-loss}
+\end{equation}
+This statement is simultaneous over center lists; their dependence on the data and all previous fits is immaterial.
 
-Take $\tau_n=\sqrt{a_n}+(np)^{-1}$. At most $(a_n/\tau_n)n=o(n)$ observations have $\|q_i-p_{z_i,*}\|_1>\tau_n np$. Every other observation has the correct initial component margin at least $g_0 np/4$ after the above score perturbations. After a common label alignment, the first E-step therefore satisfies
+Every true class contains a node $c_a$ with
+\begin{equation}
+ \|q_{c_a}-p_{a*}\|_1\le a_n np/\pi_0.
+ \label{eq:available-good-candidate}
+\end{equation}
+Indeed, the total deviation within that class is at most $a_n n^2p$, while its size is at least $\pi_0n$. Apply Lemma~\ref{lem:population-replacement} to the current list to find $a,r$. Replacing its ideal new profile $p_{a*}$ by this observed $q_{c_a}$ changes each available minimum loss by at most $L\|q_{c_a}-p_{a*}\|_1$. Applying \eqref{eq:uniform-hard-loss} before and after the population replacement yields
+\begin{align*}
+ G(\mathcal C^{r\leftarrow q_{c_a}})
+ &\le G_*(\mathcal C^{r\leftarrow p_{a*}})
+             +La_n n^2p+La_n n^2p/\pi_0\\
+ &\le\beta G_*(\mathcal C)+La_n n^2p+La_n n^2p/\pi_0\\
+ &\le\beta G(\mathcal C)+Ba_n n^2p
+\end{align*}
+for a fixed constant $B$.
+
+The executable gain finds a candidate at least this good. For any deletion $r$ and candidate $c$, saturation gives the exact identity
+\begin{equation}
+ G(\mathcal C^{r\leftarrow q_c})
+  =G(\mathcal C\setminus\{\mu_r\})
+     -\sum_i\bigl(\ell_i(q_c)-h_i^{(-r)}\bigr)_+.
+ \label{eq:gain-hard-loss-identity}
+\end{equation}
+Thus the maximizing node in \eqref{eq:replacement-gain} minimizes hard loss for that deletion. All $K$ deletions are tested, so at least one of the actual trials has initial hard loss at most $\beta G(\mathcal C)+Ba_n n^2p$.
+
+Initialize that trial's weights uniformly. The log-sum bound in \eqref{eq:soft-hard} gives initial soft loss at most $\beta G(\mathcal C)+Ba_n n^2p+n\log K$. Any subsequent exact EM fit only decreases this loss. Selection among the trial endpoints and the old fit therefore gives
+\[
+ F_{t+1}\le\beta G(\mathcal C_t)+Ba_n n^2p+n\log K
+          \le\beta F_t+Ba_n n^2p+n\log K.
+\]
+Also $F_{t+1}\le F_t$ because the old fit is included.
+
+On the box, every $D(q_i\Vert\mu_k)\le Mnp$ for a fixed $M$. For any simplex weights,
+$\sum_k\widehat\pi_ke^{-D(q_i\Vert\mu_k)}\ge e^{-Mnp}$,
+so $0\le F_0\le Mn^2p$ even when some weights vanish. Iterating the contraction gives
+\[
+ \frac{F_{T_n}}{n^2p}
+ \le M\beta^{T_n}+KB a_n+\frac{K\log K}{np}.
+\]
+Fixed $K$, $T_n=\lceil\log n\rceil\to\infty$, and $np\to\infty$ make this bound vanish. This proves both displayed claims.
+\end{proof}
+
+Early termination after a round with no improving trial is also valid. In that round $F_{t+1}=F_t$, so the contraction itself gives
+\[
+ F_t\le K\{Ba_n n^2p+n\log K\}=o(n^2p).
+\]
+Thus a failed full replacement round is a weak-loss certificate even if later trial iteration budgets would differ. Under the fixed trial protocol used in the implementation, repeating unchanged deterministic trials also gives the same result. More generally, keeping a fit within a fixed $\zeta>0$ of the best trial adds $\zeta$ to the contraction remainder and $K\zeta/(n^2p)=o(1)$ to the final normalized bound. This observation does not assert an arbitrary floating-point error guarantee.
+
+\subsection{Low loss certifies all \texorpdfstring{$K$}{K} communities}
+\begin{proof}[Proof of Lemma~\ref{lem:low-loss-responsibilities}]
+Work on $G_H$ and write $a_n=a_{H,n}$. There are deterministic $\xi_n\to0$ with $F\le\xi_n n^2p$ for the fits under consideration. The Bernoulli entropy curvature on the common box gives
+\[
+ D(x\Vert y)\ge\frac{\|x-y\|_1^2}{2C_Hnp}.
+\]
+Since $G\le F$,
+\[
+ \sum_i\min_k\|q_i-\mu_k\|_1^2\le2C_H\xi_n n^3p^2.
+\]
+Set $u_n=\sqrt{a_n}+\xi_n^{1/4}+(np)^{-1}\to0$. The fractions of rows farther than $u_n np$ from their true profile or farther than $u_n np$ from every fitted profile are at most $a_n/u_n$ and $2C_H\xi_n/u_n^2$, respectively. Both vanish. Each true community of size at least $\pi_0n$ has a row outside these two exceptional sets. Its true profile therefore lies within $2u_n np$ of some fitted profile.
+
+Equation~\eqref{eq:uniform-information-scale} separates distinct true profiles by at least a fixed positive multiple of $np$. For all sufficiently large $n$, different true profiles must therefore match different fitted profiles. There are exactly $K$ of each, giving one common permutation with
+\begin{equation}
+ \max_a\|\mu_a-p_{a*}\|_1\le2u_n np.
+ \label{eq:matched-profiles}
+\end{equation}
+Write the true-profile separation constant as $s_0>0$. On a row with $\|q_i-p_{z_i,*}\|_1\le u_n np$, every wrongly matched fitted profile is at least $s_0np/2$ away in $\ell_1$ norm, and its divergence is at least $c_1np$ for $c_1=s_0^2/(8C_H)>0$.
+
+For the selected fit's exact E-step, the identity \eqref{eq:variational-loss} remains valid with zero weights using zero-responsibility conventions. Summing that identity over typical rows bounds total wrong responsibility by $F/(c_1np)$. Each other row contributes at most two to the $\ell_1$ error. Consequently
 \[
  \frac1n\sum_{i,a}|R_{ia}-Z_{ia}|
- \le \frac{2a_n}{\tau_n}+2e^{-g_0 np/4}=o(1).
+ \le\frac{2a_n}{u_n}+\frac{2\xi_n}{c_1}\longrightarrow0.
 \]
-The graph event has failure $O(e^{-H np})$, so these responsibilities meet the reliability condition in Theorem~\ref{thm:local-spectral-em}. The evaluated fitting loop always performs its first M-step before it may stop. That theorem gives the claimed exponent for the first resulting decode and all subsequent finite updates, including the evaluated stopping rule. Its exact-recovery implication also applies. \qed
-
-\input{iterative_swap_proof}
-
-\section{Proofs of initialization and optimization properties}
-\label{app:optimization-proofs}
-
-\subsection{Frozen-candidate greedy gains}
-
-\begin{proposition}[Greedy gain guarantee]
-\label{prop:greedy-gain}
-Let $s_{ic}$ be fixed finite candidate scores and let $S_0$ be a fixed
-nonempty seed set.  For candidate sets $T$, define
-\[
- G(T)=\sum_i\max_{c\in S_0\cup T}s_{ic}
-      -\sum_i\max_{c\in S_0}s_{ic}.
-\]
-Then $G$ is normalized, monotone, and submodular.  If $m\ge1$ greedy
-steps select a set $T_m$ and $T^*$ maximizes $G$ over sets of at most
-$m$ candidates, then
-\[
- G(T_m)\ge\{1-(1-1/m)^m\}G(T^*)\ge(1-e^{-1})G(T^*).
-\]
-\end{proposition}
-
-\begin{proof}
-Normalization and monotonicity follow immediately from the definition.
-The marginal gain of candidate $c$ is
-\[
- G(T\cup\{c\})-G(T)
- =\sum_i\left(s_{ic}-\max_{b\in S_0\cup T}s_{ib}\right)_+.
-\]
-If $T\subseteq T'$, each maximum in the right side increases, so the
-marginal gain decreases.  This proves submodularity.
-For the greedy set $T_t$ at time $t$, monotonicity and telescoping
-diminishing returns give
-\begin{align*}
- G(T^*)-G(T_t)
- &\le G(T_t\cup T^*)-G(T_t)\\
- &\le\sum_{c\in T^*\setminus T_t}
-        \{G(T_t\cup\{c\})-G(T_t)\}\\
- &\le m\{G(T_{t+1})-G(T_t)\}.
-\end{align*}
-Starting from $G(T_0)=0$ and iterating this inequality proves the
-claimed factor.  The final inequality follows from
-$(1-1/m)^m\le e^{-1}$, including the case $m=1$.
+The bound is deterministic and uniform over the indicated class of fits on $G_H$.
 \end{proof}
 
-This is the standard cardinality-constrained submodular greedy
-guarantee~\cite{nemhauser1978}.  It controls added explanation relative
-to the fixed initial seed, not the multiplicative approximation of a
-possibly negative total log score.  It does not apply unchanged when
-intermediate EM steps alter the candidate scores.
+\subsection{Completion of the algorithmic guarantee}
+\begin{proof}[Proof of Theorem~\ref{thm:main-recovery}]
+Choose a fixed $H>1+\limsup_n I_n/(np)$, which is possible by \eqref{eq:uniform-information-scale}. On $G_H$, all $q$ rows, the global mean, and every mean generated by growing or replacement lie in the same common box. Thus Theorem~\ref{thm:replacement-contraction} applies to the growing endpoint irrespective of its labels or mixture weights. Its $T_n$ rounds give $F\le\xi_n n^2p$ for a deterministic $\xi_n\to0$.
 
-\subsection{Noiseless profile selection}
+Lemma~\ref{lem:low-loss-responsibilities} certifies the selected fit's responsibilities with a deterministic error $\gamma_n\to0$ on $G_H$. The probability of failure is at most $C_He^{-Hnp}$, which is negligible at the $e^{-I_n}$ scale. The final profile and weight M-step in Algorithm~1 therefore invokes Theorem~\ref{thm:local-spectral-em} and gives \eqref{eq:main-rate}. That theorem also covers any additional finite exact updates.
 
-\begin{proposition}[Population profile selection]
-\label{prop:noiseless-seeding}
-Suppose $q_i=\theta_{z_i}$, where the $K$ positive profile vectors
-$\theta_1,\ldots,\theta_K$ are pairwise distinct and every class is
-nonempty.  The candidate pool consists of these node profiles.  From
-any first seed belonging to this candidate pool, $K-1$ subsequent global-gain greedy steps select all
-$K$ different profiles.  Maximum working-score classification using
-those profiles recovers $z$ up to permutation.
-\end{proposition}
-
-\begin{proof}
-For $x,\widehat p>0$ coordinatewise, write
-$\ell_x(\widehat p)=\sum_jx_j\log\widehat p_j-\sum_j\widehat p_j$.  Then
-\[
- \ell_x(x)-\ell_x(\widehat p)
- =\sum_j\{x_j\log(x_j/\widehat p_j)-x_j+\widehat p_j\}
- =D(x\Vert\widehat p)\ge0,
-\]
-with equality precisely when $x=\widehat p$; the inequality follows from
-$\log u\le u-1$.  If a profile has already been selected, selecting a
-duplicate has zero gain.  If profile $\theta_b$ has not been selected,
-then each node in class $b$ gains
-$\min_{a\in S}D(\theta_b\Vert\theta_a)>0$
-when it is added.  Therefore some unselected profile has strictly
-positive gain, and greedy cannot select a duplicate before all distinct
-profiles have been selected.  The same strict divergence inequality
-makes each node's own profile its unique best score after selection.
+Finally $n\Mis$ is an integer, so
+$\Pr\{\Mis>0\}\le n\E\Mis$.
+When $\liminf I_n/\log n>1$, the right side tends to zero. The stated dense candidate computations, $O(\log n)$ replacement rounds and finite polynomial fitting caps establish polynomial running time. This proof includes initialization and parameter fitting and has no random-restart failure event.
 \end{proof}
 
-The proposition concerns the frozen node-profile selection control in an abstract noiseless profile model. It does not directly cover Algorithm~1, whose initial mean need not be a node profile and whose intermediate EM fits change the parameters.  It does
-not replace a stability analysis for random spectral profiles, and it
-does not erase the diagonal distinction in a no-self-loop SBM.
-
-\subsection{Exact working EM and accepted replacements}
-
-\begin{proposition}[Objective convergence of exact working EM]
-\label{prop:em-monotonicity}
-For fixed strictly positive profiles $q_1,\ldots,q_n$, let
+\subsection{Sparse-score comparison}
+For completeness, when $p\to0$, the exact Bernoulli contrast can be written as
 \[
- \mathcal L(\widehat\pi,\widehat p)=\sum_i\log\sum_{a=1}^K
-       \widehat\pi_a\exp\{\ell_i(\widehat p_a)\},\qquad
- \ell_i(\widehat p_a)=\sum_jq_{ij}\log\widehat p_{aj}-\sum_j\widehat p_{aj}.
+ \sum_{j\ne i}A_{ij}\log\frac{p_{aj}}{p_{bj}}
+ +\sum_{j\ne i}A_{ij}\log\frac{1-p_{bj}}{1-p_{aj}}
+ +\sum_{j\ne i}\log\frac{1-p_{aj}}{1-p_{bj}}.
 \]
-Starting with positive parameters and positive mixture weights, the
-exact E-step and unconstrained exact M-step
-\begin{align*}
- r_{ia}&=\frac{\widehat\pi_a e^{\ell_i(\widehat p_a)}}
-                   {\sum_b\widehat\pi_b e^{\ell_i(\widehat p_b)}},\qquad
- N_a=\sum_i r_{ia},\\
- \widehat\pi_a^{\mathrm{new}}&=N_a/n,\qquad
- \widehat p_{aj}^{\mathrm{new}}=\frac{\sum_i r_{ia}q_{ij}}{N_a}
-\end{align*}
-make $\mathcal L$ nondecreasing.  Its numerical values converge to a
-finite limit.  The same monotonicity statement holds for an exact
-M-step maximizing over any stated constraint set containing the current
-parameters, and for replacement proposals accepted only when their
-final $\mathcal L$ improves.
-\end{proposition}
-
-\begin{proof}
-For row-wise probability vectors $r_i$, define the variational objective
-\[
- \mathcal F(r,\widehat\pi,\widehat p)=
- \sum_{i,a}r_{ia}\{\log\widehat\pi_a+\ell_i(\widehat p_a)-\log r_{ia}\}.
-\]
-The log-sum inequality gives
-$\mathcal F(r,\widehat\pi,\widehat p)\le\mathcal L(\widehat\pi,\widehat p)$, with equality
-for the E-step responsibilities.  For fixed $r$, maximizing
-$\sum_aN_a\log\widehat\pi_a$ over the simplex gives $\widehat\pi_a=N_a/n$.
-For each profile coordinate, maximizing
-$(\sum_i r_{ia}q_{ij})\log\widehat p_{aj}-N_a\widehat p_{aj}$ gives the displayed
-weighted mean.  These are interior maxima because all inputs and
-responsibilities are positive.  Thus the E-step makes the variational
-bound tight and the M-step raises it, proving monotonicity.
-
-The saturated-score inequality used in the preceding proof implies
-$\ell_i(\widehat p_a)\le\ell_i(q_i)$ for every $i,a$.  Since
-$\sum_a\widehat\pi_a=1$,
-\[
- \log\sum_a\widehat\pi_a e^{\ell_i(\widehat p_a)}\le\ell_i(q_i).
-\]
-Consequently $\mathcal L\le\sum_i\ell_i(q_i)<\infty$.
-A nondecreasing real sequence bounded above has a finite limit.
-For a constrained exact M-step the current parameters remain feasible,
-so the same variational argument applies.  The replacement assertion
-follows directly from its acceptance rule.
-\end{proof}
-
-This proposition proves convergence of objective values.  It proves
-neither convergence to the global maximum nor recovery of the true
-labels. The implementation uses an exact active-set maximizer on the
-floored simplex, so its weight constraint is covered by the constrained
-version of this proposition. Its finite stopping tolerance and
-floating-point accuracy are assessed separately in Section~\ref{sec:experiments}.
-
-\begin{proposition}[Profile hull and spectral dimension]
-\label{prop:profile-hull}
-Every responsibility-weighted profile M-step produces a profile in the convex hull of the rows of $q$. If the unmodified reconstruction $q=U\Lambda U^\top$ is used and the resulting means are positive, all fitted profiles lie in its row space, of dimension at most $K$. Entrywise positive clipping can increase this dimension.
-\end{proposition}
-\begin{proof}
-The coefficients $R_{ia}/N_a$ are nonnegative and sum to one, so the update is a row convex combination. Every such combination also lies in the row space. The unmodified reconstruction has rank at most $K$. The clipping operation is nonlinear and has no corresponding rank-preservation identity.
-\end{proof}
-
+For $u,v\le p\le1/2$, Taylor's formula gives
+$|\log(1-u)+u|\le Cu^2$ and
+$|\log(1-u)-\log(1-v)|\le C p$.
+Subtracting the sparse contrast therefore leaves at most
+$C\{p\deg(i)+np^2\}$ in absolute value. A degree Chernoff bound at any prescribed confidence $e^{-Hnp}$ makes this $O(np^2)=o(np)$. There is no need to require $np^2=o(1)$. The dense example in the main text follows from the Bernoulli large-deviation exponent at the two stated thresholds and shows why dropping the nonedge term is not generally allowed when $p$ is bounded below.

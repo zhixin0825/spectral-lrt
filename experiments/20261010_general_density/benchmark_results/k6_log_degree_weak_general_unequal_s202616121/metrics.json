@@ -1,0 +1,98 @@
+{
+  "n": 320,
+  "k": 6,
+  "density": "log_degree",
+  "family": "weak_general_unequal",
+  "repeat": 1,
+  "seed": 202616121,
+  "graph_id": "k6_log_degree_weak_general_unequal_s202616121",
+  "graph": {
+    "block_sizes": [
+      24,
+      59,
+      83,
+      47,
+      71,
+      36
+    ],
+    "block_proportions": [
+      0.075,
+      0.184375,
+      0.259375,
+      0.146875,
+      0.221875,
+      0.1125
+    ],
+    "target_mean_degree": 17.304962987381316,
+    "expected_degree_by_block": [
+      17.300495689944878,
+      17.387781134010744,
+      16.111254218496406,
+      17.290141721542682,
+      18.171915089673302,
+      18.233901113394392
+    ],
+    "empirical_mean_degree": 17.58125,
+    "P_eigenvalues": [
+      -0.014874106241313453,
+      -0.010390480307653112,
+      0.0007453819486735218,
+      0.002755476312892842,
+      0.011826436893158121,
+      0.32930734218732316
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.778125,
+      "ari": 0.0007708076849887463,
+      "n_output_classes": 6,
+      "final_soft_loss": 1965.9113403712126
+    },
+    "full_replacement": {
+      "misclassification": 0.778125,
+      "ari": 0.0007708076849887463,
+      "n_output_classes": 6,
+      "final_soft_loss": 1965.9113403712126
+    },
+    "sparse_growing": {
+      "misclassification": 0.784375,
+      "ari": -6.26346127050571e-05,
+      "n_output_classes": 6,
+      "final_soft_loss": 1869.8145640109042
+    },
+    "sparse_replacement": {
+      "misclassification": 0.784375,
+      "ari": -6.26346127050571e-05,
+      "n_output_classes": 6,
+      "final_soft_loss": 1869.8145640109042
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.765625,
+      "ari": 0.00482442074104514,
+      "n_output_classes": 6,
+      "inertia": 923.7639631189775
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.73125,
+      "ari": 0.016535563990505067,
+      "n_output_classes": 6,
+      "inertia": 65235.57403570652
+    }
+  },
+  "audit": {
+    "em_updates": 1007,
+    "largest_em_loss_increase": 0.0,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 22
+  },
+  "seconds": 0.7441713369998979,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

@@ -1,39 +1,66 @@
 # Spectral likelihood decoding: current manuscript
 
-[Compiled PDF](manuscript.pdf) �� [Full proofs](theory.tex) �� [General-K and density audit](REVIEW_20261010_GENERAL_K.md)
+[Compiled PDF](manuscript.pdf) · [Full proofs](theory.tex) · [Proof explanation](END_TO_END_20261010.md) · [Audit and corrections](REVIEW_20261010.md)
 
-## Model and theorem scope
+## Model and guarantee
 
-`P=P_n` is the symmetric K-by-K Bernoulli block probability matrix, with `p_aj=P_{a,z_j}` following Zhou�CLi. Define `p=max_{a,b}P_ab`. For every fixed known `K >= 2`, the main theorem assumes positive limiting community proportions, `p=Omega(log n/n)`, `p=o(1)`, `P_ab asymp p`, and `sigma_min(N^(1/2) P N^(1/2)) asymp np`, where `N=diag(n_1,...,n_K)`. All comparison constants are independent of n.
+For every fixed known K, `P` is the actual symmetric Bernoulli block probability matrix and `p = max_ab P_ab`, with `p_aj=P_{a,z_j}` following Zhou–Li. The assumptions have fixed positive constants:
 
-The eigenpairs are computed from the original adjacency matrix. Subsequent fitting uses only those retained eigenpairs. The profile floor is `epsilon=1e-4 max(max(abs(Lambda)),1)/n`. The theorem requires the fixed floor constant to be sufficiently small relative to the block-probability comparison constants; positivity alone does not guarantee admissibility of a chosen numerical constant.
+- `n_a >= pi0*n`;
+- `P_ab >= kappa*p` for every a,b and `sigma_min(P) >= kappa*p`;
+- `p <= 1-eta`;
+- `p = Ω(log n/n)`.
 
-## Proven algorithm
+The expected degree in class a is `sum_b (n_b - 1{a=b})P_ab`. These expectations may differ, and each is `Θ(np)` under the uniform probability bounds, so the density condition implies an `Ω(log n)` lower bound. There is no fixed `(n/log n)P` assumption, no upper bound of logarithmic order on degree, and no convergence requirement on `P/p` or community proportions. The model includes sparse, intermediate and dense sequences with probabilities bounded away from one. Quantitative signal separation remains necessary; degree alone does not identify communities.
 
-Algorithm 1 is deterministic and covers every fixed `K >= 2`:
+Theorem **Nearly optimal spectral likelihood recovery** gives
 
-1. Fit one component at the global profile mean, then add K?1 node candidates using all-node likelihood gains and refit after each addition.
-2. In each replacement round, fit the current profiles from uniform weights and fit one globally selected replacement for each possible component removal, also from uniform weights. Every replacement scan considers all node IDs.
-3. Accept the largest trial likelihood only when its improvement is at least `T/sqrt(log n)`, where `T=sum_ij q_ij`. Repeat until no trial meets the threshold, with an accepted-round cap of `ceil((log n)^2)`.
-4. Perform one final E/M update and decode.
+`E Mis <= exp(-(1+o(1)) I_n)`
 
-Under the theorem's hypotheses, the stopping certificate is reached after `O(sqrt(log n))` accepted rounds, before the cap. The certificate proves weak recovery for the fitted responsibilities; the final refinement then yields expected misclassification at most `exp(-(1+o(1)) I_n)`. This attains the leading oracle Chernoff exponent. Exact recovery follows when `liminf I_n/log n > 1`.
+for Algorithm 1, with exact recovery if `liminf I_n/log n > 1`. Here `I_n` is the minimum exact product-Bernoulli Chernoff information after removing the self-loop coordinate. The rate is the leading oracle exponent, not a refined multiplicative risk claim or a new global minimax lower bound.
 
-This repeated-replacement rule is an explicit extension of the original growing algorithm. The original single-pass growing branch is a separate procedure, with its two-community theorem recorded in the appendix. The main theorem does not claim a refined multiplicative risk or a new global minimax lower bound.
+## Actual algorithm
 
-The fitting objective is `ell_i(phat)=sum_j q_ij log phat_j - sum_j phat_j`. Its relation to the exact Bernoulli likelihood ratio is proved by a sparse Taylor expansion. Its profile divergence is `D(x||y)=sum_j[x_j log(x_j/y_j)-x_j+y_j]`.
+The method retains the K eigenpairs of the original adjacency matrix with largest absolute eigenvalues. It uses no raw-adjacency refinement after this step.
 
-The default API option is `method='global_gain_certified'`, calling `Work.iterative_certified_growing()` in [residual_seed.py](../../experiments/20261009_residual_likelihood_seeding/residual_seed.py). The original growing branch is `method='global_gain'`; the older independent-residual-restart combination is `method='global_gain_restarts'`. The option `method='repair'` is a historical alternative.
+With `s=max(1,||Lambda||op)`, define `epsilon=c0*s/n` and `q=clip(U Lambda U',epsilon,1-epsilon)`. The chosen constant must satisfy `0<c0<min(kappa,eta,1)/8`. The default implementation uses `c0=1e-4`; that value is not claimed to cover every arbitrarily small allowed signal constant.
 
-## Numerical evidence
+The complete score is
 
-The archived 240-graph comparison concerns the original growing branch: average error 0.0946%, exact recovery 163/240, versus the recorded spectral baseline's 0.3194% and 139/240. These runs used the earlier floor `1e-4 log n/n`. They do not evaluate the repeated-replacement Algorithm 1.
+`ell_i(mu)=sum_j {q_ij log(mu_j)+(1-q_ij)log(1-mu_j)}`.
 
-[Fresh checks](../../experiments/20261009_residual_likelihood_seeding/general_k_fresh_checks.json), generated by [check_general_k.py](../../experiments/20261009_residual_likelihood_seeding/check_general_k.py), cover 24 graphs with K=3,4,6, n=256,512, and both logarithmic and square-root expected-degree scales. They verify uniform trial weights, the stopping certificate, objective monotonicity to numerical tolerance, constraints, determinism, and the mandatory final update. Nineteen of these graphs have exact recovery, with seven errors among 9,216 nodes in total. A separate injected collapsed-endpoint check accepts two successive replacement rounds and ends with zero errors.
+The dependent fractional profiles make this a working likelihood. Its relation to the exact edge likelihood is proved, rather than asserted as an independence model. The weighted-mean profile M-step is unchanged.
 
-These are finite-sample implementation checks, not a broad comparative accuracy benchmark or an estimate of an asymptotic exponent. The archived earlier [random-restart checks](../../experiments/20261010_certified_likelihood/) concern the previous algorithm.
+Global-mean growing supplies K profiles. Algorithm 1 then performs at most `ceil(log n)` deterministic replacement rounds. Each round tests all K deletion positions and all node candidates, uniformly initializes each trial's weights, runs at least one exact M-step, and chooses the greatest common working likelihood among the trials and old fit. A full round with no improvement permits early stopping. The final E/M update is mandatory. Any further finite exact EM updates preserve the theorem.
 
-## Build
+This repeated replacement is an explicit change to the original procedure. The unchanged growing-only path is not claimed to have a general-K guarantee. The proof requires neither a random restart nor an assumed weak initializer.
 
-The active manuscript has five main sections, proof appendices, and references. From this directory, run PDFLaTeX, BibTeX, and PDFLaTeX twice. GitHub Actions records the source commit and checksums in BUILD.txt and BUILD_SHA256SUMS.txt. The archived experiment records and their numerical settings are retained.
+## Proof structure
 
+The population replacement lemma reduces hard loss by at least a factor `1-1/K`. Uniform average spectral-profile approximation transfers it to the empirical soft loss:
+
+`F_(t+1) <= (1-1/K) F_t + C a_n n^2 p + n log K`, with `a_n -> 0`.
+
+After `ceil(log n)` rounds, `F=o(n^2 p)`. Exactly K separated true profiles and K fitted profiles then imply a common matching and weak responsibilities. The mandatory final M-step supplies the required local likelihood accuracy.
+
+The spectral and profile bounds hold on an event with failure at most `C_H exp(-H np)` for every fixed H. A direct clipped Chernoff bound uses deterministic envelopes for the random spectral threshold. These bounds cover information scales above `log n`; inverse-polynomial confidence alone would not suffice.
+
+## Implementation and empirical scope
+
+The current entry point is [SpectralLikelihood.decode()](../../experiments/20261010_general_density/spectral_likelihood.py). Defaults are the full score, 100 growing updates per stage, one update per replacement trial, `ceil(log n)` rounds with valid early stopping, and one mandatory final update. The companion sparse module now defaults to `global_gain_certified`, a deterministic threshold-certificate algorithm with its own general-K proof and 24-graph checks. Its random-residual option is `global_gain_restarts`. Neither is the full-Bernoulli Algorithm 1.
+
+The [60-graph audit](../../experiments/20261010_general_density/) covers K=2–6, two density scales and three matrix families. It retains every input, candidate score and objective trace. Replacement did not change any graph's error, and weak general matrices gave high error at n=320. The [population certificate](../../experiments/20261010_general_density/population_audit/) rigorously identifies a K=5 one-update-per-stage growing failure and demonstrates a replacement repair.
+
+The older [240-graph sparse-score experiment](../../experiments/20261009_residual_likelihood_seeding/) remains separately labeled. Its favorable results do not evaluate the current full-score algorithm.
+
+## Build and historical files
+
+The active inputs are `intro.tex`, `algorithm.tex`, `results.tex`, `experiments.tex`, `conclusion.tex`, `theory.tex` and `implementation.tex`, assembled by `manuscript.tex`. `sparse.tex` is an unused historical fragment. `iterative_swap_proof.tex` retains the companion sparse threshold-certificate proof with its later scalar-p notation updates; the earlier form and parent appendix remain available at commit `452ca1d67cb23981ca3e6a7debf23433a6d660e8`. It is not an input to this full-Bernoulli manuscript. Dated correction/outline documents carry historical notices where superseded.
+
+Run PDFLaTeX, BibTeX and PDFLaTeX twice from this directory. GitHub Actions records source provenance in `BUILD.txt` and hashes in `BUILD_SHA256SUMS.txt`. The current 31-page build, including the scalar-p notation synchronization, passed compilation and a rendered page-by-page layout check. Compilation and layout review do not replace the mathematical and numerical audits.
+
+## Concurrent sparse revision preserved
+
+The merge retains the sparse general-K implementation and [24-graph checks](../../experiments/20261009_residual_likelihood_seeding/general_k_fresh_checks.json) from revision `452ca1d`. That version already proved arbitrary fixed K at expected degree Ω(log n), with `p -> 0` and a threshold stopping certificate. The present version extends the score and proof to dense probabilities and uses a direct geometric soft-loss contraction. The [earlier audit](REVIEW_20261010_GENERAL_K.md) remains a dated companion record, including its later notation updates.
+
+This merge also incorporates the common notation `p = max_ab P_ab` from `6cbb58e`, the shortened roadmap from `ca4f330`, and the final companion build audit `f250231`. The full-Bernoulli manuscript has been recompiled and all 31 pages visually verified after these changes.

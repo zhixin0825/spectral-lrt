@@ -1,0 +1,568 @@
+{
+  "created_before_fitting": true,
+  "graph_tasks": [
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202612100,
+      "graph_id": "k2_log_degree_assortative_s202612100"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202612101,
+      "graph_id": "k2_log_degree_assortative_s202612101"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202612110,
+      "graph_id": "k2_log_degree_disassortative_unequal_s202612110"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202612111,
+      "graph_id": "k2_log_degree_disassortative_unequal_s202612111"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202612120,
+      "graph_id": "k2_log_degree_weak_general_unequal_s202612120"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202612121,
+      "graph_id": "k2_log_degree_weak_general_unequal_s202612121"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202612200,
+      "graph_id": "k2_dense_assortative_s202612200"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202612201,
+      "graph_id": "k2_dense_assortative_s202612201"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202612210,
+      "graph_id": "k2_dense_disassortative_unequal_s202612210"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202612211,
+      "graph_id": "k2_dense_disassortative_unequal_s202612211"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202612220,
+      "graph_id": "k2_dense_weak_general_unequal_s202612220"
+    },
+    {
+      "n": 320,
+      "k": 2,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202612221,
+      "graph_id": "k2_dense_weak_general_unequal_s202612221"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202613100,
+      "graph_id": "k3_log_degree_assortative_s202613100"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202613101,
+      "graph_id": "k3_log_degree_assortative_s202613101"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202613110,
+      "graph_id": "k3_log_degree_disassortative_unequal_s202613110"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202613111,
+      "graph_id": "k3_log_degree_disassortative_unequal_s202613111"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202613120,
+      "graph_id": "k3_log_degree_weak_general_unequal_s202613120"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202613121,
+      "graph_id": "k3_log_degree_weak_general_unequal_s202613121"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202613200,
+      "graph_id": "k3_dense_assortative_s202613200"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202613201,
+      "graph_id": "k3_dense_assortative_s202613201"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202613210,
+      "graph_id": "k3_dense_disassortative_unequal_s202613210"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202613211,
+      "graph_id": "k3_dense_disassortative_unequal_s202613211"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202613220,
+      "graph_id": "k3_dense_weak_general_unequal_s202613220"
+    },
+    {
+      "n": 320,
+      "k": 3,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202613221,
+      "graph_id": "k3_dense_weak_general_unequal_s202613221"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202614100,
+      "graph_id": "k4_log_degree_assortative_s202614100"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202614101,
+      "graph_id": "k4_log_degree_assortative_s202614101"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202614110,
+      "graph_id": "k4_log_degree_disassortative_unequal_s202614110"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202614111,
+      "graph_id": "k4_log_degree_disassortative_unequal_s202614111"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202614120,
+      "graph_id": "k4_log_degree_weak_general_unequal_s202614120"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202614121,
+      "graph_id": "k4_log_degree_weak_general_unequal_s202614121"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202614200,
+      "graph_id": "k4_dense_assortative_s202614200"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202614201,
+      "graph_id": "k4_dense_assortative_s202614201"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202614210,
+      "graph_id": "k4_dense_disassortative_unequal_s202614210"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202614211,
+      "graph_id": "k4_dense_disassortative_unequal_s202614211"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202614220,
+      "graph_id": "k4_dense_weak_general_unequal_s202614220"
+    },
+    {
+      "n": 320,
+      "k": 4,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202614221,
+      "graph_id": "k4_dense_weak_general_unequal_s202614221"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202615100,
+      "graph_id": "k5_log_degree_assortative_s202615100"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202615101,
+      "graph_id": "k5_log_degree_assortative_s202615101"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202615110,
+      "graph_id": "k5_log_degree_disassortative_unequal_s202615110"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202615111,
+      "graph_id": "k5_log_degree_disassortative_unequal_s202615111"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202615120,
+      "graph_id": "k5_log_degree_weak_general_unequal_s202615120"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202615121,
+      "graph_id": "k5_log_degree_weak_general_unequal_s202615121"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202615200,
+      "graph_id": "k5_dense_assortative_s202615200"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202615201,
+      "graph_id": "k5_dense_assortative_s202615201"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202615210,
+      "graph_id": "k5_dense_disassortative_unequal_s202615210"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202615211,
+      "graph_id": "k5_dense_disassortative_unequal_s202615211"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202615220,
+      "graph_id": "k5_dense_weak_general_unequal_s202615220"
+    },
+    {
+      "n": 320,
+      "k": 5,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202615221,
+      "graph_id": "k5_dense_weak_general_unequal_s202615221"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202616100,
+      "graph_id": "k6_log_degree_assortative_s202616100"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202616101,
+      "graph_id": "k6_log_degree_assortative_s202616101"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202616110,
+      "graph_id": "k6_log_degree_disassortative_unequal_s202616110"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202616111,
+      "graph_id": "k6_log_degree_disassortative_unequal_s202616111"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202616120,
+      "graph_id": "k6_log_degree_weak_general_unequal_s202616120"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "log_degree",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202616121,
+      "graph_id": "k6_log_degree_weak_general_unequal_s202616121"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 0,
+      "seed": 202616200,
+      "graph_id": "k6_dense_assortative_s202616200"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "assortative",
+      "repeat": 1,
+      "seed": 202616201,
+      "graph_id": "k6_dense_assortative_s202616201"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 0,
+      "seed": 202616210,
+      "graph_id": "k6_dense_disassortative_unequal_s202616210"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "disassortative_unequal",
+      "repeat": 1,
+      "seed": 202616211,
+      "graph_id": "k6_dense_disassortative_unequal_s202616211"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 0,
+      "seed": 202616220,
+      "graph_id": "k6_dense_weak_general_unequal_s202616220"
+    },
+    {
+      "n": 320,
+      "k": 6,
+      "density": "dense",
+      "family": "weak_general_unequal",
+      "repeat": 1,
+      "seed": 202616221,
+      "graph_id": "k6_dense_weak_general_unequal_s202616221"
+    }
+  ],
+  "score_clipping": "same q for both score controls",
+  "methods": [
+    "full_growing",
+    "full_replacement",
+    "sparse_growing",
+    "sparse_replacement",
+    "u_kmeans_10",
+    "u_lambda_kmeans_10"
+  ],
+  "growing_max_iter": 100,
+  "replacement_rounds": "ceil(log(n))",
+  "replacement_trial_iter": 1,
+  "baseline_extra_final_mstep": 1,
+  "replacement_extra_final_mstep": 1,
+  "candidate_selection": "all n candidate losses saved for every scan; only selected IDs excluded in growing",
+  "limitations": [
+    "n=320 only",
+    "two graph seeds per K-family-density cell",
+    "weak general matrices can fall below useful spectral separation at this n",
+    "likelihood improvement need not improve the misclassification rate"
+  ],
+  "engine_sha256": "b57648fb6ffaf0582858814bbf6a7c7c2d2c23d3bae912508c2a0a3cd385a204",
+  "benchmark_sha256": "11bfe35a327ac7dc9b6e01782d35d04e58b1d7d6c2241bbcb463c2fbe3d82544"
+}

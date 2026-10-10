@@ -1,0 +1,98 @@
+{
+  "n": 320,
+  "k": 6,
+  "density": "dense",
+  "family": "assortative",
+  "repeat": 0,
+  "seed": 202616200,
+  "graph_id": "k6_dense_assortative_s202616200",
+  "graph": {
+    "block_sizes": [
+      54,
+      54,
+      53,
+      53,
+      53,
+      53
+    ],
+    "block_proportions": [
+      0.16875,
+      0.16875,
+      0.165625,
+      0.165625,
+      0.165625,
+      0.165625
+    ],
+    "target_mean_degree": 57.419999999999995,
+    "expected_degree_by_block": [
+      57.74754924120115,
+      57.74754924120115,
+      57.25313529221827,
+      57.25313529221827,
+      57.25313529221826,
+      57.25313529221826
+    ],
+    "empirical_mean_degree": 56.98125,
+    "P_eigenvalues": [
+      0.4944139489828862,
+      0.49441394898288626,
+      0.4944139489828865,
+      0.4944139489828866,
+      0.4944139489828867,
+      1.08771068776235
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "final_soft_loss": 1721.1476061925418
+    },
+    "full_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "final_soft_loss": 1721.1476061925418
+    },
+    "sparse_growing": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "final_soft_loss": 1538.992689791937
+    },
+    "sparse_replacement": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "final_soft_loss": 1538.992689791937
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "inertia": 86.4465371523028
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.0,
+      "ari": 1.0,
+      "n_output_classes": 6,
+      "inertia": 72867.51856254907
+    }
+  },
+  "audit": {
+    "em_updates": 49,
+    "largest_em_loss_increase": 2.7284841053187847e-12,
+    "replacement_rounds": 3,
+    "accepted_replacements": 1,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 2.2737367544323206e-13,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 28
+  },
+  "seconds": 0.16926515700015443,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

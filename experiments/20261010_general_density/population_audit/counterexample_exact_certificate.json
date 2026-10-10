@@ -1,0 +1,170 @@
+{
+  "assertions": "All comparisons passed using exact Fraction interval endpoints.",
+  "terms": 32,
+  "indexing": "one-based in this certificate",
+  "stages": [
+    {
+      "stage": 2,
+      "chosen_block": 4,
+      "gain_intervals": [
+        [
+          0.23081587398537687,
+          0.23081587398537687
+        ],
+        [
+          0.09990051168944476,
+          0.09990051168944476
+        ],
+        [
+          0.24995664635326142,
+          0.24995664635326142
+        ],
+        [
+          0.2500460718277585,
+          0.2500460718277585
+        ],
+        [
+          0.2493916043736972,
+          0.2493916043736972
+        ]
+      ],
+      "gain_margin_lower": 8.942547449706262e-05,
+      "first_estep_margin_lower": 0.5315809045073232
+    },
+    {
+      "stage": 3,
+      "chosen_block": 1,
+      "gain_intervals": [
+        [
+          0.00066657345331788,
+          0.00066657345331788
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0002511699592848636,
+          0.0002511699592848636
+        ],
+        [
+          0.00020933206164457186,
+          0.00020933206164457186
+        ],
+        [
+          0.0002752009069230891,
+          0.0002752009069230891
+        ]
+      ],
+      "gain_margin_lower": 0.0003913725463947909,
+      "first_estep_margin_lower": 0.033328672665894
+    },
+    {
+      "stage": 4,
+      "chosen_block": 5,
+      "gain_intervals": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.00014901257671582095,
+          0.00014901257671582095
+        ],
+        [
+          0.00016878082107565904,
+          0.00016878082107565904
+        ],
+        [
+          0.00017644426181653904,
+          0.00017644426181653904
+        ]
+      ],
+      "gain_margin_lower": 7.66344074087999e-06,
+      "first_estep_margin_lower": 5.2319037884501124e-05
+    },
+    {
+      "stage": 5,
+      "chosen_block": 4,
+      "gain_intervals": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          2.4821176468640903e-05,
+          2.4821176468640903e-05
+        ],
+        [
+          2.5619439116584237e-05,
+          2.5619439116584237e-05
+        ],
+        [
+          0.0,
+          3.4275742010401404e-35
+        ]
+      ],
+      "gain_margin_lower": 7.98262647943335e-07,
+      "first_estep_margin_lower": 0.00011645199598447381
+    }
+  ],
+  "stage4_endpoint_assignment": [
+    3,
+    1,
+    4,
+    2,
+    4
+  ],
+  "stage4_endpoint_margin_lower": 0.0008750686906712464,
+  "stage5_empty_component": 2,
+  "stage5_empty_component_score_deficit_intervals": [
+    [
+      0.03051643365128716,
+      0.03051643365128716
+    ],
+    [
+      2.5911553862000836,
+      2.5911553862000836
+    ],
+    [
+      0.0008750686906712464,
+      0.0008750686906712464
+    ],
+    [
+      0.00011645199598447381,
+      0.00011645199598447381
+    ],
+    [
+      0.0030498447220189246,
+      0.0030498447220189246
+    ]
+  ],
+  "dominating_block_in_its_soft_mstep": 4,
+  "domination_margin_lower": 0.0007586166946867726,
+  "final_assignment": [
+    3,
+    1,
+    4,
+    5,
+    4
+  ],
+  "final_nonduplicate_margin_lower": 0.002001157094528786,
+  "misclassified_mass": "13/200",
+  "duplicate_components": [
+    2,
+    5
+  ],
+  "merged_blocks": [
+    3,
+    5
+  ],
+  "caveat": "This certifies the high-signal population limiting path for one M-step per stage; it does not claim failure when every intermediate stage is iterated to convergence."
+}

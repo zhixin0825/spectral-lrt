@@ -1,0 +1,722 @@
+[
+  {
+    "graph_id": "k6_dense_weak_general_unequal_s202616221",
+    "population_signal_eigenvalues": [
+      -2.0079181426399293,
+      -1.5433195416415002,
+      0.11563726814815949,
+      0.6010790054737227,
+      1.8737074094890298,
+      57.71909410526276
+    ],
+    "smallest_signal_magnitude": 0.11563726814815949,
+    "sqrt_max_expected_degree": 7.778324446318011,
+    "signal_to_degree_sqrt_ratio": 0.014866603848454556
+  },
+  {
+    "graph_id": "k5_dense_weak_general_unequal_s202615220",
+    "population_signal_eigenvalues": [
+      -1.3023364037358618,
+      -0.4720223749530286,
+      1.3822568356796034,
+      2.284222910275478,
+      58.04013096981012
+    ],
+    "smallest_signal_magnitude": 0.4720223749530286,
+    "sqrt_max_expected_degree": 8.181762673782966,
+    "signal_to_degree_sqrt_ratio": 0.05769201500619691
+  },
+  {
+    "graph_id": "k3_log_degree_disassortative_unequal_s202613111",
+    "population_signal_eigenvalues": [
+      -9.103543519546442,
+      -4.2760404416195374,
+      17.36034715530633
+    ],
+    "smallest_signal_magnitude": 4.2760404416195374,
+    "sqrt_max_expected_degree": 4.307958807184242,
+    "signal_to_degree_sqrt_ratio": 0.9925908377973635
+  },
+  {
+    "graph_id": "k5_dense_assortative_s202615201",
+    "population_signal_eigenvalues": [
+      28.981703470031526,
+      28.981703470031537,
+      28.98170347003154,
+      28.98170347003154,
+      57.96340694006308
+    ],
+    "smallest_signal_magnitude": 28.981703470031526,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 3.824655426720025
+  },
+  {
+    "graph_id": "k3_log_degree_weak_general_unequal_s202613120",
+    "population_signal_eigenvalues": [
+      0.6329281349554696,
+      0.9034246760621563,
+      17.397046681029984
+    ],
+    "smallest_signal_magnitude": 0.6329281349554696,
+    "sqrt_max_expected_degree": 4.244144070875216,
+    "signal_to_degree_sqrt_ratio": 0.1491297478091852
+  },
+  {
+    "graph_id": "k3_dense_weak_general_unequal_s202613221",
+    "population_signal_eigenvalues": [
+      2.100133559120815,
+      2.9976744207610073,
+      57.72554504468816
+    ],
+    "smallest_signal_magnitude": 2.100133559120815,
+    "sqrt_max_expected_degree": 7.731012485695073,
+    "signal_to_degree_sqrt_ratio": 0.2716505196449696
+  },
+  {
+    "graph_id": "k2_log_degree_weak_general_unequal_s202612120",
+    "population_signal_eigenvalues": [
+      1.311429121382074,
+      17.55319435461899
+    ],
+    "smallest_signal_magnitude": 1.311429121382074,
+    "sqrt_max_expected_degree": 4.271022392667514,
+    "signal_to_degree_sqrt_ratio": 0.30705273838730834
+  },
+  {
+    "graph_id": "k4_dense_weak_general_unequal_s202614221",
+    "population_signal_eigenvalues": [
+      -1.7197693760746147,
+      0.9582768499151059,
+      3.6475863559874004,
+      57.70856489901405
+    ],
+    "smallest_signal_magnitude": 0.9582768499151059,
+    "sqrt_max_expected_degree": 7.76699502170962,
+    "signal_to_degree_sqrt_ratio": 0.12337806928375965
+  },
+  {
+    "graph_id": "k5_log_degree_weak_general_unequal_s202615121",
+    "population_signal_eigenvalues": [
+      -0.39249187153898213,
+      -0.14225582946322018,
+      0.4165779063129606,
+      0.6884080967824033,
+      17.49185507167064
+    ],
+    "smallest_signal_magnitude": 0.14225582946322018,
+    "sqrt_max_expected_degree": 4.491595325385398,
+    "signal_to_degree_sqrt_ratio": 0.031671559692660875
+  },
+  {
+    "graph_id": "k4_log_degree_disassortative_unequal_s202614110",
+    "population_signal_eigenvalues": [
+      -6.8037729798153475,
+      -4.403935952894672,
+      -2.584177067652412,
+      17.318938464532646
+    ],
+    "smallest_signal_magnitude": 2.584177067652412,
+    "sqrt_max_expected_degree": 4.194933417850391,
+    "signal_to_degree_sqrt_ratio": 0.6160233811235605
+  },
+  {
+    "graph_id": "k4_dense_assortative_s202614200",
+    "population_signal_eigenvalues": [
+      32.16806722689074,
+      32.16806722689076,
+      32.16806722689078,
+      57.90252100840337
+    ],
+    "smallest_signal_magnitude": 32.16806722689074,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 4.245153257248768
+  },
+  {
+    "graph_id": "k5_log_degree_assortative_s202615101",
+    "population_signal_eigenvalues": [
+      8.734366176596241,
+      8.734366176596247,
+      8.734366176596247,
+      8.734366176596247,
+      17.468732353192486
+    ],
+    "smallest_signal_magnitude": 8.734366176596241,
+    "sqrt_max_expected_degree": 4.159923435278745,
+    "signal_to_degree_sqrt_ratio": 2.099645897932488
+  },
+  {
+    "graph_id": "k6_log_degree_weak_general_unequal_s202616121",
+    "population_signal_eigenvalues": [
+      -0.6051366969710085,
+      -0.46511820873926213,
+      0.03485020280853,
+      0.18115029505772767,
+      0.5646889127549585,
+      17.395102527982434
+    ],
+    "smallest_signal_magnitude": 0.03485020280853,
+    "sqrt_max_expected_degree": 4.270117224783694,
+    "signal_to_degree_sqrt_ratio": 0.008161415945740309
+  },
+  {
+    "graph_id": "k2_dense_weak_general_unequal_s202612221",
+    "population_signal_eigenvalues": [
+      4.351483456200896,
+      58.24366227059721
+    ],
+    "smallest_signal_magnitude": 4.351483456200896,
+    "sqrt_max_expected_degree": 7.779973274466775,
+    "signal_to_degree_sqrt_ratio": 0.5593185609624267
+  },
+  {
+    "graph_id": "k6_dense_disassortative_unequal_s202616211",
+    "population_signal_eigenvalues": [
+      -14.668575196743948,
+      -11.66142254988759,
+      -8.995444792627618,
+      -6.713082859255112,
+      -4.910220046813597,
+      57.4909822057289
+    ],
+    "smallest_signal_magnitude": 4.910220046813597,
+    "sqrt_max_expected_degree": 7.675861472891846,
+    "signal_to_degree_sqrt_ratio": 0.6396962821898992
+  },
+  {
+    "graph_id": "k2_log_degree_assortative_s202612101",
+    "population_signal_eigenvalues": [
+      12.427262468496458,
+      17.398167455895038
+    ],
+    "smallest_signal_magnitude": 12.427262468496458,
+    "sqrt_max_expected_degree": 4.1599234352787455,
+    "signal_to_degree_sqrt_ratio": 2.9873776914030485
+  },
+  {
+    "graph_id": "k2_dense_disassortative_unequal_s202612211",
+    "population_signal_eigenvalues": [
+      -40.84026396546402,
+      59.42466343243458
+    ],
+    "smallest_signal_magnitude": 40.84026396546402,
+    "sqrt_max_expected_degree": 8.8293287651246,
+    "signal_to_degree_sqrt_ratio": 4.625523077901571
+  },
+  {
+    "graph_id": "k5_log_degree_weak_general_unequal_s202615120",
+    "population_signal_eigenvalues": [
+      -0.39249187153898213,
+      -0.14225582946322018,
+      0.4165779063129606,
+      0.6884080967824033,
+      17.49185507167064
+    ],
+    "smallest_signal_magnitude": 0.14225582946322018,
+    "sqrt_max_expected_degree": 4.491595325385398,
+    "signal_to_degree_sqrt_ratio": 0.031671559692660875
+  },
+  {
+    "graph_id": "k3_log_degree_weak_general_unequal_s202613121",
+    "population_signal_eigenvalues": [
+      0.6329281349554696,
+      0.9034246760621563,
+      17.397046681029984
+    ],
+    "smallest_signal_magnitude": 0.6329281349554696,
+    "sqrt_max_expected_degree": 4.244144070875216,
+    "signal_to_degree_sqrt_ratio": 0.1491297478091852
+  },
+  {
+    "graph_id": "k5_log_degree_disassortative_unequal_s202615110",
+    "population_signal_eigenvalues": [
+      -5.380776683895474,
+      -3.9633794187703058,
+      -2.806628655806324,
+      -1.8609169322722456,
+      17.319177859496488
+    ],
+    "smallest_signal_magnitude": 1.8609169322722456,
+    "sqrt_max_expected_degree": 4.186209190981644,
+    "signal_to_degree_sqrt_ratio": 0.44453510261293716
+  },
+  {
+    "graph_id": "k6_dense_weak_general_unequal_s202616220",
+    "population_signal_eigenvalues": [
+      -2.0079181426399293,
+      -1.5433195416415002,
+      0.11563726814815949,
+      0.6010790054737227,
+      1.8737074094890298,
+      57.71909410526276
+    ],
+    "smallest_signal_magnitude": 0.11563726814815949,
+    "sqrt_max_expected_degree": 7.778324446318011,
+    "signal_to_degree_sqrt_ratio": 0.014866603848454556
+  },
+  {
+    "graph_id": "k4_dense_disassortative_unequal_s202614210",
+    "population_signal_eigenvalues": [
+      -22.575757300716194,
+      -14.612802269476473,
+      -8.574618005990654,
+      57.46637235564232
+    ],
+    "smallest_signal_magnitude": 8.574618005990654,
+    "sqrt_max_expected_degree": 7.641371755641893,
+    "signal_to_degree_sqrt_ratio": 1.1221307220996952
+  },
+  {
+    "graph_id": "k2_log_degree_disassortative_unequal_s202612111",
+    "population_signal_eigenvalues": [
+      -12.308242011794457,
+      17.909118795469738
+    ],
+    "smallest_signal_magnitude": 12.308242011794457,
+    "sqrt_max_expected_degree": 4.84709388293563,
+    "signal_to_degree_sqrt_ratio": 2.539303407166523
+  },
+  {
+    "graph_id": "k2_log_degree_assortative_s202612100",
+    "population_signal_eigenvalues": [
+      12.427262468496458,
+      17.398167455895038
+    ],
+    "smallest_signal_magnitude": 12.427262468496458,
+    "sqrt_max_expected_degree": 4.1599234352787455,
+    "signal_to_degree_sqrt_ratio": 2.9873776914030485
+  },
+  {
+    "graph_id": "k6_log_degree_assortative_s202616100",
+    "population_signal_eigenvalues": [
+      7.897216991335354,
+      7.897216991335354,
+      7.897216991335357,
+      7.995409007070797,
+      8.046221085511496,
+      17.484291097048942
+    ],
+    "smallest_signal_magnitude": 7.897216991335354,
+    "sqrt_max_expected_degree": 4.171771590076931,
+    "signal_to_degree_sqrt_ratio": 1.893012793442443
+  },
+  {
+    "graph_id": "k4_log_degree_assortative_s202614101",
+    "population_signal_eigenvalues": [
+      9.694657135787853,
+      9.694657135787853,
+      9.694657135787853,
+      17.450382844418133
+    ],
+    "smallest_signal_magnitude": 9.694657135787853,
+    "sqrt_max_expected_degree": 4.1599234352787455,
+    "signal_to_degree_sqrt_ratio": 2.330489319483891
+  },
+  {
+    "graph_id": "k6_log_degree_disassortative_unequal_s202616110",
+    "population_signal_eigenvalues": [
+      -4.42074452903646,
+      -3.514463350853685,
+      -2.7110038173363447,
+      -2.0231565728079692,
+      -1.4798184634274996,
+      17.326355262597296
+    ],
+    "smallest_signal_magnitude": 1.4798184634274996,
+    "sqrt_max_expected_degree": 4.213867461643931,
+    "signal_to_degree_sqrt_ratio": 0.35117821737330746
+  },
+  {
+    "graph_id": "k6_dense_disassortative_unequal_s202616210",
+    "population_signal_eigenvalues": [
+      -14.668575196743948,
+      -11.66142254988759,
+      -8.995444792627618,
+      -6.713082859255112,
+      -4.910220046813597,
+      57.4909822057289
+    ],
+    "smallest_signal_magnitude": 4.910220046813597,
+    "sqrt_max_expected_degree": 7.675861472891846,
+    "signal_to_degree_sqrt_ratio": 0.6396962821898992
+  },
+  {
+    "graph_id": "k6_log_degree_assortative_s202616101",
+    "population_signal_eigenvalues": [
+      7.897216991335354,
+      7.897216991335354,
+      7.897216991335357,
+      7.995409007070797,
+      8.046221085511496,
+      17.484291097048942
+    ],
+    "smallest_signal_magnitude": 7.897216991335354,
+    "sqrt_max_expected_degree": 4.171771590076931,
+    "signal_to_degree_sqrt_ratio": 1.893012793442443
+  },
+  {
+    "graph_id": "k5_log_degree_assortative_s202615100",
+    "population_signal_eigenvalues": [
+      8.734366176596241,
+      8.734366176596247,
+      8.734366176596247,
+      8.734366176596247,
+      17.468732353192486
+    ],
+    "smallest_signal_magnitude": 8.734366176596241,
+    "sqrt_max_expected_degree": 4.159923435278745,
+    "signal_to_degree_sqrt_ratio": 2.099645897932488
+  },
+  {
+    "graph_id": "k4_dense_weak_general_unequal_s202614220",
+    "population_signal_eigenvalues": [
+      -1.7197693760746147,
+      0.9582768499151059,
+      3.6475863559874004,
+      57.70856489901405
+    ],
+    "smallest_signal_magnitude": 0.9582768499151059,
+    "sqrt_max_expected_degree": 7.76699502170962,
+    "signal_to_degree_sqrt_ratio": 0.12337806928375965
+  },
+  {
+    "graph_id": "k2_log_degree_disassortative_unequal_s202612110",
+    "population_signal_eigenvalues": [
+      -12.308242011794457,
+      17.909118795469738
+    ],
+    "smallest_signal_magnitude": 12.308242011794457,
+    "sqrt_max_expected_degree": 4.84709388293563,
+    "signal_to_degree_sqrt_ratio": 2.539303407166523
+  },
+  {
+    "graph_id": "k2_dense_assortative_s202612201",
+    "population_signal_eigenvalues": [
+      41.23518850987432,
+      57.72926391382404
+    ],
+    "smallest_signal_magnitude": 41.23518850987432,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 5.441722487747973
+  },
+  {
+    "graph_id": "k3_dense_assortative_s202613201",
+    "population_signal_eigenvalues": [
+      36.02636285514483,
+      36.25411764705884,
+      57.82775479191402
+    ],
+    "smallest_signal_magnitude": 36.02636285514483,
+    "sqrt_max_expected_degree": 7.585000678583863,
+    "signal_to_degree_sqrt_ratio": 4.7496848559110525
+  },
+  {
+    "graph_id": "k3_dense_disassortative_unequal_s202613211",
+    "population_signal_eigenvalues": [
+      -30.206679394432985,
+      -14.188429200156797,
+      57.603771495181704
+    ],
+    "smallest_signal_magnitude": 14.188429200156797,
+    "sqrt_max_expected_degree": 7.847255599721756,
+    "signal_to_degree_sqrt_ratio": 1.8080753226210553
+  },
+  {
+    "graph_id": "k4_log_degree_weak_general_unequal_s202614121",
+    "population_signal_eigenvalues": [
+      -0.5182958098189324,
+      0.28880086066606353,
+      1.099292004243107,
+      17.391929286526143
+    ],
+    "smallest_signal_magnitude": 0.28880086066606353,
+    "sqrt_max_expected_degree": 4.2638976370690065,
+    "signal_to_degree_sqrt_ratio": 0.06773165897682867
+  },
+  {
+    "graph_id": "k3_dense_disassortative_unequal_s202613210",
+    "population_signal_eigenvalues": [
+      -30.206679394432985,
+      -14.188429200156797,
+      57.603771495181704
+    ],
+    "smallest_signal_magnitude": 14.188429200156797,
+    "sqrt_max_expected_degree": 7.847255599721756,
+    "signal_to_degree_sqrt_ratio": 1.8080753226210553
+  },
+  {
+    "graph_id": "k5_dense_weak_general_unequal_s202615221",
+    "population_signal_eigenvalues": [
+      -1.3023364037358618,
+      -0.4720223749530286,
+      1.3822568356796034,
+      2.284222910275478,
+      58.04013096981012
+    ],
+    "smallest_signal_magnitude": 0.4720223749530286,
+    "sqrt_max_expected_degree": 8.181762673782966,
+    "signal_to_degree_sqrt_ratio": 0.05769201500619691
+  },
+  {
+    "graph_id": "k3_log_degree_assortative_s202613101",
+    "population_signal_eigenvalues": [
+      10.85745168544498,
+      10.926091327455953,
+      17.427850162268097
+    ],
+    "smallest_signal_magnitude": 10.85745168544498,
+    "sqrt_max_expected_degree": 4.163987022031296,
+    "signal_to_degree_sqrt_ratio": 2.6074653038059776
+  },
+  {
+    "graph_id": "k2_dense_weak_general_unequal_s202612220",
+    "population_signal_eigenvalues": [
+      4.351483456200896,
+      58.24366227059721
+    ],
+    "smallest_signal_magnitude": 4.351483456200896,
+    "sqrt_max_expected_degree": 7.779973274466775,
+    "signal_to_degree_sqrt_ratio": 0.5593185609624267
+  },
+  {
+    "graph_id": "k2_log_degree_weak_general_unequal_s202612121",
+    "population_signal_eigenvalues": [
+      1.311429121382074,
+      17.55319435461899
+    ],
+    "smallest_signal_magnitude": 1.311429121382074,
+    "sqrt_max_expected_degree": 4.271022392667514,
+    "signal_to_degree_sqrt_ratio": 0.30705273838730834
+  },
+  {
+    "graph_id": "k5_dense_disassortative_unequal_s202615211",
+    "population_signal_eigenvalues": [
+      -17.854080208930416,
+      -13.150981391392689,
+      -9.312739792273094,
+      -6.174751736192074,
+      57.46716669763746
+    ],
+    "smallest_signal_magnitude": 6.174751736192074,
+    "sqrt_max_expected_degree": 7.625479951376065,
+    "signal_to_degree_sqrt_ratio": 0.8097525369636309
+  },
+  {
+    "graph_id": "k2_dense_assortative_s202612200",
+    "population_signal_eigenvalues": [
+      41.23518850987432,
+      57.72926391382404
+    ],
+    "smallest_signal_magnitude": 41.23518850987432,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 5.441722487747973
+  },
+  {
+    "graph_id": "k2_dense_disassortative_unequal_s202612210",
+    "population_signal_eigenvalues": [
+      -40.84026396546402,
+      59.42466343243458
+    ],
+    "smallest_signal_magnitude": 40.84026396546402,
+    "sqrt_max_expected_degree": 8.8293287651246,
+    "signal_to_degree_sqrt_ratio": 4.625523077901571
+  },
+  {
+    "graph_id": "k5_dense_assortative_s202615200",
+    "population_signal_eigenvalues": [
+      28.981703470031526,
+      28.981703470031537,
+      28.98170347003154,
+      28.98170347003154,
+      57.96340694006308
+    ],
+    "smallest_signal_magnitude": 28.981703470031526,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 3.824655426720025
+  },
+  {
+    "graph_id": "k3_dense_assortative_s202613200",
+    "population_signal_eigenvalues": [
+      36.02636285514483,
+      36.25411764705884,
+      57.82775479191402
+    ],
+    "smallest_signal_magnitude": 36.02636285514483,
+    "sqrt_max_expected_degree": 7.585000678583863,
+    "signal_to_degree_sqrt_ratio": 4.7496848559110525
+  },
+  {
+    "graph_id": "k4_log_degree_weak_general_unequal_s202614120",
+    "population_signal_eigenvalues": [
+      -0.5182958098189324,
+      0.28880086066606353,
+      1.099292004243107,
+      17.391929286526143
+    ],
+    "smallest_signal_magnitude": 0.28880086066606353,
+    "sqrt_max_expected_degree": 4.2638976370690065,
+    "signal_to_degree_sqrt_ratio": 0.06773165897682867
+  },
+  {
+    "graph_id": "k4_dense_disassortative_unequal_s202614211",
+    "population_signal_eigenvalues": [
+      -22.575757300716194,
+      -14.612802269476473,
+      -8.574618005990654,
+      57.46637235564232
+    ],
+    "smallest_signal_magnitude": 8.574618005990654,
+    "sqrt_max_expected_degree": 7.641371755641893,
+    "signal_to_degree_sqrt_ratio": 1.1221307220996952
+  },
+  {
+    "graph_id": "k3_log_degree_disassortative_unequal_s202613110",
+    "population_signal_eigenvalues": [
+      -9.103543519546442,
+      -4.2760404416195374,
+      17.36034715530633
+    ],
+    "smallest_signal_magnitude": 4.2760404416195374,
+    "sqrt_max_expected_degree": 4.307958807184242,
+    "signal_to_degree_sqrt_ratio": 0.9925908377973635
+  },
+  {
+    "graph_id": "k4_log_degree_disassortative_unequal_s202614111",
+    "population_signal_eigenvalues": [
+      -6.8037729798153475,
+      -4.403935952894672,
+      -2.584177067652412,
+      17.318938464532646
+    ],
+    "smallest_signal_magnitude": 2.584177067652412,
+    "sqrt_max_expected_degree": 4.194933417850391,
+    "signal_to_degree_sqrt_ratio": 0.6160233811235605
+  },
+  {
+    "graph_id": "k6_log_degree_weak_general_unequal_s202616120",
+    "population_signal_eigenvalues": [
+      -0.6051366969710085,
+      -0.46511820873926213,
+      0.03485020280853,
+      0.18115029505772767,
+      0.5646889127549585,
+      17.395102527982434
+    ],
+    "smallest_signal_magnitude": 0.03485020280853,
+    "sqrt_max_expected_degree": 4.270117224783694,
+    "signal_to_degree_sqrt_ratio": 0.008161415945740309
+  },
+  {
+    "graph_id": "k4_log_degree_assortative_s202614100",
+    "population_signal_eigenvalues": [
+      9.694657135787853,
+      9.694657135787853,
+      9.694657135787853,
+      17.450382844418133
+    ],
+    "smallest_signal_magnitude": 9.694657135787853,
+    "sqrt_max_expected_degree": 4.1599234352787455,
+    "signal_to_degree_sqrt_ratio": 2.330489319483891
+  },
+  {
+    "graph_id": "k6_dense_assortative_s202616200",
+    "population_signal_eigenvalues": [
+      26.20393929609298,
+      26.203939296092987,
+      26.203939296092987,
+      26.529752506305588,
+      26.698353245075857,
+      58.015032769768
+    ],
+    "smallest_signal_magnitude": 26.20393929609298,
+    "sqrt_max_expected_degree": 7.599180826983995,
+    "signal_to_degree_sqrt_ratio": 3.448258423203353
+  },
+  {
+    "graph_id": "k3_log_degree_assortative_s202613100",
+    "population_signal_eigenvalues": [
+      10.85745168544498,
+      10.926091327455953,
+      17.427850162268097
+    ],
+    "smallest_signal_magnitude": 10.85745168544498,
+    "sqrt_max_expected_degree": 4.163987022031296,
+    "signal_to_degree_sqrt_ratio": 2.6074653038059776
+  },
+  {
+    "graph_id": "k3_dense_weak_general_unequal_s202613220",
+    "population_signal_eigenvalues": [
+      2.100133559120815,
+      2.9976744207610073,
+      57.72554504468816
+    ],
+    "smallest_signal_magnitude": 2.100133559120815,
+    "sqrt_max_expected_degree": 7.731012485695073,
+    "signal_to_degree_sqrt_ratio": 0.2716505196449696
+  },
+  {
+    "graph_id": "k5_log_degree_disassortative_unequal_s202615111",
+    "population_signal_eigenvalues": [
+      -5.380776683895474,
+      -3.9633794187703058,
+      -2.806628655806324,
+      -1.8609169322722456,
+      17.319177859496488
+    ],
+    "smallest_signal_magnitude": 1.8609169322722456,
+    "sqrt_max_expected_degree": 4.186209190981644,
+    "signal_to_degree_sqrt_ratio": 0.44453510261293716
+  },
+  {
+    "graph_id": "k6_log_degree_disassortative_unequal_s202616111",
+    "population_signal_eigenvalues": [
+      -4.42074452903646,
+      -3.514463350853685,
+      -2.7110038173363447,
+      -2.0231565728079692,
+      -1.4798184634274996,
+      17.326355262597296
+    ],
+    "smallest_signal_magnitude": 1.4798184634274996,
+    "sqrt_max_expected_degree": 4.213867461643931,
+    "signal_to_degree_sqrt_ratio": 0.35117821737330746
+  },
+  {
+    "graph_id": "k6_dense_assortative_s202616201",
+    "population_signal_eigenvalues": [
+      26.20393929609298,
+      26.203939296092987,
+      26.203939296092987,
+      26.529752506305588,
+      26.698353245075857,
+      58.015032769768
+    ],
+    "smallest_signal_magnitude": 26.20393929609298,
+    "sqrt_max_expected_degree": 7.599180826983995,
+    "signal_to_degree_sqrt_ratio": 3.448258423203353
+  },
+  {
+    "graph_id": "k5_dense_disassortative_unequal_s202615210",
+    "population_signal_eigenvalues": [
+      -17.854080208930416,
+      -13.150981391392689,
+      -9.312739792273094,
+      -6.174751736192074,
+      57.46716669763746
+    ],
+    "smallest_signal_magnitude": 6.174751736192074,
+    "sqrt_max_expected_degree": 7.625479951376065,
+    "signal_to_degree_sqrt_ratio": 0.8097525369636309
+  },
+  {
+    "graph_id": "k4_dense_assortative_s202614201",
+    "population_signal_eigenvalues": [
+      32.16806722689074,
+      32.16806722689076,
+      32.16806722689078,
+      57.90252100840337
+    ],
+    "smallest_signal_magnitude": 32.16806722689074,
+    "sqrt_max_expected_degree": 7.577598564189052,
+    "signal_to_degree_sqrt_ratio": 4.245153257248768
+  }
+]

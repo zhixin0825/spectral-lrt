@@ -1,0 +1,82 @@
+{
+  "n": 320,
+  "k": 2,
+  "density": "dense",
+  "family": "weak_general_unequal",
+  "repeat": 1,
+  "seed": 202612221,
+  "graph_id": "k2_dense_weak_general_unequal_s202612221",
+  "graph": {
+    "block_sizes": [
+      248,
+      72
+    ],
+    "block_proportions": [
+      0.775,
+      0.225
+    ],
+    "target_mean_degree": 57.419999999999995,
+    "expected_degree_by_block": [
+      60.527984151417265,
+      46.714721256229474
+    ],
+    "empirical_mean_degree": 57.1,
+    "P_eigenvalues": [
+      0.04337644398468455,
+      0.32722606425629863
+    ]
+  },
+  "methods": {
+    "full_growing": {
+      "misclassification": 0.4625,
+      "ari": 0.0017560222634041263,
+      "n_output_classes": 2,
+      "final_soft_loss": 721.7985018108002
+    },
+    "full_replacement": {
+      "misclassification": 0.4625,
+      "ari": 0.0017560222634041263,
+      "n_output_classes": 2,
+      "final_soft_loss": 721.7985018108002
+    },
+    "sparse_growing": {
+      "misclassification": 0.46562499999999996,
+      "ari": 0.001124647137536337,
+      "n_output_classes": 2,
+      "final_soft_loss": 616.8465732987661
+    },
+    "sparse_replacement": {
+      "misclassification": 0.46562499999999996,
+      "ari": 0.001124647137536337,
+      "n_output_classes": 2,
+      "final_soft_loss": 616.8465732987661
+    },
+    "u_kmeans_10": {
+      "misclassification": 0.46875,
+      "ari": -0.0012901003483595903,
+      "n_output_classes": 2,
+      "inertia": 137.21912973785143
+    },
+    "u_lambda_kmeans_10": {
+      "misclassification": 0.46875,
+      "ari": -0.0012901003483595903,
+      "n_output_classes": 2,
+      "inertia": 50376.56499479389
+    }
+  },
+  "audit": {
+    "em_updates": 195,
+    "largest_em_loss_increase": 0.0,
+    "replacement_rounds": 2,
+    "accepted_replacements": 0,
+    "largest_replacement_loss_increase": 0.0,
+    "largest_final_loss_increase": 0.0,
+    "final_updates_have_two_trace_entries": true,
+    "candidate_argmin_checks": 6
+  },
+  "seconds": 0.20868914800030325,
+  "files": [
+    "arrays.npz",
+    "loss_audit.json.gz"
+  ]
+}

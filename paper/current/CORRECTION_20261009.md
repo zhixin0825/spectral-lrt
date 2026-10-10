@@ -1,3 +1,5 @@
+> Historical record. Superseded for current model, algorithm and theorem scope by [README.md](README.md) and [REVIEW_20261010.md](REVIEW_20261010.md). The original content below is retained as a dated record.
+
 # Notation, algorithm and proof correction (2026-10-09)
 
 The current manuscript corrects the previous mismatch between the tested growing algorithm and the subset-first frozen control.

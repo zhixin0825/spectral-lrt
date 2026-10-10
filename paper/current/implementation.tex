@@ -1,72 +1,60 @@
 \section{Implementation and reproducibility}
 \label{app:implementation}
 
-\subsection{Experimental entry points and retained outputs}
-The numerical evidence is archived in the repository
+\subsection{Current implementation}
+The source, complete numerical evidence and compiled manuscript are at
 \begin{center}
 \url{https://github.com/zhixin0825/spectral-lrt}.
 \end{center}
-Algorithm~1 is implemented in \texttt{residual\_seed.py}. Its method is
+Algorithm~1 is implemented by \texttt{SpectralLikelihood.decode()} in
 \begin{center}
-\texttt{Work.iterative\_certified\_growing()}.
+\small\path{experiments/20261010_general_density/spectral_likelihood.py}.
 \end{center}
-The public API defaults to \texttt{method='global\_gain\_certified'}. It starts with the global-mean growing fit and then iterates deterministic component replacement. Each round fits the current profiles from uniform weights and, for each component removal, fits the globally selected replacement from uniform weights. Every node ID participates in each replacement scan. The largest trial objective is accepted only if its improvement is at least $T/\sqrt{\log n}$, where $T=\sum_{ij}q_{ij}$. The accepted-round cap is $\lceil(\log n)^2\rceil$, followed by one mandatory final E/M update. Under the theorem's hypotheses, the stopping certificate is reached in $O(\sqrt{\log n})$ accepted rounds, before the cap. The earlier residual-restart implementation is exposed separately as \texttt{method='global\_gain\_restarts'}. The archived primary benchmark remains the original growing branch. The principal comparison is in
+It accepts an $n\times K$ eigenvector array and a length-$K$ array of the corresponding signed eigenvalues. The decoder receives neither the adjacency matrix, true labels, true block probabilities nor node degrees. Retaining the top-$|\lambda|$ eigenpairs is the preceding spectral step.
+
+The default \texttt{score\_family='bernoulli'} evaluates \eqref{eq:working-score}. The floor coefficient defaults to $c_0=10^{-4}$; its theoretical guarantee requires the explicit admissibility condition in Section~\ref{sec:algorithm}, not merely positive block probabilities. The spectral scale is $\max\{1,\max_a|\lambda_a|\}$, and the reconstructed entries are clipped on both sides. The original adjacency is not regularized. The optional \texttt{score\_family='sparse'} is a score control on precisely the same $q$, and is not the default general-density algorithm.
+
+Growing uses at most 100 exact M-steps per stage. A fit stops after at least one M-step if hard labels are unchanged and its absolute soft-loss change is at most $10^{-9}n$. Replacement uses at most $\lceil\log n\rceil$ rounds, tries every component deletion against the same incumbent, initializes each trial's weights uniformly, and uses one M-step per trial by default. A full round with no improvement stops the search. This rule is justified by the contraction certificate in Appendix~\ref{app:replacement-proof}. Calling \texttt{decode()} always executes the final E-step and one profile/weight M-step before returning labels.
+
+The implementation uses the unconstrained simplex weight update. Zero-mass components retain their previous profile. Log-sum-exp arithmetic evaluates responsibilities and the soft divergence loss $F$ without exponentiating very negative raw log-likelihoods. Theoretical divergences are nonnegative; the code clips negative floating-point residue at zero. Weighted means, including the initial global mean, are clipped back to the same feasible interval solely to correct roundoff in convex combinations. The theorem is an exact-arithmetic result; recorded numerical checks assess implementation accuracy to floating-point precision.
+
+The user may increase either fitting budget. Explicitly requesting fewer replacement rounds is an experimental option and does not automatically retain the stated general-$K$ initialization guarantee. The proven default budget is $\lceil\log n\rceil$, with valid early stopping after a full unsuccessful round.
+
+\subsection{Current finite-graph and population evidence}
+The complete 60-graph design is specified by
+\begin{center}
+\small\path{experiments/20261010_general_density/benchmark_results/protocol.json}.
+\end{center}
+It fixes all graph seeds, model families, density settings, method parameters, and hashes of the code used at fitting time. Each graph directory retains the original $A$, $P$, true labels for evaluation, exact retained $(U,\Lambda)$, all fitted profiles and weights, every candidate's hard loss, and full EM objective traces. Ground truth is not used for fitting, selecting replacements, or stopping. The aggregate CSV contains all 360 graph--method combinations.
+
+The archived fitting engine is retained as \texttt{engine\_at\_fitting.py}. A subsequent boundary fix clips the rounded initial mean when a graph has all reconstructed entries at the floor. The maintenance record checks that this expression is bitwise unchanged on every archived graph, so the saved benchmark is unaffected. The original fitting hashes remain in the frozen protocol; maintenance provenance is recorded separately.
+
+The five-community population calculation and the exact rational interval certificate are in
+\begin{center}
+\small\path{experiments/20261010_general_density/population_audit/}.
+\end{center}
+They record the positive-definiteness certificate, strict all-node-gain comparisons, the limiting one-update-per-stage trajectory, and replacement trial results. The distinction between a population limiting path, a finite-graph theorem, and fully iterated growing is maintained in the report. The manifest \texttt{SHA256SUMS} identifies the saved numerical records.
+
+\subsection{Historical experiments and entry points}
+The earlier 240-graph comparison is preserved at
 \path{experiments/20261009_residual_likelihood_seeding/}.
-Its report, protocol, model-generation script, fitting code, scalar verification, and per-graph summaries define the numerical experiment. The preceding partial-peeling experiment and its diagnosis are in
-\path{experiments/20261009_partial_likelihood_peeling/}.
-The original growing branch corresponds to the recorded \texttt{growing\_global\_gain\_EM} arm and the API option \texttt{method='global\_gain'}. It starts at the global profile mean, adds $K-1$ node candidates, and refits after every addition. The \texttt{global\_gain\_no\_update} arm is a separate frozen-profile control with a top-subset first seed. Identical final error counts do not identify the algorithms.
-
-The manuscript's two CSV summaries retain batch-specific, combined, and model-specific results. The diagnostic figure uses saved coordinates and fitted labels rather than a new simulation. Full spectral arrays and objective traces are stored in the previously archived numerical records; the source reports describe their restoration. Reconstructing the profiles from $(U,\Lambda)$ and fitting the working score does not need the original adjacency matrix.
-
-
-\subsection{Logarithm and weight floors}
-The current implementation sets
+The \texttt{residual\_seed.py} module retains several sparse-score methods, using
 \[
- q_{ij}=\max\{(U\Lambda U^\top)_{ij},\varepsilon_n\},\qquad
- \varepsilon_n=10^{-4}\frac{\max\{\|\Lambda\|_{\mathrm{op}},1\}}n,
+ \ell_i^{\mathrm{sparse}}(\widehat p)=\sum_jq_{ij}\log\widehat p_j-\sum_j\widehat p_j.
 \]
-and uses the exact weight update with floor $f=10^{-8}$. The spectral scale is computed from the retained eigenvalues. The theorem requires the chosen fixed floor constant to be sufficiently small relative to the block-probability comparison constants. On the spectral approximation event, this gives a floor of order $p$ strictly below every $P_{ab}$. The value $10^{-4}$ does not supply such a guarantee for arbitrarily small $\min_{a,b}P_{ab}/p$. This operation defines positive logarithm arguments after spectral reconstruction. Profiles are positive vectors, and finite-sample reconstructed coordinates are not constrained to lie below one.
+Its current default \path{method='global_gain_certified'} calls the separate sparse threshold-certificate implementation \texttt{Work.iterative\_certified\_growing()}. It uses an adaptive lower-only floor, a uniform-weight refit of the current centers as well as $K$ replacement trials, acceptance threshold $(\sum_{ij}q_{ij})/\sqrt{\log n}$, and a cap of $\lceil(\log n)^2\rceil$ accepted rounds. Its general-$K$ proof for the sparse range $p\to0$ with $p=\Omega(\log n/n)$ and its 24-graph implementation checks are retained as a companion version. They preceded the complete Bernoulli density extension and direct soft-loss contraction presented here, which allow the full range \eqref{eq:density-condition}.
 
-The archived 240-graph results used the earlier floor $10^{-4}\log n/n$. Those recorded runs and their summaries are retained as historical evidence. Their settings should not be substituted for the adaptive floor of Algorithm~1 when testing densities above logarithmic order.
+In that module, \path{method='global_gain'} is the growing-only branch, \path{method='global_gain_restarts'} selects independent residual starts, and \path{method='repair'} is the historical single-pass repair. None identifies the current full-Bernoulli Algorithm~1, whose entry point is specified above. The actual 240-graph runs used the earlier lower floor $10^{-4}\log n/n$ and their recorded protocol, not the adaptive-floor default now present in the companion module. Their profiles were not constrained to lie below one. The preserved benchmark runner explicitly selects \texttt{floor\_mode='historical'} for these original arms; their earlier source is also accessible in repository history.
 
-The API default \texttt{method='global\_gain\_certified'} executes Algorithm~1. The historical replacement branch is \texttt{method='repair'}, the original growing branch is \texttt{method='global\_gain'}, and the earlier random-restart combination is \texttt{method='global\_gain\_restarts'}. These options implement different procedures.
+The archived 240-graph fits use an exact weight M-step with floor $f=10^{-8}$. For a fixed $0\le f<1/K$, it solves
+\[
+ \max_{\pi_a\ge f,\,\sum_a\pi_a=1}\sum_aN_a\log\pi_a,
+ \qquad \pi_a=\max\{f,N_a/\lambda\},
+ \quad\sum_a\pi_a=1.
+\]
+An active-set solver determines $\lambda$; naive clipping and renormalization is not this optimizer. The current main theorem and implementation use $f=0$.
 
-\subsection{Historical subset controls}
-These controls are retained for reproducibility of earlier experiments and are not steps of Algorithm~1. In the frozen global-gain control, the first candidate maximizes the sum of its largest
-$m_0=\min\{\lfloor2n/(3K)\rfloor,n-K\}$ scores over other nodes, excluding itself. In peeling, when $M$ candidates and $r$ components remain, the selected subset contains
-$\min\{\lfloor2M/(3K)\rfloor,M-r\}$ other nodes. Only these historical controls require a subset-size rule; the primary growing algorithm uses the global mean and all-node gains throughout.
+Historical fits stop only when labels are unchanged, relative profile and absolute weight changes are at most $10^{-3}$, and the objective increment is at most $10^{-6}(1+|\mathcal L-G|)$, where $G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is an observation-only tolerance constant. The cap is 300 updates. Historical top-subset and peeling controls, their subset sizes and stopping rules are defined by the archived code. They are not steps of Algorithm~1.
 
-\subsection{Floored-simplex weight updates}
-For a fixed floor $f\in[0,1/K)$, the weight M-step solves
-\begin{equation}
- \max_{\widehat\pi_a\geq f,\,\sum_a\widehat\pi_a=1}\sum_aN_a\log\widehat\pi_a.
-\end{equation}
-Its active-set solution starts with every component free. If the free set is $S$, assign mass $1-f(K-|S|)$ proportionally to the $N_a$, $a\in S$, and fix any weight below $f$ at the floor. Repeat on the remaining free set. The KKT conditions give
-\begin{equation}
- \widehat\pi_a=\max\{f,N_a/\lambda\},\qquad \sum_a\widehat\pi_a=1
-\end{equation}
-for a suitable multiplier $\lambda$. The active-set procedure enforces this equation; it is not a naive clipping followed by renormalization. The tested function \texttt{\_floored\_weights} implements this exact constrained update. Since the E-step and mean M-step are unchanged, the variational proof applies on the floored-simplex parameter domain.
-
-\subsection{Archived stopping rule}
-The 240-graph profile fits stop only after hard labels are unchanged, maximum relative mean change and absolute weight change are at most $10^{-3}$, and the objective increment is at most $10^{-6}(1+|\mathcal L-G|)$ in absolute value. Here $G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is a cached observation-only constant used solely to scale the numerical stopping tolerance. It does not enter scoring, responsibilities, M-steps or fit selection. The update cap is 300. These historical numerical choices were preserved in this revision.
-
-\subsection{An explicit error decomposition}
-For fitted components matched to labels $a,b$, put
-\begin{equation}
- \widehat w^{ab}_j=\log(\widehat p_{aj}/\widehat p_{bj}),\qquad
- \widehat c^{ab}=-\sum_j(\widehat p_{aj}-\widehat p_{bj})+\log(\widehat\pi_a/\widehat\pi_b).
-\end{equation}
-If $\lambda^{ab}$ is the chosen oracle prior log ratio, the empirical comparison has the decomposition
-\begin{align}
- \widehat T_i^{ab}-(L_i^{ab}+\lambda^{ab})
- &=A_i(\Pi-\mathrm{Id})w^{ab}
-   +(q_i-\widetilde A_i)w^{ab}\nonumber\\
- &\quad+q_i(\widehat w^{ab}-w^{ab})
-   +\widehat c^{ab}-c_i^{ab}-\lambda^{ab}.
-\label{eq:error_decomposition}
-\end{align}
-The terms correspond to empirical projection, positivity clipping, estimated contrasts, and intercept calibration. The reconstructed diagonal is included in these terms; the oracle excludes it through $A_{ii}=0$ and the definition of $c_i^{ab}$. If the exact Bernoulli contrast is replaced by the first-order sparse contrast, Lemma~\ref{lem:sparse-expansion} accounts for the additional Taylor remainder. Formula~\eqref{eq:error_decomposition} is exact and gives concrete quantities for checking the transfer conditions. Theorem~\ref{thm:local-spectral-em} controls the empirical fitting stage through a comparison with clipped oracle block-count scores. It does not require a separate rare-event $o(np)$ bound on the raw clipping term in this decomposition. Algorithm~1 has an end-to-end proof for every fixed $K\ge2$ under \eqref{eq:density-condition}--\eqref{eq:model-conditions}. Its deterministic repeated-replacement certificate supplies the local theorem's initialization requirement.
-
-\subsection{Verification of the manuscript}
-The source comprises five numbered main sections, proof appendices, and a bibliography. A build runs PDFLaTeX, BibTeX, and two additional PDFLaTeX passes, checking unresolved citations and references. Build provenance records the source commit and the checksums of the source and compiled PDF. Compilation checks syntax and cross references; mathematical conclusions are exactly those stated with their hypotheses in the text.
-
+\subsection{Build and validation}
+The active manuscript contains five main sections, statistical and deterministic proof appendices, implementation details, and references. PDFLaTeX, BibTeX and two further PDFLaTeX passes resolve the bibliography and cross references. Build provenance records the source revision and source/PDF checksums. The manuscript is rendered for a page-by-page layout check. These syntax, reference and layout checks are separate from the mathematical audit and numerical evidence described above.
