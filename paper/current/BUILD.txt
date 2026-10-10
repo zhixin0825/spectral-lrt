@@ -1,3 +1,3 @@
 Compiled research manuscript.
-Source commit: b288f4fd831b85f6809e1199fea44e0d695137c7
-Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/38014576802
+Source commit: f3d723c82377e903ae5b7b7b67efbc1d7cbd99f9
+Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/38036091416
