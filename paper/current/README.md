@@ -1,6 +1,6 @@
 # Spectral likelihood decoding: current manuscript
 
-[Compiled PDF](manuscript.pdf) �� [Full proofs](theory.tex) �� [Review and corrections, 2026-10-10](REVIEW_20261010.md)
+[Compiled PDF](manuscript.pdf) �� [Full proofs](theory.tex) �� [General-K and density audit](REVIEW_20261010_GENERAL_K.md)
 
 ## Model and theorem scope
 
