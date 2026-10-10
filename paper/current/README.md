@@ -1,6 +1,6 @@
 # Spectral likelihood decoding: current manuscript
 
-[Compiled PDF](manuscript.pdf) · [Full proofs](theory.tex) · [Proof explanation](END_TO_END_20261010.md) · [Audit and corrections](REVIEW_20261010.md)
+[Compiled PDF](main.pdf) · [LaTeX source](main.tex) · [Bibliography](reference.bib) · [Download sources with figures](latex-source.zip) · [Proof explanation](END_TO_END_20261010.md) · [Audit and corrections](REVIEW_20261010.md)
 
 ## Model and guarantee
 
@@ -55,9 +55,20 @@ The older [240-graph sparse-score experiment](../../experiments/20261009_residua
 
 ## Build and historical files
 
-The active inputs are `intro.tex`, `algorithm.tex`, `results.tex`, `experiments.tex`, `conclusion.tex`, `theory.tex` and `implementation.tex`, assembled by `manuscript.tex`. `sparse.tex` is an unused historical fragment. `iterative_swap_proof.tex` retains the companion sparse threshold-certificate proof with its later scalar-p notation updates; the earlier form and parent appendix remain available at commit `452ca1d67cb23981ca3e6a7debf23433a6d660e8`. It is not an input to this full-Bernoulli manuscript. Dated correction/outline documents carry historical notices where superseded.
+Edit `main.tex` and `reference.bib`. The entire manuscript, including all sections and proofs, is contained in `main.tex`; it has no external LaTeX input files. The figure lives in `figures/initialization_failure_repair.pdf`. [latex-source.zip](latex-source.zip) contains the two editable files and the figures, ready to compile after extraction.
 
-Run PDFLaTeX, BibTeX and PDFLaTeX twice from this directory. GitHub Actions records source provenance in `BUILD.txt` and hashes in `BUILD_SHA256SUMS.txt`. The current 31-page build, including the scalar-p notation synchronization, passed compilation and a rendered page-by-page layout check. Compilation and layout review do not replace the mathematical and numerical audits.
+From this directory, run:
+
+```sh
+pdflatex main
+bibtex main
+pdflatex main
+pdflatex main
+```
+
+GitHub Actions compiles `main.tex`, packages the editable sources, and records provenance in `BUILD.txt` and `BUILD_SHA256SUMS.txt`. Its outputs are `main.pdf` and `latex-source.zip`. The previous PDF URL `manuscript.pdf` is kept as an identical compatibility copy; `manuscript.tex` is a wrapper around `main.tex`.
+
+The earlier section files and `references.bib` remain reference snapshots and are not build inputs. `sparse.tex` and `iterative_swap_proof.tex` are historical companion material. The latter is not an input to this full-Bernoulli manuscript. Dated correction/outline documents retain their historical scope.
 
 ## Concurrent sparse revision preserved
 

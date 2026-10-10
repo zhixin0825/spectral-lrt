@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "paper/current/*.tex"
-      - "paper/current/*.bib"
+      - "paper/current/main.tex"
+      - "paper/current/reference.bib"
       - "paper/current/figures/**"
       - ".github/workflows/compile-current-manuscript.yml"
   workflow_dispatch:
@@ -35,15 +35,27 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee compile-output.txt
-          bibtex manuscript | tee -a compile-output.txt
-          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee -a compile-output.txt
-          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error manuscript.tex | tee -a compile-output.txt
-          test -s manuscript.pdf
-          if grep -E 'undefined references|Citation .* undefined|Reference .* undefined' manuscript.log; then
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error main.tex | tee compile-output.txt
+          bibtex main | tee -a compile-output.txt
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error main.tex | tee -a compile-output.txt
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error main.tex | tee -a compile-output.txt
+          test -s main.pdf
+          cp main.pdf manuscript.pdf
+          cp main.bbl manuscript.bbl
+          if grep -E 'undefined references|Citation .* undefined|Reference .* undefined' main.log; then
             exit 1
           fi
-          sha256sum *.tex references.bib figures/initialization_failure_repair.pdf manuscript.pdf > BUILD_SHA256SUMS.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          with ZipFile("latex-source.zip", "w", compression=ZIP_DEFLATED) as archive:
+              for name in ["main.tex", "reference.bib"]:
+                  archive.write(name, name)
+              for path in sorted(Path("figures").rglob("*")):
+                  if path.is_file():
+                      archive.write(path, path.as_posix())
+          PY
+          sha256sum main.tex reference.bib figures/initialization_failure_repair.pdf main.pdf manuscript.pdf latex-source.zip > BUILD_SHA256SUMS.txt
       - name: Record build provenance
         env:
           BUILD_SOURCE_SHA: ${{ github.sha }}
@@ -54,6 +66,8 @@ jobs:
           from pathlib import Path
           Path("paper/current/BUILD.txt").write_text(
               "Compiled research manuscript.\n"
+              "Entry point: paper/current/main.tex\n"
+              "Bibliography: paper/current/reference.bib\n"
               "Source commit: " + os.environ["BUILD_SOURCE_SHA"] + "\n"
               "Build run: " + os.environ["BUILD_RUN_URL"] + "\n",
               encoding="utf-8")
@@ -75,7 +89,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add paper/current/manuscript.pdf paper/current/manuscript.bbl paper/current/BUILD.txt paper/current/BUILD_SHA256SUMS.txt
+          git add paper/current/main.pdf paper/current/main.bbl paper/current/manuscript.pdf paper/current/manuscript.bbl paper/current/latex-source.zip paper/current/BUILD.txt paper/current/BUILD_SHA256SUMS.txt
           if git diff --cached --quiet; then
             exit 0
           fi
