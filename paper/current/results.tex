@@ -3,13 +3,13 @@
 
 This section gives the exact contrast-preservation identity, the oracle benchmark, an abstract exponent-transfer theorem, and a local recovery theorem for the actual empirical spectral EM fit. It then establishes end-to-end recovery for the original two-community growing branch and for the complete general-$K$ likelihood-restart decoder. A separate corollary records a spectral warm-start alternative.
 
-Throughout this section, $K$ is fixed,
-$n_a/n\to\pi_a>0$, $B$ is a fixed symmetric matrix with
-$0<b_-\le B_{ab}\le b_+<\infty$, and $\rho_n\to0$ with
-$d_n=n\rho_n\to\infty$.  Distinct rows of $B$ are assumed whenever
-classification between all communities is discussed.  The logarithmic
-regime is $\rho_n=\log n/n$.  Full rank of $B$ is used for the signal-span
-interpretation; the probabilistic oracle calculations do not require it.
+Throughout this section, $K$ is fixed, $n_a/n\to\pi_a>0$, and
+$d_n\to\infty$ with $d_n/n\to0$. Unless stated otherwise,
+$(n/d_n)P$ is a fixed symmetric nonsingular matrix whose entries lie in a
+fixed compact subset of $(0,\infty)$. The logarithmic-density regime is
+$d_n=\log n$. The probabilistic oracle calculations do not require
+nonsingularity, but require distinct block rows when all communities are
+to be classified.
 
 \subsection{Spectral information and likelihood contrasts}
 
@@ -37,38 +37,38 @@ Then $\widetilde A=A\Pi$ and, for every vector $w$,
  \widetilde A_iw-A_iw=A_i(\Pi-\mathrm{Id})w.\label{eq:preservation-error}
 \end{equation}
 In particular, $w\in\operatorname{col}(U)$ implies exact preservation.
-Moreover, if $B$ is nonsingular, then the rank-$K$ comparison matrix
-$\Omega^\circ=\rho_n ZBZ^\top$ has column space
+Moreover, if $P$ is nonsingular, then the rank-$K$ comparison matrix
+$ZPZ^\top$ has column space
 $\operatorname{col}(Z)$, and every $w^{ab}$ belongs to this population
 signal space.
 \end{proposition}
 
 The proposition explains the likelihood interpretation without requiring
-the eigendecomposition itself to compute $\log B$.  The eigendecomposition
+the eigendecomposition itself to compute $\log P$.  The eigendecomposition
 retains directions; the likelihood decoder assigns the appropriate
 contrast coefficients to those directions.  It also states the precise
 limitation: the empirical retained space need not equal the population
 space.  The actual no-self-loop mean is
-$\Omega=\Omega^\circ-\operatorname{diag}(\rho_n B_{z_i z_i})$; the rank-$K$ statement
-is about $\Omega^\circ$, not $\Omega$.
+$\mathbb E[A\mid z]=ZPZ^\top-\operatorname{diag}(P_{z_i z_i})$;
+the rank-$K$ statement concerns $ZPZ^\top$, not the no-self-loop mean.
 
 The oracle Poisson contrast is
 $v^{ab}_j=\log(p_{aj}/p_{bj})$, with score
 \begin{equation}
  L_{i,\mathrm P}^{ab}
  =\sum_{j\ne i}A_{ij}v^{ab}_j
-  -\rho_n\sum_{j\ne i}(B_{a,z_j}-B_{b,z_j}).
+  -\sum_{j\ne i}(P_{a,z_j}-P_{b,z_j}).
  \label{eq:oracle-poisson}
 \end{equation}
 The following result makes its use in a sparse working score precise.
 
 \begin{lemma}[Sparse Bernoulli-to-Poisson correction]
 \label{lem:poisson-correction}
-There is a constant $C$ depending only on $b_-,b_+$ such that, for
+There is a constant $C$ depending only on the fixed normalized block probabilities such that, for
 all sufficiently large $n$, every $i$, and every $a\ne b$,
 \begin{equation}
  |L_i^{ab}-L_{i,\mathrm P}^{ab}|
- \le C\{\rho_n\deg(i)+n\rho_n^2\}.\label{eq:poisson-error}
+ \le C\{(d_n/n)\deg(i)+d_n^2/n\}.\label{eq:poisson-error}
 \end{equation}
 For every fixed $H>0$ there is a constant $D_H$ such that
 $\Pr\{\deg(i)>D_Hd_n\}\le e^{-Hd_n}$ uniformly in $i$.
@@ -93,20 +93,16 @@ We use Zhou--Li's profile and Chernoff notation. For $\alpha\in[0,1]$, define
 \end{align}
 Here $p_{a,-i}$ omits the absent self-loop coordinate. The notation $I_n$ is our shorthand for the minimum exact pairwise information; it is not a second definition of a rate.
 
-For interpreting logarithmic density, also put
-\begin{align}
- J_{ab}
- &=\max_{\alpha\in[0,1]}\sum_{c=1}^K\pi_c
- \{(1-\alpha)B_{ac}+\alpha B_{bc}-B_{ac}^{1-\alpha}B_{bc}^\alpha\},
- \label{eq:ch-divergence}\\
- J_*&=\min_{a\ne b}J_{ab},\qquad I_n=d_nJ_*+o(d_n).
-\end{align}
-Thus $J_{ab}$ is the normalized Chernoff--Hellinger divergence between $(\pi_cB_{ac})_c$ and $(\pi_cB_{bc})_c$. Zhou and Li~\cite{zhouli2020} studied optimal error rates for SBM community detection. We use their notation and the leading information scale, without restating their refined rate.
- 
+For distinct block rows under the fixed normalized probability model,
+$I_n\asymp d_n$. In logarithmic density, $I_n/\log n$ converges to a
+positive finite limit. Zhou and Li~\cite{zhouli2020} studied optimal error
+rates for SBM community detection. We use their notation and the leading
+information scale, without restating their refined rate.
+
 \begin{lemma}[Leading oracle error exponent]
 \label{lem:oracle-exponent}
 Consider the binary experiment in which $z_i\in\{a,b\}$ has equal prior
-probabilities and all other labels and $B$ are known.  Its Bayes risk
+probabilities and all other labels and $P$ are known.  Its Bayes risk
 $R_{i,ab}^{\mathrm{or}}$ satisfies, uniformly in $i$,
 \begin{equation}
  R_{i,ab}^{\mathrm{or}}=\exp\{-(1+o(1))D^*_{i,ab}\}.
@@ -144,7 +140,7 @@ Then the permutation-invariant error fraction obeys
  \le\exp\{-(1+o(1))I_n\}.
  \label{eq:conditional-rate}
 \end{equation}
-When $\rho_n=\log n/n$ and $J_*>1$, this implies
+When $d_n=\log n$ and $\liminf_{n\to\infty}I_n/\log n>1$, this implies
 $\Pr\{\Mis(\widehat z,z)>0\}\to0$.
 \end{theorem}
 
@@ -180,19 +176,19 @@ nor objective convergence removes these terms.
 \subsection{A local recovery theorem for the empirical spectral fit}
 The next results remove the empirical-projection and parameter-fitting conditions from the preceding abstract transfer statement in logarithmic density. This local statement temporarily assumes reliable initial responsibilities. The end-to-end results below establish that assumption for the original two-community growing branch and for the complete Algorithm~1.
 
-Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For the fixed floor $c_0\in(0,b_-)$, let
+Write $N=Z^\top Z$ and $\Pi_*=ZN^{-1}Z^\top$. For a fixed $c_0>0$ satisfying $c_0<\min_{a,b}nP_{ab}/d_n$, let
 \[
- q^0=\max\{A\Pi_*,c_0\rho_n\},\qquad
- q=\max\{U\Lambda U^\top,c_0\rho_n\},
+ q^0=\max\{A\Pi_*,c_0\frac{d_n}{n}\},\qquad
+ q=\max\{U\Lambda U^\top,c_0\frac{d_n}{n}\},
 \]
 where the maximum is entrywise. The matrix $q^0$ is an analysis comparison using the true memberships; it is not an input to the algorithm.
 
 \begin{lemma}[Full-graph spectral approximation]
 \label{lem:full-spectral}
-Under the fixed full-rank $B$ model with $\rho_n=\log n/n$, for every fixed $H>0$ there are a constant $C_H$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(n^{-H})$,
+Under the fixed normalized full-rank probability model with $d_n=\log n$, for every fixed $H>0$ there are a constant $C_H$ and a deterministic sequence $a_n\to0$ such that, with probability at least $1-O(n^{-H})$,
 \begin{align}
  \max_i\|q_i-q_i^0\|_1&\le a_nd_n,&
- c_0\rho_n\le q_{ij}&\le C_H\rho_n,\label{eq:full-spectral-close}\\
+ c_0\frac{d_n}{n}\le q_{ij}&\le C_H\frac{d_n}{n},\label{eq:full-spectral-close}\\
  \frac1{nd_n}\sum_i\|q_i-p_{z_i,*}\|_1&\le a_n.
  \label{eq:average-profile-close}
 \end{align}
@@ -215,14 +211,14 @@ Perform at least one responsibility-weighted profile M-step on $q$, followed by 
  \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
  \label{eq:local-em-rate}
 \end{equation}
-The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact fixed floored-simplex optimizer. If a component has zero responsibility mass, define its profile by any fixed positive fallback and use positive weights; on the weak-start event this case does not occur for large $n$. When $J_*>1$, the output exactly recovers all labels with probability tending to one.
+The same bound holds after any further exact EM updates and any finite, possibly data-dependent stopping time after the first M-step. The weights are updated either unconstrained or by the exact fixed floored-simplex optimizer. If a component has zero responsibility mass, define its profile by any fixed positive fallback and use positive weights; on the weak-start event this case does not occur for large $n$. When $\liminf_{n\to\infty}I_n/\log n>1$, the output exactly recovers all labels with probability tending to one.
 \end{theorem}
 
 This theorem proves the statistical behavior of the actual full-graph spectral fitting stage from a sufficiently reliable weak start. It handles positive clipping and the freely fitted profiles rather than assuming that their LLR errors are already small. An initialization proof must establish \eqref{eq:local-initialization}: average weak consistency with an unspecified $1-o(1)$ probability is insufficient. Theorems~\ref{thm:two-community-growing} and~\ref{thm:certified-likelihood} provide the required reliability.
 
 \begin{corollary}[A fully provable spectral warm-start variant]
 \label{cor:provable-warmstart}
-Replace the growing initialization by a fixed-factor approximate $K$-means clustering of the rows of $U$, computed with failure probability $O(n^{-H})$ for any prescribed fixed $H>J_*$. Convert its labels to hard responsibilities and apply the profile EM decoder. This variant uses only the retained eigenpairs and satisfies \eqref{eq:local-em-rate}.
+Replace the growing initialization by a fixed-factor approximate $K$-means clustering of the rows of $U$, computed with failure probability $O(n^{-H})$ for any prescribed fixed $H>\limsup_{n\to\infty}I_n/\log n$. Convert its labels to hard responsibilities and apply the profile EM decoder. This variant uses only the retained eigenpairs and satisfies \eqref{eq:local-em-rate}.
 One polynomial-time implementation uses $O(\log n)$ independent $K$-means++ seedings and chooses the least squared-error solution.
 \end{corollary}
 
@@ -239,7 +235,7 @@ Under the model and admissible floor of Lemma~\ref{lem:full-spectral}, suppose $
 \[
  \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]
-This includes its evaluated finite stopping rule, since the first M-step is mandatory. When $J_*>1$, it exactly recovers all labels with probability tending to one. No likelihood restarts or pure-candidate assumption are needed.
+This includes its evaluated finite stopping rule, since the first M-step is mandatory. When $\liminf_{n\to\infty}I_n/\log n>1$, it exactly recovers all labels with probability tending to one. No likelihood restarts or pure-candidate assumption are needed.
 \end{theorem}
 
 \begin{theorem}[Complete likelihood decoder attains the leading exponent]
@@ -248,10 +244,10 @@ Under the same model for every fixed $K\ge2$, Algorithm~1 satisfies
 \[
  \E\Mis(\widehat z,z)\le e^{-(1+o(1))I_n}.
 \]
-When $J_*>1$, it exactly recovers all labels with probability tending to one. The initialization, selection, and refinement access only the retained eigenpairs. Each candidate fit may run any prescribed finite number of exact EM updates, with exact unconstrained or floored-simplex weight updates; no convergence to a global mixture maximum is assumed. A polynomial iteration bound gives a polynomial-time algorithm.
+When $\liminf_{n\to\infty}I_n/\log n>1$, it exactly recovers all labels with probability tending to one. The initialization, selection, and refinement access only the retained eigenpairs. Each candidate fit may run any prescribed finite number of exact EM updates, with exact unconstrained or floored-simplex weight updates; no convergence to a global mixture maximum is assumed. A polynomial iteration bound gives a polynomial-time algorithm.
 \end{theorem}
 
-The second theorem retains the original growing fit as a candidate and proves the likelihood-residual safeguard. It does not claim that the growing branch without that safeguard has been proved for general $K$. The restart count $\lceil\log n\rceil$ needs no knowledge of $B$, its separation constants, $J_*$, or the desired confidence power.
+The second theorem retains the original growing fit as a candidate and proves the likelihood-residual safeguard. It does not claim that the growing branch without that safeguard has been proved for general $K$. The restart count $\lceil\log n\rceil$ needs no knowledge of $P$, its separation constants, or the desired confidence power.
 
 \subsection{A sufficient independent-row projection condition}
 

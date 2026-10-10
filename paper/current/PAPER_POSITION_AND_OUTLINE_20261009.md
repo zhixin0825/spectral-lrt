@@ -12,11 +12,11 @@
 
 ## 已证明的最终结果
 
-固定已知 K、固定正满秩 B、正社区比例、rho=log n/n 和 admissible floor 下：
+固定已知 K、固定正对称满秩 (n/log n)P、正社区比例和 admissible floor 下：
 
 - 原 growing 分支在 K=2 时端到端达到 E Mis <= exp(-(1+o(1)) I_n)，包含实际有限停止规则。
 - 上述带 likelihood safeguard 的完整算法对每个固定 K 达到同一指数。
-- J_*>1 时 exact recovery；预设多项式更新次数时算法为多项式时间。
+- liminf I_n/log n>1 时 exact recovery；预设多项式更新次数时算法为多项式时间。
 - 完整算法的 theorem 不假设 weak initialization；其可靠性由 residual sampling、重复及相同 likelihood 选优建立。
 
 已有全图经验谱近似、clipped Chernoff、局部谱 EM 与盆地不变性均作为完整 theorem 的证明工具。
@@ -25,6 +25,6 @@
 
 ## 符号与实验
 
-参考 Zhou–Li：P为K×K block probability，p_{kj}=P_{k,z_j}，Mis错分率，D_alpha Chernoff quantity；Omega为n×n graph mean。I_n定义为最难对的精确信息量，只写 leading exponent，不重述 refined optimal rate。
+参考 Zhou–Li：P为K×K block probability，p_{kj}=P_{k,z_j}，Mis错分率，D_alpha Chernoff quantity；graph mean 直接写 E[A|z]。I_n定义为最难对的精确信息量，只写 leading exponent，不重述 refined optimal rate。
 
 原240图只评价原growing和历史control/repair。新24例仅验证完整组合的objective筛选和final M-step，不能冒充完整240图重跑或finite-sample性能保证。

@@ -2,15 +2,15 @@
 \label{sec:sparse}
 
 \subsection{Recovery target}
-Consider $d_n=n\rho_n\to\infty$ with $d_n=o(\log n)$, keeping $K$, positive limiting community proportions, and $B$ fixed. The pairwise population profiles remain distinct, and the leading oracle information is proportional to $d_n$. The appropriate target is a vanishing fraction of errors with bound
+Consider $d_n\to\infty$ with $d_n=o(\log n)$, keeping $K$, positive limiting community proportions, and the normalized probability matrix $(n/d_n)P$ fixed. The pairwise population profiles remain distinct, and the leading oracle information is proportional to $d_n$. The appropriate target is a vanishing fraction of errors with bound
 \begin{equation}
  \E \Mis(\widehat z,z)\leq e^{-(1+o(1))I_n},
- \qquad I_n=d_nJ_*+o(d_n).
+ \qquad I_n\asymp d_n.
 \label{eq:sparse_rate}
 \end{equation}
 For consistency the right-hand side tends to zero. It generally does not yield exact recovery when $d_n=o(\log n)$. The distinction concerns the recovery objective, rather than a change in the meaning of the likelihood-ratio benchmark.
 
-The score-transfer theorem in Section~\ref{sec:main-results} applies at this density whenever its score-error conditions hold. The sparse Bernoulli-to-Poisson approximation remains valid because its exponent-scale correction is $O(n\rho_n^2)=o(d_n)$. These facts provide a precise route for extension. They do not by themselves control the empirical eigenspace.
+The score-transfer theorem in Section~\ref{sec:main-results} applies at this density whenever its score-error conditions hold. The sparse Bernoulli-to-Poisson approximation remains valid because its exponent-scale correction is $O(d_n^2/n)=o(d_n)$. These facts provide a precise route for extension. They do not by themselves control the empirical eigenspace.
 
 \subsection{Representation and calibration}
 Low-degree concentration is more delicate: a few atypically high-degree vertices can produce localized empirical directions. Regularization can stabilize a spectral initializer, but a regularized representation must also retain the directions used for likelihood classification. Existing regularized spectral consistency results \citep{zhouamini2019} concern recovery or concentration under their stated conditions; they do not automatically imply exponentially accurate spectral likelihood decoding.
@@ -37,10 +37,10 @@ Both the removed-edge contrast and projection error must be controlled at the re
 \subsection{A conditional extension}
 \begin{corollary}[Lower-density transfer]
 \label{cor:sparse}
-Under the fixed-$B$ model with $d_n\to\infty$, $\rho_n\to0$, and positive limiting proportions, let a spectral decoder, possibly calibrated as in \eqref{eq:normalized_reconstruction}, satisfy the score approximation and exceptional-event bounds of Theorem~\ref{thm:exponent-transfer}. Then its expected misclassification rate satisfies \eqref{eq:sparse_rate}. If $d_n=o(\log n)$, this statement establishes almost exact recovery, without an exact-recovery conclusion.
+Under the fixed normalized probability model with $d_n\to\infty$, $d_n/n\to0$, and positive limiting proportions, let a spectral decoder, possibly calibrated as in \eqref{eq:normalized_reconstruction}, satisfy the score approximation and exceptional-event bounds of Theorem~\ref{thm:exponent-transfer}. Then its expected misclassification rate satisfies \eqref{eq:sparse_rate}. If $d_n=o(\log n)$, this statement establishes almost exact recovery, without an exact-recovery conclusion.
 \end{corollary}
 \begin{proof}
-The Chernoff expansion and score-transfer proof use $d_n\to\infty$ and $n\rho_n^2=o(d_n)$, which follow here from $\rho_n\to0$. Substitute the density into Theorem~\ref{thm:exponent-transfer}. Since the minimum divergence is strictly positive for distinct profiles, $I_n\to\infty$ and the expected fraction of errors tends to zero.
+The Chernoff expansion and score-transfer proof use $d_n\to\infty$ and $d_n^2/n=o(d_n)$, the latter following from $d_n/n\to0$. Substitute the density into Theorem~\ref{thm:exponent-transfer}. Distinct fixed normalized block rows and positive limiting proportions give $I_n\asymp d_n\to\infty$, so the expected fraction of errors tends to zero.
 \end{proof}
 
 Verifying this corollary for a specified regularizer and fitting procedure remains a separate statistical task. The present 240-graph evaluation uses the unregularized logarithmic-density representation. Bounded expected degree, where detection has a different objective and threshold, is outside the scope of these results.
