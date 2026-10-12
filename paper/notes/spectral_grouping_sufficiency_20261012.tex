@@ -1,0 +1,288 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newcommand{\PP}{\mathsf P}
+\newcommand{\QQ}{\mathsf Q}
+\newcommand{\EE}{\mathbb E}
+\newcommand{\TV}{\mathrm{TV}}
+\newcommand{\Mis}{\mathrm{Mis}}
+\title{Frequentist Approximate Sufficiency of Spectral Information\\for SBM Partitions}
+\author{Spectral-LRT research note}
+\date{12 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+The partition $C$ is a fixed parameter throughout this note. No prior,
+random partition, or posterior argument is used. Uniform exact recovery
+from a statistic implies approximate sufficiency for bounded finite-action decisions
+whose loss depends only on the partition, even when the connection matrix
+is unknown. Combining this reduction with a published rowwise eigenspace
+perturbation theorem proves the result for every fixed number of blocks,
+uniform spectral separation, and $np\ge M\log n$ with a sufficiently large
+constant $M$. A separate fixed-known-$P$ result gives ordinary Le Cam
+asymptotic sufficiency. These statements do not assert equivalence of the
+full experiment with unknown parameter $(C,P)$.
+\end{abstract}
+
+\section{Fixed-parameter model and the target notion}
+Let $C$ be a partition of $[n]$ into $K$ nonempty blocks. Label permutations
+are identified. A canonical ordering, for example by the smallest vertex in
+each block, supplies indices for the probability matrix $P$. Its indices
+must always be changed together with any alternative block ordering.
+For each fixed $\theta=(C,P)$, independently for $i<j$,
+\[
+ A_{ij}\sim\operatorname{Ber}(P_{c_i c_j}),\qquad
+ A_{ji}=A_{ij},\qquad A_{ii}=0.
+\]
+The symmetric matrix $P$ contains the actual probabilities. Set
+$p=\max_{a,b}P_{ab}$. Fix $K\ge2$ and positive constants
+$\pi_0,\kappa,\eta$. The parameter class satisfies
+\begin{equation}\label{eq:model}
+ n_a\ge\pi_0 n,\qquad
+ \kappa p\le P_{ab}\le p\le1-\eta,\qquad
+ \sigma_{\min}(P)\ge\kappa p.
+\end{equation}
+There is no convergence assumption on $P/p$ or $n_a/n$. Retain the $K$
+adjacency eigenpairs with largest absolute eigenvalues, including their signs:
+\[
+ T(A)=(U,\Lambda),\qquad U^\top U=I_K.
+\]
+Use measurable deterministic tie conventions. Write
+$\PP_{C,P}$ for the graph distribution and $\QQ_{C,P}$ for the induced
+distribution of $T$. Neither is a distribution placed on the parameter.
+
+For a finite action space $\mathcal D$ and any loss
+$0\le L(C,d)\le1$, let
+$R_{C,P}(\delta)=\EE_{C,P}L(C,\delta)$.
+We say that $T$ is \emph{$\epsilon$-sufficient for partition decisions}
+if, for every such loss and every possibly randomized full-data rule
+$\delta_A$, there is a rule $\delta_T$ using only $T$ such that
+\begin{equation}\label{eq:decision}
+ \sup_{(C,P)\in\Theta_n}
+ \{R_{C,P}(\delta_T)-R_{C,P}(\delta_A)\}\le\epsilon.
+\end{equation}
+All losses here are invariant under block-label permutations and evaluate
+the partition only. This is the ordinary decision-theoretic comparison
+restricted to the parameter of interest. The rule $\delta_T$ cannot use
+the unknown $P$.
+
+\section{A finite-sample reduction requiring no prior}
+\begin{theorem}[Recovery implies partition-decision sufficiency]\label{thm:reduction}
+Suppose a statistic-based estimator satisfies
+\[
+ \sup_{(C,P)\in\Theta_n}
+ \PP_{C,P}\{\widehat C(T)\ne C\}\le\epsilon_n.
+\]
+Then \eqref{eq:decision} holds with $\epsilon=\epsilon_n$.
+\end{theorem}
+\begin{proof}
+For the given loss, choose a deterministic minimizer
+$d^*(c)\in\arg\min_{d\in\mathcal D}L(c,d)$, and use
+$\delta_T(t)=d^*(\widehat C(t))$. For each fixed $(C,P)$,
+\begin{align*}
+ R_{C,P}(\delta_T)
+ &\le \min_d L(C,d)+\PP_{C,P}(\widehat C\ne C)\\
+ &\le \min_d L(C,d)+\epsilon_n\\
+ &\le R_{C,P}(\delta_A)+\epsilon_n.
+\end{align*}
+On the correct-recovery event the action is optimal for the fixed true
+partition; on its complement the additional loss is at most one.
+Every full-data action has loss at least the oracle minimum. Take the
+supremum over the fixed parameters. There is no averaging over $C$.
+\end{proof}
+
+\section{A general fixed-\texorpdfstring{$K$}{K} spectral premise}
+\begin{theorem}[Uniform spectral exact recovery]\label{thm:recovery}
+For every $q>0$ there are $M_q,n_0$, depending only on
+$K,\pi_0,\kappa,\eta,q$, such that under \eqref{eq:model},
+\[
+ n\ge n_0,\quad np\ge M_q\log n
+ \quad\Longrightarrow\quad
+ \sup_{(C,P)\in\Theta_n}
+ \PP_{C,P}\{\widehat C(T)\ne C\}\le n^{-q}.
+\]
+The estimator described below needs neither $P$ nor the population centers.
+\end{theorem}
+
+\paragraph{Population geometry.}
+Let $Z$ be the membership indicator, $N=\operatorname{diag}(n_a)$,
+$F=ZN^{-1/2}$, and $D_{ii}=P_{c_i c_i}$. The actual loop-free mean is
+\[
+ M=\EE_{C,P}A=ZPZ^\top-D.
+\]
+The matrix $D$ is constant within each block. Consequently
+$\operatorname{col}(F)$ is an invariant subspace of $M$, and
+\[
+ F^\top MF=N^{1/2}PN^{1/2}-\operatorname{diag}(P_{aa}).
+\]
+Its smallest singular value is at least $\pi_0\kappa np-p$.
+On the orthogonal complement the eigenvalues are $-P_{aa}$, each with
+multiplicity $n_a-1$. Thus, eventually, the $K$ signal eigenvalues have
+absolute magnitude and separation from the remaining spectrum at least
+$c np$, with an upper bound $Cnp$. Both signs are allowed.
+
+If $V$ diagonalizes the displayed $K$-dimensional restriction, the signal
+eigenvectors are $U_*=FV$. Their community centers obey
+\begin{equation}\label{eq:centers}
+ m_a=V_{a,:}/\sqrt{n_a},\qquad
+ \|m_a-m_b\|_2=\sqrt{n_a^{-1}+n_b^{-1}}\ge\sqrt{2/n},
+ \qquad \|U_*\|_{2\to\infty}\le(\pi_0 n)^{-1/2}.
+\end{equation}
+This uses the full rank-$K$ signal subspace. It would not follow by
+retaining an arbitrary smaller number of directions.
+
+\paragraph{Published stochastic input and its specialization.}
+Use Lei's generic Bernoulli eigenspace perturbation theorem
+\cite[Theorem 3.4]{lei}. Apply it separately to the positive and negative
+signal tails, which are consecutive eigenvalue intervals, and combine
+their orthogonal alignments. Theorem 5.2 of that paper is a direct
+fixed-shape SBM recovery result; we instead specialize the generic bound
+to obtain uniform constants on \eqref{eq:model}.
+
+The quantities in the generic theorem satisfy, uniformly,
+\[
+ \lambda_{\min}^{\rm abs},\Delta\ge cnp,\quad
+ p^*,\bar p^*\le p,\quad
+ \|M\|_{2\to\infty}\le p\sqrt n,\quad
+ \|U_*\|_{2\to\infty}\le (\pi_0 n)^{-1/2},\quad r\le K.
+\]
+Choose its confidence parameter $\delta=n^{-(q+2)}$ and auxiliary exponent
+$1/2$. Then $R=O(\log n)$ and
+$g=O(\sqrt{np}+\log n/\log\log n)$. Substitution in that theorem gives
+\begin{equation}\label{eq:rowwise}
+ \inf_{W\in O(K)}\|UW-U_*\|_{2\to\infty}
+ \le \frac{B_q}{\sqrt n}\sqrt{\frac{\log n}{np}},
+\end{equation}
+outside an event of probability at most $n^{-q}$, after increasing $n_0$.
+The intermediate terms are bounded by
+\[
+\frac{B_q}{\sqrt n}\left\{\frac{1}{\sqrt{np}}+
+\frac{\log n}{np}+\sqrt{\frac{\log n}{np}}\right\}.
+\]
+The additional factor
+\[
+ \frac{\sqrt{np}\,R^{1/4}}{np\log R}
+\]
+is bounded and vanishes. For the final minimum in the generic theorem,
+use its mean-row-norm branch. This contributes at most a constant times
+$n^{-1/2}(np)^{-1/2}$.
+For $np\ge M_q\log n$ these terms yield \eqref{eq:rowwise}.
+The theorem's gap requirement holds eventually. The accompanying
+operator-norm control identifies the retained empirical eigenpairs with
+the signal tails. No extra assumption from its Corollary 3.6
+is needed. Constants depend only on the fixed bounds in \eqref{eq:model}.
+
+\paragraph{Explicit decoder and completion of the proof.}
+Construct an auxiliary graph on the vertices by connecting $i,j$ if
+\[
+ \|U_{i,:}-U_{j,:}\|_2\le\frac1{2\sqrt n}.
+\]
+Return its components if there are exactly $K$ and each has size at least
+$\pi_0n$. Otherwise return a fixed admissible fallback partition. The
+balance bound is a specified model-class constant, not unknown $P$.
+This is a measurable function of $U$; pairwise distances are unchanged
+by orthogonal alignment.
+
+Increase $M_q$ so that the right side of \eqref{eq:rowwise} is at most
+$1/(8\sqrt n)$. On that event, within-community distances are at most
+$1/(4\sqrt n)$, while between-community distances are at least
+$(\sqrt2-1/4)/\sqrt n>1/(2\sqrt n)$ by \eqref{eq:centers}.
+Every true block is therefore a clique and there are no cross-block edges.
+The components are exactly $C$. This proves Theorem~\ref{thm:recovery}.
+
+\begin{corollary}[Unknown-$P$ partition sufficiency]\label{cor:main}
+Under Theorem~\ref{thm:recovery}, the spectral statistic is
+$n^{-q}$-sufficient for all bounded finite-action partition decisions. In particular
+\eqref{eq:decision} tends to zero uniformly with $P$ unknown.
+\end{corollary}
+\begin{proof}
+Apply Theorem~\ref{thm:reduction} with $\epsilon_n=n^{-q}$.
+\end{proof}
+
+\section{Ordinary asymptotic sufficiency with fixed known \texorpdfstring{$P$}{P}}
+This section treats $C$ as the sole experiment parameter. The fixed matrix
+$P$ is known to the statistician. Block indices must be identifiable under
+the convention used to generate the model: use the canonical partition
+order above, or assume correctly named-label recovery. Unlabeled recovery
+alone cannot justify reconstructing a model with misassigned named rows of $P$.
+
+\begin{theorem}[Known-$P$ experiment equivalence]\label{thm:lecam}
+For a fixed-known-$P$ grouping experiment, suppose
+$\sup_C\PP_{C,P}(\widehat C(T)\ne C)\le\epsilon_n$.
+Then the Le Cam distance between observing $A$ and observing $T$ is at
+most $\epsilon_n$.
+\end{theorem}
+\begin{proof}
+Define the Markov kernel
+\[
+ \mathcal K_P(t,\cdot)=\PP_{\widehat C(t),P}(\cdot).
+\]
+It independently generates a new graph from the estimated partition and
+the known matrix $P$. The kernel does not depend on the unknown $C$.
+For each fixed $C$, with $\epsilon_C=\PP_{C,P}(\widehat C\ne C)$,
+\[
+ \mathcal K_P\QQ_{C,P}
+ =(1-\epsilon_C)\PP_{C,P}+\epsilon_C\mathsf H_C
+\]
+for some probability measure $\mathsf H_C$ (arbitrary when $\epsilon_C=0$).
+Hence
+\[
+ \sup_C\|\mathcal K_P\QQ_{C,P}-\PP_{C,P}\|_{\TV}\le\epsilon_n.
+\]
+The other direction has deficiency zero because $T$ is a deterministic
+function of $A$. Taking the maximum of the two deficiencies proves the
+claim. This is the standard experiment-comparison notion of asymptotic
+sufficiency \cite{han}. No randomization of the parameter has occurred.
+\end{proof}
+
+\section{Connection to the optimal error exponent}
+The following is an implication, not a new verification of an existing
+end-to-end decoding theorem. If a spectral-only estimator is independently
+proved to obey, uniformly over a parameter class,
+\[
+ \EE_{C,P}\Mis(\widehat C,C)
+ \le\exp\{-(1-o(1))I_n\},
+\]
+then, since any wrong partition has misclassification at least $1/n$,
+\[
+ \PP_{C,P}(\widehat C\ne C)
+ \le n\EE_{C,P}\Mis
+ \le n\exp\{-(1-o(1))I_n\}.
+\]
+If $I_n\ge(1+\tau)\log n$ for fixed $\tau>0$, this tends uniformly to zero
+and gives the same sufficiency consequences. The existing manuscript's
+entire optimal-exponent argument is not independently re-certified here.
+
+\section{Precisely what is proved}
+The proved result covers every fixed $K$, balanced positive block sizes,
+uniform spectral separation, and logarithmic or denser degree with a
+sufficiently large coefficient. It requires no prior on $C$, no known $P$
+for partition decisions, no convergence of normalized model matrices,
+and no restriction to assortative or two-block graphs.
+
+The result does not provide a sharp recovery constant, or sufficiency below
+the exact-recovery regime. Exact recovery is sufficient for our reduction;
+we do not assert that it is necessary for sufficiency itself. With unknown
+$P$ the full $(C,P)$ experiment is not declared equivalent: the kernel in
+Theorem~\ref{thm:lecam} would then use an unknown parameter and be inadmissible.
+Finally the theorem concerns the information in $T$. It does not identify
+a fractional Bernoulli working likelihood with the true spectral density,
+prove convergence of a specific likelihood refinement, or establish MCMC
+mixing.
+
+\begin{thebibliography}{9}
+\bibitem{lei} Lihua Lei (2020).
+\emph{Unified $\ell_{2\to\infty}$ Eigenspace Perturbation Theory for Symmetric
+Random Matrices}. arXiv:1909.04798v2, Theorems 3.4 and 5.2.
+\url{https://arxiv.org/pdf/1909.04798}.
+\bibitem{han} Yanjun Han (2021).
+\emph{Statistical decision theory: model distance and equivalence},
+Lecture 4, pp.\ 11--18.
+\url{https://web.stanford.edu/class/ee378c/lecture4_annotated.pdf}.
+\end{thebibliography}
+\end{document}

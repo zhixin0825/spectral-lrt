@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-12",
+  "passed": true,
+  "parameter_C_is_fixed": true,
+  "uses_prior_or_posterior": false,
+  "scope": "uniform frequentist partition-decision sufficiency; fixed-known-P Le Cam sufficiency",
+  "conditions": [
+    "fixed K",
+    "n_a >= pi0*n",
+    "kappa*p <= P_ab <= p <= 1-eta",
+    "sigma_min(P) >= kappa*p",
+    "np >= M_q*log(n), sufficiently large M_q"
+  ],
+  "imported_probability_result": "Lei arXiv:1909.04798v2, Theorem 3.4",
+  "reviewed": [
+    "uniform mean signal geometry including missing diagonal",
+    "positive and negative eigenvalue tails",
+    "uniform rowwise probability bound",
+    "admissible decoder fallback",
+    "all bounded finite-action partition losses",
+    "known-P canonical label regeneration kernel",
+    "non-sharp threshold limitation"
+  ],
+  "pdf_sha256": "08fc71d080549ca65c1e3825472fb16ce62431f030ff9d8020ac46aad09ced2f",
+  "pdf_size_bytes": 237424,
+  "pdf_pages": 4,
+  "render_checked": true,
+  "source_sha256": {
+    "docs/SPECTRAL_GROUPING_SUFFICIENCY_20261012.md": "79e118eccd3a1eaa22ea9afc7eeafa28972e0e67530575999c5cba20eb52fd4f",
+    "paper/notes/spectral_grouping_sufficiency_20261012.tex": "ae9735b991566ed42bb8555a6cd47f19158ebf6f43c226874e7b8fab0e0d0c4a"
+  }
+}
