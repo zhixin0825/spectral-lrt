@@ -1,0 +1,418 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prb}{\mathbb P}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\F}{\mathrm F}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\Mis}{\operatorname{Mis}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\logit}{\operatorname{logit}}
+\title{The Zhou--Li rate for iterative spectral likelihood decoding}
+\author{Research note for the spectral-lrt project}
+\date{18 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We analyze the full Bernoulli spectral-profile decoder, rather than a raw-adjacency refinement. An objective-certified fit already has E-step error $O((np)^{-1})$ on the same exponentially reliable graph event. Its mandatory M-step permits a constant-scale score comparison. The central additional ingredient is an arrowhead expansion conditioning on the graph with one vertex removed. It converts the full-graph spectral block sums into linear functions of independent incident edges with a bounded remainder. A finite-branch treatment of clipping and a tilted local concentration bound recover the factor $(np)^{-1/2}$. Consequently the certified algorithm attains a constant-factor oracle rate without an additional change to its score or updates. For a merely weak responsibility initializer without an objective certificate, a two-M-step local refinement is sufficient. The exponential-confidence spectral specialization and the replacement objective certificate are verified explicitly. The new arguments have undergone independent internal mathematical checks.
+\end{abstract}
+
+\section{Model, algorithm, and exact target}
+The partition $z\in[K]^n$ is a fixed parameter. The graph is undirected, has no loops, and its independent upper-triangular edges satisfy
+\[
+ A_{ij}\sim\operatorname{Bernoulli}(P_{z_i z_j}),\qquad
+ p=\max_{a,b}P_{ab}.
+\]
+The known $K$ is fixed. For fixed positive $\pi_0,\kappa,\eta,c$ assume
+\begin{equation}\label{eq:model}
+ n_a\ge\pi_0 n,\quad \kappa p\le P_{ab}\le p\le1-\eta,
+ \quad\sigma_{\min}(P)\ge\kappa p,\quad np\ge c\log n.
+\end{equation}
+No convergence of $P/p$ or the proportions is required. Write $Z_{ia}=\one\{z_i=a\}$, $M_0=ZPZ^\top$, and $\Pi=Z(Z^\top Z)^{-1}Z^\top$. The actual mean is $M=M_0-\operatorname{diag}(P_{z_i z_i})$.
+
+Let $F=A_K=U\Lambda U^\top$ retain the $K$ eigenpairs of largest absolute eigenvalues. Put
+\[
+ s=\max(1,\|\Lambda\|_\op),\qquad \epsilon=c_0s/n,
+ \qquad q_{ij}=\clip(F_{ij},\epsilon,1-\epsilon),
+\]
+where $0<c_0<\min(\kappa,\eta,1)/8$. The free-profile score is
+\[
+ \ell_i(\mu)=\sum_j\{q_{ij}\log\mu_j+(1-q_{ij})\log(1-\mu_j)\}.
+\]
+The M-step and E-step are
+\[
+ \mu_{aj}=\frac{\sum_lR_{la}q_{lj}}{\sum_lR_{la}},\quad
+ \pi_a=\frac1n\sum_lR_{la},\qquad
+ R^{\rm new}_{ia}=\frac{\pi_a e^{\ell_i(\mu_a)}}{\sum_b\pi_b e^{\ell_i(\mu_b)}}.
+\]
+All these operations use only the retained eigenpairs. In proofs the true labels are used solely for comparison.
+
+For $z_i=a$ and $b\ne a$, set
+\[
+ w_c^{ab}=\log\frac{P_{ac}(1-P_{bc})}{P_{bc}(1-P_{ac})},\qquad
+ b_c^{ab}=\log\frac{1-P_{ac}}{1-P_{bc}}.
+\]
+The oracle incident-edge LLR is
+\[
+ L_i^{ab}=\sum_{j\ne i}\{A_{ij}w_{z_j}^{ab}+b_{z_j}^{ab}\}.
+\]
+Let $I_{i,ab}=-\log\min_{0\le\alpha\le1}\E_a e^{-\alpha L_i^{ab}}$ and $I_n=\min_{i,a\ne b}I_{i,ab}$. Under \eqref{eq:model}, $I_{i,ab}\asymp np$, $\alpha_{i,ab}^*\in[\alpha_0,1-\alpha_0]$, and the tilted variance is $\asymp np$. Thus the Zhou--Li binary oracle scale is $e^{-I_{i,ab}}/\sqrt{np}$, uniformly up to constants.
+
+\begin{lemma}[Uniform oracle constants]\label{lem:oracle}
+The preceding information, maximizing-parameter, and variance bounds hold uniformly over \eqref{eq:model}. The equal-prior binary oracle error is between constant multiples of $e^{-I_{i,ab}}/\sqrt{np}$.
+\end{lemma}
+\begin{proof}
+The odds weights are uniformly bounded and, for $u,v\in[\kappa p,p]$ with $p\le1-\eta$, their absolute difference in logits is between $|u-v|/p$ and $|u-v|/(\kappa\eta p)$. Distinct rows of $P$ are separated in Euclidean norm by at least $\sqrt{2}\sigma_{\min}(P)$. Thus $\sum_c(n_c-\one\{c=a\})(w_c^{ab})^2\asymp n$. At any tilt $0\le\alpha\le1$, its Bernoulli probabilities lie between $P_{ac}$ and $P_{bc}$. Their variances are therefore between constant multiples of $p$, so the second derivative of $\psi(\alpha)=\log\E_a e^{-\alpha L_i^{ab}}$ is between $c_1np$ and $C_1np$. Since $\psi(0)=\psi(1)=0$, integrating this curvature gives information $\asymp np$ and an interior optimizer bounded away from both endpoints. Bounded log-odds weights imply that the sum of tilted third absolute centered moments is at most a constant times the tilted variance. The rate-optimal Chernoff bounds of Zhou--Li then give the two-sided oracle rate.
+\end{proof}
+
+\section{Explicit spectral input and refinement theorems}
+We use the following input already underlying the current manuscript. It is stated separately to make the dependency of this extension visible.
+
+\begin{proposition}[High-confidence spectral input]\label{prop:input}
+For each fixed $H>0$, the graph and each principal subgraph obtained by deleting one vertex admit good events with failure at most $C_H e^{-Hnp}$. On these events the centered operator norm is at most $C_H\sqrt{np}$, the retained signal eigenvalues have magnitudes between $c_Hnp$ and $C_Hnp$, their orthonormal eigenvector matrices have maximum row norm $C_H/\sqrt n$, and their projectors differ from the true membership projectors by at most $C_H/\sqrt{np}$ in operator norm. The full graph also has maximum degree at most $C_Hnp$, $\epsilon\le2c_0p$, and all $q_{ij}$ lie in a common box $[c_Hp,\min(C_Hp,1-b_H)]$ with $b_H>0$.
+\end{proposition}
+
+\begin{proof}
+The actual mean $M$ leaves the membership space invariant. In its orthonormal membership basis its restriction is
+\[
+ (Z^\top Z)^{1/2}P(Z^\top Z)^{1/2}-\operatorname{diag}(P_{11},\ldots,P_{KK});
+\]
+on the orthogonal complement its eigenvalues are the numbers $-P_{aa}$. Consequently the $K$ signal eigenvalues have magnitudes between $c_1np$ and $C_1np$, their projector is exactly $\Pi$, and their population row norms are $O(n^{-1/2})$.
+
+The bounded-entry matrix norm inequality of Bandeira--van Handel (Corollary~3.12 together with Remark~3.13 for centered, not necessarily symmetrically distributed entries) gives, after absorbing $\sqrt{\log n}$ into $\sqrt{np}$,
+\[
+ \Prb\{\|A-M\|_\op>C\sqrt{np}+t\}\le n e^{-t^2/C}.
+\]
+Taking $t=C_H\sqrt{np}$ provides any prescribed fixed confidence $e^{-Hnp}$, since $\log n\le c^{-1}np$. A degree Chernoff bound with a sufficiently large fixed multiplier gives the maximum-degree assertion at the same confidence.
+
+For completeness, we verify the confidence parameter in the entrywise eigenspace theorem of Abbe--Fan--Wang--Zhong, rather than replacing an exponential confidence by a polynomial one. In their Theorem~2.1 use
+\[
+ \gamma=\frac{C_H}{\sqrt{np}},\qquad
+ \varphi_H(x)=\frac{C_H}{1\vee\log(1/x)}\ (x>0),\qquad \varphi_H(0)=0,
+ \quad \delta_0,\delta_1\le e^{-Hnp}.
+\]
+Their Bernoulli row inequality (Lemma~7) holds for every fixed nonnegative row-tail parameter. Choose that parameter sufficiently larger than $H+c^{-1}$. It gives per-row failure at most $\delta_1/n$. Applied to each of the fixed number of columns, the monotonicity of $\varphi_H$ and of $\varphi_H(x)/x$ verifies their matrix row-concentration assumption. Factors depending on $K$ and the signal gap are included in $C_H$. Row/column independence follows from the independent upper-triangular edges. Their mean-row condition follows from $\|M\|_{2\to\infty}\le np/\sqrt n$ and $np\le n$. Their smallness condition holds eventually because $\gamma\to0$ and $\varphi_H(\gamma)\to0$.
+
+Apply the theorem separately to the positive and negative signal groups, each separated by a gap of order $np$ from its complement. Its row-norm bound gives $\|U\|_{2\to\infty}\le C_H/\sqrt n$. The theorem does not require $M$ to have exactly rank $K$, so the no-loop diagonal correction is retained. The operator norm event and the signal gap give the asserted projector bound by the usual subspace perturbation inequality. A fixed number of union bounds is absorbed by increasing the confidence parameter in the preceding steps.
+
+The Perron eigenvalue of $M$ lies between its minimum and maximum row sums, which are in $[\kappa(n-1)p,np]$. The norm event gives $\kappa np/4\le s\le2np$ eventually. Thus $\epsilon\asymp p$, every true probability is at distance at least $c'p$ from both clipping endpoints, and
+\[
+ |F_{ij}|\le\|U_i\|_2\|\Lambda\|_\op\|U_j\|_2\le C_Hp.
+\]
+This proves the common box: if $C_Hp\le1/2$ it is bounded away from one directly; otherwise $\epsilon\ge c_Hp\ge c_H/(2C_H)$ gives a fixed upper gap. Removing one vertex preserves all model bounds with adjusted fixed constants, and the same argument proves the vertex-deleted assertions uniformly in $i$. In a per-node risk calculation one only needs the event for that particular deleted vertex.
+\end{proof}
+
+\begin{theorem}[Refined rate from weak responsibilities]\label{thm:sharp}
+Assume \eqref{eq:model} and Proposition~\ref{prop:input}. Suppose a responsibility matrix $R^{(0)}$, using only the retained spectrum, has aligned average error bounded by a deterministic sequence tending uniformly to zero on a graph event whose failure is at most $C_H e^{-Hnp}$, for a sufficiently large fixed $H$. Perform
+\[
+ R^{(0)}\ \xrightarrow{\ M_1\ }\ (\mu^{(1)},\pi^{(1)})
+ \ \xrightarrow{\ E_1\ }\ R^{(1)}
+ \ \xrightarrow{\ M_2\ }\ (\mu^{(2)},\pi^{(2)}),
+\]
+and classify by $\ell_i(\mu^{(2)}_a)+\log\pi^{(2)}_a$. Then
+\begin{equation}\label{eq:sharp-target}
+ \E\Mis(\widehat z,z)\le C\frac{e^{-I_n}}{\sqrt{np}}.
+\end{equation}
+The same bound holds after additional finite exact E/M updates. Constants may depend on the fixed model bounds and on $K$, not on $n$.
+\end{theorem}
+
+For a merely weak responsibility initializer, this local statement uses two M-steps. The complete growing-and-replacement algorithm has a stronger objective certificate: its endpoint E-step is already accurate enough, so the existing single mandatory final M-step suffices. The next section states and proves this improvement; the remaining sections supply the refined tail analysis common to both statements.
+
+\section{One update supplies the required initialization accuracy}
+\begin{lemma}[Frobenius error and responsibility bootstrap]\label{lem:bootstrap}
+On the full-graph event of Proposition~\ref{prop:input},
+\[
+ \|F-M_0\|_\F^2\le Cnp,\qquad \|q-M_0\|_\F^2\le Cnp.
+\]
+If the fitted profiles have aligned $\ell_1$ error $o(np)$ and $-\log\min_a\pi_a=o(np)$ (in particular, if the weights are bounded below), their next E-step satisfies
+\[
+ \frac1n\sum_{i,a}|R^{\rm new}_{ia}-Z_{ia}|\le \frac{C}{np}.
+\]
+\end{lemma}
+\begin{proof}
+Best rank-$K$ approximation in operator norm gives $\|A-F\|_\op\le\|A-M_0\|_\op\le C\sqrt{np}$. The matrix $F-M_0$ has rank at most $2K$, proving the Frobenius bound. True probabilities lie inside the clipping interval, so clipping cannot increase squared coordinate error.
+
+The population gap $D(P_{a*}\Vert P_{b*})$ is at least $c_1np$. On the common box, changing an observation or a parameter changes its score contrast by at most a constant times its $\ell_1$ change. Thus a row with $\|q_i-P_{a*}\|_1\le t_0np$, for sufficiently small fixed $t_0$, has fitted correct-class margin at least $c_2np$ for all large $n$. Its wrong responsibility is at most $(K-1)e^{-c_2np}$. Every other row has squared $\ell_2$ error at least $t_0^2n p^2$. The Frobenius bound limits their number to $C/p$, hence their fraction to $C/(np)$.
+\end{proof}
+
+An initial M-step from $o(1)$ aligned responsibilities has profile error $o(np)$, by the original mean-fitting argument. Therefore Lemma~\ref{lem:bootstrap} gives $R^{(1)}$ with error $C/(np)$. This refined radius remains invariant: an M-step from this radius has profile error at most $C\sqrt{np}+C=o(np)$ in $\ell_1$. More quantitatively, choose a fixed small responsibility radius so that the resulting parameter error costs at most one quarter of the population margin. Every E-step from that fixed radius has error at most $C_*/(np)$, where $C_*$ is independent of the previous error and of the iteration number. Since $C_*/(np)$ eventually lies inside the fixed radius, induction gives a common bound for all subsequent updates.
+
+\begin{lemma}[An objective certificate already gives the sharp initialization radius]\label{lem:certificate}
+Suppose a $K$-profile fit is in the common box and its soft loss satisfies
+\[
+ \mathcal F=-\sum_i\log\sum_a\pi_a e^{-D(q_i\Vert\mu_a)}
+ \le\xi_n n^2p,\qquad \xi_n\longrightarrow0,
+\]
+on the good graph event, with a deterministic uniform sequence $\xi_n$. Then its profiles admit a common matching to the true profiles with maximum $\ell_1$ error $o(np)$, its weights satisfy $-\log\min_a\pi_a=o(np)$, and its own exact E-step has aligned error at most $C/(np)$.
+\end{lemma}
+\begin{proof}
+Write $d=np$. Since $\mathcal F\ge\sum_i\min_aD(q_i\Vert\mu_a)$ and Bernoulli divergence on the box is at least $\|q_i-\mu_a\|_1^2/(Cd)$,
+\[
+ \sum_i\min_a\|q_i-\mu_a\|_1^2\le C\xi_n n d^2.
+\]
+Also $\sum_i\|q_i-P_{z_i,*}\|_1^2\le n\|q-M_0\|_\F^2\le Cnd$. Choose $v_n=\xi_n^{1/4}+d^{-1/4}\to0$. The fractions of rows farther than $v_nd$ from their true profile or from every fitted profile are at most $C/(v_n^2d)$ and $C\xi_n/v_n^2$, respectively; both vanish. Each true class contains a row outside both sets. The $K$ true profiles are separated in $\ell_1$ norm by $c d$, so their nearby fitted profiles must be different. There are exactly $K$ fitted profiles, giving the asserted common matching.
+
+Fix a sufficiently small constant $t_0$. Except for $Cn/d$ rows, the row's $\ell_1$ distance to its true profile is at most $t_0d$, by the Frobenius bound. For every such row in class $a$, matched-center consistency and box Lipschitz bounds imply
+\[
+ D(q_i\Vert\mu_b)\ge c_1d\quad(b\ne a),\qquad
+ D(q_i\Vert\mu_a)\le c_1d/4.
+\]
+Each class has at least $\pi_0n/2$ such rows for large $n$. Since each summand of $\mathcal F$ is nonnegative and on these rows is at least $-\log(\pi_a+e^{-c_1d})$, we obtain
+\[
+ \pi_a+e^{-c_1d}\ge e^{-2\xi_nd/\pi_0},\qquad
+ \pi_a\ge\tfrac12 e^{-2\xi_nd/\pi_0}
+\]
+eventually. The latter holds whether or not $\xi_nd$ diverges, since $\xi_n\to0$. Thus $-\log\pi_a\le2\xi_nd/\pi_0+\log2=o(d)$. Apply Lemma~\ref{lem:bootstrap} to the fit itself.
+\end{proof}
+
+\begin{proposition}[The current replacement rule supplies the objective certificate]\label{prop:certificate}
+Under \eqref{eq:model}, the existing deterministic growing-and-replacement algorithm with $T=\lceil\log n\rceil$ replacement rounds has
+\[
+ \frac{\mathcal F_T}{n^2p}
+ \le C(1-1/K)^T+\frac{C}{\sqrt{np}}+\frac{K\log K}{np}=o(1)
+\]
+on the exponentially reliable graph event. Early stopping after a full round without improvement also certifies $\mathcal F=o(n^2p)$.
+\end{proposition}
+\begin{proof}
+Write $d=np$. The Frobenius bound gives $\sum_i\|q_i-P_{z_i,*}\|_1\le n\|q-M_0\|_\F\le Cn\sqrt d$. Define
+\[
+ G(\mathcal C)=\sum_i\min_kD(q_i\Vert\mu_k),\qquad
+ G_*(\mathcal C)=\sum_an_a\min_kD(P_{a*}\Vert\mu_k).
+\]
+The divergence is uniformly Lipschitz in $\ell_1$ on the common box, so $|G-G_*|\le Cn\sqrt d$ simultaneously over every admissible center list. Each true class supplies an observed candidate within $C\sqrt d$ in $\ell_1$ of its true profile.
+
+For any $K$ fitted centers, choose a minimizing center for each true class. A class contributing at least $G_*/K$ exists. If the chosen-center map is not onto, delete an unused center; otherwise it is a bijection, and delete the center chosen by this class. Inserting its true profile removes at least that class's contribution and harms none of the other classes. Thus some ideal replacement decreases population hard loss by at least $G_*/K$. Replacing the ideal profile by its available observed candidate and applying the uniform Lipschitz bounds gives an observed trial with hard loss at most $(1-1/K)G+Cn\sqrt d$.
+
+For each deletion, the implemented maximum positive all-node score gain minimizes exactly the resulting hard loss. All deletions are tested. Uniformly initializing that trial's weights changes its soft loss from hard loss by at most $n\log K$. Exact E/M fitting decreases soft loss; selecting the best trial together with the unchanged fit gives
+\[
+ \mathcal F_{t+1}\le(1-1/K)\mathcal F_t+Cn\sqrt d+n\log K,
+ \qquad \mathcal F_{t+1}\le\mathcal F_t.
+\]
+Initially $\mathcal F_0\le Cnd$ for arbitrary simplex weights, since all profile divergences are $O(d)$ on the common box. Iterate the recurrence. If a complete round does not improve the fit, the same inequality gives $\mathcal F_t\le K(Cn\sqrt d+n\log K)$ directly.
+\end{proof}
+
+\begin{corollary}[The existing certified algorithm attains the Zhou--Li scale]\label{cor:algorithm}
+Under \eqref{eq:model}, the existing growing-and-replacement algorithm followed by its mandatory final E/M update, with no additional algorithmic change, satisfies
+\[
+ \E\Mis(\widehat z,z)\le C\frac{e^{-I_n}}{\sqrt{np}}.
+\]
+\end{corollary}
+\begin{proof}
+Proposition~\ref{prop:certificate} and Lemma~\ref{lem:certificate} show that the mandatory final E-step already supplies responsibilities with error $C/(np)$. The subsequent mandatory M-step therefore meets Lemma~\ref{lem:fit}. The refined risk analysis below applies directly, without first taking the extra bootstrap update needed for a merely weak responsibility initializer.
+\end{proof}
+
+\section{Fitting costs only a constant-scale global fluctuation}
+Define the perfect-label fitted mean $\bar\mu_a=n_a^{-1}\sum_{l:z_l=a}q_l$. Let
+\[
+ G=\max_{a,c}\left|\frac{\one_{C_a}^\top(A-M)\one_{C_c}}{\sqrt{n_an_c}}\right|.
+\]
+For each fixed $t$, $\E e^{tG}\le C_t$. Indeed, these are finitely many independent-edge sums with coefficient $O(n^{-1})$ and variance $O(p)$; the usual bounded-variable moment generating function estimate applies to both signs.
+
+\begin{lemma}[Fitted-score comparison]\label{lem:fit}
+On the full-graph good event, every M-step with aligned responsibility error at most $C/(np)$ satisfies, uniformly in $i,a,b$,
+\begin{equation}\label{eq:fit-comparison}
+ \left|\ell_i(\mu_a)-\ell_i(\mu_b)+\log\frac{\pi_a}{\pi_b}
+ -\left\{\sum_jq_{ij}w_{z_j}^{ab}+\sum_jb_{z_j}^{ab}\right\}\right|
+ \le C(1+G).
+\end{equation}
+\end{lemma}
+\begin{proof}
+The mean-fitting identity and the bound $\|q_l\|_1\le Cnp$ show $\|\mu_a-\bar\mu_a\|_1\le C$. Score derivatives in a parameter coordinate are $(q_{ij}-\mu_j)/[\mu_j(1-\mu_j)]$ and are bounded on the common box, so this replacement costs $O(1)$. Updated log-weight ratios are bounded as well.
+
+Write $\delta_a=\bar\mu_a-P_{a*}$. Cauchy--Schwarz and the Frobenius bound give $\|\delta_a\|_2^2\le Cp$. Also
+\begin{equation}\label{eq:offspan}
+ \|q_i(I-\Pi)\|_2\le C\sqrt p.
+\end{equation}
+For $F$, this follows from row incoherence, signal size $O(np)$, and projector error $O((np)^{-1/2})$. For $q$ it follows because a common scalar 1-Lipschitz map contracts within-block variance: use the pairwise formula for variance in each block.
+
+We next bound each block sum of $\delta_a$. With $R=A-F$, one has $R=(I-UU^\top)R(I-UU^\top)$ and $\|R\|_\op\le C\sqrt{np}$. Consequently
+\[
+ \|\Pi R\Pi\|_\op\le C\sqrt{np}\,\|\Pi-UU^\top\|_\op^2
+ \le C/\sqrt{np}.
+\]
+Thus block-averaging $F$ instead of $A$ changes the relevant block sum by at most a constant. Raw block averaging contributes at most $C(G+1)$, including the absent diagonal. Finally, if a true probability $u$ is a distance at least $c'p$ from both clipping endpoints, then
+\[
+ |\clip(x,\epsilon,1-\epsilon)-x|\le\frac{(x-u)^2}{c'p}.
+\]
+Summing this inequality and averaging over class $a$ gives $\|\bar\mu_a-n_a^{-1}\one_{C_a}^\top F\|_1\le C$. We have proved
+\begin{equation}\label{eq:blockmean}
+ \left|\sum_{j\in C_c}\delta_{aj}\right|\le C(1+G).
+\end{equation}
+
+Taylor-expand $\ell_i$ in its parameter around $P_{a*}$. Its second derivatives are bounded by $C/p$, so the quadratic remainder is at most $C\|\delta_a\|_2^2/p\le C$. Split the linear term into the true block span and its orthogonal complement. The block part is bounded by \eqref{eq:blockmean}; the derivative coefficient is block constant and bounded. The orthogonal part is bounded by $C\|q_i(I-\Pi)\|_2\|\delta_a\|_2/p\le C$ using \eqref{eq:offspan}. Apply this to both classes.
+\end{proof}
+
+\section{An exact arrowhead reduction of empirical spectral block sums}
+Fix vertex $i$ and condition on $B=A_{-i,-i}$. Its incident-edge vector $x=A_{-i,i}$ remains independent Bernoulli with block-constant probabilities. Let $V,D$ be the retained signal eigenpairs of $B$, write $N=B-VDV^\top$, and let $\Pi_B=VV^\top$. Let $\Pi_0$ be the true block projector on the remaining vertices. On the vertex-deleted good event,
+\[
+ \|N\|_\op\le C\sqrt{np},\quad
+ \|V\|_{2\to\infty}\le C/\sqrt n,\quad
+ \|\Pi_B-\Pi_0\|_\op\le C/\sqrt{np}.
+\]
+All assertions below about $x$ are deterministic on $\|x\|_1\le D_0np$, with fixed sufficiently large $D_0$.
+
+\begin{lemma}[Arrowhead linearization with bounded remainder]\label{lem:arrowhead}
+For every fixed vector $w\in\mathbb R^n$ with $\|w\|_\infty\le W$,
+\begin{equation}\label{eq:arrowhead}
+ \left|F_iw-x^\top\Pi_B w_{-i}\right|\le C_W.
+\end{equation}
+The constant is uniform over all incident-edge vectors satisfying the degree bound.
+\end{lemma}
+\begin{proof}
+Permute $i$ to the first coordinate and write $A=\left(\begin{smallmatrix}0&x^\top\\x&B\end{smallmatrix}\right)$. The difference from $\operatorname{diag}(0,B)$ has norm $\|x\|_2\le\sqrt{D_0np}$. Weyl's inequality consequently gives exactly $K$ eigenvalues of magnitude $\asymp np$, with all remaining eigenvalues $O(\sqrt{np})$. This assertion uses good $B$ and the degree bound alone. The retained eigenvectors can be written $u_r=(t_r,Vy_r+v_r)$ with $v_r\perp V$. The exact eigenvector equations give
+\[
+ v_r=t_r(\lambda_r-N)^{-1}x_Q,\qquad
+ (\lambda_r-h_r)t_r=x_V^\top y_r,
+ \quad h_r=x_Q^\top(\lambda_r-N)^{-1}x_Q,
+\]
+where $x_V=V^\top x$, $x_Q=(I-\Pi_B)x$, and $|h_r|\le C$.
+
+The padded basis $V_0=(0,V^\top)^\top$ has spectral residual $AV_0-V_0D=(x_V^\top,0)^\top$, of norm at most $Cnp/\sqrt n$. For a full-graph bulk eigenvector $h$ and column $V_{0,r}$,
+\[
+ (\lambda_h-D_r)\langle h,V_{0,r}\rangle
+ =\langle h,(AV_0-V_0D)_r\rangle.
+\]
+The denominator has magnitude at least $c np$, for either signal sign. Sum the squared identity over bulk eigenvectors and the fixed $K$ columns to obtain $\|(I-UU^\top)V_0\|_\F\le C/\sqrt n$. Equality of the two subspace dimensions gives $\|UU^\top-V_0V_0^\top\|_\op\le C/\sqrt n$. In particular
+\[
+ \sum_rt_r^2\le C/n,\qquad
+ \left\|\sum_ry_ry_r^\top-I_K\right\|_\op\le C/n.
+\]
+The latter uses squared principal angles, not the unsquared projector bound.
+
+Put $w_V=V^\top w_{-i}$ and $w_Q=(I-\Pi_B)w_{-i}$. Expanding the retained spectral sum gives
+\begin{align*}
+ F_iw={}&x_V^\top\left(\sum_ry_ry_r^\top\right)w_V
+       +\sum_r h_rt_ry_r^\top w_V\\
+ &+\sum_r\lambda_rt_r^2
+       \{w_i+x_Q^\top(\lambda_r-N)^{-1}w_Q\}.
+\end{align*}
+The errors relative to $x_V^\top w_V$ are bounded respectively by
+\[
+ C(np/\sqrt n)n^{-1}\sqrt n=Cp,\qquad Cn^{-1/2}\sqrt n=C,
+ \qquad C(np/n)\{1+\sqrt{np}\sqrt n/(np)\}\le C.
+\]
+This proves \eqref{eq:arrowhead} without assuming independence between the full-graph eigenvectors and $x$.
+\end{proof}
+
+\begin{lemma}[Projected block weights]\label{lem:weights}
+For any true block-constant vector $v$ on the remaining vertices with bounded entries, let $\beta=(\Pi_B-I)v$. Then
+\[
+ \|\beta\|_\infty\le C,\quad \|\beta\|_2^2\le C/p,
+ \quad \left|\sum_{j\in C_c\setminus\{i\}}\beta_j\right|\le C/p.
+\]
+\end{lemma}
+\begin{proof}
+The first follows from $V$'s row bound and $\|v\|_2=O(\sqrt n)$, and the second from the projector bound. For the third, since $v\in\operatorname{col}(\Pi_0)$,
+\[
+ \Pi_0\beta=-\Pi_0(I-\Pi_B)\Pi_0v,
+ \qquad\|\Pi_0(I-\Pi_B)\Pi_0\|_\op
+ \le\|\Pi_0-\Pi_B\|_\op^2\le C/(np).
+\]
+Take its inner product with a block indicator.
+\end{proof}
+
+\section{Clipping and the refined conditional tail}
+Choose a sufficiently small fixed $h>0$ such that $2c_0+h<\min(\kappa,\eta)/2$, and put
+\[
+ l=(2c_0+h)p,\qquad u=1-(2c_0+h)p.
+\]
+For each full block $C_c$ set $T_c=F_i\one_{C_c}$ and $Y_c=x^\top\Pi_B\one_{C_c\setminus\{i\}}$.
+
+\begin{lemma}[Deterministic buffered clipping envelopes]\label{lem:clip}
+On the full-graph and vertex-deleted good events and the degree event,
+\begin{align*}
+ \sum_{j\in C_c}q_{ij}&\ge\min(Y_c,n_cu)-C,\\
+ \sum_{j\in C_c}q_{ij}&\le\max(Y_c,n_cl)+C.
+\end{align*}
+\end{lemma}
+\begin{proof}
+Write $F_{ij}=T_c/n_c+v_j$ in block $c$. The $v_j$ sum to zero and \eqref{eq:offspan} for $F$ gives $\sum v_j^2\le Cp$. If the block mean is at least $hp$ below an upper clipping endpoint, its upper clipping loss is at most $\sum(v_j-hp)_+\le\sum v_j^2/(4hp)\le C$. If it is above that buffered endpoint, monotonicity gives the same lower envelope with the block mean replaced by the buffered endpoint. The lower endpoint is treated symmetrically. Use $\epsilon\le2c_0p$ and then $|T_c-Y_c|\le C$ from Lemma~\ref{lem:arrowhead}.
+\end{proof}
+
+For a fixed pair $a,b$, abbreviate $w_c=w_c^{ab}$, $b_c=b_c^{ab}$, and define
+\[
+ H(x)=\sum_{w_c\ge0}w_c\min(Y_c,n_cu)
+       +\sum_{w_c<0}w_c\max(Y_c,n_cl)+\sum_cn_cb_c.
+\]
+The true-profile score based on $q$ is at least $H(x)-C$. For each clipping pattern $S\subseteq[K]$, where $S$ denotes the unclipped coordinates, its branch is
+\[
+ H_S(x)=x^\top\Pi_B v_S+\sum_{c\notin S}w_ck_c+\sum_cn_cb_c,
+ \quad (v_S)_j=w_{z_j}\one\{z_j\in S\},
+\]
+with $k_c=n_cu$ for $w_c\ge0$ and $k_c=n_cl$ for $w_c<0$. One has $H(x)=H_S(x)$ on the appropriate branch region; dropping that region gives an upper bound on each branch's error probability.
+
+\begin{lemma}[Conditional cumulant and concentration bounds]\label{lem:conditional}
+Let $\alpha=\alpha^*_{i,ab}$. Uniformly over good $B$ and every branch,
+\begin{equation}\label{eq:branch-mgf}
+ \E_a[e^{-\alpha H_S(x)}\mid B]\le C e^{-I_{i,ab}}.
+\end{equation}
+If $S$ contains a block with $|w_c|\ge\tau$, for a fixed $\tau>0$, then, for every real $t$,
+\begin{equation}\label{eq:branch-tail}
+ \Prb_a\{H_S(x)\le t\mid B\}
+ \le\frac{C_\tau e^{-I_{i,ab}+\alpha t}}{\sqrt{np}}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+First replace $\Pi_Bv_S$ by $v_S$. Write $m_c=n_c-\one\{z_i=c\}$. The ideal counts in different blocks are independent $\operatorname{Binomial}(m_c,P_{ac})$. For sufficiently large $n$, the lower cutoff satisfies $n_cl\le m_cP_{ac}$, including the deleted vertex's class, since $l<\kappa p/2$ and $n_c\ge\pi_0n$. The upper cutoff is above its mean as well. Thus each omitted coordinate satisfies $w_ck_c\ge w_c\E_a\sum_{j\in C_c\setminus\{i\}}x_j$. Jensen's inequality bounds its deterministic exponential factor by that block's full exponential moment. The ideal branch moment is at most $e^{-I_{i,ab}+O(p)}$: the branch and oracle intercepts differ by exactly $\sum_c(n_c-m_c)b_c=b_{z_i}=O(p)$.
+
+For the empirical projection put $\beta=(\Pi_B-I)v_S$. Taylor-expand the log moment as a function of its coefficient vector. At the ideal block-constant coefficients its first derivative is a bounded multiple of a block-constant tilted probability, of order $p$. The block-sum bound in Lemma~\ref{lem:weights} makes the linear change $O(1)$. Along the segment to the perturbed coefficients every second derivative is bounded by $Cp$, since all coefficients are bounded. The quadratic change is at most $Cp\|\beta\|_2^2\le C$. This proves \eqref{eq:branch-mgf}.
+
+Under exponential tilting by $e^{-\alpha H_S}$ the coordinates of $x$ are still independent Bernoulli, with probabilities comparable to $p$ and complements bounded below. If a block in $S$ has $|w_c|\ge\tau$, then $\|v_S\|_2^2\ge c_\tau n$, while $\|\beta\|_2^2\le C/p=o(n)$. The variance of $x^\top\Pi_Bv_S$ under this tilted law is therefore between $c_\tau np$ and $Cnp$. Bounded coefficients give a total third absolute centered moment at most a constant times this variance. Berry--Esseen consequently bounds the probability of every interval of length one by $C_\tau/\sqrt{np}$.
+
+Divide $(-\infty,t]$ into intervals $(t-r-1,t-r]$. Changing measure back gives
+\[
+ \Prb_a(H_S\le t\mid B)
+ \le \E_a(e^{-\alpha H_S}\mid B)
+       \frac{C_\tau e^{\alpha t}}{\sqrt{np}}
+       \sum_{r\ge0}e^{-\alpha r}.
+\]
+The maximizing $\alpha$ is uniformly bounded away from zero. This proves \eqref{eq:branch-tail}; no nonlattice assumption or exact boundary density is used.
+\end{proof}
+
+Some branches can have no strongly weighted unclipped coordinate. They cannot cause an error on the graph event. In fact the oracle mean LLR is at least $c_1np$. Omitted coordinates replace their means in the score-increasing direction. On $\|x\|_1\le D_0np$, $|Y_c|\le C D_0np$. Therefore, if every unclipped weight has magnitude less than $\tau$,
+\[
+ H_S(x)\ge c_1np-K\tau(CD_0+1)np-O(1)\ge c_1np/2
+\]
+for a sufficiently small fixed $\tau$. Thus all potentially erroneous branches have the concentration required by Lemma~\ref{lem:conditional}.
+
+\section{Completing the refined risk bound}
+Let $G_i$ denote the block fluctuation $G$ computed on the vertex-deleted graph $B$, with the corresponding block sizes. On the good graph and degree event,
+\[
+ G\le C(1+G_i),\qquad G_i\le C\sqrt{np},
+ \qquad \E e^{tG_i}\le C_t\quad(t\text{ fixed}).
+\]
+The first bound holds because adding back one row changes a normalized block sum by at most $C\deg(i)/n+Cp\le C$.
+
+After a M-step from the $C/(np)$ responsibility radius (either $M_2$ in Theorem~\ref{thm:sharp}, or the existing final M-step in Corollary~\ref{cor:algorithm}), Lemma~\ref{lem:fit} shows that assigning vertex $i$ from $a$ to $b$ implies
+\[
+ H(x)\le C(1+G_i).
+\]
+First use the full-graph good event only to establish this deterministic containment of the error event. Then remove its indicator from the upper bound; it is not assumed independent of $x$. Conditional on good $B$, branches with only weak unclipped weights are impossible on the degree event for large $n$, since $G_i=O(\sqrt{np})$. For every other branch apply \eqref{eq:branch-tail}, with threshold $C(1+G_i)$. Integrating over $B$ and using its bounded exponential moment yields
+\[
+ \Prb_a\{\text{aligned error at }i,\ \text{good events}\}
+ \le C\frac{e^{-I_{i,ab}}}{\sqrt{np}}.
+\]
+The union over $b\ne a$ and the at most $2^K$ branches costs a fixed constant. The graph, vertex-deleted graph, and degree failures are $C_H e^{-Hnp}$. Since $I_n\le C_I np$, choose fixed $H>C_I+1$; their total contribution is negligible relative to $e^{-I_n}/\sqrt{np}$. Average over vertices and include the initialization failure. This proves \eqref{eq:sharp-target} subject to the stated spectral input. The invariant bootstrap radius proves the additional-update claim.
+
+\section{Scope and independent checks}
+\begin{enumerate}
+\item This is a constant-factor rate, not a claim that the risk ratio tends to one. Bounded spectral and fitting corrections need not vanish, and Bernoulli ties can affect the leading constant.
+\item A merely weak responsibility initializer needs the local two-M-step refinement. The certified algorithm has more information: its low objective loss makes its own final E-step already accurate to $C/(np)$. Consequently its existing mandatory M-step suffices; no extra iteration or raw-adjacency access is required for Corollary~\ref{cor:algorithm}.
+\item Proposition~\ref{prop:input} spells out the exponential-confidence specialization of standard matrix concentration and entrywise eigenspace results. Proposition~\ref{prop:certificate} re-establishes the current general-$K$ replacement certificate using the simpler Frobenius bound. The external spectral theorems themselves are cited, not reproved here.
+\item The new arrowhead argument, buffered clipping argument, uniform branch cumulant expansion, and fitted-score comparison have undergone independent internal mathematical checks. A separate 144-graph conditional tilted-row calculation checks the arrowhead identity and bounded-remainder scaling over multiple sizes and signal signs. It is a diagnostic, not a proof of the exponentially small risk theorem.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{zhouli} Z. Zhou and P. Li (2020). Rate optimal Chernoff bound and application to community detection in the stochastic block models. \emph{Electronic Journal of Statistics} 14, 1302--1347. DOI: \href{https://doi.org/10.1214/20-EJS1686}{10.1214/20-EJS1686}. Earlier version: \href{https://arxiv.org/abs/1812.11269}{arXiv:1812.11269}.
+\bibitem{abbe} E. Abbe, J. Fan, K. Wang, and Y. Zhong (2020). Entrywise eigenvector analysis of random matrices with low expected rank. \emph{Annals of Statistics} 48, 1452--1474. \href{https://arxiv.org/abs/1709.09565}{arXiv:1709.09565}.
+\bibitem{bvh} A. S. Bandeira and R. van Handel (2016). Sharp nonasymptotic bounds on the norm of random matrices with independent entries. \emph{Annals of Probability} 44, 2479--2506.
+\bibitem{main} Spectral-lrt current manuscript, source blob \texttt{98b33fe677d75074e7eba22aaf160f4c0dcb2dd7}, inspected 18 October 2026. \url{https://github.com/zhixin0825/spectral-lrt/blob/main/paper/current/main.tex}.
+\end{thebibliography}
+\end{document}
