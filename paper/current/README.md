@@ -1,73 +1,72 @@
-# Rate-optimal community detection by spectral likelihood decoding
+# Degree and spectral likelihood decoding for the SBM
 
-[Compiled PDF](main.pdf) · [Complete LaTeX source and proofs](main.tex) · [Bibliography](reference.bib) · [Download compilable sources](latex-source.zip)
+[Compiled PDF](main.pdf) · [Complete LaTeX source](main.tex) · [Bibliography](reference.bib) · [Compilable sources](latex-source.zip)
 
-The October 18, 2026 manuscript uses the Zhou–Li sharp affinity bound throughout and starts from the oracle likelihood-ratio test. Its nodewise evidence consists of edge counts to the true communities. Empirical spectral reconstruction gives approximate, generally noninteger counts. The theorem controls the resulting loss in likelihood-tail information strongly enough to preserve the oracle misclassification rate up to a constant factor. It does not require exact recovery of each count by rounding.
+The manuscript first introduces the easier unregularized case and then, in Section 4, the general algorithm retaining both observed degrees and regularized spectral information. Both use the oracle likelihood-ratio test as the benchmark and the complete Bernoulli row criterion for initialization and refinement.
 
-## Model and rate
+## Easier case: Algorithm 1 and its sharp theorem
 
-The partition is a fixed unknown parameter. For every fixed known K, P is the symmetric Bernoulli block probability matrix and p = max_ab P_ab. Fixed positive model constants satisfy:
+The partition is a fixed unknown parameter. For every fixed known K, P is the symmetric Bernoulli block probability matrix and p=max_ab P_ab. The unconditional sharp theorem assumes fixed model constants with:
 
-- n_a >= n/(beta*K), with fixed beta >= 1;
+- n_a >= n/(beta*K), beta >= 1;
 - kappa*p <= P_ab <= p and sigma_min(P) >= kappa*p;
 - p <= 1-eta;
 - p = Omega(log n/n).
 
-The model allows unequal community sizes and expected degrees, either sign of signal eigenvalues, and logarithmic through dense probability scales. Neither P/p nor the community proportions need converge.
+Neither P/p nor community proportions need converge. Unequal community sizes and expected degrees, either sign of signal eigenvalues, and logarithmic through dense probabilities are allowed.
 
-The theorem for Algorithm 1 uses Zhou–Li’s affinity benchmark throughout:
+Algorithm 1 retains the raw-adjacency eigenpairs with largest absolute eigenvalues. It reconstructs clipped probability rows, initializes by global-mean likelihood growing, and uses at most ceil(log n) rounds of component replacement. Every deletion position is checked with its best all-node candidate, trial weights start uniformly, each fit takes at least one exact M-step, and the old endpoint participates in the objective comparison. One final E-step and profile/weight M-step precedes classification.
+
+The theorem states Zhou–Li’s benchmark:
 
 `E Mis <= C eta*`.
 
-Here eta* is the maximum total variation affinity between the pairwise incident-edge product-Bernoulli laws; it is twice the corresponding maximum equal-prior binary oracle risk. The homogeneous planted-partition corollary specializes this same sharp bound, retaining its polynomial factor.
+Here eta* is the maximum total variation affinity between the pairwise incident-edge product-Bernoulli laws, twice the maximum equal-prior binary oracle risk. Under these model bounds, eta* is equivalent to exp(-I_n)/sqrt(np), with the absent self-loop excluded in I_n. Exact recovery follows from n eta* -> 0. The result does not claim risk-ratio convergence to one, exact integer count recovery, or a new global minimax lower bound.
 
-I_n is the minimum exact incident-edge product-Bernoulli Chernoff information, excluding the absent self-loop. Under the model bounds, `eta*` is equivalent to `exp(-I_n)/sqrt(np)`. Thus both the exponential rate and the `1/sqrt(np)` factor are preserved up to constants. The theorem does not assert identical risks, a risk ratio tending to one, statistical sufficiency, or a new global minimax lower bound. Exact recovery uses `Pr(Mis > 0) <= C n eta*` and follows if **`n eta* -> 0`**.
+The [unregularized implementation](../../experiments/20261010_general_density/spectral_likelihood.py) receives only its eigenpairs. The theorem and all previously reported graph benchmarks apply to this easier case.
 
-## Conventional notation
+## General case: retain degrees and regularized eigenpairs
 
-The title and general discussion use community detection; recovery describes the accuracy statements. The imbalance normalization n/(beta*K) is standard, with beta=1 corresponding to balanced sizes. The manuscript needs only this lower size bound. Following Amini et al. (2013), b_ik(e) denotes the node-to-block edge count, and its spectral counterpart is tilde b_ik(e). Total ordered block counts are entries of Z(e)' A Z(e), with diagonal entries counting within-block undirected edges twice.
+Compute D=A*1 and Dbar=mean(D). Set W_ii=min(1,2*Dbar/D_i) when D_i>0 and W_ii=1 for isolates. Retain the raw degrees and the K signed eigenpairs of W A W with largest absolute eigenvalues:
 
-## Algorithm
+`(D,U,Lambda)`.
 
-Retain the K raw-adjacency eigenpairs with largest absolute eigenvalues. Every later operation uses only these eigenpairs.
+W is recoverable from D. The exact identities
 
-With `s=max(1,||Lambda||op)`, set `epsilon=c0*s/n` and `q=clip(U Lambda U',epsilon,1-epsilon)`, where `0<c0<min(kappa,eta,1)/8`. The complete row score is
+`A(WU)=W^-1 U Lambda, A*1=D`
 
-`ell_i(mu)=sum_j {q_ij log(mu_j)+(1-q_ij)log(1-mu_j)}`.
+give the original adjacency action on the augmented features. With
 
-Free connection profiles are fitted by weighted-mean EM updates. Global-mean growing selects candidates using positive hard gains of this row score. At most `ceil(log n)` component-replacement rounds test every deletion position and its best all-node candidate, refit from uniform weights, and compare endpoints by the common soft mixture objective. Every fit takes at least one M-step. A full unsuccessful round permits early stopping. One final E-step and profile/weight M-step is mandatory. Further finite exact EM updates preserve the theorem.
+`X=[1,WU], Y=[D,W^-1 U Lambda], R=Y pinv(X)`,
 
-Initialization and refinement use the same row score; hard candidate gains and the soft mixture objective are different aggregations of it. The general-K theorem covers the complete replacement algorithm, without an assumed K-means initializer or a claim that growing alone always succeeds.
+we have R=A Proj(col(X)) and **R*1=D exactly**. For every candidate grouping e, the real-valued block counts R Z(e) sum to each observed degree. If the true membership space is contained in col(X), its edge counts are preserved exactly; empirical approximate containment carries no rounding guarantee. Section 4 also records the earlier centroid-inverse block decoder and its exact degree correction.
 
-## Why the loss is small enough
+Algorithm 2 uses the fixed reconstructed rows R in the complete Bernoulli criterion:
 
-1. An oracle membership projection preserves the community edge counts exactly. The empirical projection estimates this space and introduces count errors; the proof makes no sub-1/2 rounding claim.
-2. A deterministic replacement reduces population hard loss by a factor at most 1-1/K. Its empirical objective certificate gives the endpoint E-step responsibility error O(1/(np)). The existing final M-step supplies the required fitting accuracy.
-3. A vertex-deleted arrowhead expansion expresses spectral contrasts as linear statistics of independent incident edges plus bounded remainders. Projected weights change the conditional log moment generating function by O(1).
-4. A finite-branch treatment of clipping and local concentration under the oracle Chernoff tilt retain the 1/sqrt(np) factor. Spectral exceptional events have probability at most C_H exp(-H np) for arbitrary fixed H.
+`ell_i(mu)=sum_j {R_ij log(mu_j)+(1-R_ij) log(1-mu_j)}`.
 
-This controls the testing tails; ordinary relative consistency of counts alone would not establish the sharp rate.
+R can be signed and nonsymmetric. It is neither clipped nor symmetrized, preserving its exact degree identity. Candidate and fitted probability profiles lie in [epsilon,1-epsilon], with epsilon=c0*max(1,Dbar)/n. Their exact M-step is the clipped weighted mean of R. Growing, replacement, soft responsibilities and final classification all use this same row criterion; no K-means initializer is introduced. This is a working decoding criterion, not the likelihood of independent Bernoulli observations with data R.
 
-## Implementation and evidence
+The [degree-plus-spectrum implementation](../../experiments/20261018_degree_spectral/degree_spectral_likelihood.py) accepts only D,U,Lambda. [Reproducible checks](../../experiments/20261018_degree_spectral/verify_degree_spectral.py) and [saved results](../../experiments/20261018_degree_spectral/CHECKS.json) verify exact retained-information identities, redundant feature directions, signed reconstruction, and EM objective updates. They establish implementation properties, without a sparse statistical performance claim.
 
-The current entry point is [SpectralLikelihood.decode()](../../experiments/20261010_general_density/spectral_likelihood.py). It accepts the eigenpairs, not the original graph or degrees. Defaults include the complete Bernoulli score, 100 growing updates per stage, one update per replacement trial, the stated replacement budget, and one mandatory final E/M update. The default floor coefficient 1e-4 requires the explicit admissibility condition above.
+## General-case theorem scope
 
-- The [60-graph benchmark](../../experiments/20261010_general_density/) covers K=2–6, two density scales, and three matrix families. Replacement changed no classification errors in that collection; weak general signals had high finite-sample error. These observations are retained without claiming universal superiority over K-means.
-- The [five-community population certificate](../../experiments/20261010_general_density/population_audit/) exhibits a finite-stage growing failure and its replacement repair.
-- The earlier [240-graph sparse-score experiment](../../experiments/20261009_residual_likelihood_seeding/) evaluates a different historical score and remains separately labeled.
-- The [144-configuration tilted-row diagnostic](../../experiments/20261018_sharp_rate/) checks arrowhead identities and constant-scale remainders. It is not an empirical proof of an exponentially small risk bound.
+The general algorithm is defined without a logarithmic density floor. The sparse target is np -> infinity. Section 4 gives a sharp transfer proposition with explicit vertex-deleted affine-score, conditional cumulant, tilted local-concentration and bounded-moment remainder hypotheses. Under these hypotheses its conclusion is again **E Mis <= C eta***.
+
+Verifying these sharp hypotheses uniformly for the full degree-regularized algorithm below logarithmic expected degree remains open. The unconditional theorem of Sections 2–3 is not asserted for Algorithm 2. The old exponent-only rate is not used as a substitute for the Zhou–Li bound.
+
+## Notation and evidence
+
+The paper uses community detection as the task name and recovery for accuracy statements. The conventional imbalance normalization is n/(beta*K). Following Amini et al. (2013), b_ik(e) denotes a node-to-block edge count. Total ordered block counts are entries of Z(e)' A Z(e), with within-block undirected edges counted twice on the diagonal.
+
+- The [60-graph benchmark](../../experiments/20261010_general_density/) evaluates the unregularized complete Bernoulli decoder for K=2–6. Replacement changed no classification errors in that collection; weak general signals had substantial finite-sample errors.
+- The [five-community population certificate](../../experiments/20261010_general_density/population_audit/) exhibits finite-stage growing failure and replacement repair.
+- The [240-graph sparse-score experiment](../../experiments/20261009_residual_likelihood_seeding/) is an earlier, separately labelled collection.
+- The [144-configuration tilted-row diagnostic](../../experiments/20261018_sharp_rate/) checks the unregularized arrowhead identities and constant-scale remainders.
 
 ## Build and historical files
 
-Edit main.tex and reference.bib. The manuscript contains all sections and proofs in one TeX file; its figure is figures/initialization_failure_repair.pdf. Run:
+The six main sections are introduction, unregularized algorithm, its sharp guarantees, general degree-plus-spectrum algorithm, experiments, and conclusion. All sections and proofs are in main.tex. Compile with PDFLaTeX, BibTeX and two further PDFLaTeX passes. GitHub Actions builds main.pdf, the identical compatibility copy manuscript.pdf, and latex-source.zip, with source checksums and provenance in BUILD.txt and BUILD_SHA256SUMS.txt.
 
-```sh
-pdflatex main
-bibtex main
-pdflatex main
-pdflatex main
-```
-
-GitHub Actions builds main.pdf, the identical compatibility copy manuscript.pdf, and latex-source.zip, recording source provenance in BUILD.txt and BUILD_SHA256SUMS.txt. manuscript.tex is a compatibility wrapper. Earlier section files and dated audit documents are historical snapshots and are not build inputs. The [standalone sharp-rate note](../notes/spectral_sharp_rate_20261018.pdf) records the preceding derivation; its proof is now integrated into main.tex.
-
+Earlier section files and dated notes are historical snapshots, not active build inputs. The [standalone sharp-rate note](../notes/spectral_sharp_rate_20261018.pdf) records the earlier unregularized derivation.
 

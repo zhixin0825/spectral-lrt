@@ -1,0 +1,146 @@
+{
+  "status": "PASS",
+  "scope": "algebra, retained inputs, deterministic fitting and exact E/M only; no recovery-rate benchmark",
+  "seed": 20261018,
+  "python": "3.11.7",
+  "numpy": "2.1.3",
+  "scipy": "1.16.2",
+  "fixtures": [
+    {
+      "name": "heterogeneous_signed_asymmetric",
+      "n": 24,
+      "k": 3,
+      "metadata": {
+        "feature_rank": 4,
+        "feature_columns": 4,
+        "action_relative_residual": 2.0729214060541214e-16,
+        "degree_max_absolute_residual": 3.552713678800501e-15,
+        "min_reconstructed_entry": -0.5420072879033595,
+        "max_reconstructed_entry": 1.235786521061091,
+        "max_absolute_asymmetry": 0.35972325587675674
+      },
+      "errors": {
+        "retained_action": 5.10702591327572e-15,
+        "reconstructed_action": 3.552713678800501e-15,
+        "projection_identity": 5.469583119754873e-15,
+        "degree_identity": 3.552713678800501e-15,
+        "projector_idempotence": 2.498001805406602e-16,
+        "blockcount_error_identity": 3.3306690738754696e-15,
+        "blockcount_total_degree": 1.7763568394002505e-15
+      },
+      "negative_eigenvalues_retained": 2,
+      "worst_em_delta": 3.177358064476721e-05,
+      "replacement_rounds_completed": 3,
+      "same_input_deterministic": true
+    },
+    {
+      "name": "regular_cycle_rank_deficient_features",
+      "n": 10,
+      "k": 2,
+      "metadata": {
+        "feature_rank": 2,
+        "feature_columns": 3,
+        "action_relative_residual": 4.723886989436431e-16,
+        "degree_max_absolute_residual": 1.3322676295501878e-15,
+        "min_reconstructed_entry": -5.473919995733793e-16,
+        "max_reconstructed_entry": 0.4000000000000005,
+        "max_absolute_asymmetry": 3.3306690738754696e-16
+      },
+      "errors": {
+        "retained_action": 7.771561172376096e-16,
+        "reconstructed_action": 1.5543122344752192e-15,
+        "projection_identity": 1.6653345369377348e-16,
+        "degree_identity": 1.3322676295501878e-15,
+        "projector_idempotence": 7.653447036663372e-17,
+        "blockcount_error_identity": 1.6653345369377348e-16,
+        "blockcount_total_degree": 1.5543122344752192e-15
+      },
+      "negative_eigenvalues_retained": 1,
+      "worst_em_delta": 0.0,
+      "replacement_rounds_completed": 1,
+      "same_input_deterministic": true
+    },
+    {
+      "name": "all_isolated",
+      "n": 8,
+      "k": 3,
+      "metadata": {
+        "feature_rank": 4,
+        "feature_columns": 4,
+        "action_relative_residual": 0.0,
+        "degree_max_absolute_residual": 0.0,
+        "min_reconstructed_entry": 0.0,
+        "max_reconstructed_entry": 0.0,
+        "max_absolute_asymmetry": 0.0
+      },
+      "errors": {
+        "retained_action": 0.0,
+        "reconstructed_action": 0.0,
+        "projection_identity": 0.0,
+        "degree_identity": 0.0,
+        "projector_idempotence": 5.211227279852524e-16,
+        "blockcount_error_identity": 0.0,
+        "blockcount_total_degree": 0.0
+      },
+      "negative_eigenvalues_retained": 0,
+      "worst_em_delta": 0.0,
+      "replacement_rounds_completed": 1,
+      "same_input_deterministic": true
+    },
+    {
+      "name": "full_spectrum",
+      "n": 7,
+      "k": 7,
+      "metadata": {
+        "feature_rank": 7,
+        "feature_columns": 8,
+        "action_relative_residual": 1.534517505765024e-15,
+        "degree_max_absolute_residual": 4.440892098500626e-16,
+        "min_reconstructed_entry": -3.3961132024059485e-15,
+        "max_reconstructed_entry": 1.000000000000001,
+        "max_absolute_asymmetry": 3.591604528215779e-15
+      },
+      "errors": {
+        "retained_action": 4.440892098500626e-16,
+        "reconstructed_action": 2.7773743963260787e-15,
+        "projection_identity": 6.661338147750939e-16,
+        "degree_identity": 4.440892098500626e-16,
+        "projector_idempotence": 3.2868622546158073e-15,
+        "blockcount_error_identity": 5.130176418525275e-16,
+        "blockcount_total_degree": 1.1102230246251565e-16
+      },
+      "negative_eigenvalues_retained": 2,
+      "worst_em_delta": 0.0,
+      "replacement_rounds_completed": 2,
+      "same_input_deterministic": true
+    }
+  ],
+  "exact_in_span_blockcount_error": 1.7763568394002505e-15,
+  "signed_coordinate_optimizer": [
+    0.02,
+    0.4,
+    0.98
+  ],
+  "signed_em_objective_trace": [
+    26.2034069709834,
+    67.19909703908037,
+    67.19909703940026,
+    67.19909703941349,
+    67.19909703941407,
+    67.19909703941408,
+    67.19909703941407,
+    67.1990970394141,
+    67.19909703941408,
+    67.1990970394141,
+    67.19909703941408,
+    67.1990970394141,
+    67.1990970394141
+  ],
+  "public_api": {
+    "constructor": "(degrees, eigenvectors, eigenvalues, *, c0=0.02)",
+    "reconstruct": "(self)",
+    "decode": "(self, *, max_em_iter=25, tol=1e-10, replacement_rounds=None)"
+  },
+  "source_sha256": "99ecae44df62827ceb6d398549a06092ab017287a3b63fad13232ab47ee3b4d3",
+  "verification_sha256": "18019ee1672bb8517f26049b880062b127862f519000beb61d06ce22b82e79e3"
+}

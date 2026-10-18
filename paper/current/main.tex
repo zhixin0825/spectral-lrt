@@ -41,14 +41,14 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We ask how much of this evidence is lost when only the leading adjacency eigenpairs are retained. For every fixed number of communities, a spectral likelihood decoder achieves the Zhou--Li oracle benchmark $\mathbb E\Mis\le C\eta^*$ under comparable block probabilities, where $\eta^*$ is the largest pairwise total variation affinity. Under our uniform signal assumptions, this is equivalent to $C e^{-I_n}/\sqrt{np}$, where $I_n$ is the minimum exact Bernoulli Chernoff information and $p=\max_{a,b}P_{ab}$. The model permits $p=\Omega(\log n/n)$ through dense probabilities bounded away from one, unequal community sizes and expected degrees, and general uniformly well-conditioned full-rank block matrices with comparable entries. The empirical spectral reconstruction need not reproduce integer edge counts. Instead, we show that the resulting changes to likelihood contrasts are small enough in the relevant rare-event tails to preserve both the Chernoff exponent and its $(np)^{-1/2}$ factor. Initialization, component replacement and iterative fitting use the same complete Bernoulli row score and never return to the original adjacency matrix. A replacement contraction supplies an objective certificate; the algorithm's final E/M update then provides the accuracy needed for the sharp rate. The result concerns classification performance up to constants, without claiming exact count recovery or an oracle risk ratio tending to one.
+The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We study how much of this evidence is retained by a spectral representation together with the observed degrees. We first give the simpler unregularized construction: for every fixed number of communities and $p=\Omega(\log n/n)$, the spectral likelihood decoder achieves the Zhou--Li benchmark $\mathbb E\Mis\le C\eta^*$ under comparable, uniformly well-conditioned block probabilities. Here $\eta^*$ is the largest pairwise total variation affinity, equivalent under these assumptions to $e^{-I_n}/\sqrt{np}$, and $p=\max_{a,b}P_{ab}$. The proof controls likelihood tails after spectral projection, clipping and fitting, including the oracle polynomial factor. We then introduce the general algorithm retaining $(D,U,\Lambda)$, where $D=A\mathbf1$ and the eigenpairs come from a degree-regularized adjacency matrix. Exact matrix identities allow its reconstructed block counts to sum to each observed degree. Initialization and refinement use one complete Bernoulli row criterion, calculated entirely from the retained information. A sharp transfer proposition gives the same $C\eta^*$ conclusion under explicit conditional tail hypotheses without imposing logarithmic expected degree; verifying these hypotheses for the full regularized algorithm remains open. Empirical reconstructed counts need not equal the original integers, and the comparison permits a constant-factor change in classification risk.
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
 
-The likelihood-ratio test gives a natural reference point for community detection in a stochastic block model (SBM). We use community detection as the broad task name, and recovery to describe the accuracy of the estimated labels. If the other labels and the block probabilities are known, classifying a node requires only its edge counts to the communities. Each count is weighted by the appropriate log-odds contrast, and the contribution of absent edges supplies the remaining term. The statistical question in this paper is how accurately this familiar test can be implemented after the adjacency matrix has been reduced to its $K$ leading eigenpairs. We show that the loss from this spectral reduction is small enough to preserve the oracle misclassification rate up to a constant factor, including its polynomial factor, for every fixed $K$ under the stated uniform signal conditions.
+The likelihood-ratio test gives a natural reference point for community detection in a stochastic block model (SBM). We use community detection as the broad task name, and recovery to describe the accuracy of the estimated labels. If the other labels and the block probabilities are known, classifying a node requires only its edge counts to the communities. Each count is weighted by the appropriate log-odds contrast, and the contribution of absent edges supplies the remaining term. The statistical question in this paper is how accurately this familiar test can be implemented from observed degrees and a small collection of spectral eigenpairs. We introduce the easier unregularized case first, where the eigenpairs alone suffice for the proved constant-factor oracle comparison. Section~\ref{sec:degree-spectral} then gives the general construction using both degrees and regularized spectral information, including the regime below logarithmic expected degree.
 
-We treat the partition $z\in[K]^n$ as a fixed unknown parameter. The graph has independent upper-triangular Bernoulli edges with probabilities $P_{z_i z_j}$ and no self-loops \cite{holland1983}. Write $p=\max_{a,b}P_{ab}$. Our assumptions are the size bound $n_a\ge n/(\beta K)$, block probabilities comparable to $p$ and bounded away from one, a quantitative full-rank condition on $P$, and $p=\Omega(\log n/n)$. These conditions allow unequal community sizes and expected degrees, as well as logarithmic, intermediate and dense probability scales. Neither the normalized block matrix nor the community proportions need converge. All operations after eigendecomposition, including initialization and parameter estimation, use only the retained eigenpairs.
+We treat the partition $z\in[K]^n$ as a fixed unknown parameter. The graph has independent upper-triangular Bernoulli edges with probabilities $P_{z_i z_j}$ and no self-loops \cite{holland1983}. Write $p=\max_{a,b}P_{ab}$. Our model uses the size bound $n_a\ge n/(\beta K)$, block probabilities comparable to $p$ and bounded away from one, and a quantitative full-rank condition on $P$. For the unregularized theorem we additionally assume $p=\Omega(\log n/n)$. The general algorithm retains degrees and regularized eigenpairs and is defined also when $np\to\infty$ grows more slowly than $\log n$. Neither the normalized block matrix nor the community proportions need converge. After compression, initialization and refinement use only the retained statistic: $(U,\Lambda)$ in the first case and $(D,U,\Lambda)$ in the general case.
 
 \paragraph{The oracle test and the information retained by projection.}
 Let $Z$ be the membership matrix. The entries of $AZ$ are the node-to-community edge counts. The oracle Bernoulli log-likelihood ratio between labels $a$ and $b$ is a linear combination of these counts plus a known nonedge term: its weight vector is constant on every community. When $P$ has full rank, the signal space of $ZPZ^\top$ is exactly $\operatorname{col}(Z)$. If $\Pi$ is the projector onto this population space, then
@@ -64,7 +64,7 @@ For the exact incident-edge Bernoulli test, let $I_{i,ab}$ be its Chernoff infor
 \[
  \frac{e^{-I_{i,ab}}}{\sqrt{np}}.
 \]
-Our main theorem proves, for the complete spectral algorithm,
+Our first theorem proves, for the complete unregularized algorithm,
 \begin{equation}
  \mathbb E\,\Mis(\widehat z,z)
  \le C\eta^*.
@@ -72,7 +72,7 @@ Our main theorem proves, for the complete spectral algorithm,
 \end{equation}
 Here $\eta^*$ is the maximum pairwise total variation affinity, defined in \eqref{eq:oracle-affinity}, and $C$ depends only on the fixed model and algorithm bounds. Under our assumptions, $\eta^*\asymp e^{-I_n}/\sqrt{np}$. Throughout, rate optimality refers to this constant-factor comparison with the Zhou--Li oracle scale. It does not assert an error ratio converging to one, exact recovery of the original edge counts, or statistical sufficiency of the retained spectrum for all inference on $z$. We also do not prove a new global minimax lower bound.
 
-\paragraph{A likelihood decoder using only spectral data.}
+\paragraph{The easier unregularized decoder.}
 We retain the $K$ eigenpairs of the original adjacency matrix with largest absolute eigenvalues, allowing signal eigenvalues of either sign. Clipping their reconstruction gives connection profiles $q_i$ in a probability interval whose endpoints are determined by the retained eigenvalues. A complete Bernoulli row score compares these profiles to fitted connection profiles and includes the absent-edge term. This term matters for our density range: Section~\ref{sec:main-results} gives a dense example in which a sparse-score substitute loses a fixed fraction of the oracle exponent even with known parameters.
 
 The same Bernoulli row score drives global-mean growing, component replacement and EM refinement. Growing adds an observed profile according to its total positive likelihood gain and jointly refits the current components. The algorithm then tests all deletion positions and their best observed replacement candidates for up to $\lceil\log n\rceil$ rounds, retaining the fit with the greatest common working mixture likelihood. This construction supplies a deterministic initialization guarantee without requiring a Euclidean initializer or a global optimum of an EM fit. The gain used to select a candidate and the soft mixture objective aggregate the common row score differently; their relation is part of the proof. One mandatory final E-step and profile/weight M-step precedes classification.
@@ -85,16 +85,23 @@ Second, we compare the spectral classification evidence to the oracle incident-e
 These comparisons allow a constant-factor change in the error probability. They do not require every spectral count to equal an observed integer or every classification decision to agree with the oracle. The substantive conclusion is that the remaining perturbation is small enough at the testing boundary to retain the full rate in \eqref{eq:intro-sharp-rate}.
 
 \paragraph{Relation to existing recovery methods.}
-Abbe and Sandon \cite{abbe2015} characterize exact recovery in the general logarithmic-density SBM through Chernoff--Hellinger divergence and provide efficient algorithms reaching the threshold. Likelihood refinement after a spectral initializer is also well established. Amini, Chen, Bickel and Levina \cite{amini2013} fit mixtures to blockwise counts by pseudo-likelihood. Gao, Ma, Zhang and Zhou \cite{gao2017} obtain optimal misclassification performance from a weakly consistent initializer and penalized local likelihood refinement. Zhou and Amini \cite{zhouamini2020} analyze spectral initialization and pseudo-likelihood classification in bipartite recovery, together with EM-type updates. A recent preprint of Wang \cite{wang2026vem} studies spectrally initialized variational EM in a general SBM and obtains a leading Chernoff exponent while estimating parameters and reusing the graph. Our restriction differs: the original edges are unavailable to every operation after eigendecomposition, so the refinement must use the perturbed evidence contained in the retained spectrum.
+Abbe and Sandon \cite{abbe2015} characterize exact recovery in the general logarithmic-density SBM through Chernoff--Hellinger divergence and provide efficient algorithms reaching the threshold. Likelihood refinement after a spectral initializer is also well established. Amini, Chen, Bickel and Levina \cite{amini2013} fit mixtures to blockwise counts by pseudo-likelihood. Gao, Ma, Zhang and Zhou \cite{gao2017} obtain optimal misclassification performance from a weakly consistent initializer and penalized local likelihood refinement. Zhou and Amini \cite{zhouamini2020} analyze spectral initialization and pseudo-likelihood classification in bipartite recovery, together with EM-type updates. A recent preprint of Wang \cite{wang2026vem} studies spectrally initialized variational EM in a general SBM and obtains a leading Chernoff exponent while estimating parameters and reusing the graph. Our retained information consists of degrees and spectral eigenpairs. The general refinement uses this compressed statistic, with no subsequent access to individual adjacency entries.
 
-Spectral methods themselves attain optimal recovery guarantees in important settings. Abbe, Fan, Wang and Zhong \cite{abbe2020} give entrywise eigenvector approximations and establish optimal thresholds and misclassification exponents for an untrimmed spectral method in the equal-sized symmetric two-community SBM at logarithmic density. For homogeneous planted-partition models with multiple possibly unequal communities, Zhang \cite{zhang2024} obtains matching algorithm-specific exponents for trimming followed by eigenvalue-weighted spectral clustering and $K$-means; that exponent is distinguished from the information-theoretic exponent. Suwan et al.\ \cite{suwan2016} use Gaussian-mixture limits of adjacency spectral embedding for empirical Bayes membership inference. These works motivate statistical decoding of spectral representations. Our focus is the sharp rare-event comparison with the Bernoulli oracle for general full-rank block matrices. The data-driven regularization and consistency analysis of Zhou and Amini \cite{zhouamini2019} concerns a further density range; our theorem here assumes $p=\Omega(\log n/n)$.
+Spectral methods themselves attain optimal recovery guarantees in important settings. Abbe, Fan, Wang and Zhong \cite{abbe2020} give entrywise eigenvector approximations and establish optimal thresholds and misclassification exponents for an untrimmed spectral method in the equal-sized symmetric two-community SBM at logarithmic density. For homogeneous planted-partition models with multiple possibly unequal communities, Zhang \cite{zhang2024} obtains matching algorithm-specific exponents for trimming followed by eigenvalue-weighted spectral clustering and $K$-means; that exponent is distinguished from the information-theoretic exponent. Suwan et al.\ \cite{suwan2016} use Gaussian-mixture limits of adjacency spectral embedding for empirical Bayes membership inference. These works motivate statistical decoding of spectral representations. Our focus is the sharp rare-event comparison with the Bernoulli oracle for general full-rank block matrices. The data-driven regularization and consistency analysis of Zhou and Amini \cite{zhouamini2019} motivates the general construction in Section~\ref{sec:degree-spectral}. Our unconditional sharp theorem is proved first under $p=\Omega(\log n/n)$; the later section states exactly which conditional likelihood-tail bounds extend the sharp comparison below that range.
+
+\paragraph{Degrees and the general construction.}
+Let $D=A\mathbf1$ and let $W$ be the positive diagonal regularizer determined by $D$. If $WAWU=U\Lambda$, then
+\[
+ A(WU)=W^{-1}U\Lambda,\qquad A\mathbf1=D.
+\]
+Thus $(D,U,\Lambda)$ gives the exact action of $A$ on the augmented space spanned by $\mathbf1$ and $WU$. Section~\ref{sec:degree-spectral} uses this action to construct degree-preserving row evidence and block counts. The constant-direction part of every likelihood contrast is then retained exactly. The same Bernoulli row criterion drives likelihood initialization and EM refinement. The general algorithm and its exact identities require no logarithmic density bound; a complete sparse sharp-rate theorem additionally requires the conditional tail hypotheses stated there.
 
 \paragraph{Algorithmic scope and numerical evidence.}
-The theorem covers the complete growing-and-replacement algorithm and every fixed $K$. General-$K$ convergence of growing alone is not established. A five-community population example illustrates the possible loss of a class when growing uses only one EM update per stage. The numerical section reports a 60-graph benchmark of the complete Bernoulli implementation and, separately, the earlier 240-graph sparse-score experiments. The complete benchmark shows no additional classification improvement from replacement in that collection and exposes finite-sample difficulties at weak signals. It complements the theorem without establishing oracle risk ratios or uniform empirical superiority over $K$-means.
+The unregularized theorem covers the complete growing-and-replacement algorithm and every fixed $K$. General-$K$ convergence of growing alone is not established. A five-community population example illustrates the possible loss of a class when growing uses only one EM update per stage. The numerical section reports a 60-graph benchmark of the complete Bernoulli implementation and, separately, the earlier 240-graph sparse-score experiments. The complete benchmark shows no additional classification improvement from replacement in that collection and exposes finite-sample difficulties at weak signals. It complements the theorem without establishing oracle risk ratios or uniform empirical superiority over $K$-means.
 
-Section~\ref{sec:algorithm} specifies the algorithm and its relation to the oracle test. Section~\ref{sec:main-results} states the sharp recovery results and the bounds on the loss of testing information. Section~\ref{sec:experiments} reports the experiments. Proofs are in the appendix.
+Section~\ref{sec:algorithm} introduces the simpler unregularized algorithm and its relation to the oracle test. Section~\ref{sec:main-results} proves its sharp guarantee. Section~\ref{sec:degree-spectral} introduces the general degree-plus-spectrum algorithm and its sharp transfer criterion. Section~\ref{sec:experiments} reports the experiments, and Section~\ref{sec:conclusion} concludes. Proofs and implementation details are in the appendix.
 
-\section{From oracle likelihood ratios to spectral decoding}
+\section{The unregularized case: from oracle likelihood ratios to spectral decoding}
 \label{sec:algorithm}
 
 \subsection{Model and retained information}
@@ -108,7 +115,7 @@ We follow Zhou and Li~\citep{zhouli2020}: $P$ is the symmetric block probability
 \[
  p=\max_{a,b}P_{ab}.
 \]
-The known community number $K\ge2$ is any fixed integer. Our uniform model and density conditions are, for a fixed constant $\beta\ge1$ and fixed positive constants $\kappa,\eta$,
+The known community number $K\ge2$ is any fixed integer. For this unregularized case, the model and density conditions are, for a fixed constant $\beta\ge1$ and fixed positive constants $\kappa,\eta$,
 \begin{align}
  n_a&\ge\frac{n}{\beta K},\qquad P_{ab}\ge\kappa p\quad(a,b\in[K]),\qquad
  \sigma_{\min}(P)\ge\kappa p,
@@ -116,7 +123,7 @@ The known community number $K\ge2$ is any fixed integer. Our uniform model and d
  p&\le1-\eta,\qquad p=\Omega(\log n/n).
  \label{eq:density-condition}
 \end{align}
-We use the conventional imbalance parameter $\beta$, with the normalization $n/(\beta K)$ common in SBM recovery results~\citep{zhouli2020,gao2017}. Only this lower size bound is required; a separate upper balance bound is unnecessary. Writing $n/\beta$ instead would absorb the fixed factor $K$ into $\beta$. These conditions are used throughout the sharp affinity guarantee. We may take $\kappa\le1$. Neither $P/p$ nor the community proportions need converge. The probability matrix may vary with $n$ within these bounds. In particular, there is no requirement that $(n/\log n)P$ be fixed.
+We use the conventional imbalance parameter $\beta$, with the normalization $n/(\beta K)$ common in SBM recovery results~\citep{zhouli2020,gao2017}. Only this lower size bound is required; a separate upper balance bound is unnecessary. Writing $n/\beta$ instead would absorb the fixed factor $K$ into $\beta$. These conditions are used for the unregularized sharp theorem. Section~\ref{sec:degree-spectral} treats the general retained statistic and replaces the logarithmic density condition by $np\to\infty$ in its sparse-rate target. We may take $\kappa\le1$. Neither $P/p$ nor the community proportions need converge. The probability matrix may vary with $n$ within these bounds. In particular, there is no requirement that $(n/\log n)P$ be fixed.
 
 For $z_i=a$, the expected degree is
 \begin{equation}
@@ -132,7 +139,7 @@ Retain the $K$ eigenpairs of the original adjacency matrix with largest absolute
  \widetilde A=U\Lambda U^\top.
  \label{eq:representation}
 \end{equation}
-Both signs of signal eigenvalues are allowed. Every subsequent operation uses only $(U,\Lambda)$, including initialization, fitting, replacement and classification.
+Both signs of signal eigenvalues are allowed. In this unregularized case, every subsequent operation uses only $(U,\Lambda)$, including initialization, fitting, replacement and classification. The degree vector is retained explicitly for the general construction in Section~\ref{sec:degree-spectral}.
 
 \subsection{The oracle LRT depends on community edge counts}
 For testing $z_i=a$ against $z_i=b$ with the other labels and $P$ known, put
@@ -276,7 +283,7 @@ The replacement certificate controls all $K$ fitted profiles simultaneously, inc
 Forming and storing $q$ requires $O(n^2)$ storage. The complete node-candidate score matrix can be cached using $O(n^3)$ arithmetic and $O(n^2)$ storage. With current component scores cached, all $K$ deletion scans in a round cost $O(Kn^2+K^2n)$: obtain the minimum and second minimum divergences of each row to handle every deletion. If each trial uses at most $J$ EM updates, its fitting cost is $O(JKn^2)$. The $O(\log n)$ rounds therefore cost $O(JK^2n^2\log n)$ in addition to the candidate cache and growing fits. The direct implementation is polynomial in $n$ for fixed $K$ and polynomial $J$. It does not yet provide a subquadratic storage claim.
 
 
-\section{Preserving the oracle likelihood-ratio rate}
+\section{Sharp guarantees for the unregularized case}
 \label{sec:main-results}
 
 We compare the spectral decoder with the familiar oracle likelihood-ratio test. The issue is how much the empirical spectral compression changes the testing error, rather than whether its real-valued block sums recover the original integer counts. Throughout this section, the fixed parameter $z$ and the block matrix $P$ satisfy \eqref{eq:model-conditions}--\eqref{eq:density-condition}, and $c_0$ satisfies the condition following \eqref{eq:profiles}.
@@ -508,6 +515,306 @@ At constant probabilities, dropping the nonedge term changes the testing rate. I
  P=\begin{pmatrix}0.8&0.2\\0.2&0.2\end{pmatrix},
 \]
 only edges to the first block distinguish the hypotheses. For $m$ such potential neighbors, the exact LRT threshold is $N/m=1/2$, with information $0.22314355\,m$. The sparse score instead uses $N/m=0.6/\log4$, whose smaller directional error exponent is $0.13905314\,m$. Algorithm~1 retains the complete Bernoulli score throughout the density range.
+
+\section{The general degree-plus-spectrum algorithm}
+\label{sec:degree-spectral}
+
+The preceding sections first treat the easier case in which the raw adjacency
+spectrum can be used directly. The general representation retains the degree
+vector as well as a regularized spectrum. Keeping the degrees supplies the
+constant direction in a likelihood contrast exactly; regularization addresses
+the influence of high-degree vertices on the estimated contrast directions.
+This section specifies that algorithm and the sharp testing comparison it
+requires. The exact identities and updates below do not require a logarithmic
+lower bound on the expected degree. For its statistical analysis we retain the
+balance, probability-comparability, full-rank, and upper-probability bounds in
+\eqref{eq:model-conditions}, with $p\le1-\eta$, and consider
+\begin{equation}
+ np\longrightarrow\infty
+ \label{eq:general-density}
+\end{equation}
+in place of $np=\Omega(\log n)$. Theorem~\ref{thm:main-recovery} remains the
+proved unconditional sharp guarantee for Algorithm~1 under its stated
+logarithmic-density assumption; its proof does not automatically establish
+the corresponding guarantee for the algorithm of this section.
+
+\subsection{Degree-preserving spectral compression}
+Write
+\begin{equation}
+ \begin{aligned}
+ D=A\one,\qquad \overline D=\frac1n\sum_iD_i,\qquad
+ \tau=2\overline D,\\
+ W=\diag(w_1,\ldots,w_n),\qquad
+ w_i=\begin{cases}
+ \min\{1,\tau/D_i\},&D_i>0,\\
+ 1,&D_i=0.
+ \end{cases}
+ \end{aligned}
+ \label{eq:degree-regularization}
+\end{equation}
+Every diagonal entry of $W$ is positive: a graph with an edge has
+$\overline D>0$, and the all-zero graph has $W=I$. Form the softly
+degree-capped matrix $A_W=WAW$, and retain its $K$ orthonormal eigenvectors
+with largest absolute eigenvalues, together with their signed eigenvalues:
+\begin{equation}
+ A_WU=U\Lambda,\qquad U^\top U=I_K.
+ \label{eq:general-eigenpairs}
+\end{equation}
+After this preprocessing, only $(D,U,\Lambda)$ are retained. In particular,
+$W$ is recoverable from $D$, and every subsequent operation uses these
+retained quantities.
+
+Define the two $n\times(K+1)$ matrices
+\begin{equation}
+ X=[\one,\,WU],\qquad
+ Y=[D,\,W^{-1}U\Lambda],\qquad
+ R=YX^\dagger,
+ \label{eq:general-reconstruction}
+\end{equation}
+where $X^\dagger$ is the Moore--Penrose inverse. This definition allows a
+linearly dependent column, for example when the constant direction already
+belongs to $\operatorname{col}(WU)$. A rank-revealing factorization can be
+used in its computation. The matrix $R$ is a reconstruction of the edge
+evidence, rather than an estimated matrix of independent edge probabilities.
+
+\begin{proposition}[Exact degree and block-count identities]
+\label{prop:degree-count-identities}
+For every adjacency matrix, the retained data in
+\eqref{eq:general-reconstruction} determine
+\begin{equation}
+ AX=Y,\qquad R=A\Pi_X,\qquad R\one=D,
+ \qquad \Pi_X=XX^\dagger.
+ \label{eq:degree-identities}
+\end{equation}
+For any candidate partition $e$, let $Z(e)$ be its membership matrix and set
+$\widetilde b(e)=RZ(e)$. Its rows obey
+\begin{equation}
+ \sum_c\widetilde b_{ic}(e)=D_i,\qquad
+ \widetilde b(e)-b(e)=-A(I-\Pi_X)Z(e),\qquad b(e)=AZ(e).
+ \label{eq:general-block-counts}
+\end{equation}
+If $\operatorname{col}(Z(e))\subseteq\operatorname{col}(X)$, then
+$\widetilde b(e)=b(e)$ exactly. In particular this conclusion applies to
+the true partition whenever its membership space is contained in the
+retained augmented space.
+\end{proposition}
+\begin{proof}
+Multiplying \eqref{eq:general-eigenpairs} by $W^{-1}$ gives
+$A(WU)=W^{-1}U\Lambda$, while $A\one=D$. Hence $AX=Y$ and
+$YX^\dagger=AXX^\dagger=A\Pi_X$. Since $\one\in\operatorname{col}(X)$,
+the orthogonal projector $\Pi_X$ fixes $\one$, proving the degree identity.
+Multiplication by $Z(e)$ gives the count identity and its error formula.
+If $\Pi_XZ(e)=Z(e)$, the error is zero.
+\end{proof}
+
+The degree identity is exact even when the empirical subspace does not
+contain the true membership space. The separate condition for exact block
+counts is not asserted to hold for the empirical eigenvectors. In general,
+$\widetilde b_{ic}(e)$ is real-valued and may lie outside its binomial count
+range; no rounding guarantee follows. What the degree addition restores
+unconditionally is the sum of these counts, namely the observed degree.
+Also, $R=A\Pi_X$ need not be symmetric. Symmetrizing it would generally
+change its degree vector to $(D+\Pi_XD)/2$. Neither symmetrization nor
+entrywise clipping of $R$ is part of the construction.
+
+\subsection{One Bernoulli working criterion for growing and refinement}
+Set
+\begin{equation}
+ \varepsilon_D=\frac{c_0\max\{1,\overline D\}}n,
+ \qquad
+ \widehat p_a\in[\varepsilon_D,1-\varepsilon_D]^n,
+ \label{eq:degree-profile-floor}
+\end{equation}
+using the same admissible fixed $c_0$ as in \eqref{eq:profiles}. For
+$n\ge2$, $\overline D\le n-1$ makes this interval nonempty. The complete
+Bernoulli working row score is
+\begin{equation}
+ \ell_i^D(\widehat p)
+ =\sum_{j=1}^n\{R_{ij}\log\widehat p_j
+             +(1-R_{ij})\log(1-\widehat p_j)\}.
+ \label{eq:degree-row-score}
+\end{equation}
+Every logarithm is well-defined because the fitted profiles are bounded
+away from zero and one. The data coefficients $R_{ij}$ themselves are not
+clipped. Thus \eqref{eq:degree-row-score} is an algebraic Bernoulli fitting
+criterion, not a probability density for signed observations. As with
+Algorithm~1, its reconstructed diagonal is retained; comparison to the
+loopless oracle must account for that coordinate in the score remainder.
+
+For $v_j=\log\{\widehat p_j/(1-\widehat p_j)\}$ and
+$\overline v=n^{-1}\sum_jv_j$, the degree contribution is explicit:
+\begin{equation}
+ \ell_i^D(\widehat p)
+   =D_i\overline v+R_i(v-\overline v\one)
+      +\sum_j\log(1-\widehat p_j).
+ \label{eq:degree-contrast-decomposition}
+\end{equation}
+The first term retains the total-degree evidence exactly. Only the
+centered contrast directions are approximated by the augmented spectral
+space. The last term keeps the nonedge contribution. Adding the degree
+vector does not by itself control the error in the centered contrasts at
+the oracle testing boundary.
+
+Use the mixture objective and decoder in \eqref{eq:mixture-and-decode},
+with $\ell_i^D$ replacing $\ell_i$. Candidate profiles and the initial
+global mean are, respectively,
+\begin{equation}
+ \operatorname{clip}(R_c,\varepsilon_D,1-\varepsilon_D),
+ \qquad
+ \operatorname{clip}\left(\frac1n\sum_iR_i,
+                     \varepsilon_D,1-\varepsilon_D\right).
+ \label{eq:degree-candidates}
+\end{equation}
+Growing and replacement use the same positive likelihood gains as in
+\eqref{eq:growing-gain} and \eqref{eq:replacement-gain}, evaluated with
+this score and these candidates. They require no $L^2$ or $K$-means
+initialization. The E-step and weight update are unchanged. To avoid
+confusing responsibilities with the reconstructed matrix $R$, denote the
+responsibilities here by $r_{ia}$ and write $N_a=\sum_i r_{ia}$. The exact
+constrained profile M-step is
+\begin{equation}
+ \widehat p_{aj}^{\mathrm{new}}
+  =\operatorname{clip}\left(
+      \frac{\sum_i r_{ia}R_{ij}}{N_a},
+      \varepsilon_D,1-\varepsilon_D\right),
+ \qquad \widehat\pi_a^{\mathrm{new}}=N_a/n.
+ \label{eq:degree-mstep}
+\end{equation}
+A zero-mass component retains its previous profile. This is an exact
+maximizer even when the weighted average is outside $[0,1]$: the derivative
+of its scalar objective has the sign of
+$\sum_i r_{ia}R_{ij}/N_a-\widehat p_{aj}$. Consequently each E/M pair
+increases the same working mixture objective. This algebraic monotonicity
+does not establish the replacement contraction or the statistical fitting
+certificate of Section~\ref{sec:main-results}; those require separate
+bounds for the new representation.
+
+\begin{center}
+\fbox{\begin{minipage}{0.93\linewidth}
+\textbf{Algorithm 2: Degree-plus-spectrum likelihood decoding}
+\begin{enumerate}
+\item Compute $D$, $W$, and the retained eigenpairs of $WAW$ using
+\eqref{eq:degree-regularization}--\eqref{eq:general-eigenpairs}. Retain only
+$(D,U,\Lambda)$.
+\item Form $X$, $Y$, and the degree-preserving reconstruction $R=YX^\dagger$.
+Keep $R$ unchanged; constrain fitted and candidate profiles using
+\eqref{eq:degree-profile-floor}--\eqref{eq:degree-candidates}.
+\item Apply the global-mean growing, joint E/M fits, and
+$\lceil\log n\rceil$ replacement rounds of Algorithm~1, using
+\eqref{eq:degree-row-score} and \eqref{eq:degree-mstep} throughout.
+\item Perform the mandatory final E-step and constrained profile/weight
+M-step, then decode by the fitted weighted row scores.
+\end{enumerate}
+\end{minipage}}
+\end{center}
+
+\paragraph{Relation to a center-based block-count decoder.}
+The earlier degree-assisted coordinate construction can also be written
+using an invertible $K\times K$ matrix $H$ of candidate block coordinates:
+\[
+ b^{(0)}=W^{-1}U\Lambda H^{-1},\qquad
+ b=b^{(0)}+(D-b^{(0)}\one)\pi^\top,
+ \qquad \pi^\top\one=1.
+\]
+For example, blockwise averages of the rows of $WU$ supply candidate rows
+of $H$ when that matrix is nonsingular, and estimated block proportions
+supply $\pi$. The correction makes $b\one=D$. It depends on the chosen
+coordinates and proportions; it is not asserted to equal the canonical
+projected counts $RZ(e)$ in \eqref{eq:general-block-counts}. Algorithm~2
+uses the latter reconstruction and the common free-profile row criterion,
+so no inverse of an estimated block-coordinate matrix is required.
+
+\subsection{The sharp testing comparison needed below logarithmic degree}
+The desired conclusion is the same Zhou--Li bound
+$\E\Mis\le C\eta^*$, rather than a different rate for the sparse case.
+Here $\eta^*$ retains its exact definition in \eqref{eq:oracle-affinity}.
+The following sufficient comparison isolates the missing analytic task.
+It applies to a fitted decoder, including Algorithm~2 if its conditions
+can be verified, without imposing $np\gtrsim\log n$.
+
+\begin{proposition}[A sufficient sharp-transfer comparison]
+\label{prop:general-sharp-transfer}
+Assume \eqref{eq:model-conditions}, $p\le1-\eta$, and
+\eqref{eq:general-density}. Suppose the fitted components can be matched
+to the true labels by a common permutation. For each true label $a=z_i$
+and each $b\ne a$, let $\widehat L_i^{ab}$ be their fitted score gap,
+including the fitted log-weight contrast, under this matching. Put
+$B=A_{-i,-i}$ and $x=A_{i,-i}$. All the conditions below are uniform in
+$(i,a,b)$; their constants are fixed.
+\begin{enumerate}[label=(\roman*)]
+\item There is a $B$-measurable good event $G$ and a possibly
+full-graph event $E$ with
+$\PP_a(G^c)+\PP_a(E^c)\le C\eta^*$. On $G\cap E$,
+\[
+ \widehat L_i^{ab}=S_B(x)+\rho_B(x),\qquad
+ S_B(x)=u(B)+\sum_{j\ne i}x_jv_j(B),\qquad
+ |\rho_B(x)|\le h(B),
+\]
+where $h\ge0$, $u$, and $v$ are $B$-measurable.
+\item Let $\alpha=\alpha^*_{i,ab}$ be the oracle Chernoff optimizer. On
+$G$, the conditional incident-row log moment generating function satisfies
+\[
+ \psi_B(\alpha)=\log\E_a[e^{-\alpha S_B(x)}\mid B]
+       \le-D^*_{i,ab}+c(B).
+\]
+The conditional expectation here is over the full product-Bernoulli
+incident-row law, without conditioning on $E$.
+\item Under the conditional tilted product law
+\[
+ Q_B(x)=\exp\{-\alpha S_B(x)-\psi_B(\alpha)\}
+                 \varphi_{i,a}(x),
+\]
+one has, on $G$,
+\[
+ \sup_{t\in\R}Q_B\{S_B(x)\in[t,t+1]\}
+       \le \frac{C}{\sqrt{np}}.
+\]
+\item The remainder and log moment generating function cost obey
+$\E[\one_G\exp\{c(B)+\alpha h(B)\}]\le C$.
+\end{enumerate}
+Then the decoder satisfies
+\begin{equation}
+ \E\Mis(\widehat z,z)\le C\eta^*.
+ \label{eq:general-conditional-rate}
+\end{equation}
+\end{proposition}
+\begin{proof}
+The uniform model bounds imply that $\alpha$ stays away from zero and one
+and that the oracle affinity comparison in \eqref{eq:oracle-risk} holds
+whenever $np\to\infty$; these oracle facts do not require uniform
+raw-adjacency concentration. On $G\cap E$, a wrong pairwise comparison
+requires $S_B\le h(B)$. After dropping the indicator of $E$, exponential
+tilting and a decomposition into the intervals
+$(h-k-1,h-k]$, $k=0,1,\ldots$, give
+\begin{align*}
+ \PP_a\{S_B\le h(B)\mid B\}
+ &=e^{\psi_B(\alpha)}
+      \E_{Q_B}[e^{\alpha S_B}\one\{S_B\le h(B)\}]\\
+ &\le \frac{C e^{-D^*_{i,ab}+c(B)+\alpha h(B)}}{\sqrt{np}}
+           \sum_{k=0}^{\infty}e^{-\alpha k}.
+\end{align*}
+The geometric sum is uniformly bounded. Integrating over $B\in G$,
+using (iv), and adding the exceptional probabilities proves a bound by
+$C\eta_{i,ab}+C\eta^*\le C\eta^*$ for the pairwise error. A union bound
+over the fixed number of competing labels and averaging over vertices
+prove \eqref{eq:general-conditional-rate}. The same common matching can
+be used for all vertices; taking the minimum over permutations in
+$\Mis$ can only reduce the error.
+\end{proof}
+
+The proposition asks for an affine leave-one-out representation, control
+of its tilted log moment generating function, a local concentration
+bound, and an exponential-moment bound on the remaining score error.
+These conditions concern the retained evidence near the testing boundary;
+they do not assume the desired misclassification bound. Crucially, the
+degree-dependent matrix $W$, inverse reweighting, fitted profiles, and
+profile constraints must all be included when verifying them. The
+raw-spectrum proof and an earlier degree-calibration construction do not
+verify these conditions for the full regularized Algorithm~2 under
+\eqref{eq:general-density}. Thus this section restores the general
+degree-plus-spectrum algorithm and a precise sharp-rate target, while
+keeping the proved logarithmic-density theorem distinct from the remaining
+sparse-case analysis.
 
 \section{Experiments}
 \label{sec:experiments}
@@ -1028,16 +1335,15 @@ For the bounded oracle weight used in the check, the largest observed absolute a
 \section{Conclusion}
 \label{sec:conclusion}
 
-An oracle SBM classifier uses community edge counts through their Bernoulli likelihood contrasts. A population projection onto the membership space would preserve those counts exactly. The empirical spectral reconstruction introduces errors, and its community sums need not reproduce the original integers. Our result quantifies the consequence for classification: under the stated uniform model conditions, the loss of testing information is small enough to preserve the sharp oracle rate up to a constant factor,
+An oracle SBM classifier uses community edge counts through their Bernoulli likelihood contrasts. Our first theorem controls the loss caused by an empirical unregularized spectral reconstruction: for $p=\Omega(\log n/n)$ and the stated model conditions,
 \[
- \mathbb E\,\Mis(\widehat z,z)
- \le C\eta^*.
+ \mathbb E\,\Mis(\widehat z,z)\le C\eta^*.
 \]
-The proof controls likelihood tails after projection, clipping and parameter fitting, including their local concentration under the oracle exponential tilt. Exact integer recovery is unnecessary for this rate comparison, and the result permits a constant-factor difference from the oracle error probability. It does not establish a risk ratio tending to one or sufficiency of the spectrum for other statistical tasks.
+The proof controls likelihood tails after projection, clipping and fitting, including their local concentration under the oracle exponential tilt. The general-$K$ replacement certificate and the algorithm's existing final E/M update supply the required parameter accuracy. This result permits unequal community sizes and expected degrees, intermediate and dense probabilities, and either sign of signal eigenvalues. It requires neither integer count recovery nor a risk ratio tending to one.
 
-The algorithm uses one complete Bernoulli row score throughout initialization and refinement, with every operation calculated from the retained eigenpairs. Repeated component replacement provides an objective certificate for all communities, and its endpoint E-step already has responsibility error $O(1/(np))$. The existing mandatory final M-step supplies the fitting accuracy needed for the sharp comparison. This argument applies to every fixed $K$, unequal community sizes and expected degrees, and $p=\Omega(\log n/n)$ through dense probabilities bounded away from one. The quantitative full-rank condition and probability comparability are assumptions of the sharp affinity guarantee. No limit of the normalized block matrix or proportions is required.
+The general algorithm retains both observed degrees and the eigenpairs of $WAW$. The identities $A\mathbf1=D$ and $A(WU)=W^{-1}U\Lambda$ permit exact evaluation of $A$ on their augmented span. Its reconstructed block counts preserve every observed degree, and initialization and refinement use one complete Bernoulli row criterion. This construction is defined below logarithmic expected degree. The general transfer proposition preserves the same Zhou--Li bound once its conditional cumulant, local concentration and fitted-score hypotheses hold. Establishing those hypotheses uniformly for the full regularized algorithm when $np\to\infty$ is the remaining sparse-case proof task; the unconditional theorem of the earlier sections is confined to its stated density range.
 
-The guarantee concerns the complete replacement algorithm. General-$K$ recovery by growing alone remains open in the scope studied here. The numerical results illustrate finite-sample behavior, including weak-signal errors and the absence of a classification gain from replacement in the complete 60-graph collection. Further questions include reducing the cubic candidate-cache cost and quadratic storage, relaxing the rank condition, extending the analysis below logarithmic expected degree, and obtaining sharp affinity comparisons at vanishing block probabilities.
+The numerical results concern the unregularized implementations and illustrate finite-sample behavior, including weak-signal errors and the absence of a classification gain from replacement in the complete 60-graph collection. The general implementation is checked for its exact retained-information identities and EM objective updates. These checks do not establish a sparse statistical rate. Further questions include reducing the cubic candidate-cache cost and quadratic storage, relaxing the rank condition, and obtaining sharp affinity comparisons at vanishing block probabilities.
 
 \appendix
 \section{Oracle testing and spectral estimates}
@@ -1427,7 +1733,7 @@ $C\{p\deg(i)+np^2\}$. A degree bound at any fixed confidence $e^{-Hnp}$ makes th
 \section{Implementation and reproducibility}
 \label{app:implementation}
 
-\subsection{Current implementation}
+\subsection{Unregularized implementation}
 The source, complete numerical evidence and compiled manuscript are at
 \begin{center}
 \url{https://github.com/zhixin0825/spectral-lrt}.
@@ -1436,7 +1742,7 @@ Algorithm~1 is implemented by \texttt{SpectralLikelihood.decode()} in
 \begin{center}
 \small\path{experiments/20261010_general_density/spectral_likelihood.py}.
 \end{center}
-It accepts an $n\times K$ eigenvector array and a length-$K$ array of the corresponding signed eigenvalues. The decoder receives neither the adjacency matrix, true labels, true block probabilities nor node degrees. Retaining the top-$|\lambda|$ eigenpairs is the preceding spectral step.
+It accepts an $n\times K$ eigenvector array and a length-$K$ array of the corresponding signed eigenvalues. This unregularized decoder receives neither the adjacency matrix, true labels, true block probabilities nor node degrees. Retaining the top-$|\lambda|$ eigenpairs is its preceding spectral step. The general decoder below additionally retains the observed degree vector.
 
 The default \texttt{score\_family='bernoulli'} evaluates \eqref{eq:working-score}. The floor coefficient defaults to $c_0=10^{-4}$; its theoretical guarantee requires the explicit admissibility condition in Section~\ref{sec:algorithm}, not merely positive block probabilities. The spectral scale is $\max\{1,\max_a|\lambda_a|\}$, and the reconstructed entries are clipped on both sides. The original adjacency is not regularized. The optional \texttt{score\_family='sparse'} is a score control on precisely the same $q$, and is not the default general-density algorithm.
 
@@ -1445,6 +1751,19 @@ Growing uses at most 100 exact M-steps per stage. A fit stops after at least one
 The implementation uses the unconstrained simplex weight update. Zero-mass components retain their previous profile. Log-sum-exp arithmetic evaluates responsibilities and the soft divergence loss $F$ without exponentiating very negative raw log-likelihoods. Theoretical divergences are nonnegative; the code clips negative floating-point residue at zero. Spectral block sums are not rounded to integers. Weighted means, including the initial global mean, are clipped back to the same feasible interval solely to correct roundoff in convex combinations. The theorem is an exact-arithmetic result; recorded numerical checks assess implementation accuracy to floating-point precision.
 
 The user may increase either fitting budget. Explicitly requesting fewer replacement rounds is an experimental option and does not automatically retain the stated general-$K$ initialization guarantee. The proven default budget is $\lceil\log n\rceil$, with valid early stopping after a full unsuccessful round.
+
+\subsection{Degree-plus-spectrum implementation}
+Algorithm~2 is implemented by \texttt{DegreeSpectralLikelihood.decode()} in
+\begin{center}
+\small\path{experiments/20261018_degree_spectral/degree_spectral_likelihood.py}.
+\end{center}
+It receives only the degree vector and the signed eigenpairs of $WAW$. Its reconstruction uses a Moore--Penrose inverse of $[\mathbf1,WU]$, allowing redundant retained directions. The data matrix is neither symmetrized nor clipped, preserving its exact degree identity. Candidate and fitted probability profiles are clipped to the parameter interval; the constrained M-step is the clipped weighted mean. Scores and the soft objective are evaluated directly by the complete Bernoulli criterion and log-sum-exp arithmetic, since signed reconstructed data need not admit a nonnegative Bernoulli KL representation.
+
+The reproducible check is
+\begin{center}
+\small\path{experiments/20261018_degree_spectral/verify_degree_spectral.py}.
+\end{center}
+It compares the compressed reconstruction against the full-graph identities, including redundant feature directions and signed reconstructed entries, and checks exact-EM objective monotonicity. Saved checks are in the same directory. The graph is used to generate and verify test fixtures; the decoder itself receives only $(D,U,\Lambda)$. These are algebraic and implementation checks, separate from an unproved unconditional sparse-rate claim.
 
 \subsection{Current finite-graph and population evidence}
 The complete 60-graph design is specified by
@@ -1483,7 +1802,7 @@ An active-set solver determines $\lambda$; naive clipping and renormalization is
 Historical fits stop only when labels are unchanged, relative profile and absolute weight changes are at most $10^{-3}$, and the objective increment is at most $10^{-6}(1+|\mathcal L-G|)$, where $G=\sum_{ij}\log\Gamma(q_{ij}+1)$ is an observation-only tolerance constant. The cap is 300 updates. Historical top-subset and peeling controls, their subset sizes and stopping rules are defined by the archived code. They are not steps of Algorithm~1.
 
 \subsection{Build and validation}
-The active manuscript contains five main sections, statistical and deterministic proof appendices, implementation details, and references. PDFLaTeX, BibTeX and two further PDFLaTeX passes resolve the bibliography and cross references. Build provenance records the source revision and source/PDF checksums. The manuscript is rendered for a page-by-page layout check. These syntax, reference and layout checks are separate from the likelihood-tail proof and numerical evidence described above. The current theorem preserves the oracle rate up to constants; no exact integer-count or risk-ratio-one claim is used in the implementation or interpretation.
+The active manuscript contains six main sections, statistical and deterministic proof appendices, implementation details, and references. PDFLaTeX, BibTeX and two further PDFLaTeX passes resolve the bibliography and cross references. Build provenance records the source revision and source/PDF checksums. The manuscript is rendered for a page-by-page layout check. These syntax, reference and layout checks are separate from the likelihood-tail proof and numerical evidence described above. The current theorem preserves the oracle rate up to constants; no exact integer-count or risk-ratio-one claim is used in the implementation or interpretation.
 
 
 \bibliographystyle{plainnat}
