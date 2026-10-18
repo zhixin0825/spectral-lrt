@@ -1,6 +1,8 @@
 # Spectral likelihood decoding for the SBM
 
-**当前论文（2026-10-10）：** [编译 PDF](paper/current/manuscript.pdf) · [模型与算法](paper/current/README.md) · [完整证明](paper/current/theory.tex) · [本轮审计](paper/current/REVIEW_20261010.md) · [证明说明](paper/current/END_TO_END_20261010.md)。
+**当前论文（2026-10-18）：** [编译 PDF](paper/current/main.pdf) · [完整 TeX（含证明）](paper/current/main.tex) · [模型与算法](paper/current/README.md) · [可编译源文件包](paper/current/latex-source.zip)。
+
+全文以 oracle likelihood-ratio test 为起点：LRT 需要节点到各社区的 edge counts；经验谱投影得到的实数 counts 不必精确还原原始整数，但对相关 likelihood tails 的扰动足够小，使误分率保持在 oracle rate 的常数倍内。这里不把 rate preservation 称为精确充分性，也不声称两个错误概率的比值趋于一。
 
 当前主定理覆盖**任意固定 K**、密度 **`p = Ω(log n/n)`**，其中 `p = max_ab P_ab`，`P` 是实际 Bernoulli block probability matrix。允许社区大小和期望 degree 不同，也允许中间密度和 dense probabilities。不再固定 `(n/log n)P`，`P/p` 和社区比例也不必收敛。
 
@@ -17,9 +19,9 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 
 **主定理是这套明确修订后的完整算法的定理。** 任意有限 EM 预算均可，每次 fit 至少一次 M-step；在一整轮无改进时可提前停止。未声称 unchanged growing-only 在任意 K 下已证明，也没有要求随机 restart 或 K-means warm start。
 
-结论为 `E Mis <= exp(-(1+o(1)) I_n)`，其中 `I_n` 是精确 product-Bernoulli oracle Chernoff information 的最小值。`liminf I_n/log n > 1` 时得到 exact recovery。“Nearly optimal”指 leading exponent，未声称 refined multiplicative rate 或新的全局 minimax 下界。
+主定理为 **`E Mis <= C exp(-I_n)/sqrt(np)`**，其中 `I_n` 是精确 product-Bernoulli oracle Chernoff information 的最小值。在上述统一条件下，Zhou–Li 的 binary oracle scale 为 `exp(-I_n)/sqrt(np)`；因此结论保留 Chernoff exponent 和 `1/sqrt(np)` 因子，允许常数倍损失。它强于旧版的 leading-exponent bound，但不声称 risk ratio 趋于一或新的全局 minimax 下界。`n exp(-I_n)/sqrt(np) -> 0` 时得到 exact recovery，特别包含 `liminf I_n/log n > 1`。
 
-证明的新核心是确定性的 `1-1/K` replacement contraction；全图谱事件的失败概率提升为任意固定 `H` 下的 `C_H exp(-H np)`，以覆盖 `I_n >> log n`。随机 spectral floor 通过确定性包络的 Chernoff 矩控制处理，不假设 clipped block counts 独立。
+证明首先用确定性的 `1-1/K` replacement contraction 得到目标函数证书。该证书使算法已有的最后 E-step 具有 `O(1/(np))` 的 responsibility error，随后已有的 M-step 即达到 sharp-rate 所需精度。Leave-one-out arrowhead 展开把谱统计量化为独立 incident edges 的线性统计量加有界余项；投影权重的 conditional log-MGF 仅改变常数量级，clipping 的有限分支和 Chernoff tilt 下的局部集中保留 `1/sqrt(np)` 因子。谱事件失败概率为任意固定 `H` 下的 `C_H exp(-H np)`。算法不需要新增 refinement step，也不假设 clipped counts 独立。
 
 ## 实现与证据
 
@@ -33,7 +35,7 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 
 远端 `452ca1d` 的一般 K sparse-score 证明、threshold-certificate 实现及 [24图检查](experiments/20261009_residual_likelihood_seeding/general_k_fresh_checks.json) 已一并保留。该版本已经覆盖 expected degree Ω(log n)，但要求 `p -> 0`。它在 `residual_seed.py` 中的默认入口为 `global_gain_certified`；随机 residual starts 的入口为 `global_gain_restarts`。本页的完整 Bernoulli 算法使用独立的 `SpectralLikelihood.decode()` 入口，进一步覆盖 dense probabilities，并采用直接的软损失几何收缩。
 
-本轮合并还纳入 `6cbb58e` 的统一记号 `p = max_ab P_ab`、`ca4f330` 的精简 roadmap 和 `f250231` 的伴随稿审计记录。记号同步后的完整 Bernoulli PDF 共31页，已重新编译并逐页核验。
+2026-10-18 修订将 standalone sharp-rate 证明整合进 `paper/current/main.tex`，并同步重写摘要、引言、LRT/谱投影解释、主定理、证明和结论。先前的单独证明笔记保留在 [paper/notes/spectral_sharp_rate_20261018.pdf](paper/notes/spectral_sharp_rate_20261018.pdf) 作为推导记录；当前论文以 `paper/current/main.tex` 和同目录的 `main.pdf` 为准。
 
 ## 归档入口
 
@@ -48,3 +50,4 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 | 较早理论草稿 | [paper/previous_draft](paper/previous_draft/) |
 
 历史报告反映各自阶段的算法和理论状态。接续研究以本页和当前论文为准。
+
