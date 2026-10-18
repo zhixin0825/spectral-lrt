@@ -24,6 +24,7 @@
 \newcommand{\E}{\mathbb E}
 \newcommand{\PP}{\mathbb P}
 \newcommand{\R}{\mathbb R}
+\newcommand{\Roracle}{\mathcal R_{\mathrm{oracle}}}
 \newcommand{\one}{\mathbf 1}
 \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\col}{\operatorname{col}}
@@ -41,7 +42,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We study how much of this evidence is retained by a spectral representation together with the observed degrees. We first give the simpler unregularized construction: for every fixed number of communities and $p=\Omega(\log n/n)$, the spectral likelihood decoder achieves the Zhou--Li benchmark $\mathbb E\Mis\le C\eta^*$ under comparable, uniformly well-conditioned block probabilities. Here $\eta^*$ is the largest pairwise total variation affinity, equivalent under these assumptions to $e^{-I_n}/\sqrt{np}$, and $p=\max_{a,b}P_{ab}$. The proof controls likelihood tails after spectral projection, clipping and fitting, including the oracle polynomial factor. We then introduce the general algorithm retaining $(D,U,\Lambda)$, where $D=A\mathbf1$ and the eigenpairs come from a degree-regularized adjacency matrix. Exact matrix identities allow its reconstructed block counts to sum to each observed degree. Initialization and refinement use one complete Bernoulli row criterion, calculated entirely from the retained information. A sharp transfer proposition gives the same $C\eta^*$ conclusion under explicit conditional tail hypotheses without imposing logarithmic expected degree; verifying these hypotheses for the full regularized algorithm remains open. Empirical reconstructed counts need not equal the original integers, and the comparison permits a constant-factor change in classification risk.
+The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We study how much of this evidence is retained by a spectral representation together with the observed degrees. We first give the simpler unregularized construction: for every fixed number of communities and $p=\Omega(\log n/n)$, the spectral likelihood decoder achieves the Zhou--Li benchmark $\mathbb E\Mis\le C\Roracle$ under comparable, uniformly well-conditioned block probabilities. Here $\Roracle$ is the largest equal-prior pairwise oracle error, equivalent under these assumptions to $e^{-I_n}/\sqrt{np}$, and $p=\max_{a,b}P_{ab}$. The proof controls likelihood tails after spectral projection, clipping and fitting, including the oracle polynomial factor. We then introduce the general algorithm retaining $(D,U,\Lambda)$, where $D=A\mathbf1$ and the eigenpairs come from a degree-regularized adjacency matrix. Exact matrix identities allow its reconstructed block counts to sum to each observed degree. Initialization and refinement use one complete Bernoulli row criterion, calculated entirely from the retained information. A sharp transfer proposition gives the same $C\Roracle$ conclusion under explicit conditional tail hypotheses without imposing logarithmic expected degree; verifying these hypotheses for the full regularized algorithm remains open. Empirical reconstructed counts need not equal the original integers, and the comparison permits a constant-factor change in classification risk.
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
@@ -67,10 +68,10 @@ For the exact incident-edge Bernoulli test, let $I_{i,ab}$ be its Chernoff infor
 Our first theorem proves, for the complete unregularized algorithm,
 \begin{equation}
  \mathbb E\,\Mis(\widehat z,z)
- \le C\eta^*.
+ \le C\Roracle.
  \label{eq:intro-sharp-rate}
 \end{equation}
-Here $\eta^*$ is the maximum pairwise total variation affinity, defined in \eqref{eq:oracle-affinity}, and $C$ depends only on the fixed model and algorithm bounds. Under our assumptions, $\eta^*\asymp e^{-I_n}/\sqrt{np}$. Throughout, rate optimality refers to this constant-factor comparison with the Zhou--Li oracle scale. It does not assert an error ratio converging to one, exact recovery of the original edge counts, or statistical sufficiency of the retained spectrum for all inference on $z$. We also do not prove a new global minimax lower bound.
+Here $\Roracle$ is the maximum equal-prior pairwise oracle error, defined in \eqref{eq:oracle-error-definition}, and $C$ depends only on the fixed model and algorithm bounds. Under our assumptions, $\Roracle\asymp e^{-I_n}/\sqrt{np}$. Throughout, rate optimality refers to this constant-factor comparison with the Zhou--Li oracle scale. It does not assert an error ratio converging to one, exact recovery of the original edge counts, or statistical sufficiency of the retained spectrum for all inference on $z$. We also do not prove a new global minimax lower bound.
 
 \paragraph{The easier unregularized decoder.}
 We retain the $K$ eigenpairs of the original adjacency matrix with largest absolute eigenvalues, allowing signal eigenvalues of either sign. Clipping their reconstruction gives connection profiles $q_i$ in a probability interval whose endpoints are determined by the retained eigenvalues. A complete Bernoulli row score compares these profiles to fitted connection profiles and includes the absent-edge term. This term matters for our density range: Section~\ref{sec:main-results} gives a dense example in which a sparse-score substitute loses a fixed fraction of the oracle exponent even with known parameters.
@@ -300,17 +301,18 @@ For $a\ne b$, the oracle reveals $P$ and all labels other than that of vertex $i
  &I_n&=\min_{i,\ a\ne b}D^*_{i,ab}.
  \label{eq:exact-information}
 \end{align}
-The absent self-loop is excluded. Under our assumptions, $D^*_{i,ab}\asymp np$, its maximizing parameter is bounded away from zero and one, and the likelihood ratio has tilted variance of order $np$. Following Zhou and Li~\citep{zhouli2020}, let $\varphi_{i,a}$ be the product-Bernoulli mass function with profile $p_{a,-i}$, and define its total variation affinity with the alternative by
+The absent self-loop is excluded. Under our assumptions, $D^*_{i,ab}\asymp np$, its maximizing parameter is bounded away from zero and one, and the likelihood ratio has tilted variance of order $np$. Let $\varphi_{i,a}$ be the product-Bernoulli mass function with profile $p_{a,-i}$. We write the Zhou--Li benchmark directly as an oracle error probability:
+\begin{align}
+ \mathcal R_{i,ab}^{\mathrm{oracle}}
+   &=\frac12\sum_{x\in\{0,1\}^{n-1}}
+       \min\{\varphi_{i,a}(x),\varphi_{i,b}(x)\},\notag\\
+ \Roracle&=\max_{i,a\ne b}\mathcal R_{i,ab}^{\mathrm{oracle}}.
+ \label{eq:oracle-error-definition}
+\end{align}
+The first quantity is the equal-prior binary error of the oracle LRT, and $\Roracle$ is its maximum over nodes and distinct label pairs. Zhou and Li~\citep{zhouli2020} use total variation affinity, which is twice this binary error; the factor of two is absorbed into comparison constants. Their sharp Chernoff bounds give
 \begin{equation}
- \eta_{i,ab}=\sum_{x\in\{0,1\}^{n-1}}
-       \min\{\varphi_{i,a}(x),\varphi_{i,b}(x)\},\qquad
- \eta^*=\max_{i,a\ne b}\eta_{i,ab}.
- \label{eq:oracle-affinity}
-\end{equation}
-The equal-prior binary oracle risk is exactly $R_{i,ab}^{\mathrm{or}}=\eta_{i,ab}/2$. Their sharp Chernoff bounds give
-\begin{equation}
- \eta_{i,ab}\asymp\frac{e^{-D^*_{i,ab}}}{\sqrt{np}},\qquad
- \eta^*\asymp\frac{e^{-I_n}}{\sqrt{np}}.
+ \mathcal R_{i,ab}^{\mathrm{oracle}}\asymp\frac{e^{-D^*_{i,ab}}}{\sqrt{np}},\qquad
+ \Roracle\asymp\frac{e^{-I_n}}{\sqrt{np}}.
  \label{eq:oracle-risk}
 \end{equation}
 All comparisons are uniform over the stated model bounds. Fixed binary priors bounded away from zero and one change only their constants. Appendix~\ref{app:uniform-density-bounds} verifies the uniform conditions used in this oracle comparison.
@@ -320,7 +322,7 @@ All comparisons are uniform over the stated model bounds. Fixed binary priors bo
 For every fixed $K\ge2$, Algorithm~1 satisfies
 \begin{equation}
  \E\Mis(\widehat z,z)
- \le C\eta^*.
+ \le C\Roracle.
  \label{eq:main-rate}
 \end{equation}
 The constant depends only on the fixed model bounds, the density lower-bound constant, $K$, and the admissible $c_0$. Initialization, fitting and classification use only the retained eigenpairs, and no weak-initialization assumption is imposed. Growing and replacement trials may use any finite number of exact EM updates, with at least one M-step per fit. The mandatory final E/M update is sufficient. Any additional finite sequence of exact E/M updates, including a finite data-dependent stopping rule, preserves the bound. Polynomial iteration caps give a polynomial-time algorithm.
@@ -328,17 +330,17 @@ The constant depends only on the fixed model bounds, the density lower-bound con
 In particular,
 \[
  \PP\{\Mis(\widehat z,z)>0\}
- \le Cn\eta^*,
+ \le Cn\Roracle,
 \]
-so exact recovery holds whenever $n\eta^*\to0$.
+so exact recovery holds whenever $n\Roracle\to0$.
 \end{theorem}
 
 The theorem permits $p\to0$, intermediate densities, and constant edge probabilities below one. It does not require convergence of $P/p$ or of the community proportions. The comparison in \eqref{eq:main-rate} concerns the order of the optimal binary testing error. It allows a constant-factor change in risk, and proves neither recovery of every integer edge count nor a risk ratio tending to one. We also make no new global minimax lower-bound claim for an unspecified parameter class.
 
-\paragraph{The sharp oracle affinity.}
+\paragraph{The sharp oracle error.}
 More generally, the sharp Chernoff comparison of Zhou and Li has the form
 \begin{equation}
- \eta_{i,ab}\asymp
+ \mathcal R_{i,ab}^{\mathrm{oracle}}\asymp
  \frac{e^{-D^*_{i,ab}}}
  {\alpha^*_{i,ab}(1-\alpha^*_{i,ab})\sqrt{V_{i,ab}}},
  \label{eq:general-oracle-prefactor}
@@ -379,7 +381,7 @@ More generally, for $K\ge3$ the size bound $n_a\ge n/(\beta K)$ gives
 \]
 For $K=2$, the bound is $C\exp\{-nI^*/2\}/\sqrt{np}$;
 its exponent does not involve $\beta$. These are consequences of the same
-Zhou--Li affinity bound, specialized to the planted-partition model.
+Zhou--Li oracle error bound, specialized to the planted-partition model.
 \end{corollary}
 
 \begin{proof}
@@ -726,8 +728,8 @@ so no inverse of an estimated block-coordinate matrix is required.
 
 \subsection{The sharp testing comparison needed below logarithmic degree}
 The desired conclusion is the same Zhou--Li bound
-$\E\Mis\le C\eta^*$, rather than a different rate for the sparse case.
-Here $\eta^*$ retains its exact definition in \eqref{eq:oracle-affinity}.
+$\E\Mis\le C\Roracle$, rather than a different rate for the sparse case.
+Here $\Roracle$ retains its exact definition in \eqref{eq:oracle-error-definition}.
 The following sufficient comparison isolates the missing analytic task.
 It applies to a fitted decoder, including Algorithm~2 if its conditions
 can be verified, without imposing $np\gtrsim\log n$.
@@ -744,7 +746,7 @@ $(i,a,b)$; their constants are fixed.
 \begin{enumerate}[label=(\roman*)]
 \item There is a $B$-measurable good event $G$ and a possibly
 full-graph event $E$ with
-$\PP_a(G^c)+\PP_a(E^c)\le C\eta^*$. On $G\cap E$,
+$\PP_a(G^c)+\PP_a(E^c)\le C\Roracle$. On $G\cap E$,
 \[
  \widehat L_i^{ab}=S_B(x)+\rho_B(x),\qquad
  S_B(x)=u(B)+\sum_{j\ne i}x_jv_j(B),\qquad
@@ -774,13 +776,13 @@ $\E[\one_G\exp\{c(B)+\alpha h(B)\}]\le C$.
 \end{enumerate}
 Then the decoder satisfies
 \begin{equation}
- \E\Mis(\widehat z,z)\le C\eta^*.
+ \E\Mis(\widehat z,z)\le C\Roracle.
  \label{eq:general-conditional-rate}
 \end{equation}
 \end{proposition}
 \begin{proof}
 The uniform model bounds imply that $\alpha$ stays away from zero and one
-and that the oracle affinity comparison in \eqref{eq:oracle-risk} holds
+and that the oracle error comparison in \eqref{eq:oracle-risk} holds
 whenever $np\to\infty$; these oracle facts do not require uniform
 raw-adjacency concentration. On $G\cap E$, a wrong pairwise comparison
 requires $S_B\le h(B)$. After dropping the indicator of $E$, exponential
@@ -795,7 +797,7 @@ $(h-k-1,h-k]$, $k=0,1,\ldots$, give
 \end{align*}
 The geometric sum is uniformly bounded. Integrating over $B\in G$,
 using (iv), and adding the exceptional probabilities proves a bound by
-$C\eta_{i,ab}+C\eta^*\le C\eta^*$ for the pairwise error. A union bound
+$C\mathcal R_{i,ab}^{\mathrm{oracle}}+C\Roracle\le C\Roracle$ for the pairwise error. A union bound
 over the fixed number of competing labels and averaging over vertices
 prove \eqref{eq:general-conditional-rate}. The same common matching can
 be used for all vertices; taking the minimum over permutations in
@@ -1337,13 +1339,13 @@ For the bounded oracle weight used in the check, the largest observed absolute a
 
 An oracle SBM classifier uses community edge counts through their Bernoulli likelihood contrasts. Our first theorem controls the loss caused by an empirical unregularized spectral reconstruction: for $p=\Omega(\log n/n)$ and the stated model conditions,
 \[
- \mathbb E\,\Mis(\widehat z,z)\le C\eta^*.
+ \mathbb E\,\Mis(\widehat z,z)\le C\Roracle.
 \]
 The proof controls likelihood tails after projection, clipping and fitting, including their local concentration under the oracle exponential tilt. The general-$K$ replacement certificate and the algorithm's existing final E/M update supply the required parameter accuracy. This result permits unequal community sizes and expected degrees, intermediate and dense probabilities, and either sign of signal eigenvalues. It requires neither integer count recovery nor a risk ratio tending to one.
 
 The general algorithm retains both observed degrees and the eigenpairs of $WAW$. The identities $A\mathbf1=D$ and $A(WU)=W^{-1}U\Lambda$ permit exact evaluation of $A$ on their augmented span. Its reconstructed block counts preserve every observed degree, and initialization and refinement use one complete Bernoulli row criterion. This construction is defined below logarithmic expected degree. The general transfer proposition preserves the same Zhou--Li bound once its conditional cumulant, local concentration and fitted-score hypotheses hold. Establishing those hypotheses uniformly for the full regularized algorithm when $np\to\infty$ is the remaining sparse-case proof task; the unconditional theorem of the earlier sections is confined to its stated density range.
 
-The numerical results concern the unregularized implementations and illustrate finite-sample behavior, including weak-signal errors and the absence of a classification gain from replacement in the complete 60-graph collection. The general implementation is checked for its exact retained-information identities and EM objective updates. These checks do not establish a sparse statistical rate. Further questions include reducing the cubic candidate-cache cost and quadratic storage, relaxing the rank condition, and obtaining sharp affinity comparisons at vanishing block probabilities.
+The numerical results concern the unregularized implementations and illustrate finite-sample behavior, including weak-signal errors and the absence of a classification gain from replacement in the complete 60-graph collection. The general implementation is checked for its exact retained-information identities and EM objective updates. These checks do not establish a sparse statistical rate. Further questions include reducing the cubic candidate-cache cost and quadratic storage, relaxing the rank condition, and obtaining sharp oracle error comparisons at vanishing block probabilities.
 
 \appendix
 \section{Oracle testing and spectral estimates}
@@ -1728,7 +1730,7 @@ Finally $n\Mis$ is an integer, so $\PP(\Mis>0)\le n\E\Mis$, giving the stated ex
 For $p\le1/2$, the inequalities
 $|\log(1-u)+u|\le Cu^2$ and
 $|\log(1-u)-\log(1-v)|\le Cp$, for $u,v\le p$, show that replacing the exact oracle Bernoulli contrast by the sparse contrast changes it by at most
-$C\{p\deg(i)+np^2\}$. A degree bound at any fixed confidence $e^{-Hnp}$ makes this $O(np^2)=o(np)$ if $p\to0$. This estimate does not establish the Zhou--Li affinity bound; that requires the bounded-cumulant analysis above. The dense example in the main text follows from the two Bernoulli large-deviation exponents at the stated thresholds.
+$C\{p\deg(i)+np^2\}$. A degree bound at any fixed confidence $e^{-Hnp}$ makes this $O(np^2)=o(np)$ if $p\to0$. This estimate does not establish the Zhou--Li oracle error bound; that requires the bounded-cumulant analysis above. The dense example in the main text follows from the two Bernoulli large-deviation exponents at the stated thresholds.
 
 \section{Implementation and reproducibility}
 \label{app:implementation}

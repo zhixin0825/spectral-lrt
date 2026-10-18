@@ -19,9 +19,9 @@ Algorithm 1 retains the raw-adjacency eigenpairs with largest absolute eigenvalu
 
 The theorem states Zhou–Li’s benchmark:
 
-`E Mis <= C eta*`.
+`E Mis <= C R_oracle`.
 
-Here eta* is the maximum total variation affinity between the pairwise incident-edge product-Bernoulli laws, twice the maximum equal-prior binary oracle risk. Under these model bounds, eta* is equivalent to exp(-I_n)/sqrt(np), with the absent self-loop excluded in I_n. Exact recovery follows from n eta* -> 0. The result does not claim risk-ratio convergence to one, exact integer count recovery, or a new global minimax lower bound.
+Here R_oracle denotes $\mathcal R_{\mathrm{oracle}}$, the maximum equal-prior pairwise oracle error, with the word oracle written in full. Its definition is max_(i,a!=b) (1/2) sum_x min(phi_ia(x),phi_ib(x)). Zhou–Li’s total variation affinity is twice this error; the factor is absorbed into comparison constants. Under these model bounds, R_oracle is equivalent to exp(-I_n)/sqrt(np), with the absent self-loop excluded in I_n. Exact recovery follows from n R_oracle -> 0. The result does not claim risk-ratio convergence to one, exact integer count recovery, or a new global minimax lower bound.
 
 The [unregularized implementation](../../experiments/20261010_general_density/spectral_likelihood.py) receives only its eigenpairs. The theorem and all previously reported graph benchmarks apply to this easier case.
 
@@ -51,7 +51,7 @@ The [degree-plus-spectrum implementation](../../experiments/20261018_degree_spec
 
 ## General-case theorem scope
 
-The general algorithm is defined without a logarithmic density floor. The sparse target is np -> infinity. Section 4 gives a sharp transfer proposition with explicit vertex-deleted affine-score, conditional cumulant, tilted local-concentration and bounded-moment remainder hypotheses. Under these hypotheses its conclusion is again **E Mis <= C eta***.
+The general algorithm is defined without a logarithmic density floor. The sparse target is np -> infinity. Section 4 gives a sharp transfer proposition with explicit vertex-deleted affine-score, conditional cumulant, tilted local-concentration and bounded-moment remainder hypotheses. Under these hypotheses its conclusion is again **E Mis <= C R_oracle**.
 
 Verifying these sharp hypotheses uniformly for the full degree-regularized algorithm below logarithmic expected degree remains open. The unconditional theorem of Sections 2–3 is not asserted for Algorithm 2. The old exponent-only rate is not used as a substitute for the Zhou–Li bound.
 
@@ -69,4 +69,5 @@ The paper uses community detection as the task name and recovery for accuracy st
 The six main sections are introduction, unregularized algorithm, its sharp guarantees, general degree-plus-spectrum algorithm, experiments, and conclusion. All sections and proofs are in main.tex. Compile with PDFLaTeX, BibTeX and two further PDFLaTeX passes. GitHub Actions builds main.pdf, the identical compatibility copy manuscript.pdf, and latex-source.zip, with source checksums and provenance in BUILD.txt and BUILD_SHA256SUMS.txt.
 
 Earlier section files and dated notes are historical snapshots, not active build inputs. The [standalone sharp-rate note](../notes/spectral_sharp_rate_20261018.pdf) records the earlier unregularized derivation.
+
 

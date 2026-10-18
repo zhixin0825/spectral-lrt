@@ -19,11 +19,11 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 
 **主定理是这套明确修订后的完整算法的定理。** 任意有限 EM 预算均可，每次 fit 至少一次 M-step；在一整轮无改进时可提前停止。未声称 unchanged growing-only 在任意 K 下已证明，也没有要求随机 restart 或 K-means warm start。
 
-所有 rate 结论统一采用 Zhou–Li 的 affinity 形式；Algorithm 1 的无条件保证为：**`E Mis <= C eta*`**，其中 `eta*` 是各 binary product-Bernoulli laws 的最大 total variation affinity（是 equal-prior oracle risk 的两倍）。在上述可比概率条件下，`eta*` 等价于 `exp(-I_n)/sqrt(np)`，其中 `I_n` 是精确 incident-edge Bernoulli Chernoff information 的最小值。因此结论保留 Chernoff exponent 和 `1/sqrt(np)` 因子，允许常数倍损失；不声称 risk ratio 趋于一或新的全局 minimax 下界。Exact recovery 的保证统一写为 `Pr(Mis > 0) <= C n eta*`，条件为 **`n eta* -> 0`**。
+全文用 $\mathcal R_{\mathrm{oracle}}$ 表示最大 equal-prior pairwise oracle error，写全 `oracle`。Algorithm 1 的无条件保证为 **`E Mis <= C R_oracle`**。定义是 `max_(i,a!=b) (1/2) sum_x min(phi_ia(x),phi_ib(x))`；Zhou–Li 使用的 total variation affinity 是该 binary error 的两倍。在上述可比概率条件下，`R_oracle` 等价于 `exp(-I_n)/sqrt(np)`，其中 `I_n` 是精确 incident-edge Bernoulli Chernoff information 的最小值。因此结论保留 Chernoff exponent 和 `1/sqrt(np)` 因子，允许常数倍损失；不声称 risk ratio 趋于一或新的全局 minimax 下界。Exact recovery 写为 `Pr(Mis > 0) <= C n R_oracle`，条件为 **`n R_oracle -> 0`**。
 
 证明首先用确定性的 `1-1/K` replacement contraction 得到目标函数证书。该证书使算法已有的最后 E-step 具有 `O(1/(np))` 的 responsibility error，随后已有的 M-step 即达到 sharp-rate 所需精度。Leave-one-out arrowhead 展开把谱统计量化为独立 incident edges 的线性统计量加有界余项；投影权重的 conditional log-MGF 仅改变常数量级，clipping 的有限分支和 Chernoff tilt 下的局部集中保留 `1/sqrt(np)` 因子。谱事件失败概率为任意固定 `H` 下的 `C_H exp(-H np)`。算法不需要新增 refinement step，也不假设 clipped counts 独立。
 
-节点到社区的 edge counts 统一记为 `b_ik(e)`，与 Amini–Chen–Bickel–Levina (2013) 一致。Planted-partition 特例也直接使用上述 sharp affinity 保证，保留相应的 polynomial factor。
+节点到社区的 edge counts 统一记为 `b_ik(e)`，与 Amini–Chen–Bickel–Levina (2013) 一致。Planted-partition 特例也直接使用上述 sharp oracle error 保证，保留相应的 polynomial factor。
 
 ## 一般情形：degree 与 regularized spectrum
 
@@ -39,7 +39,7 @@ Algorithm 2 对固定的实数重构 `R` 使用完整 Bernoulli row criterion。
 
 - **实现：** [DegreeSpectralLikelihood.decode()](experiments/20261018_degree_spectral/degree_spectral_likelihood.py)。
 - **验证：** [可复现检查](experiments/20261018_degree_spectral/verify_degree_spectral.py) 与 [检查结果](experiments/20261018_degree_spectral/CHECKS.json)。只验证保留信息的代数恒等式和 EM 更新，不作为稀疏统计 rate 的实验结论。
-- **理论范围：** 一般算法本身不要求 `np >= c log n`。正文的转移命题在明确的 leave-one-out affine-score、conditional cumulant 和 tilted local concentration 条件下给出同样的 **`E Mis <= C eta*`**；完整正则化算法在任意 `np -> infinity` 下满足这些 sharp 条件尚未证明。未把容易情形的定理直接套到此算法，也未恢复较弱的 leading-exponent rate 声明。
+- **理论范围：** 一般算法本身不要求 `np >= c log n`。正文的转移命题在明确的 leave-one-out affine-score、conditional cumulant 和 tilted local concentration 条件下给出同样的 **`E Mis <= C R_oracle`**；完整正则化算法在任意 `np -> infinity` 下满足这些 sharp 条件尚未证明。未把容易情形的定理直接套到此算法，也未恢复较弱的 leading-exponent rate 声明。
 
 ## 实现与证据
 
@@ -68,6 +68,7 @@ Algorithm 2 对固定的实数重构 `R` 使用完整 Bernoulli row criterion。
 | 较早理论草稿 | [paper/previous_draft](paper/previous_draft/) |
 
 历史报告反映各自阶段的算法和理论状态。接续研究以本页和当前论文为准。
+
 
 
 
