@@ -19,23 +19,11 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 
 **主定理是这套明确修订后的完整算法的定理。** 任意有限 EM 预算均可，每次 fit 至少一次 M-step；在一整轮无改进时可提前停止。未声称 unchanged growing-only 在任意 K 下已证明，也没有要求随机 restart 或 K-means warm start。
 
-主定理采用 Zhou–Li 的 affinity 记号：**`E Mis <= C eta*`**，其中 `eta*` 是各 binary product-Bernoulli laws 的最大 total variation affinity（是 equal-prior oracle risk 的两倍）。在可比概率条件下，它等价于 **`C exp(-I_n)/sqrt(np)`**。其中 `I_n` 是精确 product-Bernoulli oracle Chernoff information 的最小值。在上述统一条件下，Zhou–Li 的 binary oracle scale 为 `exp(-I_n)/sqrt(np)`；因此结论保留 Chernoff exponent 和 `1/sqrt(np)` 因子，允许常数倍损失。它强于旧版的 leading-exponent bound，但不声称 risk ratio 趋于一或新的全局 minimax 下界。`n exp(-I_n)/sqrt(np) -> 0` 时得到 exact recovery，特别包含 `liminf I_n/log n > 1`。
+全文统一采用 Zhou–Li 的 affinity 保证：**`E Mis <= C eta*`**，其中 `eta*` 是各 binary product-Bernoulli laws 的最大 total variation affinity（是 equal-prior oracle risk 的两倍）。在上述可比概率条件下，`eta*` 等价于 `exp(-I_n)/sqrt(np)`，其中 `I_n` 是精确 incident-edge Bernoulli Chernoff information 的最小值。因此结论保留 Chernoff exponent 和 `1/sqrt(np)` 因子，允许常数倍损失；不声称 risk ratio 趋于一或新的全局 minimax 下界。Exact recovery 的保证统一写为 `Pr(Mis > 0) <= C n eta*`，条件为 **`n eta* -> 0`**。
 
 证明首先用确定性的 `1-1/K` replacement contraction 得到目标函数证书。该证书使算法已有的最后 E-step 具有 `O(1/(np))` 的 responsibility error，随后已有的 M-step 即达到 sharp-rate 所需精度。Leave-one-out arrowhead 展开把谱统计量化为独立 incident edges 的线性统计量加有界余项；投影权重的 conditional log-MGF 仅改变常数量级，clipping 的有限分支和 Chernoff tilt 下的局部集中保留 `1/sqrt(np)` 因子。谱事件失败概率为任意固定 `H` 下的 `C_H exp(-H np)`。算法不需要新增 refinement step，也不假设 clipped counts 独立。
 
-## 可为零的 block probabilities
-
-新增 Theorem **Leading-exponent guarantee without a minimum block probability** 去掉 `P_ab >= kappa*p`，允许任意小的概率乃至 `P_ab=0`。保留固定 K、`n_a >= n/(beta*K)`、`sigma_min(P)>=kappa*p`、`p<=1-eta` 与 `np>=c log n`。只将谱尺度 `s` 决定的 clipping floor 改为
-
-`epsilon = c0*(s/n)*exp(-sqrt(log(e+s)))`.
-
-相同的 growing、replacement 与最后 E/M 步骤给出
-
-**`E Mis <= exp(-I_n + o(np)) = exp(-(1-o(1))*I_n)`**.
-
-这是常见的 leading Chernoff exponent，不把原有 `1/sqrt(np)` 因子搬到边界概率情形。当前 `SpectralLikelihood` 已有的 `floor` 参数接收乘在 `s/n` 上的系数，因而传入 `c0*exp(-sqrt(log(e+s)))` 即可；不改变核心 fitting engine。旧实验仍使用固定 floor，不能据此声称新选项已经过同一实验评估。
-
-正文还加入了 homogeneous planted-partition 模型中常用的 Rényi exponent `n*I*/K`（平衡）以及相应不平衡情形。节点到社区的 edge counts 统一记为 `b_ik(e)`，与 Amini–Chen–Bickel–Levina (2013) 一致。
+节点到社区的 edge counts 统一记为 `b_ik(e)`，与 Amini–Chen–Bickel–Levina (2013) 一致。Planted-partition 特例也直接使用上述 sharp affinity 保证，保留相应的 polynomial factor。
 
 ## 实现与证据
 
@@ -64,5 +52,6 @@ Algorithm 1 保留原始 adjacency 的 top-|lambda| K 个 eigenpairs，然后只
 | 较早理论草稿 | [paper/previous_draft](paper/previous_draft/) |
 
 历史报告反映各自阶段的算法和理论状态。接续研究以本页和当前论文为准。
+
 
 

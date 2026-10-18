@@ -41,14 +41,14 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We ask how much of this evidence is lost when only the leading adjacency eigenpairs are retained. For every fixed number of communities, a spectral likelihood decoder achieves the Zhou--Li oracle benchmark $\mathbb E\Mis\le C\eta^*$ under comparable block probabilities, where $\eta^*$ is the largest pairwise total variation affinity. Under our uniform signal assumptions, this is equivalent to $C e^{-I_n}/\sqrt{np}$, where $I_n$ is the minimum exact Bernoulli Chernoff information and $p=\max_{a,b}P_{ab}$. The model permits $p=\Omega(\log n/n)$ through dense probabilities bounded away from one, unequal community sizes and expected degrees, and general uniformly well-conditioned full-rank block matrices with comparable entries. The empirical spectral reconstruction need not reproduce integer edge counts. Instead, we show that the resulting changes to likelihood contrasts are small enough in the relevant rare-event tails to preserve both the Chernoff exponent and its $(np)^{-1/2}$ factor. Initialization, component replacement and iterative fitting use the same complete Bernoulli row score and never return to the original adjacency matrix. A replacement contraction supplies an objective certificate; the algorithm's final E/M update then provides the accuracy needed for the sharp rate. The result concerns classification performance up to constants, without claiming exact count recovery or an oracle risk ratio tending to one. Without any entrywise probability lower bound, a slowly vanishing spectral floor gives the customary leading-exponent rate $\exp\{-(1-o(1))I_n\}$, allowing zero block probabilities while retaining the same initialization and refinement steps.
+The oracle likelihood-ratio test for a stochastic block model classifies a node using its edge counts to the true communities. We ask how much of this evidence is lost when only the leading adjacency eigenpairs are retained. For every fixed number of communities, a spectral likelihood decoder achieves the Zhou--Li oracle benchmark $\mathbb E\Mis\le C\eta^*$ under comparable block probabilities, where $\eta^*$ is the largest pairwise total variation affinity. Under our uniform signal assumptions, this is equivalent to $C e^{-I_n}/\sqrt{np}$, where $I_n$ is the minimum exact Bernoulli Chernoff information and $p=\max_{a,b}P_{ab}$. The model permits $p=\Omega(\log n/n)$ through dense probabilities bounded away from one, unequal community sizes and expected degrees, and general uniformly well-conditioned full-rank block matrices with comparable entries. The empirical spectral reconstruction need not reproduce integer edge counts. Instead, we show that the resulting changes to likelihood contrasts are small enough in the relevant rare-event tails to preserve both the Chernoff exponent and its $(np)^{-1/2}$ factor. Initialization, component replacement and iterative fitting use the same complete Bernoulli row score and never return to the original adjacency matrix. A replacement contraction supplies an objective certificate; the algorithm's final E/M update then provides the accuracy needed for the sharp rate. The result concerns classification performance up to constants, without claiming exact count recovery or an oracle risk ratio tending to one.
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
 
 The likelihood-ratio test gives a natural reference point for community detection in a stochastic block model (SBM). We use community detection as the broad task name, and recovery to describe the accuracy of the estimated labels. If the other labels and the block probabilities are known, classifying a node requires only its edge counts to the communities. Each count is weighted by the appropriate log-odds contrast, and the contribution of absent edges supplies the remaining term. The statistical question in this paper is how accurately this familiar test can be implemented after the adjacency matrix has been reduced to its $K$ leading eigenpairs. We show that the loss from this spectral reduction is small enough to preserve the oracle misclassification rate up to a constant factor, including its polynomial factor, for every fixed $K$ under the stated uniform signal conditions.
 
-We treat the partition $z\in[K]^n$ as a fixed unknown parameter. The graph has independent upper-triangular Bernoulli edges with probabilities $P_{z_i z_j}$ and no self-loops \cite{holland1983}. Write $p=\max_{a,b}P_{ab}$. For the sharp affinity result, our assumptions are the size bound $n_a\ge n/(\beta K)$, block probabilities comparable to $p$ and bounded away from one, a quantitative full-rank condition on $P$, and $p=\Omega(\log n/n)$. The leading-exponent extension retains the size, rank and density conditions while allowing arbitrary small or zero entries of $P$. They allow unequal community sizes and expected degrees, as well as logarithmic, intermediate and dense probability scales. Neither the normalized block matrix nor the community proportions need converge. All operations after eigendecomposition, including initialization and parameter estimation, use only the retained eigenpairs.
+We treat the partition $z\in[K]^n$ as a fixed unknown parameter. The graph has independent upper-triangular Bernoulli edges with probabilities $P_{z_i z_j}$ and no self-loops \cite{holland1983}. Write $p=\max_{a,b}P_{ab}$. Our assumptions are the size bound $n_a\ge n/(\beta K)$, block probabilities comparable to $p$ and bounded away from one, a quantitative full-rank condition on $P$, and $p=\Omega(\log n/n)$. These conditions allow unequal community sizes and expected degrees, as well as logarithmic, intermediate and dense probability scales. Neither the normalized block matrix nor the community proportions need converge. All operations after eigendecomposition, including initialization and parameter estimation, use only the retained eigenpairs.
 
 \paragraph{The oracle test and the information retained by projection.}
 Let $Z$ be the membership matrix. The entries of $AZ$ are the node-to-community edge counts. The oracle Bernoulli log-likelihood ratio between labels $a$ and $b$ is a linear combination of these counts plus a known nonedge term: its weight vector is constant on every community. When $P$ has full rank, the signal space of $ZPZ^\top$ is exactly $\operatorname{col}(Z)$. If $\Pi$ is the projector onto this population space, then
@@ -57,7 +57,7 @@ Let $Z$ be the membership matrix. The entries of $AZ$ are the node-to-community 
 \]
 Thus an oracle projection would preserve the counts exactly. Its real-valued entries are simply community averages, from which the integer sums can be recovered by multiplication. This observation explains why a subspace selected by a quadratic approximation criterion can still carry the evidence used by a likelihood-ratio test.
 
-The algorithm uses an estimated subspace rather than $\Pi$. Its signed rank-$K$ reconstruction is $\widetilde A=A\widehat\Pi$, where $\widehat\Pi$ is the projector calculated from the retained eigenvectors. Consequently its community sums differ from the observed counts by $A(\widehat\Pi-\Pi)Z$. These reconstructed sums are generally nonintegers; our analysis does not place each of them within $1/2$ of the corresponding count or recover the counts by rounding. The relevant criterion is instead how their errors affect classification. In particular, relative count consistency or a score error $o(np)$ would not by itself justify a sharp oracle comparison. Such bounds may retain the leading exponent while losing an unbounded multiplicative factor in a small error probability. We control the likelihood tails at the finer scale required by the oracle rate.
+The algorithm uses an estimated subspace rather than $\Pi$. Its signed rank-$K$ reconstruction is $\widetilde A=A\widehat\Pi$, where $\widehat\Pi$ is the projector calculated from the retained eigenvectors. Consequently its community sums differ from the observed counts by $A(\widehat\Pi-\Pi)Z$. These reconstructed sums are generally nonintegers; our analysis does not place each of them within $1/2$ of the corresponding count or recover the counts by rounding. The relevant criterion is instead how their errors affect classification. Relative count consistency alone does not control errors at the oracle risk scale. We instead control the likelihood tails at the scale required by the sharp bound of Zhou and Li.
 
 \paragraph{The rate to be preserved.}
 For the exact incident-edge Bernoulli test, let $I_{i,ab}$ be its Chernoff information and let $I_n$ be the minimum over admissible nodes and distinct labels. Under our model bounds, $I_{i,ab}\asymp np$, the optimizing Chernoff parameter stays away from both endpoints, and the variance under the optimizing exponential tilt is of order $np$. The sharp Chernoff bounds of Zhou and Li \cite{zhouli2020} therefore give the pairwise oracle error scale
@@ -67,10 +67,10 @@ For the exact incident-edge Bernoulli test, let $I_{i,ab}$ be its Chernoff infor
 Our main theorem proves, for the complete spectral algorithm,
 \begin{equation}
  \mathbb E\,\Mis(\widehat z,z)
- \le C\eta^*\le C\frac{e^{-I_n}}{\sqrt{np}}.
+ \le C\eta^*.
  \label{eq:intro-sharp-rate}
 \end{equation}
-Here $C$ depends only on the fixed model and algorithm bounds. The conclusion includes the $(np)^{-1/2}$ factor, rather than only the weaker leading-exponent statement $\exp\{-I_n+o(I_n)\}$. Throughout, rate optimality refers to this constant-factor comparison with the oracle scale. It does not assert an error ratio converging to one, exact recovery of the original edge counts, or statistical sufficiency of the retained spectrum for all inference on $z$. We also do not prove a new global minimax lower bound.
+Here $\eta^*$ is the maximum pairwise total variation affinity, defined in \eqref{eq:oracle-affinity}, and $C$ depends only on the fixed model and algorithm bounds. Under our assumptions, $\eta^*\asymp e^{-I_n}/\sqrt{np}$. Throughout, rate optimality refers to this constant-factor comparison with the Zhou--Li oracle scale. It does not assert an error ratio converging to one, exact recovery of the original edge counts, or statistical sufficiency of the retained spectrum for all inference on $z$. We also do not prove a new global minimax lower bound.
 
 \paragraph{A likelihood decoder using only spectral data.}
 We retain the $K$ eigenpairs of the original adjacency matrix with largest absolute eigenvalues, allowing signal eigenvalues of either sign. Clipping their reconstruction gives connection profiles $q_i$ in a probability interval whose endpoints are determined by the retained eigenvalues. A complete Bernoulli row score compares these profiles to fitted connection profiles and includes the absent-edge term. This term matters for our density range: Section~\ref{sec:main-results} gives a dense example in which a sparse-score substitute loses a fixed fraction of the oracle exponent even with known parameters.
@@ -81,8 +81,6 @@ The same Bernoulli row score drives global-mean growing, component replacement a
 Two parts of the argument connect this algorithm to the oracle test. First, a population replacement removes at least $1/K$ of the current hard fitting loss. A fitted profile unused by the true classes can be replaced without harming them; if every fitted profile is used, matching is a bijection and the profile assigned the largest loss can be replaced. Good observed candidates transfer this contraction to the empirical working objective. Its resulting small-loss certificate implies matched profile consistency and, more strongly, an E-step responsibility error of order $1/(np)$. The algorithm's existing final M-step therefore reaches the parameter accuracy required by the sharp likelihood analysis. No additional refinement step is needed for this objective-certified endpoint.
 
 Second, we compare the spectral classification evidence to the oracle incident-edge evidence in the tail where errors occur. Conditioning on the graph with one vertex deleted gives an arrowhead expansion of the full-graph spectral reconstruction. It expresses each relevant spectral row sum as a linear function of the independent incident edges plus a bounded remainder. Replacing the population weights by the estimated projected weights changes the conditional log moment generating function by only a bounded amount at the oracle tilt. Clipping and parameter fitting require additional bounds; they cannot be discarded solely because the reconstruction is consistent. A finite collection of clipping branches and a local concentration bound under exponential tilting preserve the $(np)^{-1/2}$ factor. Exponential-confidence spectral events ensure that exceptional graphs are negligible even when $np$ is much larger than $\log n$.
-
-A second result removes the entrywise lower bound altogether. With the same updates and a floor that vanishes relative to $p$, Theorem~\ref{thm:adaptive-floor} gives $\mathbb E\Mis\le\exp\{-(1-o(1))I_n\}$ even when some block probabilities are zero. The proof tolerates sublinear likelihood losses and does not retain a universal polynomial prefactor. This distinction matters near the boundary, where the oracle itself need not have a $(np)^{-1/2}$ factor.
 
 These comparisons allow a constant-factor change in the error probability. They do not require every spectral count to equal an observed integer or every classification decision to agree with the oracle. The substantive conclusion is that the remaining perturbation is small enough at the testing boundary to retain the full rate in \eqref{eq:intro-sharp-rate}.
 
@@ -118,7 +116,7 @@ The known community number $K\ge2$ is any fixed integer. Our uniform model and d
  p&\le1-\eta,\qquad p=\Omega(\log n/n).
  \label{eq:density-condition}
 \end{align}
-We use the conventional imbalance parameter $\beta$, with the normalization $n/(\beta K)$ common in SBM recovery results~\citep{zhouli2020,gao2017}. Only this lower size bound is required; a separate upper balance bound is unnecessary. Writing $n/\beta$ instead would absorb the fixed factor $K$ into $\beta$. Conditions \eqref{eq:model-conditions}--\eqref{eq:density-condition} are used for the sharp affinity guarantee. Section~\ref{sec:vanishing-probabilities} removes the entrywise lower bound for a vanishing-floor variant and proves a leading-exponent guarantee. We may take $\kappa\le1$. Neither $P/p$ nor the community proportions need converge. The probability matrix may vary with $n$ within these bounds. In particular, there is no requirement that $(n/\log n)P$ be fixed.
+We use the conventional imbalance parameter $\beta$, with the normalization $n/(\beta K)$ common in SBM recovery results~\citep{zhouli2020,gao2017}. Only this lower size bound is required; a separate upper balance bound is unnecessary. Writing $n/\beta$ instead would absorb the fixed factor $K$ into $\beta$. These conditions are used throughout the sharp affinity guarantee. We may take $\kappa\le1$. Neither $P/p$ nor the community proportions need converge. The probability matrix may vary with $n$ within these bounds. In particular, there is no requirement that $(n/\log n)P$ be fixed.
 
 For $z_i=a$, the expected degree is
 \begin{equation}
@@ -207,7 +205,7 @@ To define logarithms of reconstructed probabilities, set
  q_{ij}=\operatorname{clip}(\widetilde A_{ij},\varepsilon_n,1-\varepsilon_n),
  \label{eq:profiles}
 \end{equation}
-where $0<c_0<\min\{\kappa,\eta,1\}/8$ is a fixed algorithm parameter and $\operatorname{clip}(x,l,u)=\min\{u,\max\{l,x\}\}$. The admissibility of $c_0$ is an explicit model condition on this chosen logarithm floor. The scale $s$ is calculated from the retained eigenvalues. The fixed floor gives the sharp affinity guarantee under comparability. For Theorem~\ref{thm:adaptive-floor}, use the vanishing floor \eqref{eq:adaptive-floor} instead, with all subsequent operations unchanged. Both choices occur after eigendecomposition. The reconstructed diagonal is retained. Since $s\le n$ for an adjacency matrix and $c_0<1/8$, the interval is nonempty even on exceptional graphs.
+where $0<c_0<\min\{\kappa,\eta,1\}/8$ is a fixed algorithm parameter and $\operatorname{clip}(x,l,u)=\min\{u,\max\{l,x\}\}$. The admissibility of $c_0$ is an explicit model condition on this chosen logarithm floor. The scale $s$ and the floor are calculated from the retained eigenvalues. The reconstructed diagonal is retained. Since $s\le n$ for an adjacency matrix and $c_0<1/8$, the interval is nonempty even on exceptional graphs.
 
 For $\widehat p\in(0,1)^n$, the working score is
 \begin{equation}
@@ -258,13 +256,13 @@ Repeated component replacement supplies a fitting certificate for every fixed $K
 \end{equation}
 Replace profile $r$ by $q_{c_r}$, initialize the trial's weights uniformly, and run a finite exact EM fit. The candidate scan here includes every node ID, including previously used IDs. Compare the $K$ trial endpoints and the unchanged current fit using $\mathcal L$, and keep the largest value. Ties are deterministic, with the current fit retained on an objective tie. The algorithm may stop after a full round with no improving trial; the contraction below certifies sufficiently small loss at that point.
 
-After the replacement rounds, compute the selected fit's responsibilities and perform one mandatory profile and weight M-step before decoding. For the fixed-floor sharp theorem, the objective certificate makes this E-step's total responsibility error $O(n/(np))$ after a common label matching. The following M-step then makes fitted likelihood contrasts accurate enough for the constant-factor oracle rate. Additional exact EM updates after this step are allowed.
+After the replacement rounds, compute the selected fit's responsibilities and perform one mandatory profile and weight M-step before decoding. The objective certificate makes this E-step's total responsibility error $O(n/(np))$ after a common label matching. The following M-step then makes fitted likelihood contrasts accurate enough for the constant-factor oracle rate. Additional exact EM updates after this step are allowed.
 
 \begin{center}
 \fbox{\begin{minipage}{0.93\linewidth}
 \textbf{Algorithm 1: Spectral likelihood with repeated parameter replacement}
 \begin{enumerate}
-\item Form $q$ from the retained eigenpairs using the fixed floor \eqref{eq:profiles}, or the vanishing floor \eqref{eq:adaptive-floor} for Theorem~\ref{thm:adaptive-floor}.
+\item Form $q$ from the retained eigenpairs using \eqref{eq:profiles}.
 \item Obtain $K$ fitted profiles by global-mean growing and joint EM.
 \item For $T_n=\lceil\log n\rceil$ rounds, test all $K$ deletion positions; choose each replacement node by \eqref{eq:replacement-gain}, jointly fit it from uniform weights, and retain the greatest working likelihood across the trials and the old fit.
 \item Perform one final E-step and profile/weight M-step, then classify by \eqref{eq:mixture-and-decode}.
@@ -312,10 +310,10 @@ All comparisons are uniform over the stated model bounds. Fixed binary priors bo
 
 \begin{theorem}[Spectral likelihood decoding preserves the oracle rate]
 \label{thm:main-recovery}
-For every fixed $K\ge2$, Algorithm~1 with the fixed floor \eqref{eq:profiles} satisfies
+For every fixed $K\ge2$, Algorithm~1 satisfies
 \begin{equation}
  \E\Mis(\widehat z,z)
- \le C\eta^*\le C\frac{e^{-I_n}}{\sqrt{np}}.
+ \le C\eta^*.
  \label{eq:main-rate}
 \end{equation}
 The constant depends only on the fixed model bounds, the density lower-bound constant, $K$, and the admissible $c_0$. Initialization, fitting and classification use only the retained eigenpairs, and no weak-initialization assumption is imposed. Growing and replacement trials may use any finite number of exact EM updates, with at least one M-step per fit. The mandatory final E/M update is sufficient. Any additional finite sequence of exact E/M updates, including a finite data-dependent stopping rule, preserves the bound. Polynomial iteration caps give a polynomial-time algorithm.
@@ -323,34 +321,14 @@ The constant depends only on the fixed model bounds, the density lower-bound con
 In particular,
 \[
  \PP\{\Mis(\widehat z,z)>0\}
- \le Cn\frac{e^{-I_n}}{\sqrt{np}},
+ \le Cn\eta^*,
 \]
-so exact recovery holds whenever $n e^{-I_n}/\sqrt{np}\to0$; the condition $\liminf I_n/\log n>1$ is sufficient.
+so exact recovery holds whenever $n\eta^*\to0$.
 \end{theorem}
 
 The theorem permits $p\to0$, intermediate densities, and constant edge probabilities below one. It does not require convergence of $P/p$ or of the community proportions. The comparison in \eqref{eq:main-rate} concerns the order of the optimal binary testing error. It allows a constant-factor change in risk, and proves neither recovery of every integer edge count nor a risk ratio tending to one. We also make no new global minimax lower-bound claim for an unspecified parameter class.
 
-\paragraph{The customary oracle and exponential rates.}
-We use the total-variation-affinity normalization of Zhou and
-Li~\citep{zhouli2020}: the previously defined $\eta_{i,ab}$ is twice
-the equal-prior binary oracle risk, and $\eta^*$ is its maximum over
-vertices and distinct labels. Under our assumptions,
-\begin{equation}
- \eta^*\asymp\frac{e^{-I_n}}{\sqrt{np}},\qquad
- \E\Mis(\widehat z,z)\le C\eta^*.
- \label{eq:customary-oracle-rate}
-\end{equation}
-Thus Theorem~\ref{thm:main-recovery} achieves the usual oracle benchmark
-up to a constant. Since $I_n\asymp np\to\infty$, it also implies
-\begin{equation}
- \E\Mis(\widehat z,z)
- \le C\frac{e^{-I_n}}{\sqrt{I_n}}
- \le \exp\{-(1-o(1))I_n\}.
- \label{eq:customary-exponential-rate}
-\end{equation}
-The last expression is the customary leading-exponent formulation;
-the first bound retains the polynomial factor.
-
+\paragraph{The sharp oracle affinity.}
 More generally, the sharp Chernoff comparison of Zhou and Li has the form
 \begin{equation}
  \eta_{i,ab}\asymp
@@ -368,7 +346,7 @@ Formula~\eqref{eq:general-oracle-prefactor} describes the more general
 oracle benchmark; extending the spectral guarantee beyond our model
 conditions requires a separate perturbation analysis.
 
-\begin{corollary}[The familiar planted-partition exponent]
+\begin{corollary}[Planted-partition consequences of the oracle bound]
 \label{cor:planted-partition-rate}
 Suppose, in addition to the assumptions of Theorem~\ref{thm:main-recovery},
 that $P_{aa}=p_{\mathrm{in}}$ and $P_{ab}=p_{\mathrm{out}}$ for $a\ne b$.
@@ -384,14 +362,17 @@ be the Bernoulli R\'enyi divergence of order $1/2$.
 For equal community sizes $n/K$,
 \begin{equation}
  \E\Mis(\widehat z,z)
- \le \frac{C}{\sqrt{np}}\exp\!\left\{-\frac{nI^*}{K}\right\}
- \le \exp\!\left\{-(1-o(1))\frac{nI^*}{K}\right\}.
+ \le \frac{C}{\sqrt{np}}\exp\!\left\{-\frac{nI^*}{K}\right\}.
  \label{eq:balanced-planted-partition-rate}
 \end{equation}
-More generally, if $n_a\ge n/(\beta K)$ for every $a$, with fixed
-$\beta\ge1$, then for $K\ge3$ the last exponent can be replaced by
-$-(1-o(1))nI^*/(\beta K)$. For $K=2$ it is
-$-(1-o(1))nI^*/2$, independently of $\beta$.
+More generally, for $K\ge3$ the size bound $n_a\ge n/(\beta K)$ gives
+\[
+ \E\Mis(\widehat z,z)
+ \le \frac{C}{\sqrt{np}}\exp\!\left\{-\frac{nI^*}{\beta K}\right\}.
+\]
+For $K=2$, the bound is $C\exp\{-nI^*/2\}/\sqrt{np}$;
+its exponent does not involve $\beta$. These are consequences of the same
+Zhou--Li affinity bound, specialized to the planted-partition model.
 \end{corollary}
 
 \begin{proof}
@@ -404,8 +385,9 @@ Chernoff divergence at $1/2$ gives
 $D^*_{i,ab}\ge(n_a+n_b)I^*/2-O(1)$.
 Apply Theorem~\ref{thm:main-recovery}, using $n_a+n_b\ge2n/(\beta K)$,
 and $n_a+n_b=n$ when $K=2$.
-These are the usual R\'enyi-exponent expressions in the community
-detection literature~\citep{gao2017}.
+The information $I^*$ is the usual R\'enyi quantity in the community
+detection literature~\citep{gao2017}; the displayed bounds retain the
+polynomial factor in the Zhou--Li oracle scale.
 \end{proof}
 
 \subsection{Likelihood-based initialization supplies the required accuracy}
@@ -519,68 +501,13 @@ The sparse score used in earlier experiments is
 $\sum_jq_{ij}\log\widehat p_j-\sum_j\widehat p_j$.
 When $p\to0$, its oracle contrast differs from the complete Bernoulli contrast by
 $O\{p\deg(i)+np^2\}=o(np)$
-on the appropriate degree event. This can preserve the leading exponent, but an $o(np)$ perturbation alone does not establish the refined multiplicative rate in \eqref{eq:main-rate}.
+on the appropriate degree event. This approximation alone does not establish the Zhou--Li bound in \eqref{eq:main-rate}.
 
-At constant probabilities, dropping the nonedge term can lose even the leading exponent. In the balanced model
+At constant probabilities, dropping the nonedge term changes the testing rate. In the balanced model
 \[
  P=\begin{pmatrix}0.8&0.2\\0.2&0.2\end{pmatrix},
 \]
 only edges to the first block distinguish the hypotheses. For $m$ such potential neighbors, the exact LRT threshold is $N/m=1/2$, with information $0.22314355\,m$. The sparse score instead uses $N/m=0.6/\log4$, whose smaller directional error exponent is $0.13905314\,m$. Algorithm~1 retains the complete Bernoulli score throughout the density range.
-
-\subsection{Vanishing block probabilities: preservation of the Chernoff exponent}
-\label{sec:vanishing-probabilities}
-
-The common positive lower bound on all block probabilities can be removed
-if the logarithm floor decreases relative to the maximum probability. This
-requires a distinction between the leading Chernoff exponent and its sharp
-prefactor. For example, for an oracle test with $m$ other vertices in each block and
-$P=\operatorname{diag}(p,p)$, the two incident-edge laws overlap only when
-all edges are absent. Their
-equal-prior binary error is $(1-p)^m/2$, whereas their Chernoff information
-is $-m\log(1-p)$. Thus a universal $(np)^{-1/2}$ prefactor is inappropriate
-when block probabilities may vanish.
-
-Define, for $x\ge1$,
-\[
- \delta(x)=\exp\{-\sqrt{\log(e+x)}\}.
-\]
-In Algorithm~1 replace only the floor formula by
-\begin{equation}\label{eq:adaptive-floor}
- \varepsilon_n=c_0\frac{s}{n}\delta(s),
- \qquad s=\max\{1,\max_{r\le K}|\lambda_r|\},
- \qquad 0<c_0<1/8.
-\end{equation}
-All growing, replacement and final E/M operations remain as stated. The
-floor uses only the retained eigenvalues. Its specific slowly varying
-formula is convenient for the proof; it ensures that $1/\delta(s)$ grows
-more slowly than every positive power of $np$.
-
-\begin{theorem}[Leading-exponent guarantee without a minimum block probability]
-\label{thm:adaptive-floor}
-Fix $K$, $\beta\ge1$, $\kappa>0$, $\eta>0$ and a positive density constant.
-Suppose
-\[
- n_a\ge n/(\beta K),\qquad
- 0\le P_{ab}\le p:=\max_{c,e}P_{ce}\le1-\eta,\qquad
- \sigma_{\min}(P)\ge\kappa p,\qquad np\ge c\log n.
-\]
-For Algorithm~1 with \eqref{eq:adaptive-floor}, the existing
-$\lceil\log n\rceil$ replacement budget and mandatory final E/M update,
-\begin{equation}\label{eq:adaptive-leading-rate}
- \mathbb E\,\operatorname{Mis}(\widehat z,z)
- \le \exp\{-I_n+o(np)\}
- =\exp\{-(1-o(1))I_n\}.
-\end{equation}
-Here $I_n$ is the minimum exact incident-edge Bernoulli Chernoff information;
-at zero probabilities it is defined using the supremum over
-$0<\alpha<1$, or equivalently its one-sided endpoint limits. The remainders
-are uniform over the displayed parameter class. Additional finite exact
-EM updates preserve the conclusion.
-\end{theorem}
-
-
-The proof is in Appendix~\ref{app:adaptive-floor-proof}. The only algorithmic change is the logarithm-floor schedule: the same complete Bernoulli score, candidate gains, replacement budget and mandatory final E/M update are retained. The theorem does not assert the sharp $C\eta^*$ bound without comparability. The fixed-floor version remains the algorithm used in the archived experiments.
-
 
 \section{Experiments}
 \label{sec:experiments}
@@ -1104,11 +1031,11 @@ For the bounded oracle weight used in the check, the largest observed absolute a
 An oracle SBM classifier uses community edge counts through their Bernoulli likelihood contrasts. A population projection onto the membership space would preserve those counts exactly. The empirical spectral reconstruction introduces errors, and its community sums need not reproduce the original integers. Our result quantifies the consequence for classification: under the stated uniform model conditions, the loss of testing information is small enough to preserve the sharp oracle rate up to a constant factor,
 \[
  \mathbb E\,\Mis(\widehat z,z)
- \le C\frac{e^{-I_n}}{\sqrt{np}}.
+ \le C\eta^*.
 \]
 The proof controls likelihood tails after projection, clipping and parameter fitting, including their local concentration under the oracle exponential tilt. Exact integer recovery is unnecessary for this rate comparison, and the result permits a constant-factor difference from the oracle error probability. It does not establish a risk ratio tending to one or sufficiency of the spectrum for other statistical tasks.
 
-The algorithm uses one complete Bernoulli row score throughout initialization and refinement, with every operation calculated from the retained eigenpairs. Repeated component replacement provides an objective certificate for all communities, and its endpoint E-step already has responsibility error $O(1/(np))$. The existing mandatory final M-step supplies the fitting accuracy needed for the sharp comparison. This argument applies to every fixed $K$, unequal community sizes and expected degrees, and $p=\Omega(\log n/n)$ through dense probabilities bounded away from one. The quantitative full-rank condition remains in both results. Probability comparability is used for the sharp affinity guarantee; with the vanishing floor it can be removed for the customary leading-exponent bound. No limit of the normalized block matrix or proportions is required.
+The algorithm uses one complete Bernoulli row score throughout initialization and refinement, with every operation calculated from the retained eigenpairs. Repeated component replacement provides an objective certificate for all communities, and its endpoint E-step already has responsibility error $O(1/(np))$. The existing mandatory final M-step supplies the fitting accuracy needed for the sharp comparison. This argument applies to every fixed $K$, unequal community sizes and expected degrees, and $p=\Omega(\log n/n)$ through dense probabilities bounded away from one. The quantitative full-rank condition and probability comparability are assumptions of the sharp affinity guarantee. No limit of the normalized block matrix or proportions is required.
 
 The guarantee concerns the complete replacement algorithm. General-$K$ recovery by growing alone remains open in the scope studied here. The numerical results illustrate finite-sample behavior, including weak-signal errors and the absence of a classification gain from replacement in the complete 60-graph collection. Further questions include reducing the cubic candidate-cache cost and quadratic storage, relaxing the rank condition, extending the analysis below logarithmic expected degree, and obtaining sharp affinity comparisons at vanishing block probabilities.
 
@@ -1495,237 +1422,7 @@ Finally $n\Mis$ is an integer, so $\PP(\Mis>0)\le n\E\Mis$, giving the stated ex
 For $p\le1/2$, the inequalities
 $|\log(1-u)+u|\le Cu^2$ and
 $|\log(1-u)-\log(1-v)|\le Cp$, for $u,v\le p$, show that replacing the exact oracle Bernoulli contrast by the sparse contrast changes it by at most
-$C\{p\deg(i)+np^2\}$. A degree bound at any fixed confidence $e^{-Hnp}$ makes this $O(np^2)=o(np)$ if $p\to0$. This estimate explains a leading-exponent comparison only; it does not replace the bounded-cumulant analysis required for the refined rate. The dense example in the main text follows from the two Bernoulli large-deviation exponents at the stated thresholds.
-
-\section{Proof without a minimum block probability}
-\label{app:adaptive-floor-proof}
-\begin{proof}
-Write $d=np$, $\delta_d=\delta(d)$ and
-$L_d=1+\log(1/\delta_d)=O(\sqrt{\log(e+d)})$. Throughout the proof, fixed
-constants may depend on the displayed model bounds and on a fixed
-exponential-confidence parameter $H$, but not on the smallest positive
-entry of $P$. In particular,
-\[
- \delta_d^{-C}L_d^C=d^{o(1)}\quad\text{for every fixed }C.
-\]
-
-\paragraph{Spectral input and the clipped population template.}
-The exponential-confidence spectral event used in the sharp theorem
-continues to hold: for each fixed $H$ its complement has probability at
-most $C_H e^{-Hd}$, and on it
-\[
- \|\widetilde A-ZPZ^\top\|_{\mathrm F}^2\le C_Hd,\quad
- \|U\|_{2\to\infty}\le C_Hn^{-1/2},\quad
- \|\widehat\Pi-\Pi\|_{\mathrm{op}}\le C_Hd^{-1/2},\quad
- c_Hd\le s\le C_Hd.
-\]
-The same bounds hold for a graph with one specified vertex removed. To
-check that no minimum-entry hypothesis has been used, the signal
-eigenvalues of $ZPZ^\top$ have magnitudes at least
-$\kappa np/(\beta K)$. Every row of $P$ has Euclidean norm at least
-$\kappa p$; since its entries are nonnegative, its row sum is at least
-$\kappa p$. Consequently every expected degree is at least
-$\kappa np/(\beta K)-O(p)$. The remaining spectral concentration and
-incoherence inputs use upper variance bounds, the eigengap and positive
-community proportions, rather than a positive lower bound on each entry.
-
-For a realized floor $\varepsilon$, put
-$R^\varepsilon_{ab}=\max\{P_{ab},\varepsilon\}$ and let
-$R^\varepsilon_{a*}$ be the corresponding $n$-coordinate row template.
-For sufficiently large $n$, the upper floor does not affect $P$, and
-\[
- c_Hp\delta_d\le\varepsilon\le C_Hp\delta_d,\qquad
- \|q-ZR^\varepsilon Z^\top\|_{\mathrm F}^2\le C_Hd.
-\]
-The latter follows from the Lipschitz property of scalar clipping, even
-when the true probability lies below the floor. All observed rows,
-templates and fitted means lie in
-$[\varepsilon,\min\{C_Hp,1-\varepsilon\}]^n$.
-On this box the derivative of Bernoulli divergence with respect to its
-first argument is bounded by $C_HL_d$, and the derivative of the row
-score with respect to a fitted parameter is bounded by
-$C_H\delta_d^{-1}$. These bounds are uniform in $p$: when $p$ is small,
-the upper bound $C_Hp$ controls complements; otherwise $p$ is bounded
-below and the two clipping endpoints control the ratios.
-
-\paragraph{Replacement and the endpoint responsibilities.}
-Let $G$ be the empirical hard-divergence loss and let
-$G_*$ be its population version with templates $R^\varepsilon_{a*}$.
-The first-argument derivative bound and the Frobenius bound give,
-uniformly over fitted centers,
-\[
- |G-G_*|\le C_Hn\sqrt d\,L_d.
-\]
-Each true class contains a candidate row within $C_H\sqrt d$ in
-$\ell_1$ of its template. Substituting this candidate for its population
-template costs at most $C_Hn\sqrt d\,\delta_d^{-1}$, by the
-parameter derivative bound. The deterministic population replacement
-argument therefore yields
-\[
- \mathcal F_{t+1}\le(1-1/K)\mathcal F_t
-       +C_Hn\sqrt d\,\delta_d^{-1}+n\log K.
-\]
-Every feasible starting fit has $\mathcal F_0\le C_HndL_d+n\log K$.
-After $T=\lceil\log n\rceil$ rounds,
-\[
- \frac{\mathcal F_T}{nd}\le
- C_H(1-1/K)^T L_d+
- C_H\frac{\delta_d^{-1}}{\sqrt d}+\frac{K\log K}{d}
- =:\xi_n\longrightarrow0.
-\]
-A full round without improvement gives the same bound directly.
-
-Importantly, no factor $\delta_d^{-1}$ is applied to $\xi_n$ in the
-next step. The direct comparison $G_*=G+o(nd)$ gives
-$\min_kD(R^\varepsilon_{a*}\Vert\mu_k)=o(d)$ for every true class.
-The perturbed matrix $R^\varepsilon$ differs from $P$ by at most
-$K\varepsilon$ in operator norm, so its rows remain uniformly separated.
-The divergence coercivity
-$D(u\Vert v)\ge\|u-v\|_1^2/(C_Hd)$ then identifies a bijection between
-true classes and fitted profiles. After this permutation, the correct
-population divergence is $o(d)$, and every incorrect one exceeds $c_Hd$.
-
-For all but $C_HnL_d^2/d$ vertices,
-$\|q_i-R^\varepsilon_{z_i*}\|_1\le c_Hd/L_d$; this follows by summing
-$\|q_i-R^\varepsilon_{z_i*}\|_1^2\le
-n\|q_i-R^\varepsilon_{z_i*}\|_2^2$. The first-argument derivative
-therefore gives a score gap $c_Hd$ on these rows. As in the endpoint
-weight argument for the sharp theorem, $\mathcal F_T=o(nd)$ also implies
-$-\log\pi_a=o(d)$ for every matched component. The endpoint E-step thus
-has responsibility error
-\[
- \gamma_n\le C_HL_d^2/d.
-\]
-For the ensuing M-step, the perfect-label mean differs from its template
-by at most $C_H\sqrt p$ in $\ell_2$, hence by $C_H\sqrt d$ in
-$\ell_1$. Replacing perfect labels by these responsibilities changes the
-mean by at most $C_H\gamma_nd\le C_HL_d^2$ in $\ell_1$.
-The fitted row score differs from its template score, uniformly in the
-vertex and component, by at most
-\[
- C_H\delta_d^{-1}(\sqrt d+L_d^2)=o(d).
-\]
-The updated mixture weights are bounded below by a fixed constant.
-Consequently a final classification error implies that some true-profile
-contrast computed from $q$ is at most a deterministic $o(d)$.
-
-\paragraph{Making the floor deterministic for the row argument.}
-The realized floor depends on the incident edges, so it must not be
-conditioned on as though it were independent. Cover its deterministic
-range $[c_Hp\delta_d,C_Hp\delta_d]$ by a grid of mesh
-$p\delta_d/d^2$. The grid has at most $C_Hd^2$ points. Moving to a
-neighboring grid floor changes each template coordinate by at most this
-mesh; its effect on a row score is at most
-$C_H\delta_d^{-1}n(p\delta_d/d^2)=O(d^{-1})$.
-Changing $q$ to the reconstruction clipped at the grid floor changes
-its $\ell_1$ row norm by at most twice the mesh times $n$, and hence
-the true-profile contrast by $o(1)$. It is therefore enough to prove
-the tail bound for every deterministic grid floor, and sum over its
-polynomial number of points.
-
-\paragraph{Clipping envelopes and conditional exponential moments.}
-Fix a grid floor $\varepsilon$, true labels $a\ne b$ and a vertex $i$.
-Let $B=A_{-i,-i}$ and $x=A_{-i,i}$, and condition only on a good $B$.
-Let $\Pi_B$ be its empirical signal projector, and put
-\[
- w_c=\operatorname{logit}(R^\varepsilon_{ac})
-          -\operatorname{logit}(R^\varepsilon_{bc}),\qquad
- r_c=\log\frac{1-R^\varepsilon_{ac}}{1-R^\varepsilon_{bc}},\qquad
- Y_c=x^\top\Pi_B\mathbf1_{C_c\setminus\{i\}}.
-\]
-Here $|w_c|\le C_HL_d$ and $|r_c|\le C_Hp$. The arrowhead identity,
-which is homogeneous in its weight vector, gives the corresponding
-spectral block sums within $C_H$ of $Y_c$. The within-block spectral-row
-variance is at most $C_Hp$. Use a buffer of width $p\delta_d$ in the
-clipping envelopes, with
-$l=\varepsilon+p\delta_d$ and
-$u=1-\varepsilon-p\delta_d$. Their row-sum remainder is at most
-$C_H\delta_d^{-1}$. Thus the template contrast is bounded below by
-the minimum of at most $2^K$ linear branches, with total remainder at
-most $C_HL_d\delta_d^{-1}=o(d)$:
-\[
- H_S=x^\top\Pi_Bv_S+
-        \sum_{c\notin S}w_ck_c+\sum_cn_cr_c,
- \qquad
- (v_S)_j=w_{z_j}\mathbf1\{z_j\in S\},
-\]
-where $k_c=n_cu$ for $w_c\ge0$ and $k_c=n_cl$ for $w_c<0$.
-
-First consider independent edges with smoothed success probabilities
-$R^\varepsilon_{ac}$. Let $\alpha$ optimize their exact incident-edge
-Chernoff information $D^{*,\varepsilon}_{i,ab}$. For an omitted coordinate
-with positive weight, $k_c$ is above its smoothed mean. For a negative
-weight its excess above that mean is at most
-$C_Hn_cp\delta_d+O(p)$, since $R^\varepsilon_{ac}\ge\varepsilon$.
-Jensen's inequality applied block by block therefore bounds the ideal
-branch exponential moment by
-\[
- \mathbb E_{R_a^\varepsilon}
-   e^{-\alpha H_S^{\mathrm{ideal}}}
- \le \exp\{-D^{*,\varepsilon}_{i,ab}
-                  +C_Hd\delta_dL_d+C_HpL_d\}.
-\]
-This includes the $O(p)$ discrepancy from the absent self-loop.
-
-Write $\zeta=(\Pi_B-I)v_S$. The spectral projector bounds give
-\[
- \|\zeta\|_\infty\le C_HL_d,\qquad
- \|\zeta\|_2^2\le C_HL_d^2/p,\qquad
- \left|\sum_{j\in C_c\setminus\{i\}}\zeta_j\right|
-       \le C_HL_d/p.
-\]
-At the ideal coefficients, the tilted Bernoulli success probabilities
-are block-constant and bounded by $C_Hp$. The linear change in log
-moment is consequently $O(L_d)$. Along the segment to the projected
-coefficients, the diagonal Hessian is at most
-$C_Hp\exp(C_HL_d)$. The quadratic change is therefore bounded by
-$C_H\exp(C_HL_d)L_d^2=d^{o(1)}=o(d)$. It follows that the same
-exponential-moment bound holds with the empirical projector, with an
-additional $o(d)$.
-
-Return to the actual incident-edge law. Since
-$P_{ac}\le R^\varepsilon_{ac}$, its success density is bounded by the
-smoothed density, while its failure density ratio is at most
-$\exp(C_H\varepsilon)$. The product density is bounded pointwise by
-$\exp(C_Hn\varepsilon)=\exp(O(d\delta_d))$ times the smoothed density.
-Hence every branch obeys
-\[
- \mathbb E_{P_a}[e^{-\alpha H_S}\mid B]
-       \le\exp\{-D^{*,\varepsilon}_{i,ab}+o(d)\}.
-\]
-Markov's inequality gives the same bound for the branch being at most
-any deterministic $o(d)$; no interior-tilt or local-limit assumption is
-required. The full-graph good event is used solely for deterministic
-error containment, and its indicator is then removed before applying
-this conditional inequality.
-
-\paragraph{Smoothing loses only $o(d)$ Chernoff information.}
-Put $t_d=(\log(e+d))^{-1/4}$. By concavity in the Chernoff parameter,
-restricting its optimization to $[t_d,1-t_d]$ loses at most $t_d D^*_{i,ab}$.
-For such a parameter, raising either Bernoulli success probability to
-the floor increases its edge affinity by at most
-$C_Hp(C_H\delta_d)^{t_d}$; the nonedge affinity decreases. All affinities
-are bounded below by $\eta$. Summing the corresponding logarithmic
-changes gives
-\[
- D^{*,\varepsilon}_{i,ab}\ge
- (1-t_d)D^*_{i,ab}-C_Hd(C_H\delta_d)^{t_d}
- = D^*_{i,ab}-o(d).
-\]
-This argument also covers zero probabilities and one-sided optimizing
-limits. Hellinger separation from the rank condition gives
-$c_Hd\le D^*_{i,ab}\le C_Hd$, so $o(d)=o(D^*_{i,ab})$ uniformly.
-
-Finally sum over the fixed number of competitors and clipping branches,
-and the $O(d^2)$ floor grid. Their logarithms are $o(d)$. Choose the
- spectral-confidence constant $H$ larger than a uniform information
- bound $C_I$ in $D^*_{i,ab}\le C_Id$ (where $C_I$ depends only on the
- model bounds, not on $H$), so the exceptional-graph probabilities are
-negligible. Averaging over vertices gives \eqref{eq:adaptive-leading-rate}.
-The same deterministic score gap shows that subsequent exact E/M steps
-remain in the responsibility-error ball $C_HL_d^2/d$; hence any additional
-finite sequence preserves the conclusion.
-\end{proof}
+$C\{p\deg(i)+np^2\}$. A degree bound at any fixed confidence $e^{-Hnp}$ makes this $O(np^2)=o(np)$ if $p\to0$. This estimate does not establish the Zhou--Li affinity bound; that requires the bounded-cumulant analysis above. The dense example in the main text follows from the two Bernoulli large-deviation exponents at the stated thresholds.
 
 \section{Implementation and reproducibility}
 \label{app:implementation}
@@ -1740,8 +1437,6 @@ Algorithm~1 is implemented by \texttt{SpectralLikelihood.decode()} in
 \small\path{experiments/20261010_general_density/spectral_likelihood.py}.
 \end{center}
 It accepts an $n\times K$ eigenvector array and a length-$K$ array of the corresponding signed eigenvalues. The decoder receives neither the adjacency matrix, true labels, true block probabilities nor node degrees. Retaining the top-$|\lambda|$ eigenpairs is the preceding spectral step.
-
-The vanishing-floor option requires no change to the fitting engine: its existing \texttt{floor} argument is the coefficient multiplying $s/n$, rather than $\varepsilon_n$ itself. Supplying $c_0\exp\{-\sqrt{\log(e+s)}\}$ as that coefficient implements \eqref{eq:adaptive-floor} using only the retained eigenvalues. The archived benchmarks use the fixed coefficient; they do not evaluate this newly analyzed option.
 
 The default \texttt{score\_family='bernoulli'} evaluates \eqref{eq:working-score}. The floor coefficient defaults to $c_0=10^{-4}$; its theoretical guarantee requires the explicit admissibility condition in Section~\ref{sec:algorithm}, not merely positive block probabilities. The spectral scale is $\max\{1,\max_a|\lambda_a|\}$, and the reconstructed entries are clipped on both sides. The original adjacency is not regularized. The optional \texttt{score\_family='sparse'} is a score control on precisely the same $q$, and is not the default general-density algorithm.
 
