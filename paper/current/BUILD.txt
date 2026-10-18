@@ -1,10 +1,5 @@
 Compiled research manuscript.
 Entry point: paper/current/main.tex
 Bibliography: paper/current/reference.bib
-Revision date: 2026-10-18
-Source base commit: a746e2bffdab444e430b3933feecf944bedbf584
-Source main.tex Git blob: bb57a84cdba72d57b270291c5ab068edc8307133
-Source main.tex SHA256: 4443bb3fda29821e0ae78e9abb5f22653f2111d4c72dfb3c46625061078c4808
-Build: PDFLaTeX, BibTeX, PDFLaTeX, PDFLaTeX (MiKTeX).
-PDF pages: 39
-Validation: no undefined references/citations; source snapshot checked; rendered pages reviewed.
+Source commit: 51ee24101e0c706bbe461bc008de0ac99c27ca64
+Build run: https://github.com/zhixin0825/spectral-lrt/actions/runs/39119322429
