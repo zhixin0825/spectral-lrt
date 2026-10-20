@@ -1,0 +1,440 @@
+\section{Sparse extension: established ingredients and the remaining theorem}
+\label{sec:sparse-extension}
+
+The coefficient $20$ was not a recovery threshold. The improved
+probability calculation in \cref{sec:probability} gives $5$ for the same
+ordinary decoder. Removing the entire logarithmic lower bound is a
+different step: the existing encoder convention rejects a graph with any
+zero degree, and that convention cannot simply be retained below
+logarithmic expected degree. The sparse construction already present in
+the project avoids this algebraic difficulty. This section preserves that
+construction, proves additional degree-floor and sharp-transfer facts,
+and states precisely which algorithmic estimates remain to be proved.
+The results here do not silently extend \cref{thm:sbm,thm:dc}.
+
+\subsection{The existing degree-plus-spectrum action remains valid}
+
+Write $\mathbf d=A\one$ for the raw degree vector. For any strictly
+positive diagonal matrix $W$, retain
+\[
+ WAWU=U\Lambda,\qquad U^\top U=I,\qquad
+ X=[\one,WU],\qquad Y=[\mathbf d,W^{-1}U\Lambda].
+\]
+Then the exact identities
+\begin{equation}\label{eq:sparse-old-action}
+ AX=Y,\qquad YX^\dagger=A\Pi_X,\qquad A\Pi_X\one=\mathbf d
+\end{equation}
+hold for every graph, including graphs with zero degrees. Here $\Pi_X$
+is the Euclidean orthogonal projector onto the column space of $X$;
+no full-column-rank assumption is necessary. The earlier choice
+$W_{ii}=\min(1,2\bar D/D_i)$ for $D_i>0$, with $W_{ii}=1$ for
+$D_i=0$ and $\bar D=n^{-1}\sum_iD_i$, supplies a positive reweighting
+when $\bar D>0$. The all-zero graph can be assigned a fixed output.
+The block-count error is exactly $-A(I-\Pi_X)Z$.
+
+These facts need no logarithmic expected-degree assumption. They are
+computational identities, however: their validity does not give the
+sharp tail of the remaining random block-count error. In DC-SBM a
+normalization must also preserve the effective likelihood coefficients,
+as opposed to preserving only a population mean.
+
+\subsection{Degree flooring preserves the relevant DC geometry}
+
+Use the completed mean from \eqref{eq:mean-model} and put
+$D_0=\diag(\Omega\one)$. Its diagonal is between fixed positive
+multiples of $d$. Choose a fixed $a_0>0$ below its minimum structural
+multiplier and define
+\[
+ G_i=\max(D_i,a_0d),\qquad G=\diag(G_i),\qquad
+ S_G=G^{-1/2}AG^{-1/2}.
+\]
+At the deterministic population degrees the floor is inactive.
+In particular $D_0^{-1}\Theta Z$ is block constant; adding a multiple
+of $d$ to every degree would not have this property for heterogeneous
+theta.
+
+\begin{proposition}[Sparse degree-floor geometry]\label{prop:sparse-floor}
+Under the fixed structural conditions \eqref{eq:mean-model}--%
+\eqref{eq:structural}, suppose $d=np\to\infty$ and $np^2\le C_1$.
+For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
+\begin{align}
+ \norm{G^{-1/2}(A-\Omega)G^{-1/2}}&\le C_r d^{-1/2},
+ &\sum_iG_i&\le C_rnd,\label{eq:floor-noise}\\
+ \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
+ +\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}
+ &\le C_rn.\label{eq:floor-degree-energy}
+\end{align}
+Let $U$ contain the $K$ eigenvectors of $S_G$ with largest absolute
+eigenvalues, let $\Pi=UU^\top$, and let
+$H=G^{-1/2}\Pi G^{1/2}$. For all sufficiently large $n$, on the same
+event the retained eigenvalues have a fixed separation from zero and
+\begin{equation}\label{eq:floor-block-residual}
+ \norm{(I-\Pi)G^{1/2}Z}_F\le C_r\sqrt n.
+\end{equation}
+For every block-constant $f$ with $\norm f_\infty\le C_f$,
+\begin{equation}\label{eq:floor-weighted-errors}
+ \norm{(I-H)f}_G\le C_r\sqrt n,\qquad
+ \norm{(I-H)f}_2^2\le C_rn/d,
+ \quad \norm v_G^2=v^\top Gv.
+\end{equation}
+No lower bound proportional to $\log n$ is imposed.
+\end{proposition}
+
+\begin{proof}
+Let $d_*=\max_{i\ne j}n\,\E A_{ij}\asymp d$, and set
+$W_{h,ii}=\sqrt{\min(1,2d_*/D_i)}$, with value one at zero degrees.
+The changed set $\mathcal S=\{i:D_i>2d_*\}$ has at most $10n/d_*$
+vertices except on an event of probability $e^{-cn}$ for large $n$.
+Here is a direct verification of the probability strength. If
+$m=\lfloor10n/d_*\rfloor+1\le n$ vertices all exceed that degree
+threshold, some set $T$ of size $m$ has
+$\sum_{i\in T}D_i>2md_*$. This sum is an independent-edge sum with
+coefficients in $\{1,2\}$ and mean at most $md_*$. At
+$t=(\log2)/2$ its Bernoulli exponential transform gives a tail at most
+\[
+ \exp\{-(\log2-1/2)md_*\}.
+\]
+Indeed $(e^{tc}-1)/c\le(e^{2t}-1)/2=1/2$ for $c=1,2$.
+The logarithm of the number of sets is
+$\log\binom nm\le m\log(en/m)=o(md_*)$, because $d_*\to\infty$.
+This proves the asserted $e^{-cn}$ bound. If $m>n$ there is no
+exceptional set to consider.
+
+The squared Euclidean norm of every row of $W_hAW_h$ is at most
+$W_{h,ii}^2D_i\le2d_*$. Apply the row-norm form of the regularized
+adjacency theorem of Le, Levina and Vershynin
+\cite[Theorem 2.1 and Remark 2.2]{llv2017}. For a fixed sufficiently
+large choice of its probability parameter, it gives
+\[
+ \norm{W_hAW_h-\E A}\le C_r\sqrt d
+\]
+with failure probability at most $C_rn^{-r}$. The weights are allowed
+to depend on the graph. Also
+\[
+ \norm{W_h\Omega W_h-\Omega}
+ \le Cp\sqrt{n|\mathcal S|}\le C\sqrt d;
+\]
+the matrix on the left is supported on rows or columns in
+$\mathcal S$, so this follows already from its Frobenius norm.
+The completed-mean diagonal has norm $O(p)$. These observations imply
+$\norm{W_h(A-\Omega)W_h}\le C_r\sqrt d$.
+
+There is a diagonal $F$ with bounded norm, depending only on the
+structural constants and $a_0$, such that
+\[
+ G^{-1/2}=(2d_*)^{-1/2}FW_h.
+\]
+For $D_i>2d_*$ its diagonal entry is one, and otherwise it is
+$\sqrt{2d_*/G_i}$. Conjugating the preceding bound proves the first
+part of \eqref{eq:floor-noise}. Independently, the Bernoulli transform
+of the total number of edges shows
+$\sum_iD_i\le Cnd$ except with probability $e^{-cnd}$.
+Since $G_i\le D_i+a_0d$, this proves the second part.
+
+Apply the normalized noise to $G^{1/2}\one$:
+\[
+ \norm{G^{-1/2}(A-\Omega)\one}_2
+ \le C_rd^{-1/2}\norm{G^{1/2}\one}_2\le C_r\sqrt n.
+\]
+This proves the first sum in \eqref{eq:floor-degree-energy}.
+Because $a_0d<(D_0)_{ii}$, flooring can only reduce the distance to
+$(D_0)_{ii}$:
+$|G_i-(D_0)_{ii}|\le|D_i-(D_0)_{ii}|$.
+This proves the second sum without any separate degree-wise union bound.
+
+The nonzero eigenvalues of $G^{-1/2}\Omega G^{-1/2}$ have a fixed
+gap from zero. To verify this without a maximum-degree assumption, its
+factor $V=G^{-1/2}\Theta Z$ has diagonal Gram entries
+\[
+ \frac{cn}{d}
+ \le
+ \frac{(\sum_{i:z_i=a}\theta_i)^2}{\sum_{i:z_i=a}G_i}
+ \le \sum_{i:z_i=a}\frac{\theta_i^2}{G_i}
+ \le\frac{Cn}{d}.
+\]
+The lower bound uses comparable group sizes and the total-degree
+upper bound; the upper bound uses the floor. Thus the nonzero spectrum
+is that of $p(V^\top V)^{1/2}C(V^\top V)^{1/2}$ and is separated
+from zero by a fixed amount. Spectral perturbation and
+\eqref{eq:floor-noise} give projector error $O(d^{-1/2})$.
+
+Now $G^{-1/2}D_0Z$ belongs to the population signal space, whereas
+\[
+ \norm{G^{1/2}Z-G^{-1/2}D_0Z}_F^2
+ =\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}\le C_rn.
+\]
+Moreover $\norm{G^{1/2}Z}_F^2=\sum_iG_i\le C_rnd$.
+Combining these facts with the projector error proves
+\eqref{eq:floor-block-residual}. Since $H$ is the $G$-orthogonal
+projector corresponding to $\Pi$, the first bound in
+\eqref{eq:floor-weighted-errors} follows. The second uses $G_i\ge a_0d$.
+\end{proof}
+
+The scale $d$ in this proof need not be an algorithm input. One may use
+a sufficiently small fixed multiple of $\bar D$ for the floor. The
+same total-edge Bernoulli transform also gives the lower bound
+$\sum_iD_i\ge cnd$ with failure probability $e^{-c'nd}$.
+On this two-sided total-edge event, the threshold lies between fixed positive
+multiples of $d$ and below every $(D_0)_{ii}$. Every deterministic step
+above then applies. The formula is defined even at isolated vertices.
+Deleting a vertex and recomputing degrees gives the same statements on
+the remaining graph, with its completed mean and block masses. Choosing
+the probability parameter larger also permits a union over all such
+deleted graphs. This does not yet compare their scores to the full
+graph score.
+
+\subsection{The DC tilted mean and quadratic error already close}
+
+Work on a deleted graph so that all coordinates below index actual
+neighbors of a separate tested vertex. For the bounded block-constant
+linear candidate contrast used in the DC profile reduction,
+the exact tilted Bernoulli probabilities have the decomposition
+\begin{equation}\label{eq:floor-tilt-decomposition}
+ r=D_0h+\epsilon,\qquad
+ h\text{ block constant},\quad
+ \norm h_\infty\le C/n,\quad \norm\epsilon_\infty\le Cp^2.
+\end{equation}
+For example the leading term of the exact tilt is
+$\theta_i\theta_jpC_{a,z_j}e^{-s w_{z_j}}$, while
+$(D_0)_{jj}=\theta_jp\sum_k\theta_k C_{z_j,z_k}$.
+Dividing the former by the latter gives the required block-constant
+$h_j$. The denominator in the exact Bernoulli tilt contributes
+$O(p^2)$ uniformly. This uses the original Bernoulli law throughout.
+The target coordinate is absent; artificially appending $r_i=0$ would
+instead create an $O(p)$ error at that one coordinate.
+
+For bounded block-constant $f$, put $e=(H-I)f$. The
+$G$-orthogonality of $H$ gives the exact cancellation
+\begin{align}
+ r^\top e
+ ={}&-\langle(I-H)h,(I-H)f\rangle_G
+       +((D_0-G)h)^\top e+\epsilon^\top e.
+       \label{eq:floor-tilted-cancellation}
+\end{align}
+The first term is $O(1)$ by \eqref{eq:floor-block-residual}, since
+the block coefficients of $h$ are $O(1/n)$. For the second,
+Cauchy--Schwarz and \eqref{eq:floor-degree-energy} give
+\[
+ |((D_0-G)h)^\top e|
+ \le \norm h_\infty
+ \left(\sum_j\frac{((D_0)_{jj}-G_j)^2}{G_j}\right)^{1/2}
+ \norm e_G
+ \le C.
+\]
+The last term is at most
+$Cp^2\sqrt n\,\sqrt{n/d}\le Cnp^2$. Also $r_j\le Cp$, so
+\begin{equation}\label{eq:floor-tilt-moments}
+ |r^\top e|\le C(1+np^2),\qquad
+ \sum_jr_je_j^2\le Cp\norm e_2^2\le C.
+\end{equation}
+Thus the first-order bias cancellation and bounded quadratic error do
+not require logarithmic degree. A uniform coefficient bound, or a
+suitable replacement for it, is still needed for sharp risk transfer.
+
+\subsection{Exact preservation of the raw degree vector}
+
+Let $S_GU=U\Lambda$, put $H=G^{-1/2}UU^\top G^{1/2}$, and define
+\begin{equation}\label{eq:floor-degree-corrected-action}
+ R_0=G^{1/2}U\Lambda U^\top G^{1/2}=AH,\qquad
+ R=R_0+(\mathbf d-R_0\one)\frac{\one^\top}{n}.
+\end{equation}
+All quantities in this formula are computable from the retained degrees
+and eigenpairs. Exactly $R\one=\mathbf d$. For every bounded
+block-constant likelihood vector $w$, with $\bar w=n^{-1}\one^\top w$,
+\begin{equation}\label{eq:floor-effective-coefficients}
+ Rw=A\{H(w-\bar w\one)+\bar w\one\}.
+\end{equation}
+Hence the coefficient error is precisely $(H-I)(w-\bar w\one)$,
+to which \eqref{eq:floor-tilt-moments} applies on a deleted graph.
+This construction avoids orthogonalizing a possibly tiny residual
+constant vector. We do not assert that $R$ is an orthogonal-projection
+reconstruction.
+
+A hollow version subtracts $R_{ii}$ from entry $(i,i)$ and adds
+$R_{ii}/(n-1)$ to each other entry of row $i$. This preserves raw
+degrees and changes a bounded row contrast by at most
+$2\norm w_\infty |R_{ii}|$. A sufficiently strong local bound for
+$R_{ii}$ must therefore be proved before this hollowing can be inserted
+into a sparse algorithmic theorem; it does not follow from aggregate
+geometry alone.
+
+\subsection{Two sharp transfers that do not assume every coefficient is bounded}
+
+The next two lemmas give concrete alternatives to a global
+row-incoherence event. They concern a row-independent, training-measurable
+score, just as in \cref{lem:sharp}.
+
+\begin{lemma}[Exponential-moment coefficient control]\label{lem:sparse-exp-transfer}
+Assume the oracle hypotheses of \cref{lem:sharp}. Let
+$\widehat T=T+b+\sum_je_jX_j$, with $(b,e)$ measurable from independent
+training data. On a measurable training event suppose
+\[
+ \left|b+\sum_jr_je_j\right|\le B,\qquad
+ \sum_jr_je_j^2e^{|e_j|}\le V,
+\]
+where $B,V$ are fixed. Then, for all real $x$ and all sufficiently
+large $d$,
+\[
+ \PP(\widehat T\le x\mid\text{training})
+ \le C e^{s_*x+B+V/2}d^{-1/2}e^{-I}.
+\]
+The constant is independent of the largest coefficient.
+\end{lemma}
+
+\begin{proof}
+Taylor's inequality gives, under the original oracle tilt $Q$,
+\[
+ \log\E e^{-s_*\widehat T}
+ \le-I-s_*\left(b+\sum_jr_je_j\right)
+       +\frac12\sum_jr_je_j^2e^{|e_j|}
+ \le-I+B+V/2.
+\]
+Tilt again by $e^{-s_*\widehat T}$. The new probabilities satisfy
+\[
+ \widehat r_j
+ =\frac{r_je^{-s_*e_j}}{1-r_j+r_je^{-s_*e_j}}
+ \le r_je^{s_*|e_j|}.
+\]
+For $|e_j|\le1$, this bounds the new centered third absolute moments
+by $C_W\sum_jr_j=O(d)$. For $|e_j|>1$, use $s_*\le1-\tau$ and
+\[
+ e^{s_*|u|}(W+|u|)^3
+ \le C_{W,\tau}u^2e^{|u|}\qquad (|u|>1).
+\]
+The remaining third moments are therefore $O(V)$. The upper variance
+bound follows from the same estimates. There is no restriction that
+every $e_j$ be bounded.
+
+For the lower variance, restrict to $|e_j|\le1$. The original variance
+discarded by this restriction is at most $W^2V$, and the weighted
+$\ell_2$ norm of the remaining perturbation is at most $\sqrt V$.
+Thus the square root of the original-weight variance of the remaining
+$(w_j+e_j)$ is at least $\sqrt{vd-W^2V}-\sqrt V$.
+On this restricted set, the new and old Bernoulli variances differ by
+only fixed factors. The new total variance is therefore at least $cd$
+for large $d$. Berry--Esseen gives a $C/\sqrt d$ bound for every unit
+interval under the new tilt. Summing those intervals, using the first
+displayed exponential-moment bound, proves the assertion as in
+\cref{lem:sharp}.
+\end{proof}
+
+\begin{lemma}[Paying exceptional coefficients only when the row hits them]
+\label{lem:sparse-truncated-transfer}
+Assume the oracle hypotheses of \cref{lem:sharp}, and write $p_j$
+for the un-tilted row probabilities. Suppose $p_j\le C_pr_j$, as
+holds here for bounded oracle likelihood coefficients. On an independent
+training event $\mathcal E$, suppose
+\[
+ \left|b+\sum_jr_je_j\right|\le B,\qquad \sum_jr_je_j^2\le V.
+\]
+Here $B,V$ are fixed constants. For any fixed $M>0$ define
+\[
+ h_M=\sum_{j:|e_j|>M}p_j,\qquad
+ \eta_M=\sum_jr_je_j^2\ind{|e_j|>M}.
+\]
+Then, for every fixed bounded $x$,
+\begin{equation}\label{eq:sparse-truncated-transfer}
+ \PP(\widehat T\le x)
+ \le C_Md^{-1/2}e^{-I}
+       +\E[\ind{\mathcal E}h_M]
+       +\PP(\mathcal E^c).
+\end{equation}
+Since $h_M\le C_p\eta_M/M^2$, an expected truncated quadratic error of order
+$d^{-1/2}e^{-I}$ suffices. A bound $Ce^{-Hd}$ is a convenient
+sufficient condition whenever $I\le C_Id$ and $H>C_I$.
+The expected hit-mass condition on $h_M$ is weaker and is itself enough.
+\end{lemma}
+
+\begin{proof}
+For analysis only, replace $e_j$ by
+$e'_j=e_j\ind{|e_j|\le M}$. The truncated coefficients satisfy
+\[
+ \left|b+\sum_jr_je'_j\right|
+ \le B+\eta_M/M\le B+V/M,\qquad
+ \sum_jr_j(e'_j)^2\le V.
+\]
+Hence \cref{lem:sharp} bounds their score error by
+$C_Md^{-1/2}e^{-I}$ on $\mathcal E$.
+The original and truncated random scores are identical whenever
+$X_j=0$ for every $j$ with $|e_j|>M$. Conditional on training, the
+probability that this fails is at most
+\[
+ \sum_{j:|e_j|>M}p_j
+ =h_M\le \frac{C_p}{M^2}\eta_M.
+\]
+Integrate this bound on $\mathcal E$ and pay at most
+$\PP(\mathcal E^c)$ outside it. No coefficient truncation is an
+additional input or computation required of the implemented decoder.
+\end{proof}
+
+For the degree-floor projection there is a concrete reduction to a
+weighted row count. Define
+\[
+ \zeta_j=\sqrt{\frac{nd}{G_j}}\norm{U_{j\cdot}}_2.
+\]
+If $e=(H-I)f$, $\norm f_\infty\le C_f$ and
+$\sum_jG_j\le C_Gnd$, then deterministically
+\[
+ |e_j|
+ \le \frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
+        \norm{U^\top G^{1/2}f}_2+C_f
+ \le C_f\sqrt{C_G}\,\zeta_j+C_f.
+\]
+Choosing $M=C_f\sqrt{C_G}L+C_f$ thus gives
+$\{|e_j|>M\}\subseteq\{\zeta_j>L\}$. Since $p_j\le Cd/n$,
+the sufficient expected-count estimate
+\begin{equation}\label{eq:sparse-row-count-target}
+ \E\!\left[\ind{\mathcal E}
+       \sum_j\ind{\zeta_j>L}\right]\le Cne^{-Hd},
+ \qquad H>C_I,
+\end{equation}
+would imply
+$\E[\ind{\mathcal E}h_M]\le Cd e^{-Hd}
+=o(d^{-1/2}e^{-I})$ whenever $I\le C_Id$.
+Equation \eqref{eq:sparse-row-count-target} is the required new spectral
+tail estimate, not a conclusion of \cref{prop:sparse-floor}.
+
+\subsection{What is still required for the actual sparse likelihood theorem}
+
+The preceding propositions prove more than spectral consistency:
+the weighted projection has bounded tilted mean and variance, and the
+sharp tail permits either integrated exponential coefficient control
+or an expected truncated quadratic bound. They do not yet prove either
+of those final coefficient-tail hypotheses for the actual floor
+eigenvectors.
+
+Three coupled estimates remain. First, one must establish the needed
+coefficient tails on the recomputed deleted graphs. A sufficient
+uniform condition would be
+$\norm{U_{j\cdot}}_2/\sqrt{G_j}\le C/\sqrt{nd}$, but
+\cref{lem:sparse-truncated-transfer} permits rare violations.
+Second, the actual full-graph score must be compared to this independent
+deleted-graph score, including the changing floor and the degree
+correction in \eqref{eq:floor-degree-corrected-action}. The dense-range
+LOO lemma used a uniform row bound and cannot be invoked unchanged.
+Third, initialization and estimated-parameter fitting must be
+controlled with exceptional vertices included. Aggregate spectral error
+alone does not supply the required fitted likelihood remainder.
+
+For $d=o(\log n)$ the already proved $n^{-r}$ geometry failure is
+negligible relative to $d^{-1/2}e^{-C_Id}$ for any fixed $r>0$.
+The unresolved issue is therefore not the probability of the
+regularized norm event. Nor should one declare failure of the entire
+graph whenever any vertex has an unusually small degree. The
+truncated-score comparison shows how local exceptional coordinates can
+instead be paid when the tested row encounters them.
+
+Zhang's spectral clustering proof
+\cite[Theorem 3 and Corollary 1, p.~7326]{zhang} establishes exponentially
+small expected truncated row energy and exceptional-row counts for
+the trimmed adjacency eigenspace. That result provides a concrete
+model for \eqref{eq:sparse-row-count-target}; its eigenspace and
+normalization differ from the floor-normalized DC construction here.
+Its final leading-exponent conclusion does not, by itself, imply
+the bounded perturbation cost and sharp prefactor required here.
+The intended nontrivial sparse target on the present fixed-separation,
+bounded-theta class is $d=np\to\infty$, together with the stated
+Bernoulli remainder condition. A vanishing signal gap or degree
+parameters approaching zero requires additional quantitative work.
+We have not replaced these outstanding estimates by an assumption
+that the desired constant risk ratio already holds.

@@ -1,15 +1,17 @@
 Constant oracle-risk bounds for normalized spectral likelihood
-Revision: 2026-10-20
+Revision: 2026-10-20, revision 2
 Entry point: main.tex
 Bibliography: references.bib
 Build: PDFLaTeX, BibTeX, PDFLaTeX, PDFLaTeX.
-Verified output: 39 pages, A4, embedded Latin Modern fonts.
+Verified output: 48 pages, A4, embedded Latin Modern fonts.
 Validation: no undefined references or citations; no LaTeX warnings,
 overfull boxes, or underfull boxes in the final build.
-Visual inspection: all 39 rendered pages reviewed in page contact sheets;
-main theorem, LOO, tilted-cancellation, and scope pages inspected at full size.
-Scientific checks: independent ordinary-SBM and DC-SBM proof audits;
-additional independent sharp-tail, conditioning, and counterexample audit.
-The checks are internal mathematical review, not external peer review.
-The exact model and algorithm restrictions are in the main statements and
-the scope section; earlier broader claims are not justified by this note.
+Visual inspection: all 48 rendered pages reviewed in contact sheets;
+new DC oracle comparison, improved probability closure, sparse weighted
+cancellation, new transfer lemmas, and final scope inspected at full size.
+Scientific checks: independent audit of the DC oracle bridge, all-vertex
+probability closure, floor normalization, weighted geometry, and both new
+sharp-transfer lemmas. The original ordinary and DC proofs retain their
+prior internal checks. This is internal review, not external peer review.
+The actual sublogarithmic algorithmic theorem is NOT claimed. Section 9
+identifies the still-unproved spectral row-tail, LOO, and fitting estimates.

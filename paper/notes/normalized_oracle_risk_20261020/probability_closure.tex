@@ -76,30 +76,43 @@ Choose $a_0=1/16$. The Bernoulli lower-tail transform yields
  \PP(D_i<d/16)
  &\le \exp\left\{-d\left[
  0.49-\frac1{16}-\frac1{16}\log(16\cdot0.49)\right]\right\}\\
- &\le e^{-0.29d}.
+ &\le e^{-0.298d}.
 \end{align*}
-Since $d\ge20\log n$,
 \begin{equation}\label{eq:sbm-low-degree}
- \PP(\min_iD_i<d/16)\le ne^{-0.29d}\le e^{-0.24d}.
+ \PP(\min_iD_i<d/16)\le ne^{-0.298d}.
 \end{equation}
 Take $H=1$, increasing the other fixed thresholds if necessary.
 Equations \eqref{eq:other-bad-events} and
 \eqref{eq:sbm-low-degree} give
-$\PP(\mathcal G^c)\le Ce^{-0.24d}$.
-By \eqref{eq:oracle-pairs}, with
-$I_{\min}=\min_i\min_{b\ne z_i}I_{i,z_i b}$,
+$\PP(\mathcal G^c)\le Cne^{-0.298d}$.
+The information bound \eqref{eq:sbm-information-upper} applies to every
+vertex and every competitor. Thus the sharp pairwise lower bound
+\eqref{eq:oracle-pairs}, followed by averaging over all vertices, gives
 \[
  R_{\mathrm{SBM},*}\ge
- \frac c{n\sqrt d}e^{-I_{\min}}
- \ge\frac c{n\sqrt d}e^{-0.09d}.
+ \frac1n\sum_{i=1}^n\frac c{\sqrt d}e^{-0.09d}
+ =\frac c{\sqrt d}e^{-0.09d}.
 \]
-We use the weaker one-vertex lower bound to avoid any extra balancing
-assumption. Since $d\le n$ eventually,
+No additional balancing assumption is needed: the uniform coefficient
+bound, group-proportion bound and full-rank separation already hold at
+every vertex. Consequently
 \[
  \frac{\PP(\mathcal G^c)}{R_{\mathrm{SBM},*}}
- \le Cn\sqrt d\,e^{-0.15d}
- \le Cn^{3/2}e^{-0.15d}=o(1).
+ \le Cn\sqrt d\,e^{-0.208d}.
 \]
+The function $\sqrt d\,e^{-0.208d}$ is decreasing once
+$d>1/(2\cdot0.208)$. Therefore, for $d\ge5\log n$ and all sufficiently
+large $n$,
+\[
+ n\sqrt d\,e^{-0.208d}
+ \le \sqrt{5\log n}\,n^{1-5\cdot0.208}
+ =\sqrt{5\log n}\,n^{-0.04}=o(1).
+\]
+The earlier coefficient $20$ was a sufficient numerical choice obtained
+by retaining only one vertex in the oracle lower bound and then bounding
+$\sqrt d$ by $\sqrt n$. Both losses are unnecessary. The improved
+coefficient $5$ changes neither the encoder nor the likelihood decoder;
+it does not remove the global minimum-degree event from this proof.
 The good-event comparison in \cref{sec:sbm-proof} and
 \eqref{eq:bad-payment} complete \cref{thm:sbm}.
 

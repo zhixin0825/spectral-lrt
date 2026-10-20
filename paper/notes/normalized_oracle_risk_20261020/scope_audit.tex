@@ -19,7 +19,8 @@ DC-SBM; canonical degree-metric reconstruction and fitted profile LRT
 $C_0\log n\le np$ and $np^2\le C_1$.\\[4pt]
 DC-SBM; the same degree-metric procedure
 & Full-edge LRT additionally supplied with the target's true degree
-& The preceding sparse class plus finite-$n$ equal block exposures.\\[4pt]
+& The preceding sparse class plus finite-$n$ equal block exposures;
+the classical balanced planted-partition local oracle is included.\\[4pt]
 General DC-SBM; any graph algorithm
 & Known-target-degree local LRT
 & A uniform constant ratio is impossible; \cref{thm:imposs} supplies two
@@ -28,7 +29,7 @@ explicit normalized parameter sequences.\\
 \end{tabular}
 \end{center}
 
-All positive statements are bounds on expected misclassification, with
+The algorithmic positive statements are bounds on expected misclassification, with
 failure events included. None is merely a statement conditional on correct
 initial groups, small fitted-parameter error, a favorable LOO projector,
 or successful numerical k-means.
@@ -87,12 +88,17 @@ block count. The Bernoulli profile reduction has a visible $O(np^2)$
 remainder; extending the DC theorem beyond bounded $np^2$ requires a new
 argument for that remainder and the heterogeneous nonedge weights.
 
-The more sparse range $np=o(\log n)$, a vanishing normalized signal
+The more sparse algorithmic range $np=o(\log n)$, a vanishing normalized signal
 singular value, or an unrestricted known-$\theta_i$ oracle in general
 DC-SBM is not covered by the positive statements. The first two are
 unproved extensions here; the last is explicitly impossible by
 \cref{thm:imposs}. None should be folded into the present theorem by an
 unstated assumption or a change of denominator.
+The oracle comparison in \cref{prop:classical-dc-oracle-bridge} does
+already hold below logarithmic degree. \Cref{sec:sparse-extension}
+separately proves the regularized geometry and a more flexible sharp
+transfer lemma, while identifying the outstanding sparse algorithmic
+conditions.
 
 \subsection{Audit record}
 

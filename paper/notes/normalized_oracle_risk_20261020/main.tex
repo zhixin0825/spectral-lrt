@@ -55,7 +55,8 @@ We give finite, implementable classifiers based only on retained normalized
 spectral information and prove expected misclassification risk at most a
 constant times a precisely specified local oracle risk. For ordinary SBM,
 the signed Euclidean spectral reconstruction and finite growing/replacement
-likelihood initializer are covered on an explicit nontrivial model class,
+likelihood initializer are covered on an explicit nontrivial model class
+with \(np\ge5\log n\),
 with a broader information--degree margin extension. For bounded-degree-parameter
 DC-SBM, a degree-metric spectral reconstruction, deterministic spectral
 initialization, estimated nuisance parameters and Bernoulli profile likelihood
@@ -63,12 +64,18 @@ give the bound for general positive full-rank block profiles when
 \(C_0\log n\le np\) and \(np^2\le C_1\). The reference is the full-edge
 profile-LRT oracle with true neighbor parameters. Equal block exposures
 further imply a bound relative to the oracle supplied with the target's
-true degree parameter. A two-point counterexample shows that this stronger
-oracle cannot be matched throughout general DC-SBM, even from the full
-adjacency matrix. The proof keeps the sharp \(d^{-1/2}\) prefactor,
+true degree parameter. A sharp comparison explicitly identifies this
+reference with the classical balanced planted-partition DC-SBM local
+oracle; that oracle comparison requires only \(np\to\infty\) and bounded
+\(np^2\). A two-point counterexample outside the classical assortative
+class shows that the stronger reference cannot be matched throughout
+arbitrary DC-SBM. The proof keeps the sharp \(d^{-1/2}\) prefactor,
 establishes actual full-graph-to-LOO score control, and pays every failure
 event at the oracle scale. The algorithm modifications and model restrictions
 are explicit; a bounded risk ratio is not a claim that the ratio converges.
+The final section proves degree-floor geometry and an exponential-moment
+transfer lemma below logarithmic degree, and states the remaining
+algorithmic estimates without claiming a completed sublogarithmic theorem.
 \end{abstract}
 \tableofcontents
 \clearpage
@@ -80,6 +87,7 @@ are explicit; a bounded risk ratio is not a claim that the ratio converges.
 \input{probability_closure}
 \input{impossibility}
 \input{scope_audit}
+\input{sparse_extension_status}
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}

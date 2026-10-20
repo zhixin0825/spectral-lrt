@@ -1,0 +1,306 @@
+\subsection{The classical balanced DC-SBM oracle and its sharp risk}
+\label{dcsbm:classical-oracle}
+
+The fundamental local testing problem used by
+Gao, Ma, Zhang and Zhou~\cite{gmzz2018} fixes the target degree parameter
+under both candidate labels. Its exact simple-hypothesis likelihood test
+therefore corresponds to \(R_{\theta,*}\) in \cref{sec:oracle}.
+The next proposition explicitly connects that reference, the profile
+reference and true-group neighbor voting in the balanced planted-partition
+model. This is an oracle comparison with its own assumptions:
+it uses neither the spectral good event \(\mathcal G\) nor a logarithmic
+lower bound on \(np\).
+
+\begin{proposition}[Sharp alignment of the classical DC-SBM references]
+\label{dcsbm:classical-bridge}
+\label{prop:classical-dc-oracle-bridge}
+Fix an arbitrary \(K\ge2\), positive bounds
+\(\theta_-,\theta_+\), and \(0<r_-<r_+<1\).
+Let \(n=Km\), let every group have \(m\) vertices, and suppose
+\[
+ \theta_-\le\theta_i\le\theta_+,\qquad
+ \sum_{i:z_i=a}\theta_i=m\quad\text{for all }a.
+\]
+Specialize the block matrix \(B=pC\) to
+\begin{equation}
+ B_{aa}=p,\qquad B_{ab}=q\ (a\ne b),\qquad
+ r_-\le q/p\le r_+ .
+ \label{dcsbm:classical-model}
+\end{equation}
+Assume only, for the present oracle comparison,
+\begin{equation}
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+ \label{dcsbm:classical-oracle-range}
+\end{equation}
+Define \(R_{\mathrm{vote},*}\) as the average error of the local raw-row
+rule which knows the neighbor labels and selects the group with the
+largest incident block count. Use any fixed tie ordering.
+Then, uniformly over this parameter class,
+\begin{equation}
+ \begin{aligned}
+ R_{\theta,*}
+ &\asymp R_{\mathrm{prof},*}
+ \asymp R_{\mathrm{vote},*}\\
+ &\asymp
+ \frac1n\sum_{i=1}^n
+ \frac1{\sqrt{np}}
+ \exp\left\{-\theta_i\frac nK(\sqrt p-\sqrt q)^2\right\}.
+ \end{aligned}
+ \label{dcsbm:classical-risk}
+\end{equation}
+The profile reference is exactly the Bernoulli profile in
+\eqref{eq:profile-oracle}, with candidate probabilities capped at \(1/2\).
+The same comparison holds if the voting counts are normalized by the
+self-excluded neighbor-group sizes. Constants depend only on the displayed
+fixed bounds, not on \(n\). In particular,
+\eqref{dcsbm:classical-oracle-range} permits \(np=o(\log n)\).
+\end{proposition}
+
+\begin{proof}
+Fix a target \(i\), its true group \(a\), and a competitor \(b\ne a\).
+For this proof write
+\[
+ N_c=\sum_{\substack{j\ne i\\z_j=c}}A_{ij},\qquad
+ M_c=\sum_{\substack{j\ne i\\z_j=c}}\theta_j
+     =m-\theta_i\ind{c=a},\qquad
+ L=\log(p/q).
+\]
+Thus \(L\) is bounded above and below by positive constants.
+Put
+\[
+ V_{i,ab}=L(N_a-N_b),\qquad
+ J_i=\theta_i m(\sqrt p-\sqrt q)^2 .
+\]
+The assumptions imply \(J_i\asymp d\), uniformly in \(i\).
+They also imply \(p\to0\), so every true candidate edge probability
+is eventually less than \(1/2\).
+
+\medskip
+\noindent\textbf{The exact Bernoulli count transform.}
+Under the actual true-row law, independence gives
+\begin{align}
+ \Psi_{i,ab}(s)
+ &:=\log\E_a e^{-sV_{i,ab}}\nonumber\\
+ &=\sum_{\substack{j\ne i\\z_j=a}}
+   \log\{1+\theta_i\theta_jp(e^{-sL}-1)\}
+   +\sum_{j:z_j=b}
+   \log\{1+\theta_i\theta_jq(e^{sL}-1)\}.
+ \label{dcsbm:classical-cumulant}
+\end{align}
+Taylor expansion, uniformly for \(s\in[0,1]\), gives
+\begin{equation}
+ \Psi_{i,ab}(s)
+ =m\theta_i\{p(e^{-sL}-1)+q(e^{sL}-1)\}
+       +O(np^2+p).
+ \label{dcsbm:classical-cumulant-expansion}
+\end{equation}
+The same error bound holds for the first two derivatives. Bounded theta
+and bounded \(L\) make the sum of quadratic Bernoulli remainders
+\(O(np^2)\). The additional \(O(p)\) term accounts for the omitted
+\(\theta_i\) in \(M_a=m-\theta_i\).
+
+The leading transform in
+\eqref{dcsbm:classical-cumulant-expansion} is minimized at \(s=1/2\),
+with minimum \(-J_i\). Its endpoint derivatives have opposite signs,
+each of magnitude at least \(cd\), and its second derivative is
+between positive constant multiples of \(d\).
+Since \(np^2+p=o(d)\), the exact minimizing saddle stays in a fixed
+compact subinterval of \((0,1)\). Convexity makes it the global
+minimum over \(s\ge0\). In particular,
+\begin{equation}
+ I^{\mathrm{cnt}}_{i,ab}
+ :=-\min_{s\ge0}\Psi_{i,ab}(s)
+ =J_i+O(np^2+p)=J_i+O(1).
+ \label{dcsbm:classical-information}
+\end{equation}
+One can also obtain this bound directly by taking minima in the
+uniform transform approximation.
+
+Under the exact optimizing tilt, the Bernoulli probabilities on the
+two relevant groups are comparable to \(p\). Their sum is \(O(d)\),
+and the variance of \(V_{i,ab}\) is comparable to \(d\).
+Consequently \cref{lem:sharp} applies to
+\eqref{dcsbm:classical-cumulant} without any spectral event. For every
+fixed \(x_0<\infty\), uniformly over \(|x|\le x_0\),
+\begin{equation}
+ c_{x_0}d^{-1/2}e^{-J_i}
+ \le \PP_a(V_{i,ab}<x)
+ \le \PP_a(V_{i,ab}\le x)
+ \le C_{x_0}d^{-1/2}e^{-J_i}.
+ \label{dcsbm:classical-count-tail}
+\end{equation}
+The strict lower bound from that lemma uses an open interval of fixed
+length under the tilt. Thus lattice atoms and an arbitrary fixed
+tie ordering cause no loss of the lower bound.
+
+\medskip
+\noindent\textbf{Comparison with the known-target likelihood.}
+Let
+\[
+ \mathcal T_c=\sum_{j\ne i}\theta_j B_{c,z_j}
+              =pT_c^{(i)}.
+\]
+By the exact group normalization,
+\begin{equation}
+ \begin{aligned}
+ \mathcal T_a&=m[p+(K-1)q]-\theta_ip,\\
+ \mathcal T_b&=m[p+(K-1)q]-\theta_iq.
+ \end{aligned}
+ \label{dcsbm:classical-exposure}
+\end{equation}
+In particular \(\mathcal T_a,\mathcal T_b\asymp d\),
+\(\mathcal T_a-\mathcal T_b=O(p)\), and
+\(\log(\mathcal T_a/\mathcal T_b)=O(n^{-1})\).
+
+Fix a sufficiently large constant \(L_0\) to be chosen below, and consider
+the single-target event
+\[
+ \mathcal E_i=\{D_i\le L_0d\}.
+\]
+The exact known-target Bernoulli contrast is
+\[
+ L^{ab}_{i,\mathrm{known}}
+ =V_{i,ab}+
+ \sum_{j\ne i}(1-A_{ij})
+ \log\frac{1-\theta_i\theta_jB_{a,z_j}}
+          {1-\theta_i\theta_jB_{b,z_j}} .
+\]
+Expansion of these nonedge logarithms on \(\mathcal E_i\) gives
+\begin{align}
+ L^{ab}_{i,\mathrm{known}}
+ &=V_{i,ab}-\theta_i(\mathcal T_a-\mathcal T_b)
+       +O(D_ip+np^2)\nonumber\\
+ &=V_{i,ab}+O(np^2+p).
+ \label{dcsbm:classical-known-contrast}
+\end{align}
+The \(O(D_ip)\) term restores the incident-edge terms in the linear
+exposure; the quadratic remainder is \(O(np^2)\).
+
+\medskip
+\noindent\textbf{Comparison with the capped Bernoulli profile.}
+For a candidate \(c\), put \(b_{cj}=\theta_jB_{c,z_j}\).
+The admissible interval in \eqref{eq:profile-oracle} is
+\[
+ 0\le t\le t_{\max,c}:=\frac1{2\max_{j\ne i}b_{cj}}.
+\]
+Because \(b_{cj}\asymp p\), its upper endpoint tends to infinity.
+For \(t>0\) the derivative of the exact raw-row likelihood is
+\[
+ \frac{D_i}{t}
+ -
+ \sum_{j\ne i}(1-A_{ij})
+       \frac{b_{cj}}{1-tb_{cj}} .
+\]
+On \(\mathcal E_i\), there are at least \(n-1-L_0d\ge n/2\)
+nonedges for all sufficiently large \(n\). Their total intensity is
+at least \(cd\), uniformly over candidates. Hence the derivative is
+negative for every admissible \(t\) above a fixed constant depending
+only on \(L_0\) and the structural bounds. Every exact maximizing
+\(t\) is therefore bounded. The cap at \(1/2\) is inactive on this
+bounded interval for all large \(n\).
+
+Uniformly over the resulting bounded \(t\) interval, the likelihood is
+\begin{equation}
+ D_i\log t+\sum_{j\ne i}A_{ij}\log b_{cj}
+      -t\mathcal T_c+O(np^2).
+ \label{dcsbm:classical-profile-expansion}
+\end{equation}
+Indeed, restoring the edge terms in the linear exposure costs
+\(O(D_ip)\), and the sum of quadratic nonedge remainders costs
+\(O(np^2)\). Both are \(O(np^2)\) on \(\mathcal E_i\).
+The leading optimizer \(D_i/\mathcal T_c\) is bounded as well, so
+the same error bound holds after maximization.
+Terms \(D_i\log D_i-D_i\) and
+\(\sum_{j\ne i}A_{ij}\log\theta_j\) cancel in a contrast.
+Thus the exact capped profile satisfies
+\begin{align}
+ L^{ab}_{i,\mathrm{prof}}
+ &=V_{i,ab}
+   -D_i\log(\mathcal T_a/\mathcal T_b)+O(np^2)\nonumber\\
+ &=V_{i,ab}+O(np^2+p)
+ \quad\text{on }\mathcal E_i.
+ \label{dcsbm:classical-profile-contrast}
+\end{align}
+For \(D_i=0\), the raw row is identically zero; \(t=0\) maximizes
+every candidate likelihood with value zero. The displayed formulas
+then hold with the continuous convention \(0\log0=0\).
+
+\medskip
+\noindent\textbf{Single-row exceptions, directional errors, and averaging.}
+Every mean degree is at most \(\lambda_+d\) for a fixed \(\lambda_+\).
+For any prescribed fixed \(H\), a Bernoulli Chernoff bound permits a
+fixed choice of \(L_0\) such that
+\begin{equation}
+ \sup_i\PP(\mathcal E_i^c)\le e^{-Hd}.
+ \label{dcsbm:classical-single-exception}
+\end{equation}
+Also \(J_i\le C_Jd\) uniformly. Choose \(H>C_J+1\).
+It follows from \(d\to\infty\) that
+\[
+ \sup_i
+ \frac{\PP(\mathcal E_i^c)}
+      {d^{-1/2}e^{-J_i}}
+ \le \sqrt d\,e^{-(H-C_J)d}\longrightarrow0 .
+\]
+This calculation concerns one target at a time; it introduces no
+factor \(n\) and requires no logarithmic lower bound on \(d\).
+
+By \eqref{dcsbm:classical-known-contrast} and
+\eqref{dcsbm:classical-profile-contrast}, a fixed constant \(B_0\)
+bounds the difference between \(V_{i,ab}\) and either exact contrast
+on \(\mathcal E_i\). Thus for either
+\(L^{ab}_i=L^{ab}_{i,\mathrm{known}}\) or
+\(L^{ab}_i=L^{ab}_{i,\mathrm{prof}}\),
+\begin{align*}
+ \PP_a(V_{i,ab}<-B_0)-\PP_a(\mathcal E_i^c)
+ &\le \PP_a(L^{ab}_i<0)\\
+ &\le \PP_a(L^{ab}_i\le0)\\
+ &\le \PP_a(V_{i,ab}\le B_0)+\PP_a(\mathcal E_i^c).
+\end{align*}
+Applying \eqref{dcsbm:classical-count-tail} and then
+\eqref{dcsbm:classical-single-exception} proves that both the strict
+and nonstrict directional errors of either oracle are comparable
+to \(d^{-1/2}e^{-J_i}\).
+These are unconditional event inclusions; no independence from
+\(\mathcal E_i\) is asserted or needed.
+
+For the raw block-count vote, the pairwise contrast is \(V_{i,ab}\)
+itself. If counts are normalized by the self-excluded group sizes,
+multiplying all candidate scores by \(mL\) changes the pairwise
+contrast by at most \(CLD_i/n=O(p)\) on \(\mathcal E_i\), since
+those sizes are \(m\) or \(m-1\). The same tail comparison therefore
+applies to either voting convention.
+
+For each of these coherent families of candidate scores, a strict
+pairwise defeat of the true group implies an error, and an error
+implies a nonstrict defeat by some competitor. Taking the maximum
+of the strict pair probabilities for a lower bound and their
+nonstrict sum for an upper bound proves that each per-target error
+is comparable to \(d^{-1/2}e^{-J_i}\), since \(K\) is fixed.
+Averaging these bounds over \(i\) proves
+\eqref{dcsbm:classical-risk}.
+\end{proof}
+
+\begin{remark}[Oracle alignment and the algorithmic range]
+\label{dcsbm:classical-scope}
+The degree-dependent exponent in \eqref{dcsbm:classical-risk} is the
+balanced DC-SBM exponent appearing in the minimax analysis of
+Gao, Ma, Zhang and Zhou~\cite{gmzz2018}. Their exponent-level
+minimax expression does not, by itself, give the sharp prefactor
+or a constant-ratio theorem for every parameter point.
+The proposition supplies the exact local-oracle comparison on the
+fixed-separation, bounded-theta class stated here.
+
+For \eqref{dcsbm:classical-model}, the finite-\(n\) exposures in
+\eqref{eq:equal-exposure} are exactly equal. Hence, on the overlap
+with the algorithmic range of \cref{thm:dc},
+\cref{cor:known,dcsbm:classical-bridge} give
+\[
+ \E\ell(\widehat z_D,z)\le C R_{\theta,*},
+ \qquad R_{\theta,*}\asymp R_{\mathrm{prof},*}.
+\]
+The absence of a logarithmic lower bound in the oracle proposition
+does not remove that bound from the spectral algorithm theorem.
+Extending the algorithm requires its own sparse spectral and
+likelihood-transfer estimates.
+\end{remark}
