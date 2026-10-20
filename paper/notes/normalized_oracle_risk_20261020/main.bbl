@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{afwz}
+Emmanuel Abbe, Jianqing Fan, Kaizheng Wang, and Yiqiao Zhong.
+\newblock Entrywise eigenvector analysis of random matrices with low expected
+  rank, 2017.
+\newblock arXiv:1709.09565; Lemma 7, equation (C.2), version accessed 20
+  October 2026.
+
+\bibitem{bvh}
+Afonso~S. Bandeira and Ramon van Handel.
+\newblock Sharp nonasymptotic bounds on the norm of random matrices with
+  independent entries.
+\newblock {\em The Annals of Probability}, 44(4):2479--2506, 2016.
+\newblock Corollary 3.12 and Remark 3.13; arXiv:1408.6185v4.
+
+\bibitem{zhang}
+Anderson~Ye Zhang.
+\newblock Fundamental limits of spectral clustering in stochastic block models.
+\newblock {\em IEEE Transactions on Information Theory}, 70(10):7320--7348,
+  2024.
+
+\bibitem{zhouli}
+Zhixin Zhou and Ping Li.
+\newblock Rate optimal {Chernoff} bound and application to community detection
+  in the stochastic block models.
+\newblock {\em Electronic Journal of Statistics}, 14(1):1302--1347, 2020.
+
+\end{thebibliography}

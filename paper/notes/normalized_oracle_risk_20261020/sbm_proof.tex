@@ -1,0 +1,802 @@
+\section{Finite likelihood fitting and sharp risk in the ordinary SBM}
+\label{sec:sbm-proof}
+\label{sbm:section}
+
+We work under the ordinary-SBM assumptions of Theorem~\ref{thm:sbm}.
+In particular, $K\ge2$ is fixed, $n_a\ge c_*n$, the block matrix is
+symmetric and uniformly full rank at scale $p$, and
+$p/2\le P_{ab}\le p\le1/4$. Write $d=np$, $C_a=\{i:z_i=a\}$,
+$M_0=\Omega=ZPZ^\top$, and
+\[
+ \Pi_0=Z(Z^\top Z)^{-1}Z^\top,
+ \qquad p_{a*}=(P_{a,z_j})_{j=1}^n.
+\]
+The diagonal of $M_0$ is retained in these comparison profiles;
+the observed graph has no self-loops. The resulting bounded diagonal
+correction is included below.
+
+\subsection{A finite decoder using only the retained information}
+\label{sbm:algorithm}
+
+Let $D=\diag(A\one)$, and retain $K$ normalized adjacency eigenpairs
+$D^{-1/2}AD^{-1/2}U=U\Lambda$, including the Perron direction and
+selecting the remaining signal eigenvalues by absolute value. On graphs
+where the encoder is defined, put
+\[
+ X=D^{-1/2}U,\qquad
+ Q=X(X^\top X)^{-1/2},\qquad
+ Y=DX\Lambda(X^\top X)^{-1/2},\qquad
+ R=YQ^\top.
+\]
+These are exact algebraic operations. The generalized eigenrelation gives
+$Y=AQ$ and hence $R=A\Pi$, where $\Pi=QQ^\top$. The Perron direction
+implies $\Pi\one=\one$ and $R\one=A\one$. In particular, the entire
+decoder below is evaluable from $(D,U,\Lambda)$ without accessing an
+individual adjacency entry after compression. The exceptional-graph
+convention in the theorem makes the encoder and decoder total.
+
+Fix $0<c_0<1/16$, let $\bar d=n^{-1}\sum_iD_{ii}$, and set
+\[
+ \varepsilon=c_0\max(1,\bar d)/n,\qquad
+ \mathcal I=[\varepsilon,1-\varepsilon].
+\]
+All clipping in this section is coordinatewise to $\mathcal I$.
+For $v\in\R^n$ and $\mu\in\mathcal I^n$, define
+\[
+ \ell(v;\mu)
+ =\sum_j\{v_j\log\mu_j+(1-v_j)\log(1-\mu_j)\},
+ \qquad \ell_i(\mu)=\ell(R_{i*};\mu).
+\]
+The entries of $R$ may be signed. The score is nevertheless finite and
+has the retained-factor expression
+\begin{equation}
+ \ell_i(\mu)=Y_iQ^\top\operatorname{logit}(\mu)
+             +\sum_j\log(1-\mu_j).
+ \label{sbm:score}
+\end{equation}
+For $s$ fitted profiles $\mathcal C=(\mu_1,\ldots,\mu_s)$ and simplex
+weights $\pi$, use
+\[
+ \mathcal L(\mathcal C,\pi)
+ =\sum_i\log\sum_{a=1}^s\pi_a e^{\ell_i(\mu_a)}.
+\]
+An E-step and its subsequent M-step are
+\begin{align}
+ \gamma_{ia}
+ &=\frac{\pi_a e^{\ell_i(\mu_a)}}
+         {\sum_b\pi_b e^{\ell_i(\mu_b)}},
+ &N_a&=\sum_i\gamma_{ia},\notag\\
+ \mu_{aj}^{\rm new}
+ &=\operatorname{clip}_{\mathcal I}
+       \left(\frac{\sum_i\gamma_{ia}R_{ij}}{N_a}\right),
+ &\pi_a^{\rm new}&=N_a/n.
+ \label{sbm:em}
+\end{align}
+When $N_a=0$, the old profile is retained and the new weight is zero.
+The inner fitting subroutine performs at most $100$ exact E/M updates.
+It may stop earlier when its labels are unchanged and its objective
+increment is at most $10^{-12}(1+|\mathcal L_{\rm new}|)$. Ties in
+all maximizations are settled deterministically. The proof uses only
+finiteness and monotonicity of these inner updates.
+
+The candidate attached to vertex $j$ is
+$\nu_j=\operatorname{clip}_{\mathcal I}(R_{j*})$. Start from the clipped
+global mean and fit one component. For $s=2,\ldots,K$, append a candidate
+maximizing
+\[
+ \sum_i\left(\ell_i(\nu_j)-\max_{a<s}\ell_i(\mu_a)\right)_+,
+\]
+excluding the vertex identifiers selected in previous growing stages,
+and fit all $s$ components from uniform weights. This gives $K$ profiles.
+Next perform at most $T=\lceil\log n\rceil$ replacement rounds. For each
+deletion $a$ from the round's incumbent, put
+\[
+ h_i^{(-a)}=\max_{b\ne a}\ell_i(\mu_b)
+\]
+and choose a candidate maximizing
+$\sum_i(\ell_i(\nu_j)-h_i^{(-a)})_+$ over all vertices. Replace profile
+$a$ by this candidate, initialize all $K$ weights uniformly, and run
+the inner fit. After trying every deletion, retain the fit with largest
+$\mathcal L$, including the unchanged incumbent among the choices.
+A round without strict improvement terminates replacement.
+
+Finally, evaluate the selected fit's responsibilities, perform one
+mandatory M-step in \eqref{sbm:em}, and return
+\begin{equation}
+ \widehat z_i\in\argmax_a
+ \{\ell_i(\mu_a^{\rm new})+\log\pi_a^{\rm new}\}.
+ \label{sbm:decode}
+\end{equation}
+The reference to an E/M update here is ordered: the E-step is evaluated
+at the selected fit, its M-step follows, and the decoder uses the new
+profiles and weights.
+
+\subsection{A common box and deterministic reconstruction bounds}
+\label{sbm:box-section}
+
+Throughout the deterministic arguments, intersect the base event
+$\mathcal E_0$ in \eqref{eq:base-event} with the row-concentration
+events of Lemma~\ref{lem:normalized-rows}. Its constants are fixed,
+independent of $n$. In addition to the degree bounds and normalized
+signal gap, its consequences used here are
+\begin{equation}
+ \norm{A-M_0}_{\op}\le C\sqrt d,\qquad
+ \norm{U}_{2\to\infty}\le C/\sqrt n,\qquad
+ \norm{\Pi-\Pi_0}_{\op}\le C/\sqrt d.
+ \label{sbm:common-event}
+\end{equation}
+The same conclusions hold for the vertex-deleted graphs on their
+corresponding good events. Their probability costs are handled in the
+probability closure, after the sharp row calculation.
+
+\begin{lemma}[Reconstruction and generated probability box]
+\label{sbm:box}
+On the full-graph good event, for all sufficiently large $n$,
+\begin{align}
+ \norm{R-M_0}_F^2&\le Cd,
+ &\max_{i,j}|R_{ij}|&\le Cp,
+ &\norm{R_i(I-\Pi_0)}_2&\le C\sqrt p,
+ \label{sbm:reconstruction-bounds}\\
+ \norm{\Pi_0(A-R)\Pi_0}_{\op}&\le C.
+ \label{sbm:block-residual}
+\end{align}
+There are fixed $a_-,a_+,\eta_->0$ such that every profile generated by
+the decoder, every clipped true-class mean, and every true comparison
+profile belongs to
+\begin{equation}
+ \mathcal P_n
+ =\{\mu:\ a_-p\le\mu_j\le a_+p,\quad
+                    \mu_j\le1-\eta_-\text{ for every }j\}.
+ \label{sbm:box-def}
+\end{equation}
+Every true probability is at distance at least $cp$ from both endpoints
+of the actual clipping interval $\mathcal I$.
+\end{lemma}
+
+\begin{proof}
+Write $E=A-M_0$. Since $R=A\Pi$,
+\[
+ R-M_0=E\Pi+M_0(\Pi-I).
+\]
+Each term has rank at most $K$, operator norm at most $C\sqrt d$, and
+hence Frobenius norm at most $C\sqrt d$, by
+\eqref{sbm:common-event} and $\norm{M_0}_{\op}\le Cd$.
+For the other row bounds, write $G=X^\top X$. The degree bounds imply
+that the eigenvalues of $G$ are between constant multiples of $d^{-1}$.
+Thus $Q=XG^{-1/2}$ has row norms at most $C/\sqrt n$, and
+\[
+ AQ=DQT_0,\qquad T_0=G^{1/2}\Lambda G^{-1/2},\qquad
+ \norm{T_0}_{\op}\le C.
+\]
+It follows that $\norm{(AQ)_i}_2\le Cd/\sqrt n$, which proves the
+entrywise bound for $R=(AQ)Q^\top$. Moreover,
+\[
+ \norm{R_i(I-\Pi_0)}_2
+ \le\norm{(AQ)_i}_2\norm{Q^\top(I-\Pi_0)}_{\op}
+ \le C\sqrt{d/n}.
+\]
+
+Both $\Pi$ and $\Pi_0$ are orthogonal projectors. Consequently,
+\[
+ \norm{\Pi_0(I-\Pi)\Pi_0}_{\op}
+ =\norm{(I-\Pi)\Pi_0}_{\op}^2\le C/d.
+\]
+Using $M_0=\Pi_0M_0\Pi_0$ gives
+\[
+ \Pi_0(A-R)\Pi_0
+ =M_0\Pi_0(I-\Pi)\Pi_0+\Pi_0E(I-\Pi)\Pi_0.
+\]
+The two terms have norms at most $Cd/d$ and
+$C\sqrt d/\sqrt d$, respectively. This proves
+\eqref{sbm:block-residual} without a commutation assumption on $A$
+and $\Pi$.
+
+The average degree satisfies
+\[
+ \left|\bar d-n^{-1}\one^\top M_0\one\right|
+ \le\norm{E}_{\op}\le C\sqrt d.
+\]
+Since $d/2\le n^{-1}\one^\top M_0\one\le d$, eventually
+$d/4\le\bar d\le2d$. In particular $\bar d>1$ eventually, so
+\begin{equation}
+ c_0p/4\le\varepsilon\le2c_0p<p/8.
+ \label{sbm:floor}
+\end{equation}
+Together with $P_{ab}\in[p/2,p]$ and $p\le1/4$, this gives the claimed
+interior distance from the clipping endpoints.
+
+Each active raw M-step coordinate is a convex combination of a column
+of $R$, even though that column may have negative entries. It therefore
+lies in $[-C_Rp,C_Rp]$. Clipping makes it at most
+$\max(C_Rp,\varepsilon)\le C_\mu p$. The initial mean and all clipped
+candidates obey the same bound; an inactive component retains an earlier
+profile. These observations prove inductively that all generated
+profiles lie between $c_0p/4$ and $C_\mu p$. If
+$p\le1/(2C_\mu)$, their upper bound is $1/2$. Otherwise the lower
+bound in \eqref{sbm:floor} gives
+$\varepsilon\ge c_0/(8C_\mu)$, providing a fixed upper gap through
+clipping. Enlarge the constants to include the true profiles and the
+clipped true-class means.
+\end{proof}
+
+The box in \eqref{sbm:box-def} describes profiles generated by this
+algorithm and its comparison profiles. Uniform statements below concern
+this common box; they do not concern arbitrary vectors in the larger
+nominal interval $\mathcal I^n$.
+
+\begin{lemma}[Exact monotonicity for signed observations]
+\label{sbm:em-monotonicity}
+Every exact update \eqref{sbm:em} increases or preserves $\mathcal L$.
+\end{lemma}
+
+\begin{proof}
+The log-sum-exp variational identity gives
+\[
+ \sum_{i,a}\gamma_{ia}
+ \{\log\pi_a+\ell_i(\mu_a)-\log\gamma_{ia}\}
+ \le\mathcal L(\mathcal C,\pi),
+\]
+with equality at the E-step. For one profile coordinate and fixed
+responsibilities, put $a_j=\sum_i\gamma_{ia}R_{ij}$. Its objective is
+\[
+ a_j\log\mu+(N_a-a_j)\log(1-\mu),
+\]
+whose derivative has sign equal to $a_j/N_a-\mu$ when $N_a>0$.
+Thus its global maximizer on $\mathcal I$ is the clipped weighted mean,
+whether or not $a_j$ lies between zero and $N_a$. The weight maximizer
+is $N_a/n$. Zero mass leaves the corresponding coordinate objective
+constant. Maximization of this variational lower bound proves the claim.
+\end{proof}
+
+\subsection{The finite replacement certificate and common alignment}
+\label{sbm:initialization-section}
+
+For a $K$-profile list and weights, define the empirical reference loss
+\[
+ F_R(\mathcal C,\pi)
+ =\sum_i\ell(R_i;p_{z_i,*})-\mathcal L(\mathcal C,\pi),
+\]
+and its population version
+\[
+ F_0(\mathcal C,\pi)
+ =-\sum_i\log\sum_a\pi_a
+                   e^{-\KL(p_{z_i,*}\Vert\mu_a)}.
+\]
+Here a vector Bernoulli divergence means the coordinate sum
+\[
+ \KL(p_{c*}\Vert\mu)=\sum_j
+ \KL(\Ber(P_{c,z_j})\Vert\Ber(\mu_j)).
+\]
+The first term defining $F_R$ is a comparison constant independent of
+the fitted list and weights. Hence every implemented likelihood
+comparison is precisely the reverse comparison of $F_R$. The population
+loss $F_0$ is nonnegative. Also put
+\begin{align*}
+ G_R(\mathcal C)
+ &=\sum_i\{\ell(R_i;p_{z_i,*})-\max_a\ell_i(\mu_a)\},\\
+ G_0(\mathcal C)
+ &=\sum_c n_c\min_a\KL(p_{c*}\Vert\mu_a).
+\end{align*}
+These empirical reference losses are defined for signed $R$.
+
+\begin{lemma}[Uniform comparison of signed and population objectives]
+\label{sbm:objective-comparison}
+On the full-graph good event, uniformly over center lists in
+$\mathcal P_n$ and simplex weights,
+\begin{equation}
+ |F_R-F_0|+|G_R-G_0|\le Cn\sqrt d.
+ \label{sbm:objective-comparison-bound}
+\end{equation}
+Always $G_R\le F_R$. With uniform weights,
+$F_R\le G_R+n\log K$. Every true class supplies a candidate $\nu_j$
+with $\norm{\nu_j-p_{c*}}_1\le C\sqrt d$; all these candidates are
+available in every replacement trial.
+\end{lemma}
+
+\begin{proof}
+For a true class $c$ and fitted profile $\mu_a$, the difference
+$\ell(v;\mu_a)-\ell(v;p_{c*})$ is affine in $v$, with coefficient
+$\operatorname{logit}(\mu_a)-\operatorname{logit}(p_{c*})$ bounded
+uniformly on $\mathcal P_n$. The maximum and log-sum-exp operations are
+1-Lipschitz for changes bounded in maximum norm. Therefore each
+comparison in \eqref{sbm:objective-comparison-bound} is at most
+$C\sum_i\norm{R_i-p_{z_i,*}}_1$. By
+\eqref{sbm:reconstruction-bounds}, this sum is at most
+$n\norm{R-M_0}_F\le Cn\sqrt d$. The common $\log p$ terms have
+canceled in the score contrasts used in this argument.
+
+The inequalities between hard and soft reference losses follow from
+\[
+ K^{-1}e^{\max_a s_a}\le K^{-1}\sum_a e^{s_a}
+ \le e^{\max_a s_a}
+\]
+for uniform weights, and
+$\sum_a\pi_a e^{s_a}\le e^{\max_a s_a}$ for arbitrary weights.
+Finally, each class has at least $c_*n$ rows, so one of its rows has
+squared error at most $Cd/n$ by the Frobenius bound. Its $\ell_1$
+error is at most $C\sqrt d$. Clipping toward an interval containing
+the true profile contracts coordinatewise absolute error.
+\end{proof}
+
+\begin{lemma}[Finite replacement certificate]
+\label{sbm:replacement}
+At the selected endpoint of the replacement stage,
+\begin{equation}
+ F_R\le \xi_n nd,\qquad
+ \xi_n=C\{(1-1/K)^{\lceil\log n\rceil}+d^{-1/2}\}\longrightarrow0.
+ \label{sbm:certificate}
+\end{equation}
+The same conclusion holds if replacement stops because a complete
+round does not strictly improve the incumbent.
+\end{lemma}
+
+\begin{proof}
+Assign each true profile a nearest fitted center in population
+divergence. A true class contributes at least $G_0/K$. If a fitted
+center is unused by this assignment, replacing that center by this
+true profile removes its contribution without increasing any other
+class's loss. If every center is used, the assignment between the
+$K$ true classes and $K$ fitted centers is a bijection; replacing the
+center of the highest-loss class has the same property. Consequently
+some ideal replacement has population hard loss at most
+$(1-1/K)G_0$.
+
+The derivative of $\KL(p_{c*}\Vert\mu)$ in a parameter coordinate is
+$(\mu_j-P_{c,z_j})/[\mu_j(1-\mu_j)]$, uniformly bounded on the common
+box. Replacing the ideal profile by the available candidate from
+Lemma~\ref{sbm:objective-comparison} costs at most $Cn\sqrt d$.
+Combining the objective comparisons gives a candidate list $\mathcal C'$
+with
+\[
+ G_R(\mathcal C')\le(1-1/K)F_R(\mathcal C,\pi)+Cn\sqrt d.
+\]
+
+For a fixed deletion $a$, the empirical hard loss after inserting
+$\nu_j$ is exactly
+\[
+ \sum_i\{\ell(R_i;p_{z_i,*})-h_i^{(-a)}
+                         -(\ell_i(\nu_j)-h_i^{(-a)})_+\}.
+\]
+Thus the implemented maximum positive gain minimizes this loss among
+candidates. All deletions are tried. Uniform trial weights add at most
+$n\log K$ to the hard loss, and the subsequent exact inner fit cannot
+increase $F_R$ by Lemma~\ref{sbm:em-monotonicity}. Including the
+incumbent among the choices proves the recurrence
+\begin{equation}
+ F_{R,t+1}\le(1-1/K)F_{R,t}+Cn\sqrt d+n\log K,
+ \qquad F_{R,t+1}\le F_{R,t}.
+ \label{sbm:replacement-recurrence}
+\end{equation}
+
+Every generated profile lies in the common box, so each population
+divergence is at most $Cd$. Hence $F_{0,0}\le Cnd$ for arbitrary
+simplex weights, and the same bound holds for $F_{R,0}$ by
+\eqref{sbm:objective-comparison-bound}. No preliminary accuracy guarantee
+for the growing stage is needed: its generated list supplies this finite
+starting bound. Iterating
+\eqref{sbm:replacement-recurrence} for $\lceil\log n\rceil$ rounds
+gives \eqref{sbm:certificate}, after enlarging its constant. If a
+complete round gives no strict improvement, its chosen loss is the
+incumbent's loss. The first inequality in
+\eqref{sbm:replacement-recurrence} then immediately yields
+$F_R\le K(Cn\sqrt d+n\log K)$, which has the same conclusion.
+\end{proof}
+
+\begin{lemma}[Common matching and refined responsibilities]
+\label{sbm:responsibilities}
+The selected fit admits a single permutation after which
+\begin{equation}
+ \max_a\norm{\mu_a-p_{a*}}_1=o(d),\qquad
+ -\log\min_a\pi_a=o(d).
+ \label{sbm:consistent-fit}
+\end{equation}
+Its next E-step satisfies
+\begin{equation}
+ \frac1n\sum_{i,a}|\gamma_{ia}-Z_{ia}|\le C/d.
+ \label{sbm:responsibility-radius}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The preceding lemmas give $F_0\le\zeta_nnd$ with $\zeta_n\to0$.
+Since $F_0\ge G_0$, each true class has a fitted center whose
+divergence is $o(d)$. On the common box, Bernoulli entropy curvature
+and Cauchy--Schwarz imply
+\[
+ \KL(p_{a*}\Vert\mu)\ge
+ \frac{\norm{p_{a*}-\mu}_2^2}{Cp}
+ \ge\frac{\norm{p_{a*}-\mu}_1^2}{Cd}.
+\]
+Thus each true profile has a fitted center at $o(d)$ in $\ell_1$.
+Uniform full rank and positive class sizes give
+\[
+ \min_{a\ne b}\norm{p_{a*}-p_{b*}}_2^2\ge cnp^2,
+ \qquad
+ \min_{a\ne b}\norm{p_{a*}-p_{b*}}_1\ge cd.
+\]
+The nearby centers must therefore be distinct. There are exactly $K$
+of them, proving one common matching and the first assertion of
+\eqref{sbm:consistent-fit}.
+
+For a row of true class $a$, each wrong-center population divergence
+is at least $c_1d$ eventually, by this matching and the common-box
+Lipschitz bound. Its population soft loss is at least
+$-\log(\pi_a+e^{-c_1d})$. It is the same for all $n_a$ rows of that
+class, and every population soft loss is nonnegative. Consequently
+\[
+ \pi_a+e^{-c_1d}\ge e^{-\zeta_nnd/n_a},\qquad
+ \pi_a\ge\tfrac12e^{-C\zeta_nd}
+\]
+for all sufficiently large $n$. This proves the weight assertion.
+
+Fix a sufficiently small constant $t_0>0$. If
+$\norm{R_i-p_{a*}}_1\le t_0d$ and $z_i=a$, the population separation,
+\eqref{sbm:consistent-fit}, and bounded contrast coefficients give
+a fitted correct-class margin at least $c_2d$. The wrong responsibility
+mass on this row is at most $(K-1)e^{-c_2d}$. Every remaining row has
+squared error at least $t_0^2d^2/n$. The Frobenius bound limits their
+number to $Cn/d$. Summing their responsibility masses, which are at
+most one, proves \eqref{sbm:responsibility-radius}.
+\end{proof}
+
+\subsection{Fitted profiles change the relevant score by a bounded amount}
+\label{sbm:fitted-section}
+
+Define the centered block fluctuation
+\begin{equation}
+ \mathcal B
+ =\max_{a,c}
+ \left|\frac{\one_{C_a}^\top(A-\E A)\one_{C_c}}
+                   {\sqrt{n_an_c}}\right|.
+ \label{sbm:block-fluctuation}
+\end{equation}
+
+\begin{lemma}[Block moments and deletion]
+\label{sbm:block-moments}
+For every fixed $t\ge0$, $\E e^{t\mathcal B}\le C_t$. For a tested
+vertex $i$, let $\mathcal B_i$ be the analogous fluctuation calculated
+from $B=A_{-i,-i}$ and the deleted class sizes. Then
+$\E e^{t\mathcal B_i}\le C_t$, and on $D_{ii}\le Cd$,
+\begin{equation}
+ \mathcal B\le C(1+\mathcal B_i).
+ \label{sbm:fluctuation-deletion}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Each normalized block sum in \eqref{sbm:block-fluctuation} is a sum
+of independent centered upper-triangular Bernoulli entries with
+coefficients of magnitude at most $C/n$. Its sum of coefficient-squared
+edge probabilities is at most $Cp$. The elementary centered Bernoulli
+transform bound therefore gives, for each fixed real $t$,
+\[
+ \log\E\exp\left\{
+ t\frac{\one_{C_a}^\top(A-\E A)\one_{C_c}}
+         {\sqrt{n_an_c}}\right\}
+ \le C t^2 e^{C|t|/n}p.
+\]
+For example, this follows by applying
+$e^u-1-u\le u^2e^{|u|}/2$ to every independent edge and multiplying
+their transforms. Taking both signs and summing over the fixed number
+of block pairs bounds $\E e^{t\mathcal B}$.
+
+Deleting one vertex preserves the positive class-size bounds, so the
+same argument applies to $\mathcal B_i$. The unnormalized difference
+between a full and deleted block sum consists of at most twice the
+tested row's centered edge sum. Its absolute value is at most
+$C(D_{ii}+d)$. Dividing by $\sqrt{n_an_c}\ge cn$ gives $O(p)$.
+The factor converting a deleted normalized block sum to the full
+denominator is bounded by a constant. This proves
+\eqref{sbm:fluctuation-deletion}.
+\end{proof}
+
+For each class define the raw true-class mean and its clipped version
+\[
+ \bar r_a=n_a^{-1}\sum_{l\in C_a}R_l,
+ \qquad \bar\mu_a=\operatorname{clip}_{\mathcal I}(\bar r_a).
+\]
+These are comparison quantities only. For $a\ne b$, also define
+\begin{equation}
+ w_j^{ab}=\log\frac{P_{a,z_j}(1-P_{b,z_j})}
+                         {P_{b,z_j}(1-P_{a,z_j})},
+ \qquad
+ r_j^{ab}=\log\frac{1-P_{a,z_j}}{1-P_{b,z_j}}.
+ \label{sbm:true-weights}
+\end{equation}
+
+\begin{lemma}[Uniform fitted-score comparison]
+\label{sbm:fitted-score}
+On the full-graph good event, every M-step from responsibilities
+satisfying \eqref{sbm:responsibility-radius}, after their common
+matching, has weights bounded below and obeys
+\begin{equation}
+ \left|
+ \ell_i(\mu_a)-\ell_i(\mu_b)+\log\frac{\pi_a}{\pi_b}
+ -\left\{R_iw^{ab}+\sum_jr_j^{ab}\right\}
+ \right|
+ \le C(1+\mathcal B)
+ \label{sbm:fitted-score-bound}
+\end{equation}
+uniformly over $i,a,b$ and all such responsibility matrices.
+\end{lemma}
+
+\begin{proof}
+Write $e=n^{-1}\sum_{l,a}|\gamma_{la}-Z_{la}|\le C/d$.
+Then $N_a=n_a+O(ne)$, so $N_a\ge cn$ eventually and the updated
+weights $N_a/n$ are bounded below. By
+\eqref{sbm:reconstruction-bounds}, $\max_l\norm{R_l}_1\le Cd$.
+The difference of the raw responsibility-weighted mean and $\bar r_a$
+can be written as a numerator perturbation and a denominator
+perturbation. Their combined $\ell_1$ norm is at most
+\[
+ \frac{Cd}{N_a}\sum_l|\gamma_{la}-Z_{la}|
+ +\frac{Cd}{N_a}|N_a-n_a|
+ \le Ced\le C.
+\]
+Clipping is 1-Lipschitz, whence
+\begin{equation}
+ \norm{\mu_a-\bar\mu_a}_1\le C.
+ \label{sbm:actual-perfect-mean}
+\end{equation}
+
+Jensen's inequality and the Frobenius bound give
+\[
+ \norm{\bar r_a-p_{a*}}_2^2
+ \le n_a^{-1}\sum_{l\in C_a}\norm{R_l-p_{a*}}_2^2\le Cp.
+\]
+Clipping toward an interval containing $p_{a*}$ preserves this bound.
+The interior distance from Lemma~\ref{sbm:box} also gives the scalar
+inequality
+\[
+ |\operatorname{clip}_{\mathcal I}(x)-x|
+ \le\frac{(x-u)^2}{cp}
+\]
+for each true coordinate $u$. Thus
+$\norm{\bar\mu_a-\bar r_a}_1\le C$.
+
+For a true block $C_c$, decompose the block sum of
+$\bar r_a-p_{a*}$ using $R-A$, $A-\E A$, and $\E A-M_0$.
+The first contributes at most
+\[
+ \sqrt{n_c/n_a}\,
+ \norm{\Pi_0(R-A)\Pi_0}_{\op}\le C,
+\]
+by \eqref{sbm:block-residual}; the second is at most $C\mathcal B$.
+The diagonal correction contributes at most $P_{aa}\le p$.
+Including the clipping correction proves, for
+$\delta_a=\bar\mu_a-p_{a*}$,
+\begin{equation}
+ \norm{\delta_a}_2^2\le Cp,
+ \qquad
+ \left|\sum_{j\in C_c}\delta_{aj}\right|
+ \le C(1+\mathcal B).
+ \label{sbm:mean-errors}
+\end{equation}
+
+For any profile in the common box, the score derivatives are
+\[
+ \frac{\partial\ell_i}{\partial\mu_j}
+ =\frac{R_{ij}-\mu_j}{\mu_j(1-\mu_j)},\qquad
+ \frac{\partial^2\ell_i}{\partial\mu_j^2}
+ =-\frac{R_{ij}}{\mu_j^2}
+  -\frac{1-R_{ij}}{(1-\mu_j)^2}.
+\]
+Their absolute values are at most $C$ and $C/p$, respectively.
+Therefore \eqref{sbm:actual-perfect-mean} changes the score by $O(1)$,
+and the second-order remainder in a Taylor expansion at $p_{a*}$ is
+at most $C\norm{\delta_a}_2^2/p\le C$.
+
+Split the first-order gradient at $p_{a*}$ into its projection onto
+$\col(Z)$ and its orthogonal complement. Its block-constant
+projection has bounded coordinates; paired with $\delta_a$, it is
+bounded by \eqref{sbm:mean-errors}. The diagonal multiplier
+$[P_{a,z_j}(1-P_{a,z_j})]^{-1}$ is block constant and commutes with
+$\Pi_0$. Hence the complementary gradient has norm at most
+\[
+ \frac C p\norm{R_i(I-\Pi_0)}_2\le C/\sqrt p.
+\]
+Its inner product with $\delta_a$, whose norm is at most $C\sqrt p$,
+is $O(1)$. We have proved
+$|\ell_i(\mu_a)-\ell_i(p_{a*})|\le C(1+\mathcal B)$.
+Apply the same calculation to $b$ and include the bounded updated
+log-weight ratio. The exact true-profile contrast is the expression
+in braces in \eqref{sbm:fitted-score-bound}, proving the result.
+\end{proof}
+
+\subsection{Euclidean projected evidence at the oracle tilt}
+\label{sbm:tilted-section}
+
+Fix a tested vertex $i$ and labels $a\ne b$. Let $B=A_{-i,-i}$,
+$x=A_{-i,i}$, and let $\Pi_B$ be the Euclidean projector onto the
+deleted generalized signal space from Lemma~\ref{lem:loo}. Write
+$\Pi_{0,B}$ for the true block projector on the remaining vertices.
+For this paragraph, $w$ and $r$ denote the restrictions of
+\eqref{sbm:true-weights} to these vertices. The exact oracle log
+likelihood ratio is
+\[
+ L_{i,ab}=b_{i,ab}+x^\top w,
+ \qquad b_{i,ab}=\sum_{j\ne i}r_j^{ab}.
+\]
+Let $I_{i,ab}$ be its exact Bernoulli Chernoff information in
+\eqref{eq:sbm-information} and $t_*$
+its optimizing parameter, using the transform under class $a$ with
+factor $e^{-t_*L_{i,ab}}$. Under the corresponding optimizing tilt,
+the row coordinates are independent with block-constant probabilities
+\begin{equation}
+ q_j=\frac{P_{a,z_j}^{1-t_*}P_{b,z_j}^{t_*}}
+ {P_{a,z_j}^{1-t_*}P_{b,z_j}^{t_*}
+ +(1-P_{a,z_j})^{1-t_*}(1-P_{b,z_j})^{t_*}}.
+ \label{sbm:tilted-probability}
+\end{equation}
+These probabilities are comparable to $p$. The log-odds are bounded,
+and uniform full rank gives $\sum_{j\ne i}w_j^2\asymp n$.
+For all tilt parameters in $[0,1]$, the log transform therefore has
+second derivative between $cd$ and $Cd$. Its two endpoint values
+are zero. It follows that $I_{i,ab}\asymp d$, the optimizing parameter
+stays inside a fixed compact subinterval of $(0,1)$, and its tilted
+variance is comparable to $d$. Thus the oracle conditions of
+Lemma~\ref{lem:sharp} hold uniformly.
+
+\begin{lemma}[Euclidean tilted cancellation]
+\label{sbm:tilted-cancellation}
+On the deleted-graph good event, let $\beta=(\Pi_B-I)w$. Then
+\begin{equation}
+ \max_j|\beta_j|\le C,
+ \qquad |q^\top\beta|\le C,
+ \qquad \sum_jq_j\beta_j^2\le C.
+ \label{sbm:tilted-errors}
+\end{equation}
+Consequently, conditional on $B$, for every real $u$,
+\begin{equation}
+ \PP_a\{b_{i,ab}+x^\top\Pi_Bw\le u\mid B\}
+ \le C\frac{e^{-I_{i,ab}+t_*u}}{\sqrt d}.
+ \label{sbm:conditional-tail}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The deleted Euclidean basis has row norms at most $C/\sqrt n$, so
+bounded entries of $w$ imply bounded entries of $\Pi_Bw$.
+Let $\delta=\norm{(I-\Pi_B)\Pi_{0,B}}_{\op}\le C/\sqrt d$,
+as follows from \eqref{eq:euclidean-angle} for the deleted graph.
+Both $q$ and $w$ belong to $\col(\Pi_{0,B})$. Orthogonality gives
+\[
+ q^\top\beta
+ =-\ip{(I-\Pi_B)q}{(I-\Pi_B)w}.
+\]
+Since $\norm q_2\le Cp\sqrt n$ and $\norm w_2\le C\sqrt n$,
+its absolute value is at most $Cnp\delta^2\le C$.
+Also $\norm\beta_2^2\le\delta^2\norm w_2^2\le Cn/d$, so
+$\sum_jq_j\beta_j^2\le Cp\norm\beta_2^2\le C$.
+This proves \eqref{sbm:tilted-errors}.
+
+The conditional transform identity is
+\[
+ \E_a e^{-t_*(b_{i,ab}+x^\top\Pi_Bw)}
+ =e^{-I_{i,ab}}\E_{q}e^{-t_*x^\top\beta}.
+\]
+Independence, $\log(1+y)\le y$, and
+$e^v-1-v\le v^2e^{|v|}/2$ bound the final log transform by
+$C|q^\top\beta|+C\sum_jq_j\beta_j^2\le C$.
+Under tilting by this estimated score, the row is still a product of
+Bernoulli variables. Its probabilities and complements are comparable
+to their oracle-tilted counterparts because the coefficient errors
+are bounded. Its score variance is of order $d$: in the oracle-tilted
+quadratic form,
+\[
+ \sum_jq_j(1-q_j)(w_j+\beta_j)^2
+ \ge\tfrac12\sum_jq_j(1-q_j)w_j^2
+       -\sum_jq_j\beta_j^2\ge cd
+\]
+eventually, and the corresponding upper bound is $Cd$.
+The bounded summands have total third absolute centered moment $O(d)$.
+The bounds \eqref{sbm:tilted-errors} give all three premises in
+\eqref{eq:tilt-error}, with zero additive intercept error and fixed
+constants. Lemma~\ref{lem:sharp} now gives
+\eqref{sbm:conditional-tail}.
+A threshold $u$ only contributes the displayed factor $e^{t_*u}$;
+it does not change this variance or the interval-concentration bound.
+\end{proof}
+
+\begin{proposition}[Sharp error bound for the finite fitted decoder]
+\label{sbm:good-event-risk}
+Align the selected fit by the common matching from
+Lemma~\ref{sbm:responsibilities}. Let $\mathcal E_i$ be the intersection
+of the full-graph and vertex-deleted good events, including the tested
+degree bound, used in Lemmas~\ref{lem:normalized-rows} and~\ref{lem:loo}.
+For a vertex with true class $a$ and any $b\ne a$, the final decoder
+\eqref{sbm:decode} satisfies
+\begin{equation}
+ \PP_z\{\widehat z_i\text{ is aligned to }b,\ \mathcal E_i\}
+ \le C\frac{e^{-I_{i,ab}}}{\sqrt d}.
+ \label{sbm:good-event-bound}
+\end{equation}
+In particular, summing over competitors and averaging over vertices
+bounds the good-event expected misclassification loss by
+\begin{equation}
+ \frac Cn\sum_i\sum_{b\ne z_i}
+              \frac{e^{-I_{i,z_i b}}}{\sqrt d}.
+ \label{sbm:good-average}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The finite replacement certificate and its mandatory final E/M update
+give the premise of Lemma~\ref{sbm:fitted-score}. A wrong assignment
+from $a$ to $b$, including an unfavorable score tie, implies on the
+full-graph good event that
+\[
+ R_iw^{ab}+\sum_jr_j^{ab}\le C(1+\mathcal B).
+\]
+The full-to-deleted Euclidean identity \eqref{eq:loo-euclidean} applies
+to the fixed bounded vector $w^{ab}$. Together with
+\eqref{sbm:fluctuation-deletion}, it gives the deterministic event
+containment
+\begin{equation}
+ \{\widehat z_i\text{ is aligned to }b,\ \mathcal E_i\}
+ \subseteq
+ \{b_{i,ab}+x^\top\Pi_Bw_{-i}^{ab}
+                \le C(1+\mathcal B_i),\ B\text{ good}\}.
+ \label{sbm:event-containment}
+\end{equation}
+The nonedge intercept changes by $r_i^{ab}=O(p)$ when the tested
+diagonal is removed, which is absorbed into the constant.
+
+Use the full-graph event only for this deterministic containment.
+The right-hand event does not condition the tested row on full-graph
+eigenvectors, fitted parameters, or a degree event. Conditional on
+$B$, the incident row has its original independent Bernoulli law.
+Applying \eqref{sbm:conditional-tail} with
+$u=C(1+\mathcal B_i)$, integrating over good $B$, and using
+Lemma~\ref{sbm:block-moments} gives
+\[
+ \PP_z\{\widehat z_i\text{ is aligned to }b,\ \mathcal E_i\}
+ \le C\frac{e^{-I_{i,ab}}}{\sqrt d}
+       \E e^{C\mathcal B_i}
+ \le C'\frac{e^{-I_{i,ab}}}{\sqrt d}.
+\]
+This proves \eqref{sbm:good-event-bound}. The common permutation is
+the same for every vertex, so the loss minimized over permutations
+is at most the loss under this matching. Summing the pairwise bounds
+proves \eqref{sbm:good-average}.
+\end{proof}
+
+The sharp Bernoulli oracle comparison in Lemma~\ref{lem:sharp}
+identifies the terms in \eqref{sbm:good-average} with local oracle
+errors up to fixed constants, including the $d^{-1/2}$ factor
+\cite{zhouli}. The probability closure pays the complement of these
+good events at that same oracle scale and completes
+Theorem~\ref{thm:sbm}.
+
+\paragraph{Extension to general positive block profiles.}
+The deterministic and conditional arguments also apply to a fixed
+positive full-rank block class
+\[
+ c_-p\le P_{ab}\le c_+p,\qquad
+ \max_{a,b}P_{ab}\le1-\epsilon_0,
+\]
+with positive comparable class sizes and $d\to\infty$; $p$ need not tend
+to zero. In particular $p\le p_{\max}:=(1-\epsilon_0)/c_-$.
+The average degree is eventually between $c_-d/2$ and $2c_+d$.
+Choose
+\[
+ 0<c_0<\min\{1/16,\ c_-/(4c_+),\ \epsilon_0/2\}.
+\]
+Then $\varepsilon\le2c_0c_+p<c_-p/2$, giving a distance at least
+$c_-p/2$ between every true probability and the lower clipping endpoint.
+For $n\ge2$ the elementary graph bound $\bar d\le n-1$ also gives
+$\varepsilon\le c_0<\epsilon_0/2$. Hence the distance to the upper
+endpoint is at least $\epsilon_0/2\ge
+\{\epsilon_0/(2p_{\max})\}p$. This proves the required interior
+condition for dense as well as sparse profiles.
+
+The generated common-box proof, all likelihood derivatives, and all
+block-fluctuation moments now hold with fixed constants depending on
+$c_-,c_+,\epsilon_0$. The exact oracle-tilted probabilities remain
+between the two candidate probabilities. Both these means and the exact
+log-odds vectors are block constant, so the Euclidean tilted calculation
+uses no sparse approximation. All arguments above therefore apply on
+the proved good event to this general class. Proposition~\ref{prop:sbm-margin}
+pays that event's complement under an explicit information--degree
+margin; Corollary~\ref{cor:known} supplies the sparse equal-exposure
+case where the margin is automatic.

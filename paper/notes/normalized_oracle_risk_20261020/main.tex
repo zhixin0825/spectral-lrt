@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,longtable,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{cleveref}
+\hypersetup{
+  pdftitle={Constant oracle-risk bounds for normalized spectral likelihood},
+  pdfauthor={spectral-lrt research project},
+  pdfsubject={Complete Bernoulli SBM and degree-corrected SBM proof note},
+  pdfkeywords={spectral clustering, likelihood ratio, oracle risk, SBM, DC-SBM}
+}
+\setlist{itemsep=3pt,topsep=5pt,leftmargin=2em}
+\setlength{\emergencystretch}{2em}
+\allowdisplaybreaks[2]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Ber}{\operatorname{Bern}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\ind}[1]{\mathbf1\{#1\}}
+\title{Constant oracle-risk bounds for normalized spectral likelihood\\
+\large End-to-end Bernoulli SBM and degree-corrected SBM results}
+\author{Research proof note for the spectral-lrt project}
+\date{20 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give finite, implementable classifiers based only on retained normalized
+spectral information and prove expected misclassification risk at most a
+constant times a precisely specified local oracle risk. For ordinary SBM,
+the signed Euclidean spectral reconstruction and finite growing/replacement
+likelihood initializer are covered on an explicit nontrivial model class,
+with a broader information--degree margin extension. For bounded-degree-parameter
+DC-SBM, a degree-metric spectral reconstruction, deterministic spectral
+initialization, estimated nuisance parameters and Bernoulli profile likelihood
+give the bound for general positive full-rank block profiles when
+\(C_0\log n\le np\) and \(np^2\le C_1\). The reference is the full-edge
+profile-LRT oracle with true neighbor parameters. Equal block exposures
+further imply a bound relative to the oracle supplied with the target's
+true degree parameter. A two-point counterexample shows that this stronger
+oracle cannot be matched throughout general DC-SBM, even from the full
+adjacency matrix. The proof keeps the sharp \(d^{-1/2}\) prefactor,
+establishes actual full-graph-to-LOO score control, and pays every failure
+event at the oracle scale. The algorithm modifications and model restrictions
+are explicit; a bounded risk ratio is not a claim that the ratio converges.
+\end{abstract}
+\tableofcontents
+\clearpage
+\input{statements}
+\input{sharp_tail}
+\input{normalized_geometry}
+\input{sbm_proof}
+\input{dcsbm_proof}
+\input{probability_closure}
+\input{impossibility}
+\input{scope_audit}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

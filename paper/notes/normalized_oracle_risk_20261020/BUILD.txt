@@ -1,0 +1,15 @@
+Constant oracle-risk bounds for normalized spectral likelihood
+Revision: 2026-10-20
+Entry point: main.tex
+Bibliography: references.bib
+Build: PDFLaTeX, BibTeX, PDFLaTeX, PDFLaTeX.
+Verified output: 39 pages, A4, embedded Latin Modern fonts.
+Validation: no undefined references or citations; no LaTeX warnings,
+overfull boxes, or underfull boxes in the final build.
+Visual inspection: all 39 rendered pages reviewed in page contact sheets;
+main theorem, LOO, tilted-cancellation, and scope pages inspected at full size.
+Scientific checks: independent ordinary-SBM and DC-SBM proof audits;
+additional independent sharp-tail, conditioning, and counterexample audit.
+The checks are internal mathematical review, not external peer review.
+The exact model and algorithm restrictions are in the main statements and
+the scope section; earlier broader claims are not justified by this note.

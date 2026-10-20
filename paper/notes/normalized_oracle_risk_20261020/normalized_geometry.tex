@@ -1,0 +1,345 @@
+\section{Actual normalized spectral geometry and leave-one-out control}
+\label{sec:geometry}
+
+This section proves the spectral premises used by both fitted decoders.
+Leave-one-out (LOO) matrices occur only in the proof. The implemented
+encoder retains one full-graph eigensystem.
+
+\subsection{Raw concentration and deterministic spectral consequences}
+
+For any prescribed fixed $H>0$, when $d\ge c\log n$ there is a fixed
+$L_H$ such that
+\begin{equation}\label{eq:raw-norm-tail}
+ \PP\{\norm{A-\Omega}_{\op}>L_H\sqrt d\}\le e^{-Hd}.
+\end{equation}
+Indeed, apply Corollary 3.12 and its centered-entry extension in
+Remark 3.13 of Bandeira--van Handel~\cite{bvh} to $A-\E A$.
+For bounded centered entries that result bounds the tail at
+$C\sqrt{\max_i\sum_j\operatorname{Var}(A_{ij})}+t$ by
+$n\exp(-t^2/C')$. Here the row variance sum is $O(d)$, and the entries
+have absolute value at most one. Choosing $t$ a sufficiently large fixed
+multiple of $\sqrt d$ absorbs both $H$ and $\log n$.
+The completed-mean diagonal costs $O(p)$. The centered-entry extension is
+needed: centered Bernoulli noise does not have a symmetric distribution.
+
+Fix constants $a,b,L>0$ and define the base event
+\begin{equation}\label{eq:base-event}
+ \mathcal E_0=
+ \{\norm{A-\Omega}_{\op}\le L\sqrt d,
+       \quad ad\le D_i\le bd\text{ for every }i\}.
+\end{equation}
+Its minimum-degree probability is deliberately not included in
+\eqref{eq:raw-norm-tail}; it is treated separately in
+\cref{sec:probability}.
+On $\mathcal E_0$,
+\begin{equation}\label{eq:degree-aggregate}
+ \norm{(D-\bar D)\one}_2\le L\sqrt{nd},\qquad
+ \sum_j\frac{(D_j-\bar D_j)^2}{D_j}\le Cn,
+ \quad \bar D=\diag(\Omega\one).
+\end{equation}
+These follow by applying $A-\Omega$ to $\one$; no uniform vanishing
+relative degree error is required.
+
+The observed-degree-normalized completed mean
+\[
+ M=D^{-1/2}\Omega D^{-1/2}
+\]
+has rank $K$, column space $\col(D^{-1/2}\Theta Z)$, and its nonzero
+eigenvalues have absolute values at least a fixed positive constant.
+For the last statement,
+$Z^\top\Theta D^{-1}\Theta Z$ is diagonal with entries comparable to
+$n/d$, and the nonzero eigenvalues are those of
+\[
+ p(Z^\top\Theta D^{-1}\Theta Z)^{1/2}
+ C(Z^\top\Theta D^{-1}\Theta Z)^{1/2}.
+\]
+The lower singular-value assumption supplies the fixed gap.
+Since $\norm{S-M}_{\op}\le C/\sqrt d$, the retained eigenvalues are
+bounded away from zero, the discarded spectrum is $O(d^{-1/2})$, and
+\begin{equation}\label{eq:normalized-angle}
+ \norm{UU^\top-\Pi_M}_{\op}\le C/\sqrt d,
+\end{equation}
+where $\Pi_M$ projects onto $\col(D^{-1/2}\Theta Z)$.
+These gap estimates follow directly by expanding a retained vector in the
+signal and complementary eigenbases, or by the usual subspace perturbation
+inequality. Positive and negative signal eigenvalues are both retained.
+
+The same conclusions hold for every vertex-deleted graph with its degrees
+\emph{recomputed}: deleting a vertex preserves the raw principal-submatrix
+norm bound, reduces each surviving degree by at most one, and changes a
+block mass by only a bounded amount. All constants can be chosen common
+for the full graph and these $n$ minors.
+
+\subsection{Exact generalized equations for one incident row}
+
+Put the tested vertex first and write
+\begin{equation}\label{eq:arrowhead-A}
+ A=\begin{pmatrix}0&x^\top\\x&B\end{pmatrix},\qquad
+ k=\norm{x}_1,\quad \Delta=\diag(B\one),\quad
+ D=\diag(k,\Delta+E_x),\quad E_x=\diag(x).
+\end{equation}
+Here $x\in\{0,1\}^{n-1}$. Suppose the deleted degrees lie between
+fixed multiples of $d$, $0<k\le bd$, and
+\[
+ S_B=\Delta^{-1/2}B\Delta^{-1/2}
+    =U_B\Lambda_BU_B^\top+N,
+ \quad U_B^\top U_B=I_K,\quad NU_B=0,
+\]
+with signal eigenvalues separated from zero and
+$\norm{N}_{\op}\le C/\sqrt d$. Write
+\[
+ V=\Delta^{-1/2}U_B,\quad Q_\perp=I-U_BU_B^\top,\quad
+ F=\Delta^{-1/2}E_x\Delta^{-1/2},\quad h=\Delta^{-1/2}x.
+\]
+Then $\norm F\le C/d$ and $\norm h^2\le Ck/d$.
+The full normalized matrix differs from $\diag(0,S_B)$ by
+$O(d^{-1/2})$: its off-diagonal normalized row has squared norm at most
+$C/d$, and the lower degree-renormalization perturbation is $O(d^{-1})$.
+The full retained signal therefore has the same fixed gap.
+
+Take full generalized eigenvectors $g_r=D^{-1/2}u_r$, so
+$Ag_r=\mu_rDg_r$ and jointly $G^\top DG=I_K$.
+Decompose them exactly as
+\[
+ g_r=\binom{t_r}{\Delta^{-1/2}(U_By_r+z_r)},
+ \qquad U_B^\top z_r=0.
+\]
+Let $h_V=U_B^\top h$ and $h_Q=Q_\perp h$.
+The top row and complementary equations give
+\begin{align}
+ h^\top(U_By_r+z_r)&=\mu_r k t_r,\label{eq:generalized-top}\\
+ (\mu_rI-N+\mu_rQ_\perp FQ_\perp)z_r
+   &=t_rh_Q-\mu_rQ_\perp FU_By_r.\label{eq:generalized-complement}
+\end{align}
+The inverse $T_r$ of the complementary operator has bounded norm.
+Substituting into \eqref{eq:generalized-top} gives
+\begin{equation}\label{eq:top-resolvent}
+ (\mu_r k-h_Q^\top T_rh_Q)t_r
+ =h_V^\top y_r-\mu_rh_Q^\top T_rQ_\perp FU_By_r.
+\end{equation}
+Its denominator has magnitude at least $ck$: the second term is at most
+$Ck/d$. This remains true when $k$ is small.
+
+Put $M_B=\norm{U_B}_{2\to\infty}$.
+The coordinates $y_r$ have bounded norm because
+$\Delta^{1/2}G_{-i}=(I+F)^{-1/2}U_{-i}$ has norm at most one.
+Using
+\[
+ \norm{h_V}\le CkM_B/\sqrt d,\qquad
+ \norm{FU_B}_F\le CM_B\sqrt k/d
+\]
+in the exact equations yields
+\begin{equation}\label{eq:generalized-bounds}
+ |t_r|\le CM_B/\sqrt d,\qquad
+ \norm{z_r}_2\le CM_B\sqrt k/d.
+\end{equation}
+The matrix $Y=(y_1,\ldots,y_K)$ has bounded inverse: the full and padded
+deleted signal spaces have angle $O(d^{-1/2})$, and the extra multiplier
+$(I+F)^{-1/2}$ costs only $O(d^{-1})$.
+
+\begin{lemma}[Normalized row bounds from model events]\label{lem:normalized-rows}
+Under the structural model assumptions, for any prescribed $H>0$ there
+are row-concentration events of total failure probability at most
+$2Kn e^{-Hd}$ such that, on their intersection with $\mathcal E_0$,
+the full normalized retained vectors and every deleted normalized retained
+basis satisfy
+\begin{equation}\label{eq:row-incoherence}
+ \norm{U}_{2\to\infty}\le C_H/\sqrt n,
+ \qquad \max_i\norm{U^{(-i)}}_{2\to\infty}\le C_H/\sqrt n.
+\end{equation}
+They also satisfy the gap and angle bounds above. In particular, with
+$\Pi_0=Z(Z^\top Z)^{-1}Z^\top$,
+\begin{equation}\label{eq:euclidean-angle}
+ \norm{\Pi_X-\Pi_0}_{\op}\le C_H/\sqrt d,
+ \quad \norm{Q}_{2\to\infty}\le C_H/\sqrt n,
+\end{equation}
+and the same holds for all recomputed deleted projectors.
+\end{lemma}
+
+\begin{proof}
+Let $M_\mathrm{full}=\norm U_{2\to\infty}$ and
+$M_i=\norm{U^{(-i)}}_{2\to\infty}$.
+The lower rows of the full eigenbasis are
+$(I+F)^{1/2}(U_BY+Z_\perp)$, with
+$Z_\perp=(z_1,\ldots,z_K)$.
+Using $Y^{-1}$ and \eqref{eq:generalized-bounds} gives
+\[
+ M_i\le C M_\mathrm{full}+CM_i/\sqrt d,
+ \qquad M_i\le C' M_\mathrm{full}\quad\text{for large }d.
+\]
+This argument has not assumed row incoherence.
+For the tested full row, \eqref{eq:top-resolvent}, $k\asymp d$ and
+$u_{i,r}=\sqrt{k}\,t_r$ imply the sharper estimate
+\begin{equation}\label{eq:tested-row-bootstrap}
+ \norm{U_{i\cdot}}_2
+ \le\frac C{\sqrt d}\norm{x^\top\Delta^{-1/2}U_B}_2+CM_i/d.
+\end{equation}
+
+Conditional on $B$, its eigenbasis and recomputed degrees are fixed and
+$x$ is an independent Bernoulli row. Its mean action has norm at most
+$C\sqrt{d/n}$, by $\norm{\E x}_2\le Cp\sqrt n$ and
+$\norm{\Delta^{-1/2}U_B}\le C/\sqrt d$.
+We use the following weighted Bernoulli bound from
+Abbe--Fan--Wang--Zhong~\cite[Lemma 7, Eq.\ (C.2)]{afwz}:
+for fixed $v$ and independent Bernoulli coordinates with success
+probabilities at most $q$,
+\begin{equation}\label{eq:afwz-row}
+ \PP\left\{\left|\sum_jv_j(X_j-\E X_j)\right|
+ >\frac{(2+\alpha)nq\norm v_\infty}
+ {1\vee\log(\sqrt n\norm v_\infty/\norm v_2)}\right\}
+ \le2e^{-\alpha nq}.
+\end{equation}
+Apply it to each of the fixed $K$ columns of $\Delta^{-1/2}U_B$, taking
+$q=\min(Cp,1)$, which is comparable to $p$ on the structural class,
+and selecting $\alpha$ to give rate $Hd$.
+The column norms are at most $C/\sqrt d$ and $CM_i/\sqrt d$ in
+$\ell_2$ and $\ell_\infty$, respectively. The function
+$b/(1\vee\log(\sqrt n b/s))$ is nondecreasing in both admissible norm
+arguments. Thus outside conditional probability $2Ke^{-Hd}$,
+\[
+ \norm{x^\top\Delta^{-1/2}U_B}_2
+ \le C\sqrt{d/n}+
+ \frac{C_H\sqrt d\,M_i}{1\vee\log(c\sqrt nM_i)}.
+\]
+A union over $i$, followed by \eqref{eq:tested-row-bootstrap}, yields
+\[
+ M_\mathrm{full}\le C/\sqrt n+
+ \frac{C_H'M_\mathrm{full}}
+ {1\vee\log(c'\sqrt nM_\mathrm{full})}
+ +C'M_\mathrm{full}/d.
+\]
+For large $d$, absorb the last term. If $\sqrt nM_\mathrm{full}$ were
+larger than a sufficiently large fixed constant, the logarithmic term
+could also be absorbed, giving a contradiction. This proves
+\eqref{eq:row-incoherence} and its deleted versions.
+
+The conditioning is legitimate even though $\mathcal E_0$ depends on
+$x$: define the conditional row event for every deleted graph satisfying
+its measurable degree and gap premises, apply \eqref{eq:afwz-row} there,
+and use $\mathcal E_0$ only for deterministic implications afterwards.
+
+For \eqref{eq:euclidean-angle}, bounded-condition-number multiplication by
+$D^{-1/2}$ in \eqref{eq:normalized-angle} compares $\col(X)$ with
+$\col(D^{-1}\Theta Z)$ at angle $O(d^{-1/2})$.
+Multiplying block $a$ of $D^{-1}\Theta Z$ by $dS_a/\sqrt{n_a}$ gives
+entries $(\bar D_i/D_i)/\sqrt{n_a}$ on that block. By
+\eqref{eq:degree-aggregate}, this basis differs from
+$Z\diag(n_a^{-1/2})$ in Frobenius norm by $O(d^{-1/2})$.
+This proves the angle to the block space. Finally,
+$Q=X(X^\top X)^{-1/2}$ has the stated row bound since the eigenvalues of
+$X^\top X=U^\top D^{-1}U$ are comparable to $1/d$.
+The argument applies to DC-SBM as well as SBM.
+\end{proof}
+
+\subsection{A deterministic full-to-LOO score lemma}
+
+\begin{lemma}[Both actual full-graph reconstructions have bounded LOO error]
+\label{lem:loo}
+Assume the deleted degree, spectral gap and discarded-spectrum conditions
+following \eqref{eq:arrowhead-A}, as well as
+$\norm{U_B}_{2\to\infty}\le C/\sqrt n$ and $k\le bd$.
+For every $w\in\R^n$ with $\norm w_\infty\le W$, let
+\[
+ \Pi_B=V(V^\top V)^{-1}V^\top,
+ \qquad H_B=VV^\top\Delta,\qquad V=\Delta^{-1/2}U_B.
+\]
+Uniformly over such incident rows and coefficient vectors,
+\begin{align}
+ (R_Ew)_i&=x^\top\Pi_Bw_{-i}+O(1),\label{eq:loo-euclidean}\\
+ (R_Dw)_i&=x^\top H_Bw_{-i}+O(1).\label{eq:loo-weighted}
+\end{align}
+The constants depend only on the displayed fixed bounds and $W$.
+For the hollow degree-metric reconstruction on the model good event,
+\eqref{eq:loo-weighted} also holds with $R^\circ$ in place of $R_D$.
+The right-side coefficients use degrees recomputed from $B$. When $w$
+is fixed, as in the oracle contrasts, or is measurable from $B$, those
+coefficients are independent of the tested row. Uniform scalar stability
+alone does not make a full-row-dependent $w$ independent.
+\end{lemma}
+
+\begin{proof}
+The case $k=0$ has zero row action and can be given that convention.
+For $k>0$, \eqref{eq:generalized-bounds} now yields
+\begin{equation}\label{eq:loo-refined}
+ \norm t\le\frac C{\sqrt{nd}},\qquad
+ \norm{\Delta^{-1/2}Z_\perp}_{\op}
+ \le\frac{C\sqrt k}{d^{3/2}\sqrt n}.
+\end{equation}
+For the Euclidean action right-multiply $G$ by
+$Y^{-1}(V^\top V)^{-1/2}$. This does not change its column space and
+gives a basis
+\[
+ \mathcal F=\binom{\alpha}{Q_B+E},\quad
+ Q_B=V(V^\top V)^{-1/2},\quad
+ \norm\alpha\le C/\sqrt n,\quad
+ \norm E\le C\sqrt k/(d\sqrt n).
+\]
+Its Gram matrix is $I+J$, where
+$\norm J\le C\{\sqrt k/(d\sqrt n)+1/n\}$.
+The deleted Euclidean basis has row norm at most $C/\sqrt n$, so
+\begin{align*}
+ \norm{x^\top Q_B}&\le Ck/\sqrt n,&
+ \norm{x^\top E}&\le Ck/(d\sqrt n),\\
+ \norm{Q_B^\top w_{-i}}&\le W\sqrt n,&
+ \norm{\mathcal F^\top w-Q_B^\top w_{-i}}
+ &\le C_W(1/\sqrt n+\sqrt k/d).
+\end{align*}
+Expand
+\[
+ (R_Ew)_i=(x^\top Q_B+x^\top E)(I+J)^{-1}\mathcal F^\top w
+\]
+about $x^\top Q_BQ_B^\top w_{-i}$.
+The errors are bounded by a constant times
+\begin{equation}\label{eq:loo-errors}
+ k/d+k/n+k\sqrt k/(d\sqrt n)=O(1),
+\end{equation}
+because $k\le bd$ and $d\le Cn$. This proves
+\eqref{eq:loo-euclidean}. A coarse $O(n^{-1/2})$ bound for the lower
+rows alone would not suffice; the stronger $E$ bound is essential.
+
+For the degree-metric action, put $v_r=\Delta^{-1/2}z_r$,
+$f_r=Vy_r+v_r$ and $w_V=V^\top\Delta w_{-i}$.
+The exact top equation gives $k\mu_rt_r=x^\top f_r$, whence
+\begin{align}\label{eq:weighted-row-expansion}
+ (R_Dw)_i
+ =\sum_r(x^\top Vy_r+x^\top v_r)
+ \{kt_rw_i+y_r^\top w_V+v_r^\top\Delta w_{-i}
+                              +f_r^\top E_xw_{-i}\}.
+\end{align}
+The normalization $G^\top DG=I$ gives
+\[
+ Y^\top Y+Z_\perp^\top Z_\perp+ktt^\top
+ +(VY+\Delta^{-1/2}Z_\perp)^\top E_x
+            (VY+\Delta^{-1/2}Z_\perp)=I.
+\]
+All terms except $Y^\top Y$ have norm at most $Ck/(nd)$, by
+\eqref{eq:loo-refined} and the row bound on $V$.
+Since $Y$ is square, $\norm{YY^\top-I}\le Ck/(nd)$ as well.
+The leading term in \eqref{eq:weighted-row-expansion} is
+$x^\top VYY^\top w_V$; its difference from
+$x^\top VV^\top\Delta w_{-i}$ is at most $C_Wk^2/(nd)$.
+The other factors satisfy
+\begin{align*}
+ \norm{x^\top V}&\le Ck/\sqrt{nd},&
+ \norm{w_V}&\le C_W\sqrt{nd},\\
+ \norm{(x^\top v_r)_r}&\le Ck/(d^{3/2}\sqrt n),&
+ \norm{(v_r^\top\Delta w_{-i})_r}&\le C_W\sqrt{k/d},\\
+ \norm{(f_r^\top E_xw_{-i})_r}&\le C_Wk/\sqrt{nd},&
+ \norm{kt}&\le Ck/\sqrt{nd}.
+\end{align*}
+Their products are bounded by constants times
+$k/d$, $k^2/(nd)$ and $k\sqrt k/(d\sqrt n)$, all bounded.
+This proves \eqref{eq:loo-weighted} with negative as well as positive
+informative eigenvalues.
+
+On the model good event, full row incoherence implies
+$|(H_D)_{ij}|\le C/n$, $|(R_D)_{ii}|\le Cd/n=Cp$ and
+$|s_i|\le Cp$. The hollow adjustment to a bounded row contrast is
+$s_i\{(H_Dw)_i-w_i\}=O(p)$, proving the last assertion.
+\end{proof}
+
+The result compares the \emph{actual} full-graph normalized algorithm to
+a row-independent score, with its changing degree normalizers included.
+It does not treat a full-graph eigenvector as independent of the row that
+created it. This is the dependence step needed before any conditional
+sharp-tail argument is applied.

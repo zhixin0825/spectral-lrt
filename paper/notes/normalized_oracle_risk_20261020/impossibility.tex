@@ -1,0 +1,287 @@
+\section{Why the known-target oracle cannot be the general DC-SBM benchmark}
+\label{sec:impossibility}
+
+The profile reference and an oracle supplied with the target's true degree
+parameter are different experiments. The distinction cannot be removed by
+a more accurate spectral reconstruction: the following obstruction holds
+even when the classifier observes the entire adjacency matrix. The example
+has bounded positive degree parameters, exact block normalization, balanced
+groups, a positive definite block matrix, and logarithmic expected degree.
+Every probability calculation below is for the Bernoulli graph itself.
+
+\paragraph{The local known-target reference.}
+For a fixed DC-SBM parameter point \(\tau=(z^\tau,\theta^\tau)\), write
+\(\PP_\tau\) for the graph law. At a target vertex \(v\), give a local oracle
+the values of \(p,C,\theta_v^\tau\) and all neighbor parameters
+\((z_j^\tau,\theta_j^\tau)\), \(j\ne v\). Its candidate row laws are
+\begin{equation}
+ q_{vj}^{(a,\tau)}
+   =p\theta_v^\tau\theta_j^\tau C_{a z_j^\tau},\qquad
+ L_v^{(a,\tau)}(A_{v,-v})
+   =\prod_{j\ne v}
+     \bigl(q_{vj}^{(a,\tau)}\bigr)^{A_{vj}}
+     \bigl(1-q_{vj}^{(a,\tau)}\bigr)^{1-A_{vj}}.
+ \label{eq:imposs-local-laws}
+\end{equation}
+Let \(\delta_v^{\mathrm{known},\tau}\) maximize these two likelihoods with
+equal candidate priors and a fixed tie rule, and define
+\begin{equation}
+ R_{\mathrm{known}}^\tau(n)
+   =\frac1n\sum_{v=1}^n
+     \PP_\tau\{\delta_v^{\mathrm{known},\tau}\ne z_v^\tau\}.
+ \label{eq:imposs-known-risk}
+\end{equation}
+The target parameter is held at its supplied true value under both candidate
+labels. The local comparison does not impose a global exact-group-size or
+block-normalization constraint after revealing the other labels; an exact
+group-size constraint would itself determine a missing label. Thus
+\eqref{eq:imposs-known-risk} is the nondegenerate local likelihood benchmark,
+not a globally constrained oracle experiment.
+
+\begin{theorem}[An exact Bernoulli obstruction for the known-target oracle]
+\label{thm:imposs}
+Let \(n=2m\) tend to infinity through even integers, and set
+\begin{equation}
+ C=\begin{pmatrix}4&2\\2&11/10\end{pmatrix},\qquad
+ p=\frac{M\log n}{n},\qquad M=100.
+ \label{eq:imposs-model}
+\end{equation}
+There are two explicit parameter sequences, denoted \(+\) and \(-\), for
+the independent-edge Bernoulli DC-SBM with probabilities
+\(p\theta_u\theta_vC_{z_uz_v}\), such that both sequences satisfy
+\begin{equation}
+ n_1=n_2=m,\qquad
+ \sum_{v:z_v=a}\theta_v=m\quad(a=1,2),\qquad
+ \frac12\le\theta_v\le\frac32.
+ \label{eq:imposs-normalization}
+\end{equation}
+For every possibly randomized clustering algorithm based on the full graph
+and information common to the two parameter points, put
+\begin{equation}
+ R_{\mathrm{alg}}^\tau(n)
+   =\E_\tau\left[
+       \frac1n\min_{\sigma\in\mathfrak S_2}
+       \sum_{v=1}^n\ind{\sigma(\widehat z_v)\ne z_v^\tau}
+     \right],\qquad \tau\in\{+,-\}.
+ \label{eq:imposs-alg-risk}
+\end{equation}
+Define
+\begin{equation}
+ c=\frac{(2-\sqrt2)^2}{8},\qquad
+ \gamma=\frac{(\sqrt{11/10}-1)^2}{2}.
+ \label{eq:imposs-constants}
+\end{equation}
+Then
+\begin{equation}
+ \max_{\tau\in\{+,-\}}
+ \frac{R_{\mathrm{alg}}^\tau(n)}{R_{\mathrm{known}}^\tau(n)}
+ \ge \frac{1+o(1)}4\,
+       n^{M(c-2\gamma)-1}.
+ \label{eq:imposs-ratio}
+\end{equation}
+The exponent is strictly positive; at \(M=100\),
+\begin{equation}
+ M(c-2\gamma)-1
+   =3.05109151537556\ldots>0.
+ \label{eq:imposs-positive-gap}
+\end{equation}
+In particular, no algorithm with unknown vertex degree parameters can have
+a bounded risk ratio to \eqref{eq:imposs-known-risk} along every admissible
+parameter sequence in this class. This includes every algorithm based only
+on retained spectral information and observed degrees.
+\end{theorem}
+
+\begin{proof}
+\textbf{Construction and exact normalization.}
+Distinguish vertices \(i=1\) and \(k=2\). Partition the remaining vertices
+into two fixed anchor sets \(V_1,V_2\), each of size \(m-1\). Every anchor
+in \(V_a\) has label \(a\) under both parameter points. Give anchors in
+\(V_1\) the common degree parameter
+\[
+ t_m=1+\frac1{2(m-1)},
+\]
+and anchors in \(V_2\) degree parameter one. At the two parameter points set
+\begin{equation}
+ \begin{aligned}
+ +:\quad &(z_i,\theta_i)=(1,1/2),
+          & (z_k,\theta_k)&=(2,1),\\
+ -:\quad &(z_i,\theta_i)=(2,1),
+          & (z_k,\theta_k)&=(1,1/2).
+ \end{aligned}
+ \label{eq:imposs-two-points}
+\end{equation}
+Each group has exactly \(m\) vertices. Its total degree parameter is exactly
+\(m\), since
+\[
+ (m-1)t_m+\frac12=m,
+ \qquad (m-1)+1=m.
+\]
+The stated degree bounds hold for \(m\ge2\). The matrix \(C\) has positive
+entries, positive trace, and determinant \(2/5>0\), so it is positive
+definite with a fixed positive smallest eigenvalue. All edge probabilities
+belong to \((0,1)\) for sufficiently large \(n\).
+
+\medskip
+\textbf{Only \(n-2\) Bernoulli coordinates distinguish the graph laws.}
+All anchor--anchor probabilities agree between the two parameter points.
+The edge \(i\)--\(k\) has probability \(p\) under either point. For an edge
+from either distinguished vertex to an anchor of \(V_1\), the two candidate
+intensities agree exactly:
+\[
+ \frac12\cdot4\cdot t_m=1\cdot2\cdot t_m=2t_m.
+\]
+Thus the only distinct coordinates are the \(2(m-1)=n-2\) edges from
+\(\{i,k\}\) to \(V_2\). Their two probabilities are \(p\) and
+\((11/10)p\), exchanged between \(+\) and \(-\).
+
+For probability mass functions \(P,Q\), let
+\(\mathcal A(P,Q)=\sum_x\sqrt{P(x)Q(x)}\) be their affinity. Independence
+gives the exact graph affinity
+\begin{equation}
+ \mathcal A_n
+ =\mathcal A(\PP_+,\PP_-)
+ =\left[
+     \sqrt{11/10}\,p+
+       \sqrt{(1-p)(1-(11/10)p)}
+   \right]^{n-2}.
+ \label{eq:imposs-affinity}
+\end{equation}
+The factor in brackets has the elementary expansion
+\[
+ \sqrt{11/10}\,p+
+       \sqrt{(1-p)(1-(11/10)p)}
+ =1-\gamma p+O(p^2).
+\]
+Since \(np^2=M^2(\log n)^2/n=o(1)\),
+\begin{equation}
+ \mathcal A_n^2
+   =\exp\{-2M\gamma\log n+o(1)\}
+   =(1+o(1))n^{-2M\gamma}.
+ \label{eq:imposs-affinity-rate}
+\end{equation}
+The elementary Cauchy--Schwarz bound
+\(\TV(P,Q)\le\sqrt{1-\mathcal A(P,Q)^2}\) implies that every test \(\phi\)
+of the two graph laws satisfies
+\begin{align}
+ \frac{\PP_+(\phi=-)+\PP_-(\phi=+)}2
+ &\ge \frac{1-\TV(\PP_+,\PP_-)}2 \\
+ &\ge \frac{\mathcal A_n^2}{4}
+  =\frac{1+o(1)}4 n^{-2M\gamma},
+ \label{eq:imposs-test-lower}
+\end{align}
+where the second inequality uses
+\(1-\sqrt{1-y}\ge y/2\). Independent randomization by the test or the
+clustering algorithm does not alter this bound: adjoining a common random
+seed leaves the affinity unchanged.
+
+\medskip
+\textbf{From testing to graph-average permutation loss.}
+Orient the two output labels of an arbitrary estimated partition by the
+permutation minimizing disagreement with the fixed anchor labels, using
+a fixed tie rule. This is one measurable rule under both parameter points,
+since the anchors and their labels are the same. Define a test \(\phi\) to
+declare \(+\) if the oriented label of vertex \(i\) is 1, and \(-\)
+otherwise.
+
+If the estimated partition has zero permutation-invariant error, the
+anchor orientation recovers its correct permutation uniquely: both anchor
+sets are nonempty. Therefore an erroneous test outcome implies at least
+one error in the permutation-invariant count. Pathwise, under either point,
+\begin{equation}
+ \frac1n\min_{\sigma\in\mathfrak S_2}
+       \sum_v\ind{\sigma(\widehat z_v)\ne z_v^\tau}
+ \ge\frac1n\ind{\phi\ne\tau}.
+ \label{eq:imposs-orientation}
+\end{equation}
+Taking expectations and using \eqref{eq:imposs-test-lower} gives
+\begin{equation}
+ \frac{R_{\mathrm{alg}}^+(n)+R_{\mathrm{alg}}^-(n)}2
+ \ge\frac{1+o(1)}4 n^{-2M\gamma-1}.
+ \label{eq:imposs-graph-risk-lower}
+\end{equation}
+The anchors are needed only to turn a partition into a test in this proof.
+Indeed, their labels and degree parameters, the block matrix, the exact
+group sizes, and the block-normalization constraints could all be revealed
+to the clustering algorithm: they are common to the two parameter points,
+and \eqref{eq:imposs-test-lower} would still apply.
+
+\medskip
+\textbf{An upper bound on every known-target local error.}
+For any target \(v\), at least \(m-2\) anchors in \(V_1\) are different
+from \(v\). For each such anchor \(j\), its two local candidate edge
+probabilities in \eqref{eq:imposs-local-laws} are
+\[
+ u=4p\theta_v\theta_j,
+ \qquad v'=2p\theta_v\theta_j.
+\]
+They satisfy
+\[
+ (\sqrt u-\sqrt{v'})^2
+ =p\theta_v\theta_j(2-\sqrt2)^2
+ \ge\frac p2(2-\sqrt2)^2.
+\]
+For any Bernoulli probabilities \(u,v'\), the arithmetic--geometric mean
+inequality for their nonedge probabilities yields
+\begin{equation}
+ \sqrt{uv'}+\sqrt{(1-u)(1-v')}
+ \le 1-\frac{(\sqrt u-\sqrt{v'})^2}{2}
+ \le \exp\left\{-\frac{(\sqrt u-\sqrt{v'})^2}{2}\right\}.
+ \label{eq:imposs-one-edge-upper}
+\end{equation}
+Under either local true label, Markov's inequality applied to the square
+root of the competing likelihood ratio bounds the LRT's directional error
+by the product affinity of all its row coordinates. Discarding coordinates
+outside these \(m-2\) anchors can only increase that upper bound. Hence,
+uniformly over targets and both parameter points,
+\begin{align}
+ \PP_\tau\{\delta_v^{\mathrm{known},\tau}\ne z_v^\tau\}
+ &\le\exp\left\{-\frac{(m-2)p}{4}(2-\sqrt2)^2\right\} \\
+ &= (1+o(1))n^{-Mc}.
+ \label{eq:imposs-oracle-upper}
+\end{align}
+In particular,
+\begin{equation}
+ R_{\mathrm{known}}^+(n)+R_{\mathrm{known}}^-(n)
+ \le 2(1+o(1))n^{-Mc}.
+ \label{eq:imposs-oracle-sum-upper}
+\end{equation}
+
+Finally, the maximum of two nonnegative risk ratios is at least their
+denominator-weighted average. Combining
+\eqref{eq:imposs-graph-risk-lower} and
+\eqref{eq:imposs-oracle-sum-upper} therefore proves
+\eqref{eq:imposs-ratio}. The constants in
+\eqref{eq:imposs-constants} are
+\[
+ c=0.04289321881345246\ldots,
+ \qquad \gamma=0.00119115182984846\ldots,
+\]
+which give the exponent in \eqref{eq:imposs-positive-gap}. Its positivity
+does not depend on numerical evaluation: \(c>1/25\) and
+\(2\gamma<1/400\), so \(100(c-2\gamma)-1>11/4>0\).
+\end{proof}
+
+\begin{remark}[Scope of the obstruction]
+\label{rem:imposs-scope}
+The same proof works for every fixed
+\(M>(c-2\gamma)^{-1}\), so its logarithmic-degree multiplier can exceed
+any prescribed fixed lower threshold. The example also satisfies
+\(np^2\to0\). Thus neither a larger logarithmic expected degree nor the
+sparse Bernoulli approximation removes the nuisance-information gap.
+
+The result concerns a uniform comparison to the known-target reference,
+not the full-edge profile benchmark used by the positive DC-SBM theorem.
+It also does not assert that every fixed DC-SBM has an unbounded ratio:
+it proves that at least one of the two explicit parameter sequences has
+an unbounded limsup ratio for any algorithm. Additional restrictions can
+make the stronger benchmark attainable. For example, the balanced block
+strengths in this counterexample are
+\(C(1/2,1/2)^T=(3,31/20)^T\), which are unequal; the example lies outside
+the equal-exposure corollary.
+
+Finally, a lower bound for an experiment retaining only block counts would
+not by itself establish a lower bound for arbitrary data-dependent real
+spectral coordinates. The present theorem needs no such compression claim:
+it is a lower bound for the full adjacency experiment with unknown target
+degree parameters.
+\end{remark}

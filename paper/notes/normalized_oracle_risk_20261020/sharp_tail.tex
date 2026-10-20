@@ -1,0 +1,168 @@
+\section{A sharp Bernoulli likelihood transfer}\label{sec:sharp}
+
+We give the probability step explicitly to distinguish a risk factor from
+an exponential-rate factor. Sharp Chernoff comparisons in community
+detection are also developed by Zhou and Li~\cite{zhouli}.
+The argument here treats an independent training-dependent perturbation
+and directional profile scores directly.
+
+\begin{lemma}[Bounded tilted error preserves the sharp prefactor]
+\label{lem:sharp}
+Let $X_j$ be independent Bernoulli variables with probabilities $p_j$,
+and let
+\[
+ T=b_0+\sum_jw_jX_j,\qquad
+ K(s)=\log\E e^{-sT}.
+\]
+Suppose $\abs{w_j}\le W$, the minimizer $s_*$ satisfies
+$\tau\le s_*\le1-\tau$ for a fixed $\tau>0$, and under the probability
+measure $Q$ proportional to $e^{-s_*T}$,
+\begin{equation}\label{eq:sharp-premises}
+ \E_Q T=0,\quad vd\le\operatorname{Var}_Q(T)\le V_0d,
+ \quad\sum_jr_j\le V_0d,
+\end{equation}
+where $r_j=Q(X_j=1)$. Put $I=-K(s_*)$.
+For every fixed $L<\infty$ and all sufficiently large $d$, uniformly over
+$|x|\le L$,
+\begin{equation}\label{eq:sharp-oracle}
+ c_Ld^{-1/2}e^{-I}\le\PP(T<x)
+ \le\PP(T\le x)\le C_Ld^{-1/2}e^{-I}.
+\end{equation}
+
+Let $\mathcal W$ be independent of $(X_j)_j$ and let
+\[
+ \widehat T=T+b+\sum_je_jX_j
+\]
+have coefficients measurable with respect to $\mathcal W$. On a measurable
+training event suppose
+\begin{equation}\label{eq:tilt-error}
+ \max_j|e_j|\le M,\qquad
+ \left|b+\sum_jr_je_j\right|\le B,\qquad
+ \sum_jr_je_j^2\le V.
+\end{equation}
+For fixed $M,V$ and every real $x$,
+\begin{equation}\label{eq:sharp-transfer}
+ \PP(\widehat T\le x\mid\mathcal W)
+ \le C\exp\{s_*x+B+e^M V/2\}\,d^{-1/2}e^{-I}.
+\end{equation}
+The constant is uniform over the training event. In particular $B$ can
+be a nonnegative training-measurable random bound, provided its indicated
+exponential moment is integrated when removing the conditioning.
+\end{lemma}
+
+\begin{proof}
+Under $Q$, the coordinates remain independent Bernoulli variables,
+\[
+ r_j=\frac{p_je^{-s_*w_j}}{1-p_j+p_je^{-s_*w_j}}.
+\]
+The sum of their centered weighted third absolute moments is at most
+$2W^3\sum_jr_j=O(d)$. Berry--Esseen and
+\eqref{eq:sharp-premises} therefore show that every interval of length one
+has $Q$ probability at most $C/\sqrt d$, uniformly in its location. Since
+$d\PP/dQ=e^{-I}e^{s_*T}$, partitioning $(-\infty,x]$ into unit intervals
+gives the upper bound in \eqref{eq:sharp-oracle}.
+
+For the lower bound choose a fixed interval $(x-L_0,x)$, with $L_0$
+sufficiently large. Its Gaussian probability under a centered normal
+variable of variance in $[vd,V_0d]$ is at least $cL_0/\sqrt d$ for large
+$d$, uniformly over bounded $x$. Choose $L_0$ so this exceeds twice the
+Berry--Esseen error. The $Q$ probability is then at least $c'/\sqrt d$,
+and $e^{s_*T}$ is bounded below by a positive constant on the interval.
+Using strict endpoints also handles arbitrary lattice atoms and tie rules.
+
+For the perturbation, independence of training and the row allows us to
+regard $b,e$ as fixed. The elementary Bernoulli exponential-moment bound
+gives
+\begin{align*}
+ \log\E e^{-s_*\widehat T}
+ &= -I-s_*b+\log\E_Qe^{-s_*\sum_je_jX_j}\\
+ &\le -I-s_*\left(b+\sum_jr_je_j\right)
+       +\frac{s_*^2e^{s_*M}}2\sum_jr_je_j^2\\
+ &\le -I+B+e^M V/2.
+\end{align*}
+Now tilt the original law by $e^{-s_*\widehat T}$.
+Under this new measure $\widehat Q$ the coordinates remain independent and
+their odds are those under $Q$ multiplied by $e^{-s_*e_j}$.
+Consequently their probabilities and variances are within fixed factors
+of those under $Q$. Furthermore,
+\[
+ \left(\sum_jr_j(1-r_j)(w_j+e_j)^2\right)^{1/2}
+ \ge \sqrt{vd}-\sqrt V.
+\]
+For large $d$, the variance of $\widehat T$ under $\widehat Q$ is therefore
+between positive constant multiples of $d$. Its centered third absolute
+moments sum to $O(d)$ because $w_j+e_j$ are uniformly bounded and
+$\sum_j\widehat r_j=O(d)$. Berry--Esseen bounds every unit interval under
+$\widehat Q$ by $C/\sqrt d$, irrespective of its mean. The same interval
+summation, with the displayed exponential moment, proves
+\eqref{eq:sharp-transfer}.
+\end{proof}
+
+\subsection{Application to the actual Bernoulli SBM oracle}
+
+For a true label $a$ and a competitor $b$, the oracle contrast is
+\[
+ T_{i,ab}=\ell_{i,*}(a)-\ell_{i,*}(b)
+ =b_{i,ab}+\sum_{j\ne i}w^{ab}_{z_j}A_{ij},
+\]
+where
+\begin{equation}\label{eq:sbm-weights}
+ w_c^{ab}=\log\frac{P_{ac}(1-P_{bc})}{P_{bc}(1-P_{ac})},\qquad
+ b_{i,ab}=\sum_{j\ne i}\log\frac{1-P_{az_j}}{1-P_{bz_j}}.
+\end{equation}
+Its exact Chernoff information is
+\begin{equation}\label{eq:sbm-information}
+ I_{i,ab}= -\min_{0\le s\le1}
+ \sum_{j\ne i}\log\left[
+ P_{az_j}^{1-s}P_{bz_j}^{s}
+ +(1-P_{az_j})^{1-s}(1-P_{bz_j})^{s}\right].
+\end{equation}
+On the compact positive full-rank classes used here, probabilities are
+comparable to $p$ and bounded away from one, the weights are bounded,
+$s_*$ stays away from the endpoints, and the tilted variance is comparable
+to $d$. To verify the last assertions, the derivatives of the transform
+at its endpoints are respectively minus and plus the two directional
+Bernoulli KL divergences, both of order $d$. Its second derivative is
+bounded by $Cd$. The row separation implied by
+$\sigma_{\min}(P)\ge\kappa p$ gives a lower bound $cd$ on that derivative
+throughout $[0,1]$: tilted probabilities are comparable to $p$ and the
+sum of squared log-odds differences is at least $cn$.
+Thus \cref{lem:sharp} applies uniformly to every pair.
+
+The same conclusion holds for the profile contrasts defined below, with
+their own directional information $J_{i,a\to b}$.
+It is not necessary for those two directional exponents to coincide.
+
+\subsection{Fixed-\texorpdfstring{$K$}{K} comparison and label alignment}
+
+Let $q_i$ be the error probability of the specified oracle at vertex $i$.
+For any coherent family of its candidate scores, strict pairwise loss to a
+competitor implies an oracle error; an oracle error implies non-strict
+loss to some competitor. Hence
+\[
+ \max_{b\ne a}\PP(T_{i,ab}<0)
+ \le q_i\le\sum_{b\ne a}\PP(T_{i,ab}\le0).
+\]
+By \eqref{eq:sharp-oracle},
+\begin{equation}\label{eq:oracle-pairs}
+ q_i\asymp\frac1{\sqrt d}\sum_{b\ne z_i}e^{-I_{i,ab}}
+\end{equation}
+for the SBM oracle; replace $I$ by $J$ for the profile oracle. The constants
+may include a factor depending on fixed $K$.
+Fitted partitions are aligned with the true groups by a single common
+permutation on the good event. Uniform score comparisons under that
+alignment imply
+\[
+ \E[\ell(\widehat z,z)\ind{\mathcal G}]
+ \le\frac1n\sum_i\PP(\text{aligned fitted error at }i,\mathcal G).
+\]
+The ensuing pairwise bounds apply to fixed true coefficient vectors; a
+data-dependent matching does not become an independence assumption.
+Finally,
+\begin{equation}\label{eq:bad-payment}
+ \E\ell(\widehat z,z)
+ \le C R_*+\PP(\mathcal G^c).
+\end{equation}
+\Cref{sec:probability} proves $\PP(\mathcal G^c)=O(R_*)$ under the stated
+model conditions. It is this comparison, rather than merely
+$\PP(\mathcal G^c)=o(1)$, that completes each theorem.

@@ -1,0 +1,116 @@
+\section{Scope, implementation changes, and proof audit}
+\label{sec:scope}
+
+\subsection{Results established in this note}
+
+\begin{center}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.39\textwidth}}
+\toprule
+Model and decoder & Reference risk & Proved model range\\
+\midrule
+Ordinary SBM; Euclidean signed free-profile likelihood
+& Full-edge true-parameter Bernoulli row LRT
+& \Cref{thm:sbm}; more generally \cref{prop:sbm-margin}, including sparse
+equal exposures with arbitrary fixed positive full-rank profiles.\\[4pt]
+DC-SBM; canonical degree-metric reconstruction and fitted profile LRT
+& Full-edge profile LRT with true neighbor parameters
+& General positive full-rank bounded-parameter class, fixed $K$,
+$C_0\log n\le np$ and $np^2\le C_1$.\\[4pt]
+DC-SBM; the same degree-metric procedure
+& Full-edge LRT additionally supplied with the target's true degree
+& The preceding sparse class plus finite-$n$ equal block exposures.\\[4pt]
+General DC-SBM; any graph algorithm
+& Known-target-degree local LRT
+& A uniform constant ratio is impossible; \cref{thm:imposs} supplies two
+explicit normalized parameter sequences.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All positive statements are bounds on expected misclassification, with
+failure events included. None is merely a statement conditional on correct
+initial groups, small fitted-parameter error, a favorable LOO projector,
+or successful numerical k-means.
+
+\subsection{What changed relative to the recent experimental code}
+
+The recent ordinary implementation evaluates the full Bernoulli working
+criterion on signed $A\Pi_X$, uses finite growing/replacement trials, and
+performs the mandatory final E/M step. The ordinary theorem analyzes that
+mathematical schedule. For arbitrary fixed $K$ the encoder is parameterized
+by $K$; a script hardcoded to three eigenvectors is just its $K=3$ case.
+If the signal matrix is indefinite, largest absolute eigenvalues are
+required. Selecting largest algebraic eigenvalues is covered only when
+all informative population eigenvalues are positive.
+
+For DC-SBM, $A\Pi_X$ and $AH_D$ are different reconstructions.
+The positive theorem here uses the degree-metric action
+$AH_D$ and its explicit hollow correction. It must not be retrospectively
+attached to an experimental curve computed with the prior Euclidean
+action. The retained input $(D,U,\Lambda)$ is identical; the decoder
+changes. The radius-count initializer is a concrete certified alternative
+to unquantified fixed-restart Lloyd clustering. A certified constant-factor
+k-means initializer could also be used, but its own failure probability
+would have to be paid at the oracle scale.
+
+The theorems use exact algebraic spaces and exact arithmetic, including
+the specified exact E/M updates for the ordinary decoder and the stated
+block fits and target-profile maxima for DC-SBM. The ordinary finite
+schedule does not assume a global maximizer of the mixture likelihood.
+They do not assert that a fixed floating-point tolerance remains adequate
+as $n\to\infty$. In particular, augmenting $D^{-1/2}U$ by an unscaled
+constant column and applying a fixed relative rank cutoff is not an
+asymptotic definition of its algebraic rank. Because the constant vector is
+already retained, it can be omitted from that numerical augmentation, or
+columns can be scaled before orthogonalization. Quantified numerical
+errors may be admitted if their induced likelihood-contrast and
+cumulant errors are uniformly bounded.
+
+\subsection{Why this is a risk bound}
+
+The error incurred in replacing a full-graph spectral score by its LOO
+version is deterministically $O(1)$ on the proved spectral event.
+Fitted nuisance parameters cost $O(1)$ in the DC contrast; ordinary free
+profiles produce $O(1+\mathcal B_i)$ with a bounded exponential moment.
+The remaining projection error against the raw oracle row is random:
+it is not asserted to be uniformly bounded for every possible row.
+Instead its effective coefficients are bounded, its mean under the
+oracle error-boundary tilt is bounded, and its tilted quadratic moment
+is bounded. \Cref{lem:sharp} converts precisely those facts into a
+constant risk multiplier while preserving $d^{-1/2}e^{-I}$.
+
+The weighted cancellation controls the first-order mean term that a
+generic unweighted dot product need not control in DC-SBM. It does not
+assert exact recovery of every individual edge or of every observed
+block count. The Bernoulli profile reduction has a visible $O(np^2)$
+remainder; extending the DC theorem beyond bounded $np^2$ requires a new
+argument for that remainder and the heterogeneous nonedge weights.
+
+The more sparse range $np=o(\log n)$, a vanishing normalized signal
+singular value, or an unrestricted known-$\theta_i$ oracle in general
+DC-SBM is not covered by the positive statements. The first two are
+unproved extensions here; the last is explicitly impossible by
+\cref{thm:imposs}. None should be folded into the present theorem by an
+unstated assumption or a change of denominator.
+
+\subsection{Audit record}
+
+The generalized-eigenvector full-to-LOO derivation was checked independently
+against a second argument based on a normalized arrowhead decomposition
+and a residual estimate for the degree-renormalized minor.
+The row-incoherence bootstrap uses a verified weighted Bernoulli
+concentration statement and controls every deleted basis simultaneously.
+The finite ordinary likelihood schedule was checked against the current
+implementation, including signed observations, trial resets, strict
+replacement acceptance and the mandatory endpoint order.
+The DC proof was separately checked for the uniform effect of
+data-dependent label errors, exact Bernoulli block fitting, the target
+profile cap, degree-zero oracle rows and adaptive finite hard refits.
+The two-point obstruction was verified independently from its affinity
+and permutation-loss calculations.
+
+These are internal mathematical and implementation checks, not external
+peer review. The note provides the complete proofs so each claim can be
+reviewed directly. There is no simulation estimate being used as proof
+of a bounded asymptotic ratio.
