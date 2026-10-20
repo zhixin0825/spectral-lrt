@@ -9,18 +9,22 @@
 \toprule
 Model and decoder & Reference risk & Proved model range\\
 \midrule
-Ordinary SBM; Euclidean signed free-profile likelihood
+Ordinary SBM; regularized block Bernoulli LRT
 & Full-edge true-parameter Bernoulli row LRT
-& \Cref{thm:sbm}; more generally \cref{prop:sbm-margin}, including sparse
-equal exposures with arbitrary fixed positive full-rank profiles.\\[4pt]
-DC-SBM; canonical degree-metric reconstruction and fitted profile LRT
+& General positive full-rank compact profiles, fixed $K$,
+$np\to\infty$ and $np^2\le C_1$; \cref{restore:sbm-theorem}.\\[4pt]
+DC-SBM; regularized degree-metric reconstruction and fitted profile LRT
 & Full-edge profile LRT with true neighbor parameters
 & General positive full-rank bounded-parameter class, fixed $K$,
-$C_0\log n\le np$ and $np^2\le C_1$.\\[4pt]
+$np\to\infty$ and $np^2\le C_1$; \cref{restore:dc-theorem}.\\[4pt]
 DC-SBM; the same degree-metric procedure
 & Full-edge LRT additionally supplied with the target's true degree
 & The preceding sparse class plus finite-$n$ equal block exposures;
 the classical balanced planted-partition local oracle is included.\\[4pt]
+Earlier ordinary free-profile schedule
+& Full-edge true-parameter Bernoulli row LRT
+& Separate unregularized results \cref{thm:sbm,prop:sbm-margin};
+these also allow probabilities outside bounded $np^2$.\\[4pt]
 General DC-SBM; any graph algorithm
 & Known-target-degree local LRT
 & A uniform constant ratio is impossible; \cref{thm:imposs} supplies two
@@ -38,15 +42,19 @@ or successful numerical k-means.
 
 The recent ordinary implementation evaluates the full Bernoulli working
 criterion on signed $A\Pi_X$, uses finite growing/replacement trials, and
-performs the mandatory final E/M step. The ordinary theorem analyzes that
-mathematical schedule. For arbitrary fixed $K$ the encoder is parameterized
+performs the mandatory final E/M step. The earlier theorem
+\cref{thm:sbm} analyzes that mathematical schedule. The primary theorem
+\cref{thm:regularized} instead uses the specified radius-count initializer
+and block Bernoulli fits. It does not identify these two schedules.
+For arbitrary fixed $K$ the encoder is parameterized
 by $K$; a script hardcoded to three eigenvectors is just its $K=3$ case.
 If the signal matrix is indefinite, largest absolute eigenvalues are
 required. Selecting largest algebraic eigenvalues is covered only when
 all informative population eigenvalues are positive.
 
-For DC-SBM, $A\Pi_X$ and $AH_D$ are different reconstructions.
-The positive theorem here uses the degree-metric action
+For the earlier unregularized DC-SBM construction,
+$A\Pi_X$ and $AH_D$ are different reconstructions.
+\Cref{thm:dc} uses the degree-metric action
 $AH_D$ and its explicit hollow correction. It must not be retrospectively
 attached to an experimental curve computed with the prior Euclidean
 action. The retained input $(D,U,\Lambda)$ is identical; the decoder
@@ -54,6 +62,16 @@ changes. The radius-count initializer is a concrete certified alternative
 to unquantified fixed-restart Lloyd clustering. A certified constant-factor
 k-means initializer could also be used, but its own failure probability
 would have to be paid at the oracle scale.
+
+The regularized algorithm of \cref{restore:algorithm} recomputes the
+eigensystem with $G_i=\max(D_i,a_0\bar D)$, then uses an exact rank-one
+degree correction and the simple hollowing in
+\eqref{restore:reconstruction}. Its clamped DC nuisance estimates remain
+bounded even when individual raw degrees are exceptional.
+An isolated vertex affects its own row without forcing a whole-graph
+fallback. These are actual algorithm specifications, not modifications
+made only to a population surrogate. Earlier experimental curves do
+not automatically evaluate this regularized variant.
 
 The theorems use exact algebraic spaces and exact arithmetic, including
 the specified exact E/M updates for the ordinary decoder and the stated
@@ -71,15 +89,20 @@ cumulant errors are uniformly bounded.
 \subsection{Why this is a risk bound}
 
 The error incurred in replacing a full-graph spectral score by its LOO
-version is deterministically $O(1)$ on the proved spectral event.
-Fitted nuisance parameters cost $O(1)$ in the DC contrast; ordinary free
-profiles produce $O(1+\mathcal B_i)$ with a bounded exponential moment.
+version is deterministically $O(1)$ on the stated aggregate and local
+target events. Fitted block parameters cost $O(1)$ in both new
+decoders, uniformly over the invariant labeling basin.
+In the separate earlier ordinary proof, free profiles produce
+$O(1+\mathcal B_i)$ with a bounded exponential moment.
 The remaining projection error against the raw oracle row is random:
 it is not asserted to be uniformly bounded for every possible row.
-Instead its effective coefficients are bounded, its mean under the
-oracle error-boundary tilt is bounded, and its tilted quadratic moment
-is bounded. \Cref{lem:sharp} converts precisely those facts into a
-constant risk multiplier while preserving $d^{-1/2}e^{-I}$.
+Its mean under the oracle error-boundary tilt and its tilted quadratic
+moment are bounded. Exceptional large coefficients are paid only when
+the independent tested row encounters them.
+\Cref{restore:tail-energy-lemma,lem:sparse-truncated-transfer}
+convert these facts into a constant risk multiplier while preserving
+$d^{-1/2}e^{-I}$. No simultaneous row-incoherence event is required
+by the regularized theorem.
 
 The weighted cancellation controls the first-order mean term that a
 generic unweighted dot product need not control in DC-SBM. It does not
@@ -88,17 +111,17 @@ block count. The Bernoulli profile reduction has a visible $O(np^2)$
 remainder; extending the DC theorem beyond bounded $np^2$ requires a new
 argument for that remainder and the heterogeneous nonedge weights.
 
-The more sparse algorithmic range $np=o(\log n)$, a vanishing normalized signal
-singular value, or an unrestricted known-$\theta_i$ oracle in general
-DC-SBM is not covered by the positive statements. The first two are
-unproved extensions here; the last is explicitly impossible by
-\cref{thm:imposs}. None should be folded into the present theorem by an
-unstated assumption or a change of denominator.
-The oracle comparison in \cref{prop:classical-dc-oracle-bridge} does
-already hold below logarithmic degree. \Cref{sec:sparse-extension}
-separately proves the regularized geometry and a more flexible sharp
-transfer lemma, while identifying the outstanding sparse algorithmic
-conditions.
+The regularized algorithmic theorem covers $np=o(\log n)$ whenever
+$np\to\infty$, as well as every higher degree scale with bounded
+$np^2$. A vanishing normalized signal singular value and unbounded
+$np^2$ in the general DC theorem remain outside its stated class.
+An unrestricted known-$\theta_i$ oracle in general DC-SBM is
+explicitly impossible by \cref{thm:imposs}; this obstruction does not
+apply to the equal-exposure result. The unchanged ordinary
+free-profile schedule retains the scope of its separate theorem.
+\Cref{sec:sparse-extension} supplies the regularized geometry and
+sharp-transfer tools, and \cref{sec:sparse-restored} completes their
+row-tail, local LOO, fitting, and unconditional probability interfaces.
 
 \subsection{Audit record}
 
@@ -116,7 +139,18 @@ profile cap, degree-zero oracle rows and adaptive finite hard refits.
 The two-point obstruction was verified independently from its affinity
 and permutation-loss calculations.
 
+For the sparse restoration, independent checks covered the
+same-threshold row-energy recurrence with square-root degree caps,
+the empirical-threshold perturbation, local generalized eigenvector
+equations, weighted wrong-label mass, signed Bernoulli fitting,
+finite hard-refit invariance, and the ordinary unprofiled intercept.
+The high-scale probability closure was checked directly against
+the centered-entry norm inequality of Bandeira--van Handel.
+Training events are measurable from their deleted graph; full-graph
+events are used only for deterministic error inclusions.
+
 These are internal mathematical and implementation checks, not external
 peer review. The note provides the complete proofs so each claim can be
 reviewed directly. There is no simulation estimate being used as proof
 of a bounded asymptotic ratio.
+

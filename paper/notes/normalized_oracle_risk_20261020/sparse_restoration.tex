@@ -1,0 +1,288 @@
+\section{Restoring the sparse argument without a logarithmic lower bound}
+\label{sec:sparse-restored}
+
+This revision restores a proof chain that was present in the 9 October
+degree-plus-spectrum draft\footnote{The retained source is
+\href{https://github.com/zhixin0825/spectral-lrt/blob/de60b64c7d7f127ae6dc1d010c840af707a080da/paper/previous_draft/sbm_spectral_lrt_20261009.tex}{the 9 October sparse proof at commit \texttt{de60b64}}.}:
+a same-threshold truncated-row-energy
+recursion and local full-to-deleted-graph comparison. That draft treated
+$d\to\infty$, $d=o(\log n)$ and obtained a leading-exponent result.
+Its non-tail score errors were $O(\sqrt d)$ or $o(d)$, so it cannot be
+quoted verbatim for a constant risk ratio. The argument below reuses its
+row-tail mechanism, proves a scalar $O(1)$ LOO comparison for the current
+floor normalization, and supplies the fitted-parameter bounds.
+
+The distinction between decoders is explicit. The completed sparse
+result below uses the finite radius-count initializer already specified
+for DC-SBM and block-parameter Bernoulli likelihood updates. Its ordinary
+SBM specialization fixes all degree parameters at one and uses the
+ordinary, unprofiled Bernoulli LRT. It is not a theorem for the unchanged
+ordinary free-profile growing/replacement/soft-EM schedule of
+\cref{sbm:algorithm}. That schedule's global generated-profile box must
+not be transferred silently to graphs with exceptional high degrees.
+
+\subsection{The regression caused by whole-graph fallback}
+
+\begin{proposition}[A whole-graph zero-degree fallback is invalid in the
+sparse regime]\label{restore:fallback}
+Consider a balanced two-group SBM with within probability $p$, between
+probability $p/2$, and $d=np=\log\log n$. The probability of at least
+one isolated vertex tends to one. For every deterministic fallback
+partition fixed in advance, there is a balanced true partition for which
+an algorithm returning that fallback whenever an isolated vertex exists
+has expected permutation-invariant misclassification bounded below by
+$1/4+o(1)$. Its local oracle risk tends to zero.
+\end{proposition}
+
+\begin{proof}
+For every vertex the isolation probability is
+$(1-p)^{n/2-1}(1-p/2)^{n/2}
+=\exp\{-3d/4+o(1)\}$. If $N_0$ counts isolated vertices, then
+$\E N_0=n\exp\{-3d/4+o(1)\}\to\infty$. For distinct vertices,
+their two isolation events share only the edge between them, giving
+\[
+ \frac{\operatorname{Var}(N_0)}{(\E N_0)^2}
+ \le \frac1{\E N_0}+\frac p{1-p}\longrightarrow0.
+\]
+Choose a balanced true partition whose overlap with the fixed fallback
+has error at least $1/4$ after either label permutation. Such a partition
+exists by splitting each fallback class approximately evenly. The loss
+lower bound follows. Standard incident-row Chernoff comparison gives
+oracle risk at most $Ce^{-cd}\to0$ on this separated model.
+\end{proof}
+
+Thus the logarithmic restriction cannot be removed merely by deleting
+text from the unregularized theorem. The valid repair is to restore a
+positive floor and local risk accounting. With the regularized encoder,
+a zero-degree vertex has a zero reconstructed row and causes no
+whole-graph fallback.
+
+\subsection{The regularized finite algorithm}
+\label{restore:algorithm}
+
+Fix sufficiently small $a,\alpha>0$ and sufficiently large $\beta>0$,
+depending only on the fixed structural parameter bounds. Choose them so
+that the population degrees lie strictly inside the propensity-clamping
+interval, and the population floor is inactive. Put
+\[
+ \mathbf d=A\one,\quad \bar D=n^{-1}\one^\top\mathbf d,\quad
+ \tau=a\bar D,\quad G_i=\max(D_i,\tau).
+\]
+The all-zero graph has a fixed output. Otherwise $G$ is positive, even
+when some vertices are isolated. Retain the $K$ eigenpairs with largest
+absolute eigenvalues of $S_G=G^{-1/2}AG^{-1/2}$ and the raw degrees.
+There is no requirement that a Perron degree vector be one of these
+eigenvectors after flooring. Compute
+\[
+ R_0=G^{1/2}U\Lambda U^\top G^{1/2}=AH_G,
+ \qquad H_G=G^{-1/2}UU^\top G^{1/2},
+\]
+and use the exact-degree, hollow reconstruction $R^h$ defined in
+\eqref{restore:reconstruction}. Only $(\mathbf d,U,\Lambda)$ are used
+after encoding; $G$ is recovered from $\mathbf d$.
+
+Initialize by normalizing the rows of $U$ and using the deterministic
+radius-$1/8$, deletion-radius-$1/4$ count procedure in
+\cref{dcsbm:initializer}. A zero row is assigned any fixed unit direction
+for this initialization, without stopping other vertices.
+
+For DC-SBM, define
+\[
+ T_i=\min\{\max(D_i,\alpha\bar D),\beta\bar D\},\qquad
+ \widehat\theta_i=T_i/\overline T_{\widehat z_i}.
+\]
+Fit the symmetric block matrix by the exact signed Bernoulli working
+criterion \eqref{dcsbm:block-criterion}, with $R^h$ and these degree
+estimates, under the same fixed candidate-probability cap. Classify each
+row by exact Bernoulli target profiling, with the degree parameter
+profiled separately for every candidate community.
+
+For ordinary SBM, set $\widehat\theta_i=1$ and maximize the same block
+criterion; use the ordinary Bernoulli row likelihood, without target
+profiling. Equivalently each fitted symmetric block probability is its
+ordered reconstructed block total divided by the corresponding number
+of ordered, self-excluded pairs, clipped to
+$[\varepsilon,q_{\max}]$, where
+$\varepsilon=c_0\bar D/n$ for a fixed sufficiently small $c_0>0$.
+On the proved event the maximizers are interior, so this clipping has
+no statistical effect.
+
+At least one fit-and-LRT update is performed. The procedure may use any
+finite number of these hard refits, including finite data-dependent
+stopping. The invariant basin below covers every such endpoint
+simultaneously. An undefined empty-group or parameter-fit operation may
+have a fixed fallback; those operations are well-defined on the proved
+aggregate event. No individual zero degree triggers a graph-wide fallback.
+
+\input{restored_row_tail}
+\input{restored_local_loo}
+\input{restored_dc_fit}
+
+\subsection{Sharp risk and removal of the logarithmic density floor}
+
+\begin{theorem}[Regularized DC-SBM at every diverging expected-degree
+scale]\label{restore:dc-theorem}
+Under the fixed structural assumptions \eqref{eq:mean-model}--%
+\eqref{eq:structural}, suppose
+\[
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+\]
+The regularized algorithm of \cref{restore:algorithm}, using the
+DC-SBM profile LRT, satisfies
+\[
+ \E\ell(\widehat z,z)\le C R_{\mathrm{prof},*}(n)
+\]
+for all sufficiently large $n$. The constant may depend on the fixed
+structural bounds, clamping constants and $C_1$, but not on $n$.
+Under the finite-$n$ equal-exposure condition
+\eqref{eq:equal-exposure}, the right side may be replaced by
+$C R_{\theta,*}(n)$. In particular, the classical balanced planted
+partition with fixed separated $q/p$ is included. There is no lower
+bound proportional to $\log n$ in this statement.
+\end{theorem}
+
+\begin{theorem}[Ordinary SBM with the regularized block-LRT decoder]
+\label{restore:sbm-theorem}
+Take $\theta_i=1$, fixed arbitrary $K$, comparable group sizes and a
+positive compact full-rank block profile as in
+\eqref{eq:structural}. Suppose
+\[
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+\]
+The ordinary, unprofiled version of \cref{restore:algorithm} satisfies
+\[
+ \E\ell(\widehat z,z)\le C R_{\mathrm{SBM},*}(n).
+\]
+This is a sparse block-LRT theorem; it does not replace the broader
+dense-probability result for the earlier ordinary decoder, and does not
+assert the unchanged free-profile EM schedule in the sparse regime.
+\end{theorem}
+
+\begin{proof}[Proof of the sparse-range risk bounds]
+Fix any constant $A_0<\infty$ and first work on
+$d\le A_0\log n$, still with $d\to\infty$.
+Let $\mathcal E$ collect the aggregate geometric conditions of
+\cref{prop:sparse-floor}, their recomputed versions after deletion of
+at most three vertices, two-sided total degree, and the true block-total event used
+in the fitting lemmas. None imposes a simultaneous lower bound on all
+raw degrees or a simultaneous incoherence bound. For every prescribed
+fixed $r$, its failure probability is $O(n^{-r})$ after increasing the
+fixed constants. For the block totals this also follows directly from
+the independent-edge Bernstein bound at a sufficiently large constant
+times $n$: its exponent is at least $cn/d$, and $np^2\le C_1$ gives
+$n/d\ge d/C_1$; in the present range it is much larger than $\log n$.
+
+The initializer and invariant-basin result in
+\cref{restore:fit-invariant} apply deterministically on $\mathcal E$.
+For a tested target $i$, impose only its upper-degree bound
+$D_i\le Ld$, its local normalized row bound, and the condition that its
+incident row hits no exceptional deleted eigenvector row. By
+\cref{restore:tail-energy-lemma,restore:tail-hit-corollary,restore:tail-target-corollary}, the average probability cost
+of the two row conditions is $C_He^{-Hd}$ for any prescribed fixed $H$,
+after choosing their fixed thresholds sufficiently large. For the
+LOO hit condition, the exceptional set consists of deleted rows with
+$\sqrt n\norm{(U_B)_{j\cdot}}_2>R$; the floor implies
+\eqref{restore:loo-hit} on its complement. Its expected hit mass
+is bounded by the row-count argument in
+\eqref{restore:tail-coefficient-count}.
+The upper
+degree tail has the same property by the single-row Bernoulli Chernoff
+bound. Polynomial factors in $d$ are absorbed by choosing a larger
+exponential rate at the preceding step. No union over the $n$ tested
+targets is taken: their error probabilities are averaged.
+
+On these local events, the fitted-score lemma
+\cref{restore:fit-score} replaces every estimated, possibly
+data-dependent contrast by a deterministic true block contrast at
+$O(1)$ cost. The local LOO comparison
+\cref{restore:loo-corrected} replaces its actual full-graph spectral
+action by an independent training action at another $O(1)$ cost.
+For the DC profile contrast, the new score is the true raw-row
+linear profile contrast plus
+\[
+ \sum_{j\ne i}A_{ij}e_j+O(1),\qquad
+ e=(H_B-I)(w-\bar w\one).
+\]
+The coefficients are measurable from the deleted graph and independent
+of the incident Bernoulli row. For each target use the analogous
+training event $\mathcal E_i$ formed only from that deleted graph and
+its further deletions. In applying the independent-row bound,
+drop the full-graph event after the deterministic error inclusion and
+condition only on the training graph on $\mathcal E_i$.
+The geometry cost is
+\[
+ \varepsilon_{\rm geom}
+ =\PP(\mathcal E^c)+\frac1n\sum_i\PP(\mathcal E_i^c)
+ \le C_rn^{-r}.
+\]
+This does not condition the Bernoulli row on a full-graph event.
+The tilted mean and quadratic cost are
+bounded by \eqref{eq:floor-tilt-moments}; here $np^2$ is bounded.
+The exceptional coefficient hit-mass hypothesis of
+\cref{lem:sparse-truncated-transfer} is now a conclusion of
+\cref{restore:tail-hit-corollary}, rather than an unproved premise. That sharp
+transfer gives, after averaging the local target exceptions and taking
+a fixed-$K$ union over competitors,
+\[
+ \E\ell(\widehat z,z)
+ \le \frac Cn\sum_i\sum_{b\ne z_i}
+                  d^{-1/2}e^{-I_{i,z_i b}}
+       +C_He^{-Hd}+\varepsilon_{\rm geom}.
+\]
+The same pairwise directional sharp scale is a lower bound, up to a
+constant, for the actual profile oracle. Since $K$ is fixed, the
+displayed sum is bounded by a constant times its average risk.
+Only the averaged target-row tail is used; no pointwise uniform tail
+for heterogeneous degree parameters is asserted.
+
+For ordinary SBM, the exact raw Bernoulli contrast has bounded
+block-constant log-odds coefficients and a deterministic nonedge
+intercept. The fitted intercept error is $O(1)$: each block probability
+is estimated at error $O(1/n)$, and the group-size error is $O(n/d)$.
+The incident fitted coefficients cost $O(1/d)$ times a reconstructed
+row of absolute mass $O(d)$. Replacing wrong labels costs $O(1)$ by
+the same weighted wrong-set estimate. Under the exact Bernoulli
+Chernoff tilt the probabilities are block constant, so they equal
+$D_0h$ with block-constant $\norm h_\infty=O(1/n)$; the tilted
+cancellation is exact up to the bounded diagonal-exclusion term.
+Thus the same sharp transfer applies to the ordinary true-parameter
+oracle, with its nonedge intercept retained. The ordinary fitted and
+invariant-basin arguments are also stated explicitly in
+\cref{restore:fit-ordinary}.
+
+Uniformly on either compact class, the reference average risk is at
+least $c d^{-1/2}e^{-C_Id}$. Choose $H>C_I+1$ and then choose fixed
+$r>A_0(C_I+1)+2$. For $d\le A_0\log n$,
+\[
+ \frac{e^{-Hd}+n^{-r}}{d^{-1/2}e^{-C_Id}}\longrightarrow0.
+\]
+This closes the unconditional expected-risk estimate throughout the
+entire range below any fixed multiple of $\log n$. In particular, no
+positive lower coefficient of $\log n$ is required.
+\end{proof}
+
+\input{restored_high_range}
+
+\subsection{Scope of what has been restored}
+
+The degree-floor row-energy bound, local scalar LOO comparison, and
+weighted fitted-parameter argument above repair the three specific
+gaps listed at the end of the previous revision's Section 9. The DC
+profile-LRT algorithm now has an unconditional constant-oracle-risk
+bound at every diverging degree scale in its bounded-$np^2$ class.
+Its known-target-degree comparison still requires the stated
+equal-exposure restriction; the general obstruction in
+\cref{thm:imposs} is unchanged.
+
+For ordinary SBM, the sparse block-LRT route has been restored with an
+explicit initializer and true Bernoulli likelihood. This is different
+from asserting the previous free-profile soft-EM schedule without
+modification. Exact degree preservation and a uniform entry bound
+$|R_{ij}|\le Cp$ would force $D_i\le Cd$ for every vertex; that global
+bound is not available in the sparse model. The old common-box proof
+therefore cannot simply be copied. This algorithm distinction is kept
+visible rather than absorbed into a theorem with an unspecified decoder.
+
+All new comparisons are internal mathematical derivations with explicit
+proofs. They are not justified by simulations, and they do not claim a
+small numerical risk multiplier or a ratio converging to one.

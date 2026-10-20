@@ -1,96 +1,76 @@
 # Constant oracle-risk bounds for normalized spectral likelihood
 
-Research proof note, 20 October 2026, revision 2. This source builds the 48-page
-note for the spectral-lrt project. It gives literal expected-risk bounds
-\(\mathbb E\ell(\widehat z,z)\le C R_*(n)\), with \(C\) independent of \(n\)
-on the explicitly stated parameter classes.
+Research proof note, 20 October 2026, **revision 3**.
 
-## Results and exact scope
+**The primary regularized algorithm theorems have no logarithmic expected-degree lower bound.** On the fixed structural classes below they prove the literal inequality
+\[
+\mathbb E\ell(\widehat z,z)\le C R_*(n),
+\]
+where \(C\) is independent of \(n\), under \(d=np\to\infty\) and \(np^2\le C_1<\infty\).
 
-| Result | Oracle reference | Conditions |
+- [Reviewed PDF](normalized_spectral_oracle_risk_20261020.pdf)
+- [Reproducible TeX source archive](normalized_spectral_oracle_risk_20261020_source.zip)
+- [Main source](main.tex)
+- [Build and review record](BUILD.txt)
+
+## Primary results and exact scope
+
+| Model and actual decoder | Oracle reference | Conditions |
 | --- | --- | --- |
-| Theorem 1.1: ordinary SBM, signed Euclidean spectral reconstruction with finite growing/replacement likelihood fitting | Raw-edge Bernoulli LRT with true block parameters and neighbor labels | Fixed arbitrary \(K\), comparable group sizes, \(p/2\le P_{ab}\le p\le1/4\), \(\sigma_{\min}(P)\ge\kappa p\), \(np\ge5\log n\) |
-| Theorem 1.2: DC-SBM, degree-metric reconstruction with estimated-parameter Bernoulli profile LRT | Raw-edge profile LRT with true neighbor parameters and the target degree profiled separately for each candidate | Positive bounded degree parameters, exact within-block mean normalization, positive full-rank compact block profiles, \(C_0\log n\le np\), \(np^2\le C_1\) |
-| Corollary 1.3: stronger DC-SBM comparison | Raw-edge LRT additionally supplied with the target's true degree parameter | The preceding sparse conditions and equal actual finite-\(n\) block exposures |
-| Proposition 6.1: broader ordinary SBM class | The same true-parameter ordinary oracle | General positive compact profiles bounded away from one, and a deterministic information-degree margin |
-| Proposition 5.11: classical balanced DC-SBM oracle alignment | Known-target-degree, profile, and true-group voting local references | Fixed arbitrary K, balanced planted partition, bounded positive theta with group means one, q/p in a fixed compact subinterval of (0,1), np tending to infinity, and bounded np^2; no logarithmic lower bound for this oracle comparison |
-| Theorem 7.1: general DC-SBM obstruction | Known-target-degree local oracle | Two explicit exactly normalized Bernoulli parameter sequences outside the classical assortative class; this is not an obstruction to the balanced planted-partition result |
-| Proposition 9.1 and Lemmas 9.2–9.3: sparse proof ingredients | Degree-floor geometry and sharp transfer with exceptional coefficients | Geometry is proved for np tending to infinity; the transfer lemmas require stated coefficient-tail hypotheses and do not by themselves prove the actual sparse algorithm theorem |
+| Ordinary SBM: empirical degree floor, exact-degree metric reconstruction, radius-count initialization, block Bernoulli fit, and unprofiled Bernoulli LRT | Raw-edge Bernoulli row LRT supplied with the true block matrix and neighbor labels | Fixed arbitrary \(K\), comparable group sizes, general positive compact full-rank block profiles, \(np\to\infty\), bounded \(np^2\) |
+| DC-SBM: the same floor and reconstruction, radius-count initialization, clamped normalized degree estimates, exact Bernoulli block fitting, and target profile LRT | Raw-edge profile LRT supplied with true neighbor parameters, with the target degree profiled separately under each candidate | The preceding degree range; fixed bounded positive theta, exact within-block theta means one, positive compact full-rank block profiles |
+| DC-SBM with equal finite-\(n\) block exposures | Raw-edge LRT additionally supplied with the target's true degree parameter | The preceding DC class and equal exposures; includes the classical balanced planted partition |
+| General DC-SBM without an additional restriction | Known-target-degree local LRT | A uniform constant ratio is impossible; the retained two-point counterexample lies outside the equal-exposure class |
 
-The reference risks are local row likelihood risks. They do not use a global
-exact-group-size constraint to infer a missing label. The profile oracle is a
-generalized likelihood-ratio reference, not a fixed-known-target-degree Bayes
-test.
+The main statement is **Theorem 1.1**. Section 10 specifies the regularized algorithm and gives the complete no-logarithmic-lower-bound proof. Both new decoders permit the specified finite hard refits, including finite adaptive stopping after at least one update.
 
-## Revision 2: oracle alignment and the sparse extension
+The reference risks average the actual directional error at each fixed true vertex. They are local row likelihood risks; they do not use a global exact-group-size constraint to infer a missing label. The DC profile oracle is a generalized likelihood-ratio reference, distinct from the oracle that knows the target theta.
 
-Section 5.10 supplies a full sharp Bernoulli comparison between the classical
-balanced DC-SBM local oracle of Gao–Ma–Zhang–Zhou, the capped profile oracle,
-and true-group neighbor voting. Their common exact-risk scale retains the
-square-root prefactor. This comparison works when np grows arbitrarily
-slowly. The actual spectral algorithm bound still requires its separate
-logarithmic-range theorem.
+## What revision 3 repairs
 
-Section 6.2 improves the ordinary-SBM lower-degree condition from 20 log n
-to 5 log n by averaging the oracle lower bound over every vertex. It changes
-no algorithm step and is not presented as removal of the logarithmic scale.
+The 9 October degree-plus-spectrum draft already contained a sparse same-threshold truncated-row-energy argument and local leave-one-out analysis. It covered \(np\to\infty\), including \(np=o(\log n)\), at the leading-exponent level. Archiving that argument did not establish that it was false. The later constant-ratio proof failed to bring its sparse machinery forward.
 
-Section 9 proves normalized degree-floor concentration, weighted degree
-energy, block-space residuals, and DC tilted mean/variance cancellation
-under np tending to infinity. It gives an exactly degree-preserving spectral
-reconstruction and two new sharp-transfer lemmas, including an expected
-probability of the tested row hitting large coefficients. The actual floor
-coefficient-count tail, full-to-LOO score comparison, and fitted-parameter
-control are explicitly left as outstanding mathematical estimates.
+Revision 3 recovers that chain and supplies the stronger estimates required for a constant risk ratio:
 
-The audit notes are supporting independent working records. The TeX
-statements and their scope qualifications are authoritative.
+1. **Positive empirical degree floor.** Set \(G_i=\max(D_i,a_0\bar D)\). Isolated vertices no longer trigger a whole-graph fallback. The previous fallback is shown to fail on a concrete \(np=\log\log n\) SBM.
+2. **Actual floor-normalized row tails.** A same-threshold recursion gives exponentially small expected truncated spectral-row energy. It accounts for the square-root cap and the recomputed empirical threshold. No global row-incoherence event is assumed.
+3. **Local scalar LOO at \(O(1)\) cost.** Only coordinates hit by the tested row need bounded deleted eigenvector rows. The proof includes degree correction and simple hollowing.
+4. **Fitting from aggregate weighted errors.** Wrong-label mass, block totals, clamped nuisance estimation, exact signed Bernoulli fits, and the invariant basin are controlled without a global entrywise reconstruction bound.
+5. **Unconditional probability closure at every diverging scale.** Polynomially accurate regularized geometry suffices below a fixed multiple of \(\log n\). Above that internal proof split, the centered raw operator-norm bound supplies an arbitrarily large fixed exponential rate, and the positive floor turns it into aggregate geometry. No minimum-raw-degree event or information-degree margin is needed for the new regularized theorem.
 
-## What is proved about the algorithm
+The sharp \(d^{-1/2}\) prefactor is retained. The result does not assert that the risk ratio tends to one.
 
-The encoder retains only observed degrees and the informative normalized
-adjacency eigenpairs. Both decoders can be computed from those retained
-quantities. Leave-one-out systems and true labels are used only in the proof.
+## Actual algorithm and retained information
 
-The ordinary theorem covers a finite replacement schedule, exact E/M
-updates, and the mandatory endpoint order. It assumes no global maximizer
-of the mixture criterion and no correct initialization.
+The encoder retains the raw degrees and the \(K\) eigenpairs of \(G^{-1/2}AG^{-1/2}\) with largest absolute eigenvalues. The decoder computes
+\[
+R_0=G^{1/2}U\Lambda U^\top G^{1/2},\qquad
+R_1=R_0+(D-R_0\mathbf1)\mathbf1^\top/n,
+\]
+then applies the simple row hollowing defined in Section 10.4. The resulting \(R^h\) has zero diagonal and \(R^h\mathbf1=D\) exactly. No original-edge lookup is needed after encoding.
 
-The DC theorem uses the corrected reconstruction
-\(D^{1/2}U\Lambda U^\top D^{1/2}\), its explicit hollow correction, a
-deterministic radius-count initializer, estimated nuisance parameters, and
-exact Bernoulli target profiling. One refinement pass suffices. The stated
-finite repeated hard-refit procedure is also covered.
+Radius-count initialization uses fixed radii \(1/8\) and \(1/4\). Ordinary SBM fixes theta at one and retains the full Bernoulli nonedge intercept. DC-SBM uses bounded clamped degree estimates normalized within fitted groups and profiles the target theta for each candidate. The mathematical decoder uses exact arithmetic and exact likelihood optimizers.
 
-The new DC theorem must not be attached to an earlier experimental curve
-computed from the Euclidean reconstruction \(AQQ^\top\). The retained input
-is the same, but the DC decoder changes.
+## Separate earlier algorithm results
 
-The manuscript proves the full-to-recomputed-LOO score bounds, the tilted
-bias and quadratic-moment bounds, the \(d^{-1/2}\) tail prefactor, and the
-unconditional exceptional-event comparison. It does not assume any of
-these as unverified algorithmic success conditions.
+Sections 3–6 retain the earlier unregularized proofs. These are different algorithm statements:
 
-## Limits of the result
+- The ordinary Euclidean free-profile growing/replacement/soft-EM schedule retains its earlier logarithmic-range theorem, including probabilities beyond bounded \(np^2\).
+- The earlier unregularized DC metric decoder retains its separately proved logarithmic-range result.
+- Those restrictions are **not assumptions of the primary regularized theorem**.
+- The unchanged free-profile schedule is not silently identified with the new radius-count/block-LRT algorithm. Its previous global generated-profile box cannot be inferred from the aggregate floor geometry.
 
-The constants can depend on fixed signal conditioning, group proportions,
-degree-parameter bounds, the floor coefficient, and \(C_1\). The result
-does not assert a small numerical constant, convergence of the risk ratio,
-or uniformity when the normalized signal singular value tends to zero.
-The actual algorithmic range \(np=o(\log n)\) and the general DC range
-\(np^2\to\infty\) are not covered by the main theorems. The new oracle
-comparison and degree-floor geometry do cover sublogarithmic degree on
-their separately stated classes. General DC-SBM cannot satisfy the known-target oracle
-claim without an additional restriction; the counterexample establishes
-this even for a classifier observing the full graph.
+Earlier experimental curves evaluate their recorded algorithms. They should not be relabeled as experiments for this regularized variant.
 
-The theorem uses exact arithmetic. Fixed floating-point rank cutoffs or
-optimization tolerances require separate quantitative error control.
+## Limits
+
+Constants may depend on fixed signal conditioning, group proportions, theta bounds, floor and clamping constants, and \(C_1\), but not on \(n\). The theorem does not cover a normalized signal singular value tending to zero or general DC-SBM with \(np^2\to\infty\). General DC-SBM still cannot uniformly match the oracle supplied with the unknown target theta without an additional restriction.
+
+A fixed floating-point rank cutoff or optimization tolerance requires separate quantitative error control. The proofs and checks are internal research review, not external peer review. No simulation estimate is used as proof.
 
 ## Build
 
-Use a standard TeX Live or MiKTeX installation with the packages named in
-**main.tex**. From this directory run:
+From this directory, with a standard TeX Live or MiKTeX installation:
 
 ~~~sh
 pdflatex -interaction=nonstopmode -halt-on-error main.tex
@@ -99,23 +79,21 @@ pdflatex -interaction=nonstopmode -halt-on-error main.tex
 pdflatex -interaction=nonstopmode -halt-on-error main.tex
 ~~~
 
-The output is **main.pdf**. The supplied **main.bbl** also permits a build
-without running BibTeX. **references.bib** is the editable bibliography.
+This produces **main.pdf**. The supplied **main.bbl** also permits a build without BibTeX. The reviewed deliverable is copied to **normalized_spectral_oracle_risk_20261020.pdf**. Source and artifact checksums are recorded separately.
 
 ## Source map
 
-- **statements.tex**: models, oracle definitions, algorithms, and main statements.
+- **statements.tex**: model, precise oracle definitions, primary regularized theorem, and separately labeled earlier results.
 - **sharp_tail.tex**: sharp Bernoulli transfer and fixed-\(K\) oracle comparison.
-- **normalized_geometry.tex**: actual normalized spectral geometry and LOO.
-- **sbm_proof.tex**: finite ordinary likelihood fitting and sharp risk.
-- **dcsbm_proof.tex**: corrected DC reconstruction, initialization, fitting, and profile risk.
-- **dc_oracle_bridge.tex**: sharp classical balanced DC-SBM oracle comparison, with no logarithmic-degree premise.
-- **probability_closure.tex**: every exceptional event paid at the oracle scale.
-- **impossibility.tex**: full-adjacency known-target-oracle counterexample.
-- **scope_audit.tex**: implementation changes, exact scope, and audit record.
-- **sparse_extension_status.tex**: proved degree-floor geometry, exact degree correction, flexible sharp transfers, and the outstanding actual sparse theorem.
-- **audits/**: independent DC-reference, probability-constant, regularized-encoder, and sparse-transfer working audits.
+- **normalized_geometry.tex**, **sbm_proof.tex**, **dcsbm_proof.tex**, **probability_closure.tex**: retained unregularized proofs and reusable spectral/oracle tools.
+- **dc_oracle_bridge.tex**: sharp classical balanced DC-SBM oracle alignment without a logarithmic degree premise.
+- **impossibility.tex**: general known-target-theta obstruction.
+- **scope_audit.tex**: exact implementation and theorem boundaries.
+- **sparse_extension_status.tex**: degree-floor geometry and sharp transfer tools; the former open interfaces are now cross-referenced to their proofs.
+- **sparse_restoration.tex**: recovered history, explicit regularized algorithm, final theorems, and risk assembly.
+- **restored_row_tail.tex**: same-threshold truncated row energy and local exceptional mass.
+- **restored_local_loo.tex**: scalar full-to-LOO comparison with the empirical floor.
+- **restored_dc_fit.tex**: weighted fitting, signed Bernoulli profiles, finite hard-refit invariance, and ordinary unprofiled Bernoulli LRT.
+- **restored_high_range.tex**: exponentially accurate aggregate geometry and the final all-scale closure.
+- **audits/**: historical evidence and independent mathematical review records.
 
-The proof has undergone internal independent checks; it has not undergone
-external peer review. No simulation estimate is used as a proof of a
-bounded asymptotic risk ratio.

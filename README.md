@@ -1,6 +1,18 @@
 # Spectral likelihood community detection for the SBM
 
-**当前论文（2026-10-18）：** [编译 PDF](paper/current/main.pdf) · [完整 TeX（含证明）](paper/current/main.tex) · [模型与算法](paper/current/README.md) · [可编译源文件包](paper/current/latex-source.zip)。
+## 最新证明：无 logarithmic degree 下限（2026-10-20，revision 3）
+
+[完整证明 PDF](paper/notes/normalized_oracle_risk_20261020/normalized_spectral_oracle_risk_20261020.pdf) · [可编译源文件包](paper/notes/normalized_oracle_risk_20261020/normalized_spectral_oracle_risk_20261020_source.zip) · [定理、算法与范围](paper/notes/normalized_oracle_risk_20261020/README.md)。
+
+新的正则化主定理要求 **\(np\to\infty\)、\(np^2\le C_1\)**，没有 **\(np\ge c\log n\)** 下限。覆盖任意固定 \(K\)、可比社区大小和一般正、有界、满秩 block profiles，证明实际平均误分风险 **\(\mathbb E\ell\le C R_*\)**，保留 sharp 的 \(d^{-1/2}\) 因子。普通 SBM 比较 true-parameter Bernoulli row oracle；DC-SBM 比较 target-profile oracle，equal exposures 时也比较 known-target-theta oracle。
+
+算法保留原始 degree 和一个 degree-floor normalized eigensystem，使用精确 degree correction、simple hollowing、radius-count initializer 与 block Bernoulli fitting/LRT。已恢复 10 月 9 日旧稀疏证明的 truncated-row-energy 机制，并补齐常数精度 local LOO、weighted fitting 和所有 degree scales 的概率闭合。零度节点不再触发全图 fallback。
+
+这是明确的 regularized block-LRT 版本；此前 growing/replacement/free-profile EM 的算法与已做实验继续按原记录解释。下面保留 10 月 18 日正文及实验说明，其中“尚未完成”的稀疏验证专指该旧 Algorithm 2，不能用来描述新的主定理。最新平均 directional oracle 定义也与下文旧正文的 maximum pairwise reference 分开列明。
+
+## 2026-10-18 正文与原算法记录
+
+**原论文正文（2026-10-18）：** [编译 PDF](paper/current/main.pdf) · [完整 TeX（含证明）](paper/current/main.tex) · [模型与算法](paper/current/README.md) · [可编译源文件包](paper/current/latex-source.zip)。
 
 全文以 oracle likelihood-ratio test 为起点，保留 **degree 和 spectral information**。先介绍未正则化、`p = Ω(log n/n)` 的容易情形并证明 sharp oracle rate；随后在 Section 4 介绍保留 `(D,U,Lambda)` 的一般算法，包括低于 logarithmic degree 的情形。该一般算法的精确代数恒等式和 sharp-rate 转移命题已写出；对完整正则化算法逐项验证稀疏统计条件仍待完成。重构 counts 不必恢复原始整数，也不声称 risk ratio 趋于一。
 
@@ -53,7 +65,7 @@ Algorithm 2 对固定的实数重构 `R` 使用完整 Bernoulli row criterion。
 
 远端 `452ca1d` 的一般 K sparse-score 证明、threshold-certificate 实现及 [24图检查](experiments/20261009_residual_likelihood_seeding/general_k_fresh_checks.json) 已一并保留。该版本已经覆盖 expected degree Ω(log n)，但要求 `p -> 0`。它在 `residual_seed.py` 中的默认入口为 `global_gain_certified`；随机 residual starts 的入口为 `global_gain_restarts`。本页的完整 Bernoulli 算法使用独立的 `SpectralLikelihood.decode()` 入口，进一步覆盖 dense probabilities，并采用直接的软损失几何收缩。
 
-2026-10-18 修订将 standalone sharp-rate 证明整合进 `paper/current/main.tex`，并同步重写摘要、引言、LRT/谱投影解释、主定理、证明和结论。先前的单独证明笔记保留在 [paper/notes/spectral_sharp_rate_20261018.pdf](paper/notes/spectral_sharp_rate_20261018.pdf) 作为推导记录；当前论文以 `paper/current/main.tex` 和同目录的 `main.pdf` 为准。
+2026-10-18 修订将 standalone sharp-rate 证明整合进 `paper/current/main.tex`，并同步重写摘要、引言、LRT/谱投影解释、主定理、证明和结论。先前的单独证明笔记保留在 [paper/notes/spectral_sharp_rate_20261018.pdf](paper/notes/spectral_sharp_rate_20261018.pdf) 作为推导记录；该阶段论文以 `paper/current/main.tex` 和同目录的 `main.pdf` 为准；最新正则化证明见本页开头的 revision 3。
 
 ## 归档入口
 
@@ -67,7 +79,8 @@ Algorithm 2 对固定的实数重构 `R` 使用完整 Bernoulli row criterion。
 | 更早的 720 图 degree 与 normalized-spectrum 实验 | [20261009_likelihood_initialization](experiments/20261009_likelihood_initialization/) |
 | 较早理论草稿 | [paper/previous_draft](paper/previous_draft/) |
 
-历史报告反映各自阶段的算法和理论状态。接续研究以本页和当前论文为准。
+历史报告反映各自阶段的算法和理论状态。最新定理与证明范围以本页开头的 2026-10-20 revision 3 证明笔记为准；原算法和实验的具体含义按各自记录解释。
+
 
 
 

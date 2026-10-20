@@ -1,16 +1,15 @@
-\section{Sparse extension: established ingredients and the remaining theorem}
+\section{Degree-floor geometry and sharp-transfer tools}
 \label{sec:sparse-extension}
 
-The coefficient $20$ was not a recovery threshold. The improved
-probability calculation in \cref{sec:probability} gives $5$ for the same
-ordinary decoder. Removing the entire logarithmic lower bound is a
-different step: the existing encoder convention rejects a graph with any
-zero degree, and that convention cannot simply be retained below
-logarithmic expected degree. The sparse construction already present in
-the project avoids this algebraic difficulty. This section preserves that
-construction, proves additional degree-floor and sharp-transfer facts,
-and states precisely which algorithmic estimates remain to be proved.
-The results here do not silently extend \cref{thm:sbm,thm:dc}.
+This section collects the regularized geometry and sharp-transfer tools
+used in \cref{thm:regularized}. The earlier unregularized encoder
+rejects a graph with any zero degree; that convention cannot be
+retained for the sparse result. The degree-plus-spectrum construction
+already present in the project avoids this algebraic difficulty.
+The tools below require no logarithmic degree lower bound.
+Their row-tail, local full-to-LOO, and fitted-parameter interfaces,
+left open in revision 2, are now proved in
+\cref{sec:sparse-restored} for the explicitly regularized algorithm.
 
 \subsection{The existing degree-plus-spectrum action remains valid}
 
@@ -228,8 +227,9 @@ $Cp^2\sqrt n\,\sqrt{n/d}\le Cnp^2$. Also $r_j\le Cp$, so
  \sum_jr_je_j^2\le Cp\norm e_2^2\le C.
 \end{equation}
 Thus the first-order bias cancellation and bounded quadratic error do
-not require logarithmic degree. A uniform coefficient bound, or a
-suitable replacement for it, is still needed for sharp risk transfer.
+not require logarithmic degree. The replacement for a uniform
+coefficient bound is supplied by
+\cref{restore:tail-energy-lemma,restore:tail-hit-corollary}.
 
 \subsection{Exact preservation of the raw degree vector}
 
@@ -391,35 +391,32 @@ the sufficient expected-count estimate
 would imply
 $\E[\ind{\mathcal E}h_M]\le Cd e^{-Hd}
 =o(d^{-1/2}e^{-I})$ whenever $I\le C_Id$.
-Equation \eqref{eq:sparse-row-count-target} is the required new spectral
-tail estimate, not a conclusion of \cref{prop:sparse-floor}.
+Equation \eqref{eq:sparse-row-count-target} is not a consequence of
+aggregate geometry alone. It is proved by the same-threshold
+truncated-energy argument in \cref{restore:tail-energy-lemma}
+and the floor lower bound.
 
-\subsection{What is still required for the actual sparse likelihood theorem}
+\subsection{The interfaces completed in the sparse restoration}
 
 The preceding propositions prove more than spectral consistency:
 the weighted projection has bounded tilted mean and variance, and the
-sharp tail permits either integrated exponential coefficient control
-or an expected truncated quadratic bound. They do not yet prove either
-of those final coefficient-tail hypotheses for the actual floor
-eigenvectors.
-
-Three coupled estimates remain. First, one must establish the needed
-coefficient tails on the recomputed deleted graphs. A sufficient
-uniform condition would be
-$\norm{U_{j\cdot}}_2/\sqrt{G_j}\le C/\sqrt{nd}$, but
-\cref{lem:sparse-truncated-transfer} permits rare violations.
-Second, the actual full-graph score must be compared to this independent
-deleted-graph score, including the changing floor and the degree
-correction in \eqref{eq:floor-degree-corrected-action}. The dense-range
-LOO lemma used a uniform row bound and cannot be invoked unchanged.
-Third, initialization and estimated-parameter fitting must be
-controlled with exceptional vertices included. Aggregate spectral error
-alone does not supply the required fitted likelihood remainder.
+sharp tail permits exceptional coefficients whose expected hit mass is
+small. Three additional estimates turn those tools into the actual
+algorithm theorem. First, \cref{restore:tail-energy-lemma} proves the
+needed truncated energy on the full and recomputed deleted graphs.
+Second, \cref{restore:loo-scalar,restore:loo-corrected} compare the
+actual full-graph score to the independent deleted score, including
+the empirical floor, exact degree correction, and hollowing, at
+$O(1)$ cost using row bounds only on incident coordinates.
+Third, \cref{restore:fit} controls initialization and fitted likelihood
+contrasts by aggregate weighted errors, while retaining exceptional
+vertices. The invariant-basin argument covers finite hard refits
+without a union over their number.
 
 For $d=o(\log n)$ the already proved $n^{-r}$ geometry failure is
 negligible relative to $d^{-1/2}e^{-C_Id}$ for any fixed $r>0$.
-The unresolved issue is therefore not the probability of the
-regularized norm event. Nor should one declare failure of the entire
+This explains why the regularized norm event needs no stronger
+probability in that range. Nor should one declare failure of the entire
 graph whenever any vertex has an unusually small degree. The
 truncated-score comparison shows how local exceptional coordinates can
 instead be paid when the tested row encounters them.
@@ -436,5 +433,7 @@ The intended nontrivial sparse target on the present fixed-separation,
 bounded-theta class is $d=np\to\infty$, together with the stated
 Bernoulli remainder condition. A vanishing signal gap or degree
 parameters approaching zero requires additional quantitative work.
-We have not replaced these outstanding estimates by an assumption
-that the desired constant risk ratio already holds.
+The completed proof in \cref{sec:sparse-restored} establishes each
+of these estimates. It does not replace them by an assumption that
+the desired constant risk ratio already holds.
+

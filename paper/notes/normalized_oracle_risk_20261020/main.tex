@@ -45,37 +45,40 @@
 \newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
 \newcommand{\ind}[1]{\mathbf1\{#1\}}
 \title{Constant oracle-risk bounds for normalized spectral likelihood\\
-\large End-to-end Bernoulli SBM and degree-corrected SBM results}
+\large Regularized Bernoulli SBM and DC-SBM at every diverging degree scale}
 \author{Research proof note for the spectral-lrt project}
-\date{20 October 2026}
+\date{20 October 2026 --- revision 3}
 \begin{document}
 \maketitle
 \begin{abstract}
-We give finite, implementable classifiers based only on retained normalized
-spectral information and prove expected misclassification risk at most a
-constant times a precisely specified local oracle risk. For ordinary SBM,
-the signed Euclidean spectral reconstruction and finite growing/replacement
-likelihood initializer are covered on an explicit nontrivial model class
-with \(np\ge5\log n\),
-with a broader information--degree margin extension. For bounded-degree-parameter
-DC-SBM, a degree-metric spectral reconstruction, deterministic spectral
-initialization, estimated nuisance parameters and Bernoulli profile likelihood
-give the bound for general positive full-rank block profiles when
-\(C_0\log n\le np\) and \(np^2\le C_1\). The reference is the full-edge
-profile-LRT oracle with true neighbor parameters. Equal block exposures
-further imply a bound relative to the oracle supplied with the target's
-true degree parameter. A sharp comparison explicitly identifies this
-reference with the classical balanced planted-partition DC-SBM local
-oracle; that oracle comparison requires only \(np\to\infty\) and bounded
-\(np^2\). A two-point counterexample outside the classical assortative
-class shows that the stronger reference cannot be matched throughout
-arbitrary DC-SBM. The proof keeps the sharp \(d^{-1/2}\) prefactor,
-establishes actual full-graph-to-LOO score control, and pays every failure
-event at the oracle scale. The algorithm modifications and model restrictions
-are explicit; a bounded risk ratio is not a claim that the ratio converges.
-The final section proves degree-floor geometry and an exponential-moment
-transfer lemma below logarithmic degree, and states the remaining
-algorithmic estimates without claiming a completed sublogarithmic theorem.
+We give finite classifiers based only on raw degrees and one retained
+normalized eigensystem, and prove expected misclassification risk at
+most a constant times a precisely specified local oracle risk.
+The primary regularized results require \(d=np\to\infty\) and
+\(np^2\le C_1\), with no logarithmic degree lower bound. They cover
+fixed arbitrary \(K\), comparable group sizes, and general positive
+full-rank compact block profiles. A positive empirical degree floor,
+exact degree preservation, deterministic radius-count initialization,
+and exact block Bernoulli fitting define the algorithm. Ordinary SBM
+uses the unprofiled Bernoulli LRT and is compared to its true-parameter
+raw-row oracle. Bounded-parameter DC-SBM uses a clamped, normalized
+nuisance fit and target profiling, and is compared to the full-edge
+profile oracle. Equal block exposures further give comparison to
+the oracle supplied with the target's true degree parameter, including
+the classical balanced planted partition.
+The proof restores the earlier sparse truncated-row-energy mechanism,
+upgrades local full-to-LOO and fitted-score errors to \(O(1)\), retains
+the sharp \(d^{-1/2}\) prefactor, and pays exceptional rows locally.
+Polynomially accurate regularized geometry and exponentially accurate
+raw norm bounds cover the two proof ranges without restricting the
+theorem at \(\log n\).
+Earlier unregularized decoder results are retained separately, including
+the ordinary free-profile likelihood schedule beyond bounded \(np^2\);
+the new theorem does not silently extend that unchanged schedule.
+A two-point counterexample outside the equal-exposure class still
+precludes the unrestricted known-target-degree DC oracle claim.
+All constants are independent of \(n\); a bounded risk ratio is not
+a claim that the ratio converges to one.
 \end{abstract}
 \tableofcontents
 \clearpage
@@ -88,6 +91,8 @@ algorithmic estimates without claiming a completed sublogarithmic theorem.
 \input{impossibility}
 \input{scope_audit}
 \input{sparse_extension_status}
+\input{sparse_restoration}
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
+

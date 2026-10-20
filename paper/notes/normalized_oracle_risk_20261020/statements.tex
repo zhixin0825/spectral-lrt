@@ -90,7 +90,55 @@ the risk averages the actual directional error at each fixed true vertex.
 Ties are resolved by a fixed ordering; strict-tail arguments below cover
 any such ordering.
 
-\subsection{One encoder and two decoders}
+\subsection{Primary result: no logarithmic degree lower bound}
+
+\begin{theorem}[Regularized fitted Bernoulli likelihood at every diverging degree scale]
+\label{thm:regularized}
+Assume \eqref{eq:mean-model}--\eqref{eq:structural}, with fixed arbitrary
+$K$, and suppose
+\[
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+\]
+Use the empirical degree-floor encoder and finite block-LRT decoder
+specified in \cref{restore:algorithm}. It retains only the raw degrees
+and the $K$ informative eigenpairs of $G^{-1/2}AG^{-1/2}$, where
+$G_i=\max(D_i,a_0\bar D)$ and $a_0>0$ is fixed and sufficiently small.
+After exact-degree reconstruction and hollowing, use radius-count
+initialization and at least one block Bernoulli fit-and-LRT update.
+Any finite sequence of the specified hard refits, including finite
+adaptive stopping, satisfies
+\[
+ \E\ell(\widehat z,z)\le
+ \begin{cases}
+ C R_{\mathrm{SBM},*}(n),&
+    \theta_i=1\text{ known, with no target profiling},\\
+ C R_{\mathrm{prof},*}(n),&
+    \text{DC-SBM with the specified nuisance fit and target profiling}.
+ \end{cases}
+\]
+Here $C$ is independent of $n$ on the fixed structural class.
+Under the finite-$n$ equal-exposure condition
+\eqref{eq:equal-exposure}, the DC bound is also
+$C R_{\theta,*}(n)$. No lower bound proportional to $\log n$,
+correct initial labels, true nuisance parameters, sample splitting,
+or deleted-graph eigensystem is an input to this algorithm.
+\end{theorem}
+
+The complete algorithm and proof are in \cref{sec:sparse-restored},
+especially \cref{restore:dc-theorem,restore:sbm-theorem}.
+This result permits $np$ to diverge arbitrarily slowly. The
+logarithmic scale appears only in the choice of probability estimate
+within its proof. Ordinary SBM uses a block Bernoulli fit here;
+the distinct free-profile mixture schedule below retains its own
+separately proved scope.
+
+\subsection{Earlier unregularized encoders and their separate results}
+
+The rest of this section records the unregularized algorithms analyzed
+in the earlier sections of the note. Their logarithmic-range hypotheses
+are not hypotheses of \cref{thm:regularized}. Their positive-degree
+fallback convention is replaced by the explicit floor in the primary
+algorithm.
 
 When all degrees are positive, form
 \[
@@ -155,7 +203,7 @@ group, or an inadmissible parameter fit. The required operations are all
 well-defined on the good event, so this convention costs only its actual
 failure probability.
 
-\begin{theorem}[Ordinary SBM, literal constant oracle-risk ratio]\label{thm:sbm}
+\begin{theorem}[Earlier ordinary free-profile decoder]\label{thm:sbm}
 Fix $K\ge2$, $\pi_->0$ and $\kappa>0$. Suppose
 \[
  n_a\ge\pi_-n,\qquad
@@ -178,7 +226,7 @@ displayed range. It does not require all within-group probabilities, or all
 between-group probabilities, to be identical.
 \end{theorem}
 
-\begin{theorem}[General bounded-parameter DC-SBM versus the profile oracle]
+\begin{theorem}[Earlier unregularized DC profile decoder]
 \label{thm:dc}
 Assume \eqref{eq:mean-model}--\eqref{eq:structural}. Fix $C_1<\infty$ and
 suppose
@@ -235,3 +283,4 @@ the stated class. We do not assert a small numerical constant, a limit of
 the risk ratio, or uniformity when $\sigma_{\min}(C)\to0$. The latter
 weak-signal extension needs separate quantitative estimates.
 \end{remark}
+

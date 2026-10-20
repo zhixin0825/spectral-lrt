@@ -1,17 +1,35 @@
 Constant oracle-risk bounds for normalized spectral likelihood
-Revision: 2026-10-20, revision 2
+Revision: 2026-10-20, revision 3
 Entry point: main.tex
 Bibliography: references.bib
 Build: PDFLaTeX, BibTeX, PDFLaTeX, PDFLaTeX.
-Verified output: 48 pages, A4, embedded Latin Modern fonts.
+Verified output: 68 pages, A4.
 Validation: no undefined references or citations; no LaTeX warnings,
 overfull boxes, or underfull boxes in the final build.
-Visual inspection: all 48 rendered pages reviewed in contact sheets;
-new DC oracle comparison, improved probability closure, sparse weighted
-cancellation, new transfer lemmas, and final scope inspected at full size.
-Scientific checks: independent audit of the DC oracle bridge, all-vertex
-probability closure, floor normalization, weighted geometry, and both new
-sharp-transfer lemmas. The original ordinary and DC proofs retain their
-prior internal checks. This is internal review, not external peer review.
-The actual sublogarithmic algorithmic theorem is NOT claimed. Section 9
-identifies the still-unproved spectral row-tail, LOO, and fitting estimates.
+Visual inspection: all 68 rendered pages reviewed in contact sheets;
+the main theorem, scope table, row-energy recursion, generalized
+LOO equations, fitted-score/invariant-basin interface, final theorem
+assembly, and high-scale closure additionally inspected at full page size.
+
+Primary theorem: empirical-floor block-LRT, np tending to infinity,
+bounded np^2, general positive compact full-rank profiles, fixed K.
+There is no logarithmic expected-degree lower bound in this theorem.
+Ordinary SBM uses known theta=1 and the unprofiled Bernoulli LRT.
+DC-SBM first compares to the target-profile oracle; the known-target-
+theta comparison retains its equal-exposure qualification.
+Specified finite hard refits and finite adaptive stopping are covered.
+
+Scientific checks: independent reviews of historical sparse proof,
+same-threshold row tails, empirical-floor local LOO, weighted fitting,
+signed Bernoulli profile reduction, the ordinary nonedge intercept,
+hard-refit invariance, and the all-scale probability closure.
+The raw operator-norm citation was checked against the primary source.
+The older unregularized proofs retain their separately stated scope;
+this revision does not claim to re-audit every old proof line.
+These are internal research checks, not external peer review.
+
+The source archive includes all TeX inputs, the bibliography, main.bbl,
+this record, the README, source checksums, and current/historical audits.
+Transient LaTeX output, rendering images, and duplicate working copies
+are excluded. ARTIFACT_SHA256SUMS.txt records the PDF and archive hashes.
+
