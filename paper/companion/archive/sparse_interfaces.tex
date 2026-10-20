@@ -1,0 +1,41 @@
+\subsection{The interfaces completed in the sparse restoration}
+
+The preceding propositions prove more than spectral consistency:
+the weighted projection has bounded tilted mean and variance, and the
+sharp tail permits exceptional coefficients whose expected hit mass is
+small. Three additional estimates turn those tools into the actual
+algorithm theorem. First, \cref{restore:tail-energy-lemma} proves the
+needed truncated energy on the full and recomputed deleted graphs.
+Second, \cref{restore:loo-scalar,restore:loo-corrected} compare the
+actual full-graph score to the independent deleted score, including
+the empirical floor, exact degree correction, and hollowing, at
+$O(1)$ cost using row bounds only on incident coordinates.
+Third, \cref{restore:fit} controls initialization and fitted likelihood
+contrasts by aggregate weighted errors, while retaining exceptional
+vertices. The invariant-basin argument covers finite hard refits
+without a union over their number.
+
+For $d=o(\log n)$ the already proved $n^{-r}$ geometry failure is
+negligible relative to $d^{-1/2}e^{-C_Id}$ for any fixed $r>0$.
+This explains why the regularized norm event needs no stronger
+probability in that range. Nor should one declare failure of the entire
+graph whenever any vertex has an unusually small degree. The
+truncated-score comparison shows how local exceptional coordinates can
+instead be paid when the tested row encounters them.
+
+Zhang's spectral clustering proof
+\cite[Theorem 3 and Corollary 1, p.~7326]{zhang} establishes exponentially
+small expected truncated row energy and exceptional-row counts for
+the trimmed adjacency eigenspace. That result provides a concrete
+model for \eqref{eq:sparse-row-count-target}; its eigenspace and
+normalization differ from the floor-normalized DC construction here.
+Its final leading-exponent conclusion does not, by itself, imply
+the bounded perturbation cost and sharp prefactor required here.
+The intended nontrivial sparse target on the present fixed-separation,
+bounded-theta class is $d=np\to\infty$, together with the stated
+Bernoulli remainder condition. A vanishing signal gap or degree
+parameters approaching zero requires additional quantitative work.
+The completed proof in \cref{sec:sparse-restored} establishes each
+of these estimates. It does not replace them by an assumption that
+the desired constant risk ratio already holds.
+

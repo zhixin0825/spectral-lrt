@@ -1,0 +1,897 @@
+\section{The earlier unregularized DC profile decoder}
+\label{sec:dcsbm-proof}
+
+This section proves the degree-corrected result in \cref{thm:dc}.
+The reconstruction used here is the projection in the observed-degree
+inner product.  It is an explicit decoder specification: the preceding
+Euclidean reconstruction is not silently identified with it.
+All likelihoods below are Bernoulli likelihoods.  The condition
+\(np^2\le C_1\) controls their approximation at a bounded \emph{log-likelihood}
+scale.
+
+Write \(Z_{ia}=\ind{z_i=a}\), \(\Theta=\diag(\theta_1,\ldots,\theta_n)\),
+\(B=pC\), and
+\[
+ \Omega=\Theta ZBZ^T\Theta,\qquad
+ D_0=\diag(\Omega\one),\qquad
+ D=\diag(D_1,\ldots,D_n),\quad D_i=\sum_jA_{ij}.
+\]
+The matrix \(\Omega\) includes its diagonal; the observed graph is hollow.
+Thus \(\|\Omega-\E A\|_{\op}=O(p)\).  In particular, every raw noise
+bound used below is unchanged up to its fixed constant by this completion.
+Throughout this section a generic constant may depend on the fixed
+parameter bounds in \cref{thm:dc}, but never on \(n\).  Constants depending
+also on a fixed initialization-basin radius \(M\) are denoted \(C(M)\).
+
+We use the common good event \(\mathcal G\) supplied by
+\cref{lem:normalized-rows} and the probability calculation in
+\cref{sec:probability}.  Its consequences needed here are
+\begin{align}
+ c d\le D_i\le C d,\qquad
+ \|A-\Omega\|_{\op}\le C\sqrt d,\qquad
+ \max_i\|U_{i\cdot}\|_2\le Cn^{-1/2},                    \label{dcsbm:good}\\
+ \max_{a,b}\abs{[Z^T(A-\Omega)Z]_{ab}}\le Cn,           \label{dcsbm:block-event}
+\end{align}
+together with the corresponding normalized spectral and degree
+consequences for the genuinely deleted graphs.  The retained eigenvectors
+\(U\) are orthonormal, and their eigenvalues \(\mu_1,\ldots,\mu_K\)
+are the \(K\) largest in absolute value.  The degree eigenvector is retained.
+The common lemmas establish these consequences from the model and pay
+their failure probabilities; they are not extra statistical assumptions.
+We now prove all remaining deterministic and local probabilistic steps.
+
+\subsection{The degree-metric reconstruction and its hollow correction}
+
+Put \(S=D^{-1/2}AD^{-1/2}\), \(\Pi=UU^T\), and
+\begin{equation}
+ H=D^{-1/2}\Pi D^{1/2},\qquad
+ R=AH=D^{1/2}U\diag(\mu_1,\ldots,\mu_K)U^TD^{1/2}.
+ \label{dcsbm:canonical}
+\end{equation}
+The second formula evaluates \(R\) from retained spectral information.
+Although \(H\) need not be symmetric, \(H^2=H\) and \(DH=H^TD\):
+it is an orthogonal projection for
+\(\langle x,y\rangle_D=x^TDy\).  Since the degree eigenvector
+is proportional to \(D^{1/2}\one\), \(H\one=\one\) and
+\(R\one=D\one\).
+
+For \(h_i=R_{ii}\), define
+\begin{equation}
+ s_i=\frac{h_i}{1-\Pi_{ii}},\qquad
+ R^\circ=R+\diag(s_1,\ldots,s_n)(H-I).
+ \label{dcsbm:hollow}
+\end{equation}
+On \(\mathcal G\), the denominators are positive for all sufficiently
+large \(n\).  Direct substitution gives
+\begin{equation}
+ R^\circ_{ii}=0,\qquad R^\circ\one=D\one,\qquad
+ R^\circ Q=AQ\quad
+ \text{if }\col(Q)\subseteq\col(D^{-1/2}U).
+ \label{dcsbm:exact-identities}
+\end{equation}
+The last identity follows because \(HQ=Q\).  The hollow correction need
+not be symmetric; a symmetric block parameter is fitted by the ordered
+Bernoulli criterion, equivalently by symmetrizing its pair contributions.
+The row profile scores always use the original rows of \(R^\circ\).
+
+\begin{lemma}[Entry and absolute-row bounds]
+\label{dcsbm:entry-lemma}
+On \(\mathcal G\),
+\begin{equation}
+ \max_{i,j}|R^\circ_{ij}|\le Cp,\qquad
+ \max_i\sum_j|R^\circ_{ij}|\le Cd,\qquad
+ \max_i|s_i|\le Cp .
+ \label{dcsbm:entry-bounds}
+\end{equation}
+Every action in \cref{dcsbm:canonical,dcsbm:hollow} is computable from
+\((D,U,\mu)\), with no access to individual edges after encoding.
+\end{lemma}
+
+\begin{proof}
+The normalized adjacency has operator norm at most one.  Consequently
+\[
+ |R_{ij}|
+ \le \sqrt{D_iD_j}\,\|U_{i\cdot}\|_2\|U_{j\cdot}\|_2
+ \le Cd/n=Cp.
+\]
+Moreover
+\(
+ |H_{ij}|
+ \le\sqrt{D_j/D_i}\,\|U_{i\cdot}\|_2\|U_{j\cdot}\|_2
+ \le C/n
+\).
+These estimates give \(|s_i|\le Cp\) and the entry bound for \(R^\circ\);
+summing its entries in absolute value gives the row bound.
+The displayed spectral formulas also prove the computational statement.
+\end{proof}
+
+\subsection{A finite deterministic spectral initializer}
+
+The row-normalized population centers are particularly simple even when
+the \(\theta_i\)'s vary within blocks.  To see this without replacing the
+observed degrees by their expectations, put
+\[
+ M_D=D^{-1/2}\Omega D^{-1/2},\qquad
+ G_D=Z^T\Theta D^{-1}\Theta Z.
+\]
+The diagonal entries of \(G_D\) are between constant multiples of \(n/d\).
+The \(K\) nonzero eigenvalues of \(M_D\) have absolute values bounded
+away from zero, by the lower singular-value bound on \(C\).
+An orthonormal basis of its range has the form
+\begin{equation}
+ V=D^{-1/2}\Theta ZG_D^{-1/2}O
+ \label{dcsbm:population-basis}
+\end{equation}
+for an orthogonal \(K\)-by-\(K\) matrix \(O\).  Each row has norm
+comparable to \(n^{-1/2}\), and its normalization is exactly the
+\(z_i\)-th row of \(O\).  These \(K\) unit centers have pairwise distance
+\(\sqrt2\).
+
+By \cref{dcsbm:good},
+\(\|S-M_D\|_{\op}\le C/\sqrt d\).  The signal/bulk gap and
+Davis--Kahan therefore give an aligned basis with
+\(\|U-V\|_F^2\le C/d\).  The elementary normalization inequality
+\[
+ \left\|\frac{u}{\|u\|_2}-\frac{v}{\|v\|_2}\right\|_2
+ \le \frac{2\|u-v\|_2}{\|v\|_2}
+\]
+holds when \(u\ne0\), and holds with a harmless change of constant
+under any fixed unit-vector convention for \(u=0\).  For the normalized
+rows \(x_i\) and true unit centers \(c_a\), it follows that
+\begin{equation}
+ \sum_{i=1}^n\|x_i-c_{z_i}\|_2^2\le Cn/d.
+ \label{dcsbm:embedding-sse}
+\end{equation}
+
+The following initializer requires no numerical \(K\)-means certificate.
+Starting with all rows remaining, repeat \(K\) times: choose a remaining
+row whose closed ball of radius \(r=1/8\) contains the largest number
+of remaining rows, break ties in a fixed order, record that row, and
+remove all remaining rows at distance at most \(2r=1/4\) from it.
+Finally assign every original row to its nearest recorded representative.
+If a step is undefined, use the algorithm's fixed fallback partition.
+The procedure uses \(O(Kn^2)\) distance comparisons in fixed dimension.
+
+\begin{lemma}[Ball-count initialization]
+\label{dcsbm:initializer}
+Suppose every true block contains at least \(\gamma n\) rows and
+the unit centers are separated by \(\sqrt2\).  Put
+\(\epsilon=1/32\).  If
+\(\sum_i\|x_i-c_{z_i}\|_2^2\le E\) and
+\(m=E/\epsilon^2<\gamma n/3\), the procedure above selects exactly
+one representative for each true center and, after one common
+permutation of labels, makes at most \(m\) errors.  In particular,
+\cref{dcsbm:embedding-sse} implies an initial error fraction at most
+\(C/d\) on \(\mathcal G\).
+\end{lemma}
+
+\begin{proof}
+Call a row good if it is within \(\epsilon\) of its true center.
+There are at most \(m\) bad rows.  Inductively, all good rows of each
+previously selected block have been removed and all good rows of each
+unselected block remain.  A radius-\(r\) ball centered at a good row
+of any unselected block contains every good row of that block, since
+\(2\epsilon<r\).  Its count is at least \(\gamma n-m>m\).
+Hence the maximizing ball contains a good row from an unselected block.
+Its selected representative is within \(r+\epsilon=5/32\) of that
+block's center.  Every good row of this block is within
+\(r+2\epsilon=3/16<2r\) of the representative, while every good row
+of another block is at least
+\(\sqrt2-r-2\epsilon>2r\) away.  This proves the induction.
+After \(K\) selections, a good row is at most \(3/16\) from its own
+representative and at least \(\sqrt2-3/16\) from every other one.
+Thus final nearest-representative assignment classifies all good
+rows correctly.
+\end{proof}
+
+\subsection{Block-total accuracy and estimation of the nuisance parameters}
+
+We first record the residual estimate behind both the block fit and the
+tilted cancellation.
+
+\begin{lemma}[Block residual in the degree metric]
+\label{dcsbm:block-residual}
+On \(\mathcal G\), with \(F=(I-\Pi)D^{1/2}Z\),
+\begin{equation}
+ \|F\|_{\op}\le\|F\|_F\le C\sqrt n,\qquad
+ \sum_i\frac{(D_i-D_{0,i})^2}{D_i}\le Cn.
+ \label{dcsbm:residual-estimates}
+\end{equation}
+The same conclusions hold for any genuinely deleted graph under its
+corresponding common good event.
+\end{lemma}
+
+\begin{proof}
+The degree-vector bound follows from
+\[
+ \|(D-D_0)\one\|_2
+ =\|(A-\Omega)\one\|_2\le C\sqrt{nd}
+\]
+and \(\min_iD_i\ge cd\).
+Write
+\[
+ D^{1/2}Z
+ =D^{-1/2}D_0Z+D^{-1/2}(D-D_0)Z.
+\]
+Since \(D_{0,i}=p\theta_i\sum_c n_cC_{z_i c}\), the first term
+belongs to \(\col(D^{-1/2}\Theta Z)=\col(M_D)\).
+Its Frobenius norm is \(O(\sqrt{nd})\), while the angle between this
+space and \(\col(U)\) is \(O(d^{-1/2})\).  Its residual is therefore
+\(O(\sqrt n)\).  The squared Frobenius norm of the second term is
+exactly the degree sum in \cref{dcsbm:residual-estimates}, because
+every row of \(Z\) contains one unit entry.  This proves the assertion.
+Deleting one vertex preserves all fixed group-mass bounds and the same
+calculation applies to the minor.
+\end{proof}
+
+\begin{lemma}[Canonical reconstructed block totals]
+\label{dcsbm:block-totals}
+Fix \(M<\infty\).  Uniformly over every possibly data-dependent
+partition \(\widehat Z\) with at most \(Mn/d\) mistakes after a common
+permutation,
+\begin{equation}
+ [\widehat Z^TR^\circ\widehat Z]_{ab}
+ =n_an_bpC_{ab}+O_M(n).
+ \label{dcsbm:totals-accuracy}
+\end{equation}
+The usual diagonal exclusion is included in the \(O_M(n)\) term.
+\end{lemma}
+
+\begin{proof}
+Let \(S_{\rm tail}=(I-\Pi)S(I-\Pi)\).  Spectral invariance gives the
+exact quadratic identity
+\begin{equation}
+ Z^T(R-A)Z=-F^TS_{\rm tail}F .
+ \label{dcsbm:quadratic-identity}
+\end{equation}
+Because \(M_D\) has rank \(K\), Weyl's inequality gives
+\(\|S_{\rm tail}\|_{\op}\le C/\sqrt d\).
+By \cref{dcsbm:block-residual}, the right side of
+\cref{dcsbm:quadratic-identity} has norm at most \(Cn/\sqrt d\).
+The hollow correction changes a true block total by at most \(Cd\):
+indeed its total absolute contribution is at most
+\[
+ \max_i|s_i|\sum_i\sum_j|(H-I)_{ij}|
+ \le Cp\,Cn=Cd.
+\]
+Together with \cref{dcsbm:block-event} and
+\(Z^T\Omega Z=\diag(n_1,\ldots,n_K)(pC)\diag(n_1,\ldots,n_K)\),
+this proves the claim for true labels.
+
+Changing at most \(Mn/d\) labels changes at most \(C Mn^2/d\)
+ordered pair memberships.  Each reconstructed entry has size at
+most \(Cp\), so the additional error is at most \(C Mn\).
+This deterministic argument is uniform over the entire basin and
+requires no independence of \(\widehat Z\).
+\end{proof}
+
+For fitted labels \(\widehat z\), let \(\widehat n_a\) be their sizes,
+\(\overline D_a^{\,\widehat z}\) their mean degrees, and set
+\begin{equation}
+ \widehat\theta_j=\frac{D_j}{\overline D_{\widehat z_j}^{\,\widehat z}}.
+ \label{dcsbm:theta-fit}
+\end{equation}
+Thus \(\sum_{\widehat z_j=a}\widehat\theta_j=\widehat n_a\)
+exactly.  Fit the symmetric matrix \(\widehat B\) by maximizing
+\begin{equation}
+ \frac12\sum_{i\ne j}\left\{
+ R^\circ_{ij}\log(\widehat\theta_i\widehat\theta_j B_{\widehat z_i\widehat z_j})
+ +(1-R^\circ_{ij})
+       \log(1-\widehat\theta_i\widehat\theta_j B_{\widehat z_i\widehat z_j})
+ \right\}
+ \label{dcsbm:block-criterion}
+\end{equation}
+over positive symmetric \(B\), under a fixed probability cap below one.
+This is a precisely defined signed Bernoulli working criterion.
+The next lemma proves that its relevant roots exist and lie in the
+interior on \(\mathcal G\).
+
+\begin{lemma}[Uniform fitted-parameter bounds]
+\label{dcsbm:nuisance}
+For every fixed \(M\), uniformly over the basin in
+\cref{dcsbm:block-totals}, the degree estimates are bounded above
+and below by positive fixed constants and
+\begin{align}
+ \frac{\|\widehat\theta-\theta\|_2}{\sqrt n}
+ &\le C(M)d^{-1/2},                                      \label{dcsbm:theta-rate}\\
+ \max_{a,b}\left|\frac{\widehat B_{ab}}{pC_{ab}}-1\right|
+ &\le C(M)(d^{-1}+p)\le C(M)d^{-1}.                       \label{dcsbm:B-rate}
+\end{align}
+The last inequality uses \(dp=np^2\le C_1\).
+\end{lemma}
+
+\begin{proof}
+Every fitted group has size comparable to \(n\), and
+\cref{dcsbm:good} bounds its mean degree above and below by
+constant multiples of \(d\).  This proves boundedness of
+\(\widehat\theta\).
+With true labels, write \(D_i=dS_{z_i}\theta_i+\varepsilon_i\),
+where \(S_a=\sum_c(n_c/n)C_{ac}\) and
+\(\|\varepsilon\|_2\le C\sqrt{nd}\).
+Division by the true-group mean degree, followed by subtraction
+of \(\theta_i\), gives normalized squared error \(O(d^{-1})\).
+Changing an \(\eta\)-fraction of labels changes each fitted-group
+mean degree by at most \(Cd\eta\).  For correctly labeled vertices
+this changes the estimated theta by \(O(\eta)\); incorrectly labeled
+vertices are an \(\eta\)-fraction and have bounded error.  Hence
+\[
+ \frac{\|\widehat\theta-\theta\|_2}{\sqrt n}
+ \le C(d^{-1/2}+\eta+\sqrt\eta),
+\]
+which yields \cref{dcsbm:theta-rate} for \(\eta\le M/d\).
+
+For the block fit, group the ordered pairs in
+\cref{dcsbm:block-criterion} belonging to the unordered block pair
+\(\{a,b\}\).  Denote this ordered set by \(\mathcal J_{ab}\), put
+\(\nu_{ab}=2-\ind{a=b}\), \(t_{ij}=\widehat\theta_i\widehat\theta_j\),
+and \(E_{ab}^{\,\circ}=\sum_{\mathcal J_{ab}}R^\circ_{ij}\).
+Its score equation is
+\begin{equation}
+ E_{ab}^{\,\circ}
+ = b\sum_{(i,j)\in\mathcal J_{ab}}
+      \frac{(1-R^\circ_{ij})t_{ij}}{1-bt_{ij}} .
+ \label{dcsbm:block-root}
+\end{equation}
+All \(1-R^\circ_{ij}\) are positive for large \(n\).
+The right side is strictly increasing in \(b\) below the cap.
+By \cref{dcsbm:block-totals},
+\[
+ E_{ab}^{\,\circ}
+ =\nu_{ab}n_an_bpC_{ab}+O_M(n)\asymp n^2p>0.
+\]
+For \(b\asymp p\), bounded theta and \(|R^\circ_{ij}|\le Cp\)
+give
+\[
+ \sum_{\mathcal J_{ab}}
+   \frac{(1-R^\circ_{ij})t_{ij}}{1-bt_{ij}}
+ =\sum_{\mathcal J_{ab}}t_{ij}\{1+O(p)\}
+ =\nu_{ab}\widehat n_a\widehat n_b
+       \{1+O(p)+O(n^{-1})\}.
+\]
+The last equality uses exact fitted-block mean normalization;
+for \(a=b\), removing the diagonal subtracts only
+\(\sum_{\widehat z_i=a}\widehat\theta_i^2=O(n)\).
+Evaluating \cref{dcsbm:block-root} at sufficiently small and large
+fixed multiples of \(p\) brackets its unique root, so
+\[
+ \widehat B_{ab}
+ =\frac{E_{ab}^{\,\circ}}{\nu_{ab}\widehat n_a\widehat n_b}
+       \{1+O(p)+O(n^{-1})\}.
+\]
+Since \(|\widehat n_a-n_a|\le Mn/d\), this proves
+\cref{dcsbm:B-rate}.  The root is \(O(p)\), hence satisfies the
+fixed cap strictly for large \(n\).
+\end{proof}
+
+\subsection{Exact Bernoulli profiling at bounded score error}
+
+Fix a tested vertex \(i\) with true block \(a\).  For candidate
+block \(b\), define true neighbor masses and normalized profiles by
+\begin{equation}
+ M_c^{(i)}=\sum_{\substack{j\ne i\\z_j=c}}\theta_j,\qquad
+ T_b^{(i)}=\sum_c M_c^{(i)}C_{bc},\qquad
+ q_{bc}^{(i)}=\frac{M_c^{(i)}C_{bc}}{T_b^{(i)}} .
+ \label{dcsbm:q-true}
+\end{equation}
+The fitted analogues are
+\begin{equation}
+ \widehat M_c^{(i)}
+ =\sum_{\substack{j\ne i\\\widehat z_j=c}}\widehat\theta_j
+ =\widehat n_c-\widehat\theta_i\ind{\widehat z_i=c},
+ \qquad
+ \widehat q_{bc}^{(i)}
+ =\frac{\widehat M_c^{(i)}\widehat B_{bc}}
+        {\sum_e\widehat M_e^{(i)}\widehat B_{be}}.
+ \label{dcsbm:q-fitted}
+\end{equation}
+The factor \(p\) is not needed to evaluate the fitted quantity.
+All these probabilities are bounded away from zero.
+By \cref{dcsbm:nuisance} and fitted group-size accuracy,
+\begin{equation}
+ \max_{i,a,b,c}
+ \left|\log\frac{\widehat q_{ac}^{(i)}}{\widehat q_{bc}^{(i)}}
+          -\log\frac{q_{ac}^{(i)}}{q_{bc}^{(i)}}\right|
+ \le C(M)d^{-1}.
+ \label{dcsbm:q-rate}
+\end{equation}
+Indeed normalization and logarithms are smooth on the fixed compact
+positive parameter set, and the relative mass error is
+\(O_M(d^{-1}+n^{-1})\).
+
+\begin{lemma}[Bernoulli profile reduction]
+\label{dcsbm:profile-reduction}
+Let a hollow row \(r=(r_j)_{j\ne i}\) have
+\(\sum_jr_j=D_i\ge0\), \(\sum_j|r_j|\le Ld\), and \(D_i\le Ld\).
+Suppose either \(r_j\in\{0,1\}\), or
+\(\max_j|r_j|\le Lp=o(1)\).
+For bounded positive neighbor parameters and block probabilities
+of order \(p\), maximize the exact Bernoulli row criterion over
+the target parameter \(t\ge0\), with a fixed probability cap below
+one.  After dropping terms independent of the candidate label,
+the profile contrast between \(a\) and \(b\) is
+\begin{equation}
+ L^{ab}_{r,\rm prof}
+ =\sum_c N_c^r\log\frac{q_{ac}^{(i)}}{q_{bc}^{(i)}}
+       +O(np^2),\qquad
+ N_c^r=\sum_{\substack{j\ne i\\z_j=c}}r_j .
+ \label{dcsbm:profile-linear}
+\end{equation}
+The same assertion holds with fitted labels, thetas, block probabilities,
+and profiles.  Fixed positive candidate prior probabilities add their
+bounded log-ratio to both sides.
+\end{lemma}
+
+\begin{proof}
+For true parameters, omit the candidate-independent terms
+\(\sum_jr_j\log\theta_j+D_i\log p\).  The remaining score is
+\[
+ \ell_r(b,t)
+ =D_i\log t+\sum_cN_c^r\log C_{bc}
+   +\sum_{j\ne i}(1-r_j)\log(1-tp\theta_jC_{bz_j}).
+\]
+For bounded \(t\), expansion of the logarithm gives uniformly
+\begin{equation}
+ \ell_r(b,t)
+ =D_i\log t+\sum_cN_c^r\log C_{bc}-tpT_b^{(i)}
+     +O(np^2).
+ \label{dcsbm:profile-expansion}
+\end{equation}
+The restored edge part of the linear exposure is bounded by
+\(Cp\sum_j|r_j|\le Cdp=Cnp^2\).
+The quadratic remainder is bounded by
+\(Cp^2(n+\sum_j|r_j|)\le Cnp^2\).
+
+This expansion remains valid after maximizing.  In both allowed
+row types \(1-r_j\ge0\), so the exact score is concave in \(t\).
+For a raw row, at least \(n-O(d)\) nonedge terms remain; for a
+reconstructed row, every nonedge coefficient is at least \(1/2\)
+for large \(n\).  Thus the nonedge part of its derivative has
+magnitude at least \(cd\), whereas the positive term is \(D_i/t\).
+The derivative is negative above a sufficiently large fixed \(t_0\),
+uniformly in the candidate.  The cap allows this bounded interval
+for large \(n\), and the leading optimizer
+\(t_b^0=D_i/(pT_b^{(i)})\) is also bounded.
+Taking suprema in \cref{dcsbm:profile-expansion} is therefore valid.
+The candidate-dependent leading maximum is
+\(\sum_cN_c^r\log C_{bc}-D_i\log T_b^{(i)}\).
+Since \(\sum_cN_c^r=D_i\), its difference is exactly the sum
+in \cref{dcsbm:profile-linear}.
+
+With fitted parameters replace \(pC\) by \(\widehat B\) and
+the true masses by their fitted analogues.  Boundedness and
+\(\widehat B\asymp p\) give the identical remainder calculation.
+When \(D_i=0\), use the continuous extension after combining the
+terms into \(D_i\log t\), with \(0\log0=0\).  Nonnegative nonedge
+coefficients make \(t=0\) optimal, and the same contrast identity
+holds.  In particular a raw zero row gives zero contrast.
+\end{proof}
+
+Exact preservation of \(D_i\) is essential in this argument:
+it fixes the coefficient of \(\log t\) and the profiled total-degree
+term.  The proof needs no \(O(d^{-1})\) estimate of an individual
+target theta.
+
+\begin{lemma}[Uniform replacement of all fitted stages]
+\label{dcsbm:uniform-score}
+Fix \(M\).  For every partition in the \(M/d\) basin, fitted by
+\cref{dcsbm:theta-fit,dcsbm:block-criterion}, its actual row-profile
+contrast satisfies, simultaneously for all \(i,a,b\),
+\begin{equation}
+ \widehat L_i^{ab}
+ =[R^\circ w_{i,ab}]_i+O_M(1),\qquad
+ (w_{i,ab})_j=\log\frac{q_{a,z_j}^{(i)}}{q_{b,z_j}^{(i)}} .
+ \label{dcsbm:uniform-contrast}
+\end{equation}
+The formula is uniform over data-dependent labels and parameters
+obtained by these fits, under the same common label permutation.
+\end{lemma}
+
+\begin{proof}
+The profile remainder is \(O(np^2)=O(1)\).
+Replacing \(\widehat Z\) by \(Z\) in a bounded block coefficient
+vector changes row \(i\)'s score by at most
+\[
+ \max_j|R^\circ_{ij}|\,
+     C\#\{j:\widehat z_j\ne z_j\}
+ \le Cp\,CMn/d=C(M).
+\]
+Replacing the fitted coefficients by their true counterparts
+costs at most
+\(
+ \sum_j|R^\circ_{ij}|\,
+ C(M)d^{-1}\le C(M)
+\)
+by \cref{dcsbm:q-rate}.  These are deterministic bounds holding
+for every partition in the basin, which proves the claimed uniformity.
+\end{proof}
+
+\subsection{The profile reference and its sharp directional tails}
+
+For the fixed target \(i\), true block \(a\), and competitor \(b\),
+write \(w_j=(w_{i,ab})_j\), \(v=\theta_i\), and
+\[
+ p_j=vp\theta_jC_{az_j},\qquad
+ T_{i,ab}=\sum_{j\ne i}w_jA_{ij},\qquad
+ K_{i,ab}(s)=\sum_{j\ne i}\log\{1+p_j(e^{-sw_j}-1)\}.
+\]
+Set
+\begin{equation}
+ J_{i,a\to b}
+ =-\min_{s>0}K_{i,ab}(s).
+ \label{dcsbm:profile-exponent}
+\end{equation}
+This is the exact Bernoulli transform of the leading profiled
+contrast.  It is not asserted to be the simple-hypothesis
+Chernoff information for the known-target-theta oracle.
+
+\begin{lemma}[Uniform profile saddle and reference scale]
+\label{dcsbm:profile-tail}
+The minimizing \(s=s_{i,ab}\) stays in a fixed compact subinterval
+of \((0,1)\).  Under the exact tilted product law,
+\begin{equation}
+ r_j=\frac{p_je^{-sw_j}}{1-p_j+p_je^{-sw_j}},\qquad
+ \sum_j r_jw_j=0,\qquad
+ \sum_j r_j(1-r_j)w_j^2\asymp d .
+ \label{dcsbm:tilt}
+\end{equation}
+Uniformly for bounded real thresholds \(x\),
+\begin{equation}
+ \PP_a(T_{i,ab}<x)\asymp
+ d^{-1/2}\exp\{-J_{i,a\to b}\}.
+ \label{dcsbm:directional-tail}
+\end{equation}
+The exact full-edge Bernoulli profile-reference error at vertex \(i\)
+is comparable, by fixed constants, to
+\begin{equation}
+ \sum_{b\ne a}d^{-1/2}\exp\{-J_{i,a\to b}\}.
+ \label{dcsbm:reference-sum}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Uniformly on bounded \(s\) intervals, the transform and its first
+two derivatives satisfy
+\[
+ d^{-1}K_{i,ab}(s)
+ =v\,\frac{T_a^{(i)}}n
+    \left\{\sum_c(q_{ac}^{(i)})^{1-s}(q_{bc}^{(i)})^s-1\right\}
+       +O(p).
+\]
+The derivative of the leading expression is strictly negative
+at zero and strictly positive at one.  Positivity, the lower
+singular-value bound on \(C\), and the group-mass bounds make
+these signs and the positive second derivative uniform.
+Indeed two normalized rows could coincide only if two rows of
+\(C\) were proportional; compactness of the stated parameter
+class excludes even an arbitrarily small normalized separation.
+Strict convexity now gives the interior saddle and tilted
+variance of order \(d\).
+
+The bounded-weight, variance, and third-moment hypotheses of
+\cref{lem:sharp} hold, so its bounded-shift tail conclusion proves
+\cref{dcsbm:directional-tail}.  In particular, no nonlattice
+assumption is necessary.  Alternatively, under the displayed
+tilt, Berry--Esseen bounds every unit-interval mass by \(C/\sqrt d\);
+summing against \(e^{sT}\) gives the upper bound.  A sufficiently
+long fixed interval immediately below \(x\) has Gaussian mass
+larger than twice the Berry--Esseen error, giving the lower bound.
+
+The probability of \(D_i>Ld\) can be made
+\(\exp(-Ld\,c_L)\) with arbitrarily large fixed exponential rate
+by increasing the fixed upper cutoff.  On its complement,
+\cref{dcsbm:profile-reduction} compares the exact reference
+contrast to \(T_{i,ab}\) up to a fixed additive constant.
+The upper-degree exception is negligible relative to the displayed
+tail scales.  Each strict pairwise defeat of the true label implies
+an error, while an error is contained in the union of weak pairwise
+defeats.  Fixed \(K\), the two bounded-shift tail bounds, and fixed
+ties therefore prove \cref{dcsbm:reference-sum}.
+\end{proof}
+
+\subsection{The complete degree-weighted tilted cancellation}
+
+We now work on the genuinely deleted graph \(A^{(-i)}\).
+To simplify notation within this subsection, \(D_-\), \(U_-\),
+\(\Pi_-\), and
+\[
+ H_-=D_-^{-1/2}\Pi_-D_-^{1/2}
+\]
+refer only to this independent training graph.  Its completed mean
+is \(\Omega_-\), and \(D_{0,-}=\diag(\Omega_-\one)\).
+The tested row remains independent Bernoulli conditional on the
+deleted graph.  Let \(w=(w_j)_{j\ne i}\) be the true block coefficient
+vector above, and define \(e=(H_--I)w\).
+
+\begin{lemma}[Bounded tilted coefficient error]
+\label{dcsbm:weighted-cancellation}
+On the deleted-graph good event, the exact profile tilt in
+\cref{dcsbm:tilt} satisfies
+\begin{equation}
+ \max_j|e_j|\le C,\qquad
+ \sum_jr_je_j^2\le C,\qquad
+ \left|\sum_jr_je_j\right|\le C.
+ \label{dcsbm:three-moments}
+\end{equation}
+All constants are uniform over the vertex and ordered pair of
+distinct candidate blocks.
+\end{lemma}
+
+\begin{proof}
+The residual lemma on the deleted graph gives
+\[
+ \|(I-\Pi_-)D_-^{1/2}Z_-\|_{\op}\le C\sqrt n.
+\]
+Consequently, for every bounded block vector \(w\),
+\begin{equation}
+ \|(I-H_-)w\|_{D_-}\le C\sqrt n,\qquad
+ \|(I-H_-)w\|_2^2\le Cn/d.
+ \label{dcsbm:weighted-residual}
+\end{equation}
+Incoherence bounds the coordinates of \(H_-w\):
+\[
+ |(H_-w)_j|
+ \le D_{-,j}^{-1/2}\|U_{-,j\cdot}\|_2
+          \|U_-^TD_-^{1/2}w\|_2
+ \le (C/\sqrt d)(C/\sqrt n)C\sqrt{nd}\le C.
+\]
+This proves bounded coefficients.  Since \(r_j\le Cp\),
+\cref{dcsbm:weighted-residual} gives
+\(\sum_jr_je_j^2\le Cp\,Cn/d\le C\).
+
+For the mean, exact Bernoulli tilting gives
+\begin{equation}
+ r_j=vp\theta_j C_{az_j}e^{-sw_j}+\varepsilon_j,
+ \qquad \max_j|\varepsilon_j|\le Cp^2.
+ \label{dcsbm:tilted-mean}
+\end{equation}
+For a remaining vertex in block \(c\), write
+\[
+ T_c^-=\sum_{\ell\ne i}\theta_\ell C_{cz_\ell},\qquad
+ h_j=\frac{v C_{ac}e^{-sw_c}}{T_c^-}.
+\]
+Then \(h\) is block constant with \(\|h\|_\infty\le C/n\), and
+the leading vector in \cref{dcsbm:tilted-mean} is exactly
+\(D_{0,-}h\).  Because \(H_-\) is \(D_-\)-orthogonal,
+\begin{align}
+ r^T(H_--I)w
+ ={}&-\langle(I-H_-)h,(I-H_-)w\rangle_{D_-}
+       \nonumber\\
+ &+\big((D_{0,-}-D_-)h\big)^T(H_--I)w
+   +\varepsilon^T(H_--I)w .
+ \label{dcsbm:weighted-identity}
+\end{align}
+This identity retains the random-degree correction explicitly.
+The first factor in its first term is at most \(C/\sqrt n\):
+apply the block residual estimate to the block coefficients of
+\(h\), which have magnitude \(O(n^{-1})\).
+The second factor is at most \(C\sqrt n\), so that term is \(O(1)\).
+
+For the next term, the degree aggregate in
+\cref{dcsbm:residual-estimates} gives
+\[
+ \|(D_{0,-}-D_-)h\|_{D_-^{-1}}^2
+ =\sum_j\frac{(D_{0,-,j}-D_{-,j})^2h_j^2}{D_{-,j}}
+ \le C/n.
+\]
+Cauchy--Schwarz in the degree metric and
+\cref{dcsbm:weighted-residual} again give \(O(1)\).
+Finally, bounded \(e_j\) and
+\cref{dcsbm:tilted-mean} bound the last term by
+\(Cnp^2=O(1)\).  This proves the tilted mean bound and the lemma.
+\end{proof}
+
+The middle term of \cref{dcsbm:weighted-identity} is why replacing
+random degrees by population degrees without a remainder is invalid.
+The product of two residual bounds is what reduces the leading
+tilted bias to a constant.
+
+\subsection{Completion of the risk bound on the common good event}
+
+By \cref{dcsbm:initializer}, the initial partition lies in a fixed
+\(M/d\) basin on \(\mathcal G\).  Apply one nuisance fit and one
+profile assignment.  The uniform comparison
+\cref{dcsbm:uniform-contrast} and the actual full-to-deleted-graph
+scalar lemma \cref{lem:loo} give
+\begin{equation}
+ \widehat L_i^{ab}
+ =\sum_{j\ne i}A_{ij}(H_-w_{i,ab,-i})_j+O_M(1)
+ =T_{i,ab}+\sum_{j\ne i}A_{ij}e_j+O_M(1).
+ \label{dcsbm:actual-to-loo}
+\end{equation}
+The leave-one-out graph appears only in this proof identity; the
+implemented classifier uses the single full-graph encoding.
+The \(O_M(1)\) error is a deterministic uniform bound, so it need
+not be asserted to be independent of the tested row.
+
+Condition on the genuinely deleted graph.  On its measurable good
+event, \cref{dcsbm:weighted-cancellation} supplies all three
+coefficient conditions of the sharp transfer lemma
+\cref{lem:sharp}.  Therefore, for a fixed bounded threshold large
+enough to absorb \cref{dcsbm:actual-to-loo},
+\begin{equation}
+ \PP_a\!\left\{
+     \sum_{j\ne i}A_{ij}(H_-w_{i,ab,-i})_j\le C(M)
+       \,\middle|\, A^{(-i)}
+          \right\}
+ \le C(M)d^{-1/2}e^{-J_{i,a\to b}} .
+ \label{dcsbm:conditional-risk}
+\end{equation}
+The common full event implies the required minor event by the
+common geometry lemmas.  Hence restricting an actual error to
+\(\mathcal G\) is contained in the event on the left of
+\cref{dcsbm:conditional-risk} together with the measurable minor
+event.  This does not condition the tested row on a dependent
+full-graph event.
+
+Integrating over the deleted graph and summing over \(b\ne a\)
+gives
+\[
+ \PP\{\widehat z_i\ne z_i,\mathcal G\}
+ \le C\sum_{b\ne z_i}d^{-1/2}e^{-J_{i,z_i\to b}}.
+\]
+Here labels are aligned by the common initial permutation.
+The permutation-invariant misclassification loss is no larger
+than the loss under that alignment.  By
+\cref{dcsbm:profile-tail}, the last sum is at most a constant
+times the exact full-edge profile-reference error at \(i\).
+Averaging proves
+\begin{equation}
+ \E\{\ell(\widehat z,z)\ind{\mathcal G}\}
+ \le C R_{\mathrm{prof},*}.
+ \label{dcsbm:on-good-risk}
+\end{equation}
+The calculation in \cref{sec:probability} proves
+\(\PP(\mathcal G^c)\le C R_{\mathrm{prof},*}\), including the
+minimum-degree exception at the correct exponential scale.
+Because the fallback loss is at most one, adding that contribution
+to \cref{dcsbm:on-good-risk} completes \cref{thm:dc}.
+
+\subsection{Optional repeated hard fitting and finite adaptive stopping}
+
+The same theorem holds if, after initialization, the algorithm
+repeatedly recomputes \cref{dcsbm:theta-fit,dcsbm:block-criterion}
+and makes a hard profile assignment using the same \(R^\circ\).
+It may return any data-dependent finitely stopped iterate after
+at least one completed profile assignment.  A finite iteration
+cap is one explicit termination rule.
+
+\begin{lemma}[A uniform hard-refit basin]
+\label{dcsbm:basin}
+There is a fixed \(M\) such that, on \(\mathcal G\) and for all
+sufficiently large \(n\), every hard fit-and-profile update maps
+the \(M/d\) error basin into itself, under the same label matching.
+Every error at every updated iterate is contained in
+\begin{equation}
+ [R^\circ w_{i,ab}]_i\le C(M)
+ \quad\text{for some }b\ne z_i .
+ \label{dcsbm:common-error-event}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+First,
+\begin{equation}
+ \|R^\circ-\Omega\|_F^2\le C_{\rm spec}d.
+ \label{dcsbm:frobenius}
+\end{equation}
+Indeed \(S_K=U\diag(\mu)U^T\) is a best rank-\(K\)
+operator-norm approximation to \(S\).  Since \(M_D\) has rank
+\(K\), \(\|S_K-M_D\|_{\op}\le2\|S-M_D\|_{\op}\le C/\sqrt d\).
+Their difference has rank at most \(2K\), so its Frobenius norm
+is also \(O(d^{-1/2})\).  Multiplication by \(D^{1/2}\) on both
+sides gives \(\|R-\Omega\|_F\le C\sqrt d\).
+The hollow term has Frobenius norm at most
+\[
+ \max_i|s_i|\,\|H-I\|_F\le Cp\,C\sqrt n=Cd/\sqrt n,
+\]
+whose square is at most \(Cd\), proving
+\cref{dcsbm:frobenius}.
+
+The completed population contrast has a uniform positive margin:
+with \(\lambda_i=\sum_{j\ne i}p\theta_i\theta_jC_{z_i z_j}\),
+\begin{equation}
+ [\Omega w_{i,ab}]_i
+ =\lambda_i\KL(q_a^{(i)}\|q_b^{(i)})+O(p)
+ \ge c_{\rm gap}d,\qquad a=z_i,\ b\ne a.
+ \label{dcsbm:population-margin}
+\end{equation}
+The \(O(p)\) term is the completed diagonal.  The uniform KL
+gap follows from the same compactness and full-rank argument as
+in \cref{dcsbm:profile-tail}.  Also
+\(\|w_{i,ab}\|_2\le C\sqrt n\).
+
+For an input partition in a fixed \(M/d\) basin,
+\cref{dcsbm:uniform-score} bounds its fitted-contrast discrepancy
+by \(C(M)\).  For large \(n\), this is at most
+\(c_{\rm gap}d/2\).  A new erroneous assignment therefore requires
+\[
+ \|(R^\circ-\Omega)_{i\cdot}\|_2
+ \ge \frac{c_{\rm gap}d}{2C\sqrt n}.
+\]
+Summing this squared requirement and applying
+\cref{dcsbm:frobenius} shows that the new iterate has at most
+\(C_{\rm new}n/d\) errors.  The constant \(C_{\rm new}\) depends
+only on the fixed spectral and model constants, not on \(M\).
+Choose \(M\) at least both \(C_{\rm new}\) and the initialization
+constant.  All sufficiently large \(n\) then give basin invariance.
+Group indices remain matched to the same true indices throughout:
+the uniform score comparison and its population margin use that
+fixed matching at every step.
+
+Finally every erroneous assignment directly satisfies the
+fixed-threshold canonical event in the statement by
+\cref{dcsbm:uniform-score}.  The threshold is the same for all
+partitions in the basin.
+\end{proof}
+
+By induction, \cref{dcsbm:basin} applies to every iterate on the
+single graph event \(\mathcal G\).  The final error of an adaptively
+chosen finite iterate is thus contained in the same canonical
+event used to prove \cref{dcsbm:conditional-risk}.
+Applying that probability bound once proves the same sharp risk
+bound; there is no union over iterations and no stopping-time
+independence assertion.  This corollary concerns these specified
+hard updates.  It does not assert the same result for an unrelated
+soft update or a reconstruction changed during iteration.
+
+\subsection{Equal exposures and the original known-target-theta oracle}
+
+We finish by proving \cref{cor:known}.  Suppose
+\begin{equation}
+ \sum_c\frac{n_c}{n}C_{ac}=S
+ \quad\text{for every }a.
+ \label{dcsbm:equal-exposure}
+\end{equation}
+The block means of theta equal one, so
+\(
+ T_a^{(i)}=nS-\theta_iC_{a,z_i}
+\).
+In particular \(T_a^{(i)}-T_b^{(i)}=O(1)\) and
+\(\log(T_a^{(i)}/T_b^{(i)})=O(n^{-1})\).
+Let \(v=\theta_i\) be supplied to the full-edge
+known-target-theta oracle.  Its exact Bernoulli contrast is
+\[
+ L^{ab}_{A,\rm known}
+ =\sum_cN_c\log\frac{C_{ac}}{C_{bc}}
+  +\sum_{j\ne i}(1-A_{ij})
+       \log\frac{1-vp\theta_jC_{az_j}}
+                 {1-vp\theta_jC_{bz_j}} .
+\]
+On \(D_i\le Ld\), the same direct Bernoulli expansion used above
+gives
+\[
+ L^{ab}_{A,\rm known}
+ =\sum_cN_c\log\frac{C_{ac}}{C_{bc}}
+   -vp(T_a^{(i)}-T_b^{(i)})+O(np^2).
+\]
+By \cref{dcsbm:profile-reduction}, the exact profile contrast is
+\[
+ L^{ab}_{A,\rm prof}
+ =\sum_cN_c\log\frac{C_{ac}}{C_{bc}}
+    -D_i\log\frac{T_a^{(i)}}{T_b^{(i)}}+O(np^2).
+\]
+Thus, using \cref{dcsbm:equal-exposure},
+\begin{equation}
+ |L^{ab}_{A,\rm prof}-L^{ab}_{A,\rm known}|
+ \le C(np^2+p)=O(1).
+ \label{dcsbm:known-comparison}
+\end{equation}
+Fixed prior log-ratios, if present, are identical on both sides.
+The bounded-shift upper and lower tails in
+\cref{dcsbm:directional-tail} show that the two directional
+error probabilities are comparable by constants.
+The upper-degree exception has arbitrarily large fixed
+exponential rate after enlarging \(L\), and is negligible for
+both references.  Finite unions over competitors and averaging
+over vertices yield
+\[
+ R_{\mathrm{prof},*}\asymp R_{\theta,*}.
+\]
+Combining this with \cref{thm:dc} proves \cref{cor:known}.
+The condition permits heterogeneous theta, unequal block sizes,
+and general positive full-rank symmetric \(C\) obeying its exposure
+constraints.  Its role is precisely to remove the label information
+carried by the leading total-degree exposure, which profiling
+otherwise changes.
+
+\input{dc_oracle_bridge}

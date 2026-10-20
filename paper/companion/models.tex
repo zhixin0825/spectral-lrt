@@ -1,0 +1,86 @@
+\section{Degree-corrected models and oracle benchmarks}\label{sec:statements}
+The target is a constant oracle-risk bound
+\begin{equation}\label{eq:target}
+ \E\ell(\widehat z,z)\le C R_*(n),
+\end{equation}
+with $C$ independent of $n$. The companion retains ordinary-SBM
+notation where needed by the historical free-profile analysis.
+The independent ordinary-SBM article contains the current ordinary
+block-LRT theorem and its complete proof.
+
+\subsection{Bernoulli models and fixed structural constants}
+
+There are $n$ vertices and $K\ge2$ groups, with fixed $K$.
+Let $z\in[K]^n$, let $Z$ be its indicator matrix, and let $n_a$ be the size
+of group $a$. Throughout $n_a\ge\pi_-n$ for a fixed $\pi_->0$.
+The edges above the diagonal are independent, the adjacency matrix $A$ is
+symmetric, and $A_{ii}=0$. In DC-SBM,
+\begin{equation}\label{eq:mean-model}
+ A_{ij}\sim\Ber(\theta_i\theta_j p C_{z_i z_j}),\quad i<j,
+ \qquad d=np,\qquad
+ \Omega=\Theta Z(pC)Z^\top\Theta.
+\end{equation}
+Here $\Theta=\diag(\theta_i)$, $C=C^\top$, and the fixed structural bounds are
+\begin{equation}\label{eq:structural}
+ 0<\theta_-\le\theta_i\le\theta_+<\infty,\quad
+ \sum_{i:z_i=a}\theta_i=n_a,\quad
+ 0<c_-\le C_{ab}\le c_+<\infty,\quad
+ \sigma_{\min}(C)\ge\kappa>0.
+\end{equation}
+The model class is nonempty only when $1\in[\theta_-,\theta_+]$.
+All constants in asymptotic bounds may depend on these structural bounds,
+but not on $n$. One may take a fixed $C$, or a sequence in this same compact
+class. Ordinary SBM is the special case $\theta_i=1$, with block probability
+matrix $P=pC$.
+
+The completed matrix $\Omega$ includes a diagonal for algebraic convenience;
+the actual mean is $\E A=\Omega-\diag(\Omega_{ii})$.
+That deterministic difference has norm $O(p)$ and is included in all error
+bounds. Put $D=\diag(A\one)$ and
+$\lambda_i=(\E A\one)_i$. Thus $\lambda_i\asymp d$ and
+$\Omega\one$ equals $d\theta_i S_{z_i}$ in coordinate $i$, where
+\begin{equation}\label{eq:exposures}
+ \pi_a=n_a/n,\qquad S_a=\sum_b\pi_b C_{ab}.
+\end{equation}
+The loss for the estimated partition is
+\[
+ \ell(\widehat z,z)=\frac1n\min_{\sigma\in\mathfrak S_K}
+ \sum_i\ind{\sigma(\widehat z_i)\ne z_i}.
+\]
+
+\subsection{Three explicitly different local oracles}\label{sec:oracle}
+
+All oracle classifiers below use the raw incident row $A_{i,-i}$ and the
+true neighbor labels. They are local likelihood classifiers: an exact global
+block-size constraint is not used to determine the one missing label.
+For simplicity candidate weights are uniform. Any fixed weights bounded
+above and below by positive constants give the same conclusions.
+
+For ordinary SBM, the oracle chooses the maximizer of
+\begin{equation}\label{eq:sbm-oracle}
+ \ell_{i,*}(a)=\sum_{j\ne i}
+ \{A_{ij}\log P_{a z_j}+(1-A_{ij})\log(1-P_{a z_j})\}.
+\end{equation}
+Its average error probability is $R_{\mathrm{SBM},*}$.
+For DC-SBM, the \emph{known-target-degree oracle} replaces $P_{a z_j}$ in
+\eqref{eq:sbm-oracle} by $\theta_i\theta_j p C_{a z_j}$ and is supplied
+with every true $\theta_j$, including $\theta_i$. Its risk is
+$R_{\theta,*}$.
+
+The \emph{profile oracle} is supplied with true neighbor parameters and
+$pC$, but profiles the target degree separately for every candidate:
+\begin{equation}\label{eq:profile-oracle}
+ \ell_{i,\mathrm{prof},*}(a)=
+ \sup_{t\ge0}\sum_{j\ne i}
+ \{A_{ij}\log(t\theta_jpC_{a z_j})
+ +(1-A_{ij})\log(1-t\theta_jpC_{a z_j})\}.
+\end{equation}
+We restrict candidate edge probabilities to at most $q_{\max}=1/2$; the
+constraint is inactive on the events used in the sparse theorem. Write
+$R_{\mathrm{prof},*}$ for its average error probability. This is a
+full-edge generalized likelihood-ratio reference. It is not described as a
+Bayes test between two fixed known-$\theta_i$ laws. In all three definitions,
+the risk averages the actual directional error at each fixed true vertex.
+Ties are resolved by a fixed ordering; strict-tail arguments below cover
+any such ordering.
+

@@ -1,0 +1,126 @@
+\section{Additional arguments, implementation scope, and retained records}
+\label{sec:scope}
+\subsection{Why a whole-graph zero-degree fallback fails}
+\begin{proposition}[A whole-graph zero-degree fallback is invalid in the
+sparse regime]\label{restore:fallback}
+Consider a balanced two-group SBM with within probability $p$, between
+probability $p/2$, and $d=np=\log\log n$. The probability of at least
+one isolated vertex tends to one. For every deterministic fallback
+partition fixed in advance, there is a balanced true partition for which
+an algorithm returning that fallback whenever an isolated vertex exists
+has expected permutation-invariant misclassification bounded below by
+$1/4+o(1)$. Its local oracle risk tends to zero.
+\end{proposition}
+
+\begin{proof}
+For every vertex the isolation probability is
+$(1-p)^{n/2-1}(1-p/2)^{n/2}
+=\exp\{-3d/4+o(1)\}$. If $N_0$ counts isolated vertices, then
+$\E N_0=n\exp\{-3d/4+o(1)\}\to\infty$. For distinct vertices,
+their two isolation events share only the edge between them, giving
+\[
+ \frac{\operatorname{Var}(N_0)}{(\E N_0)^2}
+ \le \frac1{\E N_0}+\frac p{1-p}\longrightarrow0.
+\]
+Choose a balanced true partition whose overlap with the fixed fallback
+has error at least $1/4$ after either label permutation. Such a partition
+exists by splitting each fallback class approximately evenly. The loss
+lower bound follows. Standard incident-row Chernoff comparison gives
+oracle risk at most $Ce^{-cd}\to0$ on this separated model.
+\end{proof}
+
+Thus the logarithmic restriction cannot be removed merely by deleting
+text from the unregularized theorem. The valid repair is to restore a
+positive floor and local risk accounting. With the regularized encoder,
+a zero-degree vertex has a zero reconstructed row and causes no
+whole-graph fallback.
+
+\subsection{The existing degree-plus-spectrum action remains valid}
+
+Write $\mathbf d=A\one$ for the raw degree vector. For any strictly
+positive diagonal matrix $W$, retain
+\[
+ WAWU=U\Lambda,\qquad U^\top U=I,\qquad
+ X=[\one,WU],\qquad Y=[\mathbf d,W^{-1}U\Lambda].
+\]
+Then the exact identities
+\begin{equation}\label{eq:sparse-old-action}
+ AX=Y,\qquad YX^\dagger=A\Pi_X,\qquad A\Pi_X\one=\mathbf d
+\end{equation}
+hold for every graph, including graphs with zero degrees. Here $\Pi_X$
+is the Euclidean orthogonal projector onto the column space of $X$;
+no full-column-rank assumption is necessary. The earlier choice
+$W_{ii}=\min(1,2\bar D/D_i)$ for $D_i>0$, with $W_{ii}=1$ for
+$D_i=0$ and $\bar D=n^{-1}\sum_iD_i$, supplies a positive reweighting
+when $\bar D>0$. The all-zero graph can be assigned a fixed output.
+The block-count error is exactly $-A(I-\Pi_X)Z$.
+
+These facts need no logarithmic expected-degree assumption. They are
+computational identities, however: their validity does not give the
+sharp tail of the remaining random block-count error. In DC-SBM a
+normalization must also preserve the effective likelihood coefficients,
+as opposed to preserving only a population mean.
+
+
+\subsection{Algorithm distinctions and scope}
+The current ordinary article uses the regularized block Bernoulli LRT,
+with fixed degree parameters equal to one and no target profiling.
+The current DC result in this companion uses clamped, group-normalized
+nuisance estimates and profiles the target separately for each candidate.
+Both retain raw degrees and the informative normalized eigensystem,
+apply exact degree correction and simple hollowing, and control finite
+hard refits through a uniform invariant basin.
+
+The older ordinary free-profile growing/replacement/soft-EM schedule
+in \cref{sec:sbm-proof} is a different finite algorithm. Its separate
+proof also covers probabilities outside bounded $np^2$. The old common-box
+proof uses a simultaneous entry bound and must not be attached without
+change to the present sparse encoder. In particular, exact degree
+preservation together with $|R_{ij}|\le Cp$ would force all raw degrees
+to be at most $Cd$, which is not a valid sparse uniform premise.
+The logarithmic restrictions written in the historical part describe
+those earlier unregularized proofs, not the current theorem.
+
+The earlier DC reconstruction $AH_D$ is different from the Euclidean
+$A\Pi_X$, even though both can be evaluated from the same retained
+input. Earlier experimental curves do not automatically evaluate either
+the new empirical floor or its clamped nuisance fit. The present claims
+are mathematical risk bounds, not conclusions inferred from simulations.
+Numerical eigensolver tolerances and optimization tolerances require their
+own control of induced score errors; exact arithmetic defines these
+algorithms. The largest absolute eigenvalues are retained so that a
+full-rank indefinite signal is included.
+
+The constants may depend on the fixed signal gap, group proportions,
+bounded degree-parameter range, and $C_1$. A bounded risk ratio is not
+a claim that the ratio tends to one. General DC-SBM with unbounded
+$np^2$, a vanishing signal gap, or degree parameters approaching zero
+is outside the present theorem. The general known-target-degree
+benchmark is obstructed by \cref{thm:imposs}; equal exposures retain
+the positive result.
+
+\subsection{Sparse proof history and review records}
+The 9 October degree-plus-spectrum draft contained the sparse truncated
+row-energy mechanism at $d\to\infty$, $d=o(\log n)$. Its score errors
+were $O(\sqrt d)$ or $o(d)$ and therefore established a leading exponent,
+not the present constant risk ratio. The current argument keeps its
+same-threshold mechanism, upgrades the local full-to-deleted score
+comparison and fitted contrast errors to $O(1)$, and preserves the sharp
+$d^{-1/2}$ prefactor. The earlier source remains in the repository at
+\href{https://github.com/zhixin0825/spectral-lrt/blob/de60b64c7d7f127ae6dc1d010c840af707a080da/paper/previous_draft/sbm_spectral_lrt_20261009.tex}{commit \texttt{de60b64}}.
+
+The source package includes the \texttt{audits/} directory and its index.
+It retains the sparse-history audit, the independent local-floor LOO
+review, the same-threshold tail and conditioning review, the high-scale
+probability review, the ordinary algorithm-scope review, the final
+combined review, and earlier DC and regularization audit snapshots.
+These are internal working checks, not external peer review. Statements
+of then-open gaps in older snapshots are superseded by the current
+proofs. The full pre-split revision is preserved separately in the
+repository; it is an archive rather than the reading order of these notes.
+
+An inventory in \texttt{README.md} records where each old source module
+now belongs. The original implementation/audit narrative is retained as
+\texttt{archive/scope\_audit.tex}; the obsolete end-of-revision status
+narrative is retained as \texttt{archive/sparse\_interfaces.tex}. These
+source records are not assertions of a remaining logarithmic lower bound.

@@ -1,0 +1,11 @@
+Build from this directory with TeX Live and BibTeX:
+
+  pdflatex -interaction=nonstopmode -halt-on-error main.tex
+  bibtex main
+  pdflatex -interaction=nonstopmode -halt-on-error main.tex
+  pdflatex -interaction=nonstopmode -halt-on-error main.tex
+
+Copy main.pdf to spectral_likelihood_companion.pdf for distribution.
+The first article is referenced by name and a relative PDF hyperlink only.
+No external auxiliary file, external-document package, or network access is needed.
+The supplied main.bbl also supports a rebuild without BibTeX when citations are unchanged.

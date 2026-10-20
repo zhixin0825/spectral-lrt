@@ -1,0 +1,113 @@
+\section{Completion of the current DC risk bound}
+\begin{proof}[Proof of the regularized DC risk bound below a fixed logarithmic scale]
+Fix any constant $A_0<\infty$ and first work on
+$d\le A_0\log n$, still with $d\to\infty$.
+Let $\mathcal E$ collect the aggregate geometric conditions of
+\cref{prop:sparse-floor}, their recomputed versions after deletion of
+at most three vertices, two-sided total degree, and the true block-total event used
+in the fitting lemmas. None imposes a simultaneous lower bound on all
+raw degrees or a simultaneous incoherence bound. For every prescribed
+fixed $r$, its failure probability is $O(n^{-r})$ after increasing the
+fixed constants. For the block totals this also follows directly from
+the independent-edge Bernstein bound at a sufficiently large constant
+times $n$: its exponent is at least $cn/d$, and $np^2\le C_1$ gives
+$n/d\ge d/C_1$; in the present range it is much larger than $\log n$.
+
+The initializer and invariant-basin result in
+\cref{restore:fit-invariant} apply deterministically on $\mathcal E$.
+For a tested target $i$, impose only its upper-degree bound
+$D_i\le Ld$, its local normalized row bound, and the condition that its
+incident row hits no exceptional deleted eigenvector row. By
+\cref{restore:tail-energy-lemma,restore:tail-hit-corollary,restore:tail-target-corollary}, the average probability cost
+of the two row conditions is $C_He^{-Hd}$ for any prescribed fixed $H$,
+after choosing their fixed thresholds sufficiently large. For the
+LOO hit condition, the exceptional set consists of deleted rows with
+$\sqrt n\norm{(U_B)_{j\cdot}}_2>R$; the floor implies
+\eqref{restore:loo-hit} on its complement. Its expected hit mass
+is bounded by the row-count argument in
+\eqref{restore:tail-coefficient-count}.
+The upper
+degree tail has the same property by the single-row Bernoulli Chernoff
+bound. Polynomial factors in $d$ are absorbed by choosing a larger
+exponential rate at the preceding step. No union over the $n$ tested
+targets is taken: their error probabilities are averaged.
+
+On these local events, the fitted-score lemma
+\cref{restore:fit-score} replaces every estimated, possibly
+data-dependent contrast by a deterministic true block contrast at
+$O(1)$ cost. The local LOO comparison
+\cref{restore:loo-corrected} replaces its actual full-graph spectral
+action by an independent training action at another $O(1)$ cost.
+For the DC profile contrast, the new score is the true raw-row
+linear profile contrast plus
+\[
+ \sum_{j\ne i}A_{ij}e_j+O(1),\qquad
+ e=(H_B-I)(w-\bar w\one).
+\]
+The coefficients are measurable from the deleted graph and independent
+of the incident Bernoulli row. For each target use the analogous
+training event $\mathcal E_i$ formed only from that deleted graph and
+its further deletions. In applying the independent-row bound,
+drop the full-graph event after the deterministic error inclusion and
+condition only on the training graph on $\mathcal E_i$.
+The geometry cost is
+\[
+ \varepsilon_{\rm geom}
+ =\PP(\mathcal E^c)+\frac1n\sum_i\PP(\mathcal E_i^c)
+ \le C_rn^{-r}.
+\]
+This does not condition the Bernoulli row on a full-graph event.
+The tilted mean and quadratic cost are
+bounded by \eqref{eq:floor-tilt-moments}; here $np^2$ is bounded.
+The exceptional coefficient hit-mass hypothesis of
+\cref{lem:sparse-truncated-transfer} is now a conclusion of
+\cref{restore:tail-hit-corollary}, rather than an unproved premise. That sharp
+transfer gives, after averaging the local target exceptions and taking
+a fixed-$K$ union over competitors,
+\[
+ \E\ell(\widehat z,z)
+ \le \frac Cn\sum_i\sum_{b\ne z_i}
+                  d^{-1/2}e^{-J_{i,z_i\to b}}
+       +C_He^{-Hd}+\varepsilon_{\rm geom}.
+\]
+Here $J_{i,a\to b}$ is the exact directional profile exponent in
+\eqref{dcsbm:profile-exponent}. By \cref{dcsbm:profile-tail}, the same
+pairwise directional sharp scale is a lower bound, up to a constant,
+for the actual profile oracle. Since $K$ is fixed, the
+displayed sum is bounded by a constant times its average risk.
+Only the averaged target-row tail is used; no pointwise uniform tail
+for heterogeneous degree parameters is asserted.
+
+Uniformly on the compact DC class, the reference average risk is at
+least $c d^{-1/2}e^{-C_Jd}$. Choose $H>C_J+1$ and then choose fixed
+$r>A_0(C_J+1)+2$. For $d\le A_0\log n$,
+\[
+ \frac{e^{-Hd}+n^{-r}}{d^{-1/2}e^{-C_Jd}}\longrightarrow0.
+\]
+This closes the unconditional expected-risk estimate throughout the
+entire range below any fixed multiple of $\log n$. In particular, no
+positive lower coefficient of $\log n$ is required.
+\end{proof}
+
+\begin{proof}[Completion over the remaining degree scales]
+Fix $A_0>0$ and use the preceding sparse-range argument when
+$d\le A_0\log n$. For $d>A_0\log n$, replace its polynomially
+accurate aggregate event by $\mathcal E_H$ from
+\cref{restore:high-aggregate}. The proof of
+\cref{restore:tail-energy-lemma} uses only the deterministic aggregate
+geometry on the event; the innovation concentration is applied for
+every training graph before restricting to the event. It therefore
+holds unchanged with $\mathcal E_H$ and the corresponding
+training-measurable events. Its coefficient-hit and target-row
+corollaries, the scalar LOO comparison, all fitted-score bounds,
+and the invariant basin likewise apply.
+
+The resulting risk upper bound is the appropriate oracle term plus
+$C_{H'}e^{-H'd}+C_He^{-Hd}$, where $H'$ can be prescribed by choosing
+the fixed local thresholds. On the fixed positive compact DC model
+class the oracle risk is at least $cd^{-1/2}e^{-C_Jd}$.
+Choosing $H,H'>C_J+1$ pays both remainders. This proves the stated
+all-scale profile-oracle bound. The known-target-degree comparison follows
+from the separate equal-exposure calculation in
+\cref{dcsbm:equal-exposure}. No logarithmic degree lower bound is imposed.
+\end{proof}

@@ -1,0 +1,139 @@
+\section{Aggregate geometry for the empirical degree floor}
+\label{sec:sparse-extension}
+
+Let $D_0=\diag(\Omega\one)$, using the completed mean in
+\eqref{eq:mean-model}. Its diagonal entries are block constant and lie
+between fixed positive multiples of $d$. Throughout this section
+$G_i=\max(D_i,a_0\bar D)$ is the empirical floor used by the algorithm,
+with $a_0$ sufficiently small for the structural class. For a vector
+$v$, write $\norm v_G^2=v^\top Gv$.
+
+\begin{proposition}[Aggregate degree-floor geometry]\label{prop:sparse-floor}
+Under \eqref{eq:structural}, let $d=np\to\infty$ and $np^2\le C_1$.
+For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
+$cd\le G_i$, $cnd\le\sum_iD_i$, and
+\begin{align}
+ \norm{G^{-1/2}(A-\Omega)G^{-1/2}}_{\op}&\le C_r d^{-1/2},
+ &\sum_iG_i&\le C_rnd,\label{eq:floor-noise}\\
+ \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
+ +\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}
+ &\le C_rn.\label{eq:floor-degree-energy}
+\end{align}
+Let $U$ contain the $K$ eigenvectors of $S_G$ with largest absolute
+eigenvalues, and put $\Pi=UU^\top$ and $H=G^{-1/2}\Pi G^{1/2}$.
+Its retained eigenvalues are separated from zero by a fixed constant;
+the remaining eigenvalues are bounded by $C_r/\sqrt d$ in magnitude.
+There is an orthogonal matrix $O$ such that the orthonormal population
+basis
+\[
+ V=G^{-1/2}Z(Z^\top G^{-1}Z)^{-1/2}O
+\]
+satisfies
+\[
+ \norm{U-V}_F\le C_r/\sqrt d,
+ \qquad \sqrt{G_i}\norm{V_{i\cdot}}_2\le C_r\sqrt{d/n}.
+\]
+Moreover,
+\begin{equation}\label{eq:floor-block-residual}
+ \norm{(I-\Pi)G^{1/2}Z}_F\le C_r\sqrt n,
+\end{equation}
+and every block-constant $f$ with $\norm f_\infty\le C_f$ obeys
+\begin{equation}\label{eq:floor-weighted-errors}
+ \norm{(I-H)f}_G\le C_rC_f\sqrt n,\qquad
+ \norm{(I-H)f}_2^2\le C_rC_f^2n/d.
+\end{equation}
+The same assertions hold simultaneously after deletion of any fixed
+number of vertices, with each floor recomputed from the remaining graph,
+after increasing the probability parameter. No raw minimum-degree
+condition is imposed.
+\end{proposition}
+
+\begin{proof}
+The Bernoulli transform of the total number of edges gives
+$cnd\le\sum_iD_i\le Cnd$ except with probability $e^{-cnd}$.
+For small enough $a_0$, this event implies
+\[
+ cd\le a_0\bar D\le C d,
+ \qquad a_0\bar D<\min_i(D_0)_{ii}.
+\]
+Let $d_*=\max_{i\ne j}n\E A_{ij}\asymp d$, and put
+$W_{h,ii}=\sqrt{\min(1,2d_*/D_i)}$, with value one at zero degrees.
+The changed set $\mathcal S=\{i:D_i>2d_*\}$ contains at most
+$10n/d_*$ vertices except with probability $e^{-cn}$. To check the
+strength of this bound, set $m=\lfloor10n/d_*\rfloor+1$. If $m\le n$
+and $m$ vertices exceed the threshold, some set $T$ of size $m$ has
+$\sum_{i\in T}D_i>2md_*$. This is an independent-edge sum with
+coefficients in $\{1,2\}$ and mean at most $md_*$. At
+$t=(\log2)/2$, its exponential transform bounds the tail by
+\[
+ \exp\{-(\log2-1/2)md_*\},
+\]
+because $(e^{tc}-1)/c\le(e^{2t}-1)/2=1/2$ for $c=1,2$.
+Since $\log\binom nm\le m\log(en/m)=o(md_*)$, a union over $T$
+gives the stated bound. If $m>n$, the claim is automatic.
+
+Every row of $W_hAW_h$ has squared Euclidean norm at most
+$W_{h,ii}^2D_i\le2d_*$. The row-norm form of the regularized adjacency
+theorem of Le, Levina and Vershynin
+\cite[Theorem 2.1 and Remark 2.2]{llv2017} therefore yields
+\[
+ \norm{W_hAW_h-\E A}_{\op}\le C_r\sqrt d
+\]
+with failure probability at most $C_rn^{-r}$. The theorem permits
+these graph-dependent weights. Also
+\[
+ \norm{W_h\Omega W_h-\Omega}_{\op}
+ \le Cp\sqrt{n|\mathcal S|}\le C\sqrt d,
+\]
+by the Frobenius norm: the difference is supported on rows or columns
+in $\mathcal S$. The completed-mean diagonal has norm $O(p)$.
+Consequently $\norm{W_h(A-\Omega)W_h}_{\op}\le C_r\sqrt d$.
+There is a bounded diagonal $F$ such that
+\[
+ G^{-1/2}=(2d_*)^{-1/2}FW_h.
+\]
+Its entries are one when $D_i>2d_*$ and otherwise
+$\sqrt{2d_*/G_i}$; the floor was chosen below $2d_*$ on the
+stated total-degree event. Conjugation proves the first bound in
+\eqref{eq:floor-noise}. Since $G_i\le D_i+a_0\bar D$, the total
+floor mass is at most $Cnd$.
+
+Applying the normalized noise to $G^{1/2}\one$ gives
+\[
+ \norm{G^{-1/2}(A-\Omega)\one}_2
+ \le C_rd^{-1/2}\norm{G^{1/2}\one}_2\le C_r\sqrt n,
+\]
+which is the first sum in \eqref{eq:floor-degree-energy}.
+Since the threshold is below $(D_0)_{ii}$, flooring reduces the
+coordinatewise distance to $(D_0)_{ii}$. This proves the second sum.
+
+Let $J=Z^\top G^{-1}Z$. For every block $a$, Cauchy--Schwarz,
+comparable group sizes, the floor and the total-degree bound give
+\[
+ \frac{cn}{d}\le
+ \frac{n_a^2}{\sum_{i:z_i=a}G_i}
+ \le J_{aa}=\sum_{i:z_i=a}G_i^{-1}\le\frac{Cn}{d}.
+\]
+The nonzero spectrum of $G^{-1/2}\Omega G^{-1/2}$ is the spectrum
+of $pJ^{1/2}CJ^{1/2}$. Full rank of $C$ gives a fixed separation
+from zero. The normalized noise bound and subspace perturbation then
+give the stated eigenspace and eigenvalue bounds. The formula for $V$
+and the lower bound on $J$ give its weighted row bound.
+
+Since $D_0$ is block constant, $G^{-1/2}D_0Z$ belongs to the population
+signal space. Furthermore,
+\[
+ \norm{G^{1/2}Z-G^{-1/2}D_0Z}_F^2
+ =\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}\le C_rn,
+ \qquad \norm{G^{1/2}Z}_F^2\le C_rnd.
+\]
+Together with the projector error $O(d^{-1/2})$, these imply
+\eqref{eq:floor-block-residual}. The matrix $H$ is the
+$G$-orthogonal projector corresponding to $\Pi$, so the first bound
+in \eqref{eq:floor-weighted-errors} follows by writing $f=Zb$.
+The second uses $G_i\ge cd$.
+
+Deleting a fixed number of vertices preserves the structural bounds.
+Apply the same argument to each recomputed graph and choose a larger
+fixed probability parameter before the finite-depth union bound.
+\end{proof}

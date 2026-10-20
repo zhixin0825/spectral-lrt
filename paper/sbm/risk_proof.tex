@@ -1,0 +1,147 @@
+\section{Completion of the oracle-risk bound}
+\label{sec:probability}
+
+The final step uses a deleted graph only as a proof device. The
+implemented procedure retains one full-graph eigensystem.
+For each target $i$, put $B=A_{-i,-i}$ and recompute its degrees,
+floor and projection $H_B$. Throughout this section, all constants
+are uniform over the fixed structural class.
+
+\begin{lemma}[Ordinary Bernoulli tilted cancellation]
+\label{lem:sbm-floor-cancellation}
+Let $w$ be a true block-constant Bernoulli log-odds vector on the
+deleted graph and put
+\[
+ f=w-\bar w\one,\qquad e=(H_B-I)f,
+ \qquad \bar w=(n-1)^{-1}\one^\top w.
+\]
+On the deleted aggregate event, under the exact Chernoff tilt of
+the raw-row oracle contrast, its Bernoulli probabilities $r_j$
+satisfy
+\begin{equation}\label{eq:sbm-floor-tilt}
+ \left|\sum_{j\ne i}r_je_j\right|\le C,
+ \qquad \sum_{j\ne i}r_je_j^2\le C.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Both $r_j$ and the completed deleted population degree
+$D_{0,j}$ are constant within each true block. Thus
+$r=D_0h$ exactly for a block-constant vector $h$ with
+$\norm h_\infty\le C/n$. Here $D_0$ and $G$ denote the diagonal
+population and floored degree matrices on the deleted graph.
+Since $H_B$ is the $G$-orthogonal projector,
+\[
+ r^\top e
+ =-\big\langle(I-H_B)h,(I-H_B)f\big\rangle_G
+       +h^\top(D_0-G)e.
+\]
+By \eqref{eq:floor-weighted-errors}, the two norms in the first
+term are at most $C/\sqrt n$ and $C\sqrt n$. For the second term,
+the weighted degree energy gives
+\[
+ \norm{G^{-1/2}(D_0-G)h}_2\le C/\sqrt n,
+ \qquad \norm e_G\le C\sqrt n.
+\]
+This proves the first bound. Since $r_j\le Cp$ and
+$\norm e_2^2\le Cn/d$, the second bound follows as well.
+The deterministic nonedge intercept remains in the oracle score
+and is not absorbed into this cancellation.
+\end{proof}
+
+\begin{proof}[Proof of \cref{restore:sbm-theorem}]
+Fix $A_0>0$. First consider $d\le A_0\log n$, with $d\to\infty$.
+Let $\mathcal E$ collect the aggregate conditions
+\eqref{restore:fit-geometry-one}--\eqref{restore:fit-block-event},
+two-sided total degree, and their recomputed versions after deletion
+of at most three vertices. For each prescribed fixed $r>0$,
+\cref{prop:sparse-floor} gives these geometric conditions with
+failure probability at most $C_rn^{-r}$, by increasing its
+probability parameter to cover the polynomial number of minors.
+For any true block total, independent-edge Bernstein gives
+\[
+ \PP\{|[Z^\top(A-\Omega)Z]_{ab}|>Ln\}
+ \le2\exp\{-cL^2n/(d+L)\}.
+\]
+In the present range this is smaller than any fixed inverse power
+of $n$, as is the total-degree failure. The same holds for the
+required minors. For a target $i$, define $\mathcal E_i$ using
+only its deleted graph and its further deletions. Then
+\begin{equation}\label{eq:sbm-geometry-payment}
+ \varepsilon_{\rm geom}
+ :=\PP(\mathcal E^c)+\frac1n\sum_i\PP(\mathcal E_i^c)
+ \le C_rn^{-r}.
+\end{equation}
+
+On $\mathcal E$, \cref{restore:fit-initializer,restore:fit-invariant}
+place every updated iterate in one fixed $Mn/d$ basin. At target
+$i$ impose only $D_i\le bd$, its local spectral-row condition
+\eqref{restore:fit-local-row}, and the requirement that the
+incident row hits no exceptional deleted spectral row. By
+\cref{restore:tail-energy-lemma,restore:tail-hit-corollary,restore:tail-target-corollary},
+the average probability cost of these spectral exceptions is at
+most $C_He^{-Hd}$ for any prescribed fixed $H$, on choosing fixed
+thresholds sufficiently large. Indeed, the floor gives
+\eqref{restore:loo-hit} outside a deleted exceptional set
+$\{j:\sqrt n\norm{(U_B)_{j\cdot}}_2>R\}$, whose expected hit
+mass is controlled by \eqref{restore:tail-coefficient-count}.
+The degree tail has the same bound by the single-row Bernoulli
+Chernoff inequality. Polynomial factors in $d$ are absorbed by
+first choosing a larger exponential rate. These are averages of
+target probabilities, without a union over all tested vertices.
+
+On the resulting local events, the deterministic fitted-score
+bound and \cref{restore:loo-corrected} imply that an aligned error
+at $i$ requires, for some $b\ne a=z_i$,
+\begin{equation}\label{eq:sbm-independent-score}
+ T_{i,ab}+\sum_{j\ne i}A_{ij}e_j\le C_M,
+ \qquad e=(H_B-I)(w_{ab,-i}-\bar w_{ab,-i}\one).
+\end{equation}
+Here $T_{i,ab}$ is the exact raw Bernoulli oracle contrast, including
+$b_{i,ab}$. The coefficients $e$ are measurable from $B$ and
+independent of $(A_{ij})_{j\ne i}$. To apply the probability
+bound, first use this deterministic inclusion, then drop the
+full-graph event and condition only on $B$ on $\mathcal E_i$.
+No independence is asserted conditional on $\mathcal E$.
+
+The tilted mean and quadratic bounds in
+\cref{lem:sbm-floor-cancellation} give the moment hypotheses of
+\cref{lem:sparse-truncated-transfer}. Its exceptional-coefficient
+hit term is at most $C_He^{-Hd}$ by
+\cref{restore:tail-hit-corollary}, after selecting a fixed
+coefficient threshold. That truncation is used only in the proof.
+Applying the sharp transfer to \eqref{eq:sbm-independent-score},
+averaging targets and taking the fixed-$K$ union over competitors,
+we obtain
+\begin{equation}\label{eq:sbm-final-payment}
+ \E\ell(\widehat z,z)
+ \le\frac Cn\sum_i\sum_{b\ne z_i}d^{-1/2}e^{-I_{i,z_i b}}
+       +C_He^{-Hd}+\varepsilon_{\rm geom}.
+\end{equation}
+The strict and non-strict oracle comparisons in
+\eqref{eq:oracle-pairs} bound the first term by
+$C R_{\mathrm{SBM},*}(n)$, independently of the oracle tie rule.
+
+On the compact structural class $I_{i,ab}\le C_Id$. Hence
+$R_{\mathrm{SBM},*}(n)\ge c d^{-1/2}e^{-C_Id}$.
+Choose $H>C_I+1$ and $r>A_0(C_I+1)+2$. When
+$d\le A_0\log n$,
+\[
+ \frac{e^{-Hd}+n^{-r}}{d^{-1/2}e^{-C_Id}}\longrightarrow0,
+\]
+which pays both remainders in \eqref{eq:sbm-final-payment}.
+
+For $d>A_0\log n$, use \cref{restore:high-aggregate} in place of
+the polynomially accurate geometry. It gives
+$\varepsilon_{\rm geom}\le C_{H'}e^{-H'd}$ for any fixed
+$H'>0$, with training events still measurable from the respective
+deleted graphs. The row-tail proof uses deterministic aggregate
+geometry and applies innovation concentration before restricting
+to that event. Its estimates, the local LOO comparison and the
+fitting argument therefore remain valid for this stronger event.
+Equation \eqref{eq:sbm-final-payment} follows with the new geometry
+remainder. Choosing $H,H'>C_I+1$ pays both exponential terms.
+The two proof ranges cover every sequence $d\to\infty$ under
+$np^2\le C_1$, proving the theorem without a logarithmic degree
+lower bound.
+\end{proof}

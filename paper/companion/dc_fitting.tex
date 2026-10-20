@@ -1,0 +1,529 @@
+\section{DC fitting from aggregate geometry and local row bounds}
+\label{restore:fit}
+
+This section supplies the deterministic fitting module for the
+degree-floor decoder. It uses the exact Bernoulli working criterion and
+the exact-degree reconstruction $R^h$ in \eqref{restore:reconstruction}.
+In particular, its rank-one degree correction and simple row hollowing
+are different from the earlier correction $\diag(s)(H-I)$.
+One profile refinement suffices. The optional finite repeated hard-refit
+version is covered explicitly by \cref{restore:fit-invariant-basin}.
+
+Put $d=np$, $B=pC$, $\Omega=\Theta ZBZ^\top\Theta$ and
+$D_{0,i}=(\Omega\one)_i$. As before, $\mathbf d=A\one$ is the raw
+degree vector, $D_i=\mathbf d_i$, and
+\[
+ G_i=\max(D_i,a_0\overline D),\qquad
+ S=G^{-1/2}AG^{-1/2},\qquad
+ R_0=G^{1/2}U\Lambda U^\top G^{1/2}.
+\]
+The constants $a_0>0$ and all subsequent clipping constants are fixed
+using only the structural parameter bounds. They do not depend on $n$,
+the unknown labels, or individual unobserved parameters.
+Work on the two-sided total-degree event on which
+$\overline D\asymp d$ and the population floor is inactive.
+The aggregate geometric and block-total premises used below are
+\begin{align}
+ \norm{S-G^{-1/2}\Omega G^{-1/2}}_{\op}
+   &\le C/\sqrt d,&
+ \sum_iG_i&\le Cnd, \label{restore:fit-geometry-one}\\
+ \sum_i\frac{(G_i-D_{0,i})^2}{G_i}
+ +\sum_i\frac{(D_i-D_{0,i})^2}{G_i}
+   &\le Cn,&
+ \norm{(I-UU^\top)G^{1/2}Z}_F&\le C\sqrt n,
+ \label{restore:fit-geometry-two}\\
+ \max_{a,b}\left|[Z^\top(A-\Omega)Z]_{ab}\right|
+   &\le Cn.&& \label{restore:fit-block-event}
+\end{align}
+Here $G_i\ge cd$, $D_{0,i}\asymp d$, and the retained signal has a fixed
+gap from zero. The degree-floor proposition already supplies
+\eqref{restore:fit-geometry-one}--\eqref{restore:fit-geometry-two}.
+The fixed-$K$ Bernoulli block-total bound
+\eqref{restore:fit-block-event} has failure probability
+$C\exp\{-cL^2n/(d+L)\}$ when its fixed threshold constant is $L$.
+Under $np^2=d^2/n\le C_1$, increasing $L$ pays this failure with any
+prescribed fixed exponential rate in $d$. No degree-wise union bound
+is needed for this block event.
+
+Write $\Pi=UU^\top$. An aligned orthonormal basis of the random
+population space has the exact form
+\[
+ V=G^{-1/2}\Theta Z
+       (Z^\top\Theta G^{-1}\Theta Z)^{-1/2}O,
+\]
+where $O$ is orthogonal. The diagonal Gram matrix has entries comparable
+to $n/d$. The signal gap and \eqref{restore:fit-geometry-one} imply
+\begin{equation}\label{restore:fit-basis}
+ \norm{U-V}_F\le C/\sqrt d,\qquad
+ \sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{d/n}.
+\end{equation}
+An orthogonal rotation used in this display does not change any row
+norm or projection. Also $\norm S_{\op}\le1$: the inequality
+$|x^\top Ax|\le\sum_iD_ix_i^2\le\sum_iG_ix_i^2$ proves this directly.
+Hence $\norm\Lambda_{\op}\le1$.
+
+\begin{lemma}[Uniform weighted mass of wrong-label sets]
+\label{restore:fit-wrong-mass}
+Fix $M<\infty$. For every possibly data-dependent set $E$ with
+$|E|\le Mn/d$, on the aggregate event,
+\begin{equation}\label{restore:fit-wrong-mass-bounds}
+ \sum_{i\in E}G_i\le C_Mn,\qquad
+ \sum_{i\in E}\sqrt{G_i}\norm{U_{i\cdot}}_2
+       \le C_M\sqrt{n/d}.
+\end{equation}
+Moreover
+$\sum_i\sqrt{G_i}\norm{U_{i\cdot}}_2\le C\sqrt{nd}$.
+\end{lemma}
+
+\begin{proof}
+The elementary inequality
+$G_i\le2D_{0,i}+(G_i-D_{0,i})^2/G_i$ gives
+$\sum_{i\in E}G_i\le C(d|E|+n)\le C_Mn$.
+Put $a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2$.
+By \eqref{restore:fit-basis} and Cauchy--Schwarz,
+\[
+ \sum_{i\in E}a_i
+ \le C|E|\sqrt{d/n}
+      +\left(\sum_{i\in E}G_i\right)^{1/2}\norm{U-V}_F
+ \le C_M\sqrt{n/d}.
+\]
+The last assertion follows from
+$\sum_i a_i\le(\sum_iG_i)^{1/2}\norm U_F$ and fixed $K$.
+All estimates hold simultaneously for all such sets; they impose no
+independence requirement on the selected labels.
+\end{proof}
+
+\begin{lemma}[Radius-count initialization under aggregate geometry]
+\label{restore:fit-initializer}
+The deterministic radius-count initializer specified earlier has at most
+$C n/d$ errors on the aggregate event, after one common permutation.
+This assertion requires neither a uniform degree upper bound nor
+uniform spectral-row incoherence.
+\end{lemma}
+
+\begin{proof}
+The normalized rows of $V$ are the $K$ orthogonal population centers.
+Choose fixed $b_0>2\max_iD_{0,i}/d$, uniformly over the structural class.
+For every $G_i>b_0d$,
+$(G_i-D_{0,i})^2/G_i\ge G_i/4\ge b_0d/4$.
+Thus at most $Cn/d$ such rows occur by
+\eqref{restore:fit-geometry-two}. They contribute at most $4Cn/d$
+to the squared directional error. For the remaining rows,
+$\norm{V_{i\cdot}}_2\ge c/\sqrt n$. The row-normalization inequality
+and \eqref{restore:fit-basis} bound their total squared directional
+error by $Cn\norm{U-V}_F^2\le Cn/d$.
+The existing radius-count lemma now applies with total squared error
+$Cn/d$ and fixed positive community proportions. Its proof is
+deterministic and unchanged.
+\end{proof}
+
+\begin{lemma}[Degree-corrected block totals and absolute mass]
+\label{restore:fit-block-totals}
+For $R^h$ as in \eqref{restore:reconstruction},
+\begin{equation}\label{restore:fit-global-absolute}
+ \sum_{i,j}|R^h_{ij}|\le Cnd.
+\end{equation}
+Uniformly over every fitted partition $\widehat Z$ having at most
+$Mn/d$ errors under the common label matching,
+\begin{equation}\label{restore:fit-total-accuracy}
+ [\widehat Z^\top R^h\widehat Z]_{ab}
+       =n_an_bB_{ab}+O_M(n).
+\end{equation}
+The omitted self-loops are included in the remainder.
+\end{lemma}
+
+\begin{proof}
+Let $S_{\rm tail}=(I-\Pi)S(I-\Pi)$ and
+$F_1=(I-\Pi)G^{1/2}\one$. Spectral invariance and the signal gap give
+$\norm{S_{\rm tail}}_{\op}\le C/\sqrt d$ and
+$\norm{F_1}_2\le C\sqrt n$.
+Writing $v=\mathbf d-R_0\one$, one has exactly
+$v=G^{1/2}S_{\rm tail}F_1$. Hence
+\[
+ \sum_i|v_i|
+ \le\left(\sum_iG_i\right)^{1/2}
+          \norm{S_{\rm tail}F_1}_2\le Cn.
+\]
+Since $\Pi_{ii}\le1$ and $\sum_i\Pi_{ii}=K$,
+\[
+ \sum_i|(R_0)_{ii}|
+ \le\sum_iG_i\Pi_{ii}
+ \le2(\max_iD_{0,i})K
+       +\sum_i\frac{(G_i-D_{0,i})^2}{G_i}
+ \le C(d+n)\le Cn.
+\]
+Consequently $\sum_i|(R_1)_{ii}|\le Cn$ and the simple hollowing
+has total absolute cost at most $2\sum_i|(R_1)_{ii}|\le Cn$.
+With $a_i$ as in the preceding lemma,
+$|(R_0)_{ij}|\le a_ia_j$, so
+$\sum_{i,j}|(R_0)_{ij}|\le(\sum_i a_i)^2\le Cnd$.
+The rank-one correction has total absolute mass $\sum_i|v_i|\le Cn$.
+This proves \eqref{restore:fit-global-absolute}.
+
+Put $\widehat F=(I-\Pi)G^{1/2}\widehat Z$. By
+\eqref{restore:fit-wrong-mass-bounds},
+\[
+ \norm{\widehat F}_F
+ \le\norm{(I-\Pi)G^{1/2}Z}_F
+       +\norm{G^{1/2}(\widehat Z-Z)}_F
+ \le C_M\sqrt n .
+\]
+The exact quadratic identity
+\[
+ \widehat Z^\top(R_0-A)\widehat Z
+       =-\widehat F^\top S_{\rm tail}\widehat F
+\]
+therefore has norm at most $C_Mn/\sqrt d$. Moving the mislabeled
+vertices changes a raw block total by at most a fixed multiple of
+$\sum_{i\in E}D_i\le\sum_{i\in E}G_i\le C_Mn$.
+Equation \eqref{restore:fit-block-event} and the exact within-block
+mean normalization of $\theta$ prove \eqref{restore:fit-total-accuracy}
+with $R_0$ in place of $R^h$.
+The rank-one correction changes a fitted block total by
+$[\widehat Z^\top v]_a\widehat n_b/n$, where
+$\widehat Z^\top v=\widehat F^\top S_{\rm tail}F_1=O_M(n/\sqrt d)$.
+The already bounded hollowing cost completes the proof.
+\end{proof}
+
+\subsection{A bounded, normalized degree-parameter estimator}
+
+Choose fixed positive $\alpha$ sufficiently small and $\beta$ sufficiently
+large, using the structural bounds, so that on the two-sided
+total-degree event
+\[
+ \alpha\overline D\le\tfrac12\min_iD_{0,i},\qquad
+ \beta\overline D\ge2\max_iD_{0,i}.
+\]
+Define
+\begin{equation}\label{restore:fit-clamped-theta}
+ T_i=\min\{\max(D_i,\alpha\overline D),\beta\overline D\},
+ \qquad
+ \widehat\theta_i=
+ \frac{T_i}{\widehat n_{\widehat z_i}^{-1}
+                 \sum_{j:\widehat z_j=\widehat z_i}T_j}.
+\end{equation}
+This changes the nuisance estimator only. The retained degrees and the
+degree identity $R^h\one=\mathbf d$ still use the original raw degrees.
+The fitted parameters lie in $[\alpha/\beta,\beta/\alpha]$, and their
+mean in every fitted block is exactly one.
+
+\begin{lemma}[Clamped nuisance estimates]
+\label{restore:fit-theta}
+Uniformly over the $Mn/d$ count basin,
+\begin{equation}\label{restore:fit-theta-rates}
+ \frac{\norm{\widehat\theta-\theta}_2}{\sqrt n}
+        \le C_Md^{-1/2},\qquad
+ \widehat n_a^{-1}\sum_{\widehat z_i=a}T_i
+        =dS_a+O_M(1),
+\end{equation}
+where $D_{0,i}=dS_{z_i}\theta_i$.
+\end{lemma}
+
+\begin{proof}
+The chosen clamp interval contains $D_{0,i}$ with a fixed margin.
+A direct split into the unclamped, lower-clamped, and upper-clamped
+cases gives
+\[
+ |T_i-D_i|\le C\frac{(D_i-D_{0,i})^2}{G_i},\qquad
+ |T_i-D_{0,i}|^2\le Cd\frac{(D_i-D_{0,i})^2}{G_i}.
+\]
+For the first inequality, an active lower clamp implies a degree
+deviation of order $d$, and an active upper clamp implies a deviation
+of order $D_i$. For the second, the unclamped range has $G_i\le Cd$;
+projection onto an interval containing $D_{0,i}$ cannot increase
+the deviation. Above the upper clamp,
+$D_i((T_i-D_{0,i})/(D_i-D_{0,i}))^2\le T_i\le Cd$.
+Summing yields
+\begin{equation}\label{restore:fit-clamp-cost}
+ \sum_i|T_i-D_i|\le Cn,\qquad
+ \sum_i|T_i-D_{0,i}|^2\le Cnd.
+\end{equation}
+Since $\one=Z\one_K$, the raw block-total event implies
+$\sum_{z_i=a}(D_i-D_{0,i})=O(n)$.
+Clamping changes that sum by $O(n)$, and moving $Mn/d$ labels changes
+a clamped degree total by at most $Cd(Mn/d)=O_M(n)$.
+The fitted size differs from $n_a$ by $O_M(n/d)$.
+Together with $\sum_{z_i=a}D_{0,i}=n_adS_a$, these facts prove the
+group-mean assertion in \eqref{restore:fit-theta-rates}.
+For correctly labeled vertices, division of
+$T_i-D_{0,i}$ by this fitted mean, followed by
+\eqref{restore:fit-clamp-cost}, gives squared error $O_M(n/d)$.
+The incorrectly labeled vertices number $O_M(n/d)$ and have bounded
+theta error. This proves the first assertion.
+\end{proof}
+
+\subsection{The exact Bernoulli block likelihood}
+
+Fit a positive symmetric $B$ by maximizing the ordered Bernoulli
+working criterion with $R^h$ and \eqref{restore:fit-clamped-theta},
+divided by two, under the same fixed probability cap
+$\widehat\theta_i\widehat\theta_jB_{\widehat z_i\widehat z_j}
+\le q_{\max}<1$.
+The next argument uses aggregate absolute mass instead of the stronger
+and unnecessary assertion that every reconstructed entry is less than one.
+
+\begin{lemma}[Unique Bernoulli block fit and its rate]
+\label{restore:fit-block-root}
+The fitted block roots are unique and interior for all large $n$.
+Uniformly over the $Mn/d$ basin,
+\begin{equation}\label{restore:fit-B-rate}
+ \max_{a,b}\left|\frac{\widehat B_{ab}}{B_{ab}}-1\right|
+       \le C_M(d^{-1}+p)\le C_Md^{-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For the ordered pairs $\mathcal J_{ab}$ associated with an unordered
+block pair, put
+\[
+ E_{ab}=\sum_{\mathcal J_{ab}}R^h_{ij},\qquad
+ t_{ij}=\widehat\theta_i\widehat\theta_j,\qquad
+ T_{ab}=\sum_{\mathcal J_{ab}}t_{ij},\qquad
+ \nu_{ab}=2-\mathbf1\{a=b\}.
+\]
+The preceding block-total lemma and exact fitted normalization imply
+\[
+ E_{ab}=\nu_{ab}n_an_bB_{ab}+O_M(n)\asymp n^2p>0,\qquad
+ T_{ab}=\nu_{ab}\widehat n_a\widehat n_b+O(n).
+\]
+The exact score equation is $E_{ab}=F_{ab}(b)$, where
+\[
+ F_{ab}(b)=b\sum_{\mathcal J_{ab}}
+              \frac{(1-R^h_{ij})t_{ij}}{1-bt_{ij}}.
+\]
+For every admissible $b$, bounded positive theta, the probability cap,
+and \eqref{restore:fit-global-absolute} give
+\[
+ F_{ab}'(b)
+ =\sum_{\mathcal J_{ab}}
+          \frac{(1-R^h_{ij})t_{ij}}{(1-bt_{ij})^2}
+ \ge cn^2-C\sum_{\mathcal J_{ab}}|R^h_{ij}|
+ \ge cn^2-Cnd>0.
+\]
+Here $p=d/n\to0$. At zero, $F_{ab}(0)=0$; its value at the
+positive cap endpoint is of order $n^2$, while $E_{ab}\asymp n^2p$.
+There is a unique interior root. The likelihood derivative is
+$(E_{ab}-F_{ab}(b))/b$, so the root is its unique global maximum.
+
+For $b\asymp p$,
+\[
+ \sum_{\mathcal J_{ab}}
+       \frac{(1-R^h_{ij})t_{ij}}{1-bt_{ij}}
+       =T_{ab}+O(n^2p).
+\]
+The error follows by expanding the denominator and using
+$\sum|R^h_{ij}|\le Cnd=Cn^2p$.
+Bracketing the root between fixed multiples of $p$, then using this
+expansion, gives
+$\widehat B_{ab}=(E_{ab}/T_{ab})\{1+O(p)\}$.
+The block-total and group-size errors prove the first inequality in
+\eqref{restore:fit-B-rate}. The second uses $dp=np^2\le C_1$.
+\end{proof}
+
+\subsection{A local row condition suffices for every fitted stage}
+
+For a tested vertex $i$, impose only the local conditions
+\begin{equation}\label{restore:fit-local-row}
+ D_i\le bd,\qquad
+ a_i:=\sqrt{G_i}\norm{U_{i\cdot}}_2\le L\sqrt{d/n},
+\end{equation}
+where $b,L$ are fixed. These are not imposed on every neighbor
+simultaneously.
+
+\begin{lemma}[Local absolute mass and wrong-label stability]
+\label{restore:fit-local-mass}
+On the aggregate event and \eqref{restore:fit-local-row},
+\begin{equation}\label{restore:fit-local-mass-bounds}
+ \sum_j|R^h_{ij}|\le C_{b,L}d,\qquad
+ \sup_{|E|\le Mn/d}\sum_{j\in E}|R^h_{ij}|\le C_{M,b,L}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $|(R_0)_{ij}|\le a_ia_j$,
+\[
+ \sum_j|(R_0)_{ij}|\le a_i\sum_j a_j\le Cd,\qquad
+ \sum_{j\in E}|(R_0)_{ij}|
+       \le a_i\sum_{j\in E}a_j\le C_M
+\]
+by \cref{restore:fit-wrong-mass}. Also
+$|v_i|\le D_i+\sum_j|(R_0)_{ij}|\le Cd$.
+The rank-one correction therefore adds at most $Cd$ to the first
+bound and $|v_i||E|/n\le C_M$ to the second.
+Finally $|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp$.
+The simple row hollowing changes either row bound by at most
+$2|(R_1)_{ii}|\le Cp$. This proves the claim.
+\end{proof}
+
+\begin{lemma}[Bernoulli profile reduction for a signed row]
+\label{restore:fit-profile}
+Let $r$ be a hollow signed row satisfying
+$\sum_jr_j=D_i\ge0$ and $\sum_j|r_j|\le Ld$.
+Let the positive neighbor intensities $b_j$ lie between fixed
+multiples of $p$. Maximizing the exact Bernoulli row criterion
+\[
+ \sum_j\{r_j\log(tb_j)+(1-r_j)\log(1-tb_j)\}
+\]
+over $t\ge0$ under the fixed cap $tb_j\le q_{\max}<1$ gives the
+usual normalized block-profile contrast, with remainder $O(np^2)$.
+No entrywise bound on $r_j$ is required.
+\end{lemma}
+
+\begin{proof}
+After combining the coefficient of $\log t$, the derivative is
+\[
+ D_i/t-\sum_j\frac{(1-r_j)b_j}{1-tb_j}.
+\]
+Throughout the admissible interval,
+\[
+ \sum_j\frac{(1-r_j)b_j}{1-tb_j}
+ \ge cnp-Cp\sum_j|r_j|
+ \ge cd-CLdp\ge c'd.
+\]
+Thus every maximizing $t$ lies in a fixed bounded interval,
+because $D_i\le Ld$. This reasoning does not require individual
+nonedge weights $1-r_j$ to be nonnegative.
+On that fixed interval, the exact Bernoulli expansion is uniform:
+\[
+ \ell_r(t)
+   =D_i\log t+\sum_jr_j\log b_j
+         -t\sum_jb_j+O(np^2).
+\]
+Restoring the edge terms in the linear exposure costs
+$Cp\sum_j|r_j|=O(np^2)$, and the quadratic remainder costs
+$Cp^2(n+\sum_j|r_j|)=O(np^2)$.
+The leading optimizer $D_i/\sum_jb_j$ is bounded and admissible
+for all large $n$, so taking maxima preserves the remainder.
+The resulting label-dependent maximum is the standard normalized
+block-profile score. If $D_i=0$, the derivative bound makes $t=0$
+optimal after combining the $\log t$ terms; use the continuous
+convention $0\log0=0$.
+\end{proof}
+
+\begin{proposition}[Uniform replacement by the true DC contrast]
+\label{restore:fit-uniform-score}
+\label{restore:fit-score}
+Fix $M,b,L$. Use the clamped theta estimates
+\eqref{restore:fit-clamped-theta}, the exact Bernoulli block fit, and
+the exact Bernoulli target profile on $R^h$.
+On the aggregate event and the local target condition
+\eqref{restore:fit-local-row}, uniformly over every fitted partition
+in the $Mn/d$ basin,
+\begin{equation}\label{restore:fit-true-score}
+ \widehat L_i^{ab}
+       =[R^h w_{i,ab}]_i+O_{M,b,L}(1),\qquad
+ (w_{i,ab})_j=
+     \log\frac{q_{a,z_j}^{(i)}}{q_{b,z_j}^{(i)}}\quad(j\ne i).
+\end{equation}
+The true profiles $q^{(i)}$ are the self-excluded neighbor profiles
+defined in \eqref{dcsbm:q-true}. The value of $w_{i,ab}$ at $i$ is immaterial since
+$R^h_{ii}=0$.
+\end{proposition}
+
+\begin{proof}
+By \cref{restore:fit-profile}, the profile reduction costs
+$O(np^2)=O(1)$. Exact fitted-block normalization gives the fitted
+neighbor mass
+$\widehat M_c^{(i)}
+ =\widehat n_c-\widehat\theta_i\mathbf1\{\widehat z_i=c\}$.
+The fitted sizes differ from the true sizes by $O_M(n/d)$,
+the fitted theta values are bounded, and
+\eqref{restore:fit-B-rate} gives relative block error $O_M(1/d)$.
+Smoothness of normalization and logarithms on the fixed positive
+profile class therefore yields fitted log-profile error $O_M(1/d)$.
+Multiplication by the row absolute mass in
+\eqref{restore:fit-local-mass-bounds} costs $O_M(1)$.
+Replacing the fitted labels by the true labels changes a bounded
+coefficient vector on at most $Mn/d$ coordinates; the second bound
+in \eqref{restore:fit-local-mass-bounds} gives another $O_M(1)$.
+All inequalities hold simultaneously for every partition in the basin,
+so data-dependent fitting does not introduce an independence assumption.
+\end{proof}
+
+\begin{lemma}[A uniform basin for finite hard refits]
+\label{restore:fit-invariant-basin}
+\label{restore:fit-invariant}
+There is a fixed $M$ such that, on the aggregate event and for all
+sufficiently large $n$, each hard nuisance-fit and profile-assignment
+update maps the $Mn/d$ error basin into itself under the same label
+matching. Outside a fixed target-exception set determined by the graph,
+every error at every updated iterate is contained in
+\[
+ [R^h w_{i,ab}]_i\le C_M
+ \quad\text{for some }b\ne z_i.
+\]
+The target-exception set can be taken to be the failure of the local
+conditions \eqref{restore:fit-local-row}, with fixed sufficiently large
+thresholds. Thus a finite number of these specified hard refits, including
+adaptive finite stopping after at least one update, requires no union
+over iterations in the final risk bound.
+\end{lemma}
+
+\begin{proof}
+Fix sufficiently large constants $b,R$. The set
+$\{i:D_i>bd\}$ has at most $Cn/d$ elements by the degree energy in
+\eqref{restore:fit-geometry-two}, since $b$ exceeds twice the largest
+population degree multiplier. Since $G_i\ge cd$,
+\eqref{restore:fit-basis} gives $\norm{V_{i\cdot}}_2\le C/\sqrt n$.
+For $R>2C$, the set $\{i:\sqrt n\norm{U_{i\cdot}}_2>R\}$
+also has at most $Cn/d$ elements, by
+$\norm{U-V}_F^2\le C/d$.
+Every other target satisfies \eqref{restore:fit-local-row} for a
+fixed $L$, because $G_i\le C_bd$ there.
+This target-exception set depends only on the graph and its
+cardinality bound is independent of $M$.
+
+Write $M_G=G^{-1/2}\Omega G^{-1/2}$ and
+$S_K=U\Lambda U^\top$. Best rank-$K$ approximation and
+\eqref{restore:fit-geometry-one} imply
+$\norm{S_K-M_G}_{\op}\le C/\sqrt d$. Hence
+\[
+ \norm{G^{-1/2}(R_0-\Omega)Z}_F^2
+ \le \frac Cd\norm{G^{1/2}Z}_F^2\le Cn.
+\]
+Moreover
+$\norm{G^{-1/2}v}_2^2
+ =\norm{S_{\rm tail}F_1}_2^2\le Cn/d$.
+The rank-one correction therefore preserves the bound
+\begin{equation}\label{restore:fit-basin-action}
+ \norm{G^{-1/2}(R_1-\Omega)Z}_F^2\le Cn.
+\end{equation}
+The simple hollowing changes any bounded block-constant contrast at
+row $i$ by at most $C|(R_1)_{ii}|$.
+Since $\sum_i|(R_1)_{ii}|\le Cn$, at most $Cn/d$ rows can incur
+a hollowing contrast error larger than any prescribed fixed small
+multiple of $d$.
+This auxiliary counting set is needed only for the deterministic
+basin proof; it is not added as a probability-cost event in the sharp
+risk argument.
+
+The true profile contrast has a uniform positive population margin
+$[\Omega w_{i,ab}]_i\ge c_{\rm gap}d$ for $a=z_i$, $b\ne a$,
+including its $O(p)$ self-exclusion correction.
+Extend each $w_{i,ab}$ to a block-constant vector at coordinate $i$;
+this does not affect $R^h w$ because $R^h_{ii}=0$.
+Its $K$ block coefficients are uniformly bounded. For a regular
+target, \cref{restore:fit-uniform-score} bounds the fitted discrepancy
+by $C_M$, which is less than $c_{\rm gap}d/4$ for all sufficiently
+large $n$ (the threshold may depend on $M$).
+Outside the auxiliary hollowing set, a new erroneous label therefore
+forces
+\[
+ \norm{[(R_1-\Omega)Z]_{i\cdot}}_2\ge c d.
+\]
+For the regular targets, $G_i\le C_bd$. Summing the squared
+requirement divided by $G_i$ and applying
+\eqref{restore:fit-basin-action} gives at most $C_0n/d$ such targets.
+Including the two cardinality exceptions still gives $C_0n/d$
+with $C_0$ independent of $M$.
+
+Choose $M$ at least both this $C_0$ and the initializer constant.
+The basin is invariant for all sufficiently large $n$.
+For every regular target, the canonical error-event inclusion
+follows directly from \eqref{restore:fit-true-score}, independently
+of this counting argument. It is the same event for all partitions
+in the fixed basin. Induction therefore covers each finite hard
+refit and any data-dependent finite stopping rule without a new
+probability union or a stopping-time independence claim.
+\end{proof}
+

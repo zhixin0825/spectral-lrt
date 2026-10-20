@@ -1,0 +1,360 @@
+\section{Truncated spectral-row energy}
+\label{restore:tail-section}
+
+The next lemma controls large spectral rows in expectation. Its proof
+uses a recurrence at a single truncation threshold, together with
+concentration of independent deleted-row innovations.
+
+Work under the fixed structural assumptions of
+\cref{prop:sparse-floor}, with $d=np\to\infty$ and $np^2\le C_1$.
+For the empirical floor in \cref{restore:algorithm}, write
+\[
+ \tau=a_0\bar D,\qquad
+ G_j=\max(D_j,\tau),\qquad
+ W=\tau^{1/2}G^{-1/2},\qquad M=WAW=\tau S_G.
+\]
+Let $U$ be an orthonormal basis of the informative $K$-dimensional
+eigenspace and write $MU=U\Xi$, so $\Xi=\tau\Lambda$.
+All bounds below are uniform in the fixed compact structural class.
+In particular,
+\begin{equation}
+ 0\le\Omega_{ij}\le Cd/n,\qquad
+ \norm{\Omega_{i\cdot}}_2\le Cd/\sqrt n.
+ \label{restore:tail-population-rows}
+\end{equation}
+
+Fix a probability parameter $r>0$.  Apply
+\cref{prop:sparse-floor} with a sufficiently larger fixed parameter to
+the full graph and all graphs obtained by deleting at most two vertices.
+Let $\mathcal E_r$ be the intersection of the resulting geometry and
+two-sided total-degree events.  Restricting the population matrix
+preserves the fixed structural bounds and comparable block masses.
+Thus
+\begin{equation}
+ \PP(\mathcal E_r^c)\le C_rn^{-r}.
+ \label{restore:tail-geometry-probability}
+\end{equation}
+On this event, for every graph in the deletion family, its recomputed
+threshold is comparable to $d$, its total degree is at most $C_rnd$,
+its centered weighted noise has norm at most $C_r\sqrt d$, its
+informative eigenvalues have absolute values at least $c_rd$, and its
+remaining eigenvalues have absolute values at most $C_r\sqrt d$.
+For a deleted training graph, use the analogous event formed from
+that graph and its further deletions. This event is measurable from
+the training graph alone and has the same probability bound.
+
+Two deterministic properties of the floor will be useful:
+\begin{equation}
+ W_j\le1,\qquad W_j^2D_j\le\tau,
+ \qquad \norm M_{\op}\le\tau.
+ \label{restore:tail-floor-operator}
+\end{equation}
+Indeed, $G\ge\diag(A\one)$ and the inequality
+$2|ab|\le a^2+b^2$ gives
+$|x^\top S_Gx|\le\sum_j(D_j/G_j)x_j^2\le\norm x_2^2$.
+
+\begin{lemma}[Truncated energy for the degree-floor eigenvectors]
+\label{restore:tail-energy-lemma}
+There are fixed constants $R_0,C,c>0$ such that, for every fixed
+$R\ge R_0$ and all sufficiently large $n$,
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+       \sum_{j=1}^n\norm{U_{j\cdot}}_2^2
+                  \ind{\sqrt n\norm{U_{j\cdot}}_2>R}\right]
+ \le CR^2e^{-cd\log R}.
+ \label{restore:tail-energy}
+\end{equation}
+The constants $R_0,C,c$ depend on the fixed structural bounds,
+$a_0$, and $r$, but not on $R$ or $n$.  The sufficiently-large-$n$
+condition may depend on the chosen fixed $R$.  The same result holds
+for each recomputed deleted graph with its training-measurable
+geometry event.
+\end{lemma}
+
+\begin{proof}
+We give the weight perturbation, the same-threshold energy recurrence,
+and its expectation bounds separately.
+
+\medskip\noindent\textbf{Recomputed weights and the eigenspace residual.}
+For $J=[n]\setminus\{i\}$, let $W^{(-i)}$ and $U^{(-i)}$ be
+computed from $A_{JJ}$, with $U^{(-i)}$ embedded by a zero row at $i$.
+Outside the geometry event choose an arbitrary deterministic
+orthonormal fallback depending only on $A_{JJ}$.
+For an all-zero training graph set $W^{(-i)}=I$ and use that
+orthonormal fallback. Thus the proof-only completion always has
+$\norm{W^{(-i)}}_{\op}\le1$, and the independent innovation below
+is defined for every training graph.
+Put $(\Gamma_i)_{jj}=W_j^{(-i)}/W_j-1$ for $j\in J$ and
+$(\Gamma_i)_{ii}=0$.
+The exact threshold difference is
+\[
+ \tau^{(-i)}-\tau
+ =a_0\frac{\bar D-2D_i}{n-1}.
+\]
+Comparing the two square-root caps, using the comparability of the
+thresholds to $d$, gives on $\mathcal E_r$
+\begin{equation}
+ |(\Gamma_i)_{jj}|
+ \le C\left\{\frac{A_{ij}}{G_j}
+             +\frac{d+D_i}{nd}\right\},
+ \qquad \norm{\Gamma_i}_{\op}\le C/d.
+ \label{restore:tail-weight-change}
+\end{equation}
+This also covers a crossing of a floor threshold.  It follows either
+by splitting the cases in the two maxima or by comparing the logarithms
+of $\sqrt{\tau/\max(D_j,\tau)}$; the relative threshold change is
+$O((d+D_i)/(nd))$.  The last bound uses $D_i\le n$ and $d\le Cn$.
+
+There is an orthogonal matrix $O_i$ such that
+\begin{equation}
+ \norm{U-U^{(-i)}O_i}_F
+ \le C\norm{U_{i\cdot}}_2+C\norm{\Gamma_iU}_F.
+ \label{restore:tail-loo-residual}
+\end{equation}
+To verify this, write
+$M=\left(\begin{smallmatrix}0&m_i^\top\\m_i&B_i\end{smallmatrix}\right)$.
+By \eqref{restore:tail-floor-operator},
+$\norm{m_i}_2\le\sqrt\tau$ and $\norm{B_i}_{\op}\le\tau$.
+Also $B_iU_J=U_J\Xi-m_iU_{i\cdot}$.
+The lower block of the recomputed deleted matrix is
+$(I+\Gamma_i)B_i(I+\Gamma_i)$.
+Subtracting the full matrix and applying the difference to $U$ gives
+a Frobenius residual bounded by
+$Cd(\norm{U_{i\cdot}}_2+\norm{\Gamma_iU}_F)$.
+The full informative spectrum is separated from the deleted
+noninformative spectrum by $cd$.
+The complementary-space Sylvester equation and orthogonal Procrustes
+alignment give \eqref{restore:tail-loo-residual}.
+Only separation from the complementary spectrum is used; the
+informative eigenvalues can repeat or have either sign.
+
+\medskip\noindent\textbf{Truncation and summable weight changes.}
+Set $t=R/\sqrt n$.  Let $f_t$ be radial projection onto the Euclidean
+ball of radius $t$, applied to each row, and put
+\[
+ V=f_t(U),\qquad T=U-V,\qquad
+ H_R(U)=\sum_j\norm{U_{j\cdot}}_2^2
+                         \ind{\norm{U_{j\cdot}}_2>t}.
+\]
+The radial projection is $1$-Lipschitz and commutes with orthogonal
+rotations.  Moreover $\norm T_F^2\le H_R(U)$,
+$\max_j\norm{V_{j\cdot}}_2\le t$, and $\norm V_F\le\sqrt K$.
+Define
+\[
+ \beta_i=W_i\left(\sqrt{D_i}+Cd/\sqrt n\right).
+\]
+By \eqref{restore:tail-floor-operator}, $\beta_i^2\le Cd$.
+Equation \eqref{restore:tail-weight-change} yields
+\[
+ \norm{\Gamma_iV}_F
+ \le Ct\frac{\sqrt{D_i}}d+C\frac{d+D_i}{nd},
+\]
+and therefore
+\begin{equation}
+ \frac{C\beta_i}d\norm{\Gamma_iV}_F
+ \le Ct\left\{\frac1d+\frac{\sqrt{D_i}}{d^{3/2}}\right\}.
+ \label{restore:tail-bounded-weight}
+\end{equation}
+For the global term, use $t\ge n^{-1/2}$, $D_i\le n$, and
+$d\le Cn$: $D_i/(nd^{3/2})\le t\sqrt{D_i}/d^{3/2}$ and
+$1/(n\sqrt d)\le Ct/d$.
+The square-root cap does not give $W_iD_i\le Cd$. The
+right side of \eqref{restore:tail-bounded-weight} can exceed a
+sufficiently small fixed multiple of $t$, for large $d$, only if
+$D_i\ge c_*d^3$.
+
+The unbounded part satisfies the summable estimate
+\begin{equation}
+ \sum_i\beta_i^2\norm{\Gamma_iT}_F^2\le C\norm T_F^2.
+ \label{restore:tail-summable-weight}
+\end{equation}
+Indeed, after interchanging $i,j$, the local coefficient of
+$\norm{T_{j\cdot}}_2^2$ is at most
+$CdD_j/G_j^2\le C$.
+The global coefficient is bounded by
+\[
+ \frac{C}{n^2d}\sum_i(d+D_i)^2\le C,
+\]
+because $\sum_iD_i\le Cnd$ and
+$\sum_iD_i^2\le n\sum_iD_i$.
+These estimates do not use a maximum-degree event.
+
+\medskip\noindent\textbf{Independent innovations and the recurrence.}
+Define the unrotated, training-measurable-coefficient innovation
+\begin{equation}
+ K_i=(A_{iJ}-\Omega_{iJ})W^{(-i)}f_t(U_J^{(-i)}).
+ \label{restore:tail-innovation}
+\end{equation}
+Let $E_0=W(A-\Omega)W$.
+The eigenvector equation is
+\[
+ U=W\Omega WU\Xi^{-1}+E_0V\Xi^{-1}+E_0T\Xi^{-1}.
+\]
+The first term has every row bounded by $C/\sqrt n$, by
+\eqref{restore:tail-population-rows}.
+For the second, compare $W_JV_J$ to
+$W^{(-i)}f_t(U_J^{(-i)})O_i$ and use radial Lipschitzness,
+\eqref{restore:tail-loo-residual}, and
+\eqref{restore:tail-weight-change}.  This gives
+\begin{align}
+ \norm{U_{i\cdot}}_2\le{}&
+ C/\sqrt n+(C/d)\norm{K_i}_2
+ +(C\beta_i/d)\norm{U_{i\cdot}}_2\nonumber\\
+ &+(C\beta_i/d)\norm{\Gamma_iV}_F
+ +(C\beta_i/d)\norm{\Gamma_iT}_F
+ +(C/d)\norm{(E_0T)_{i\cdot}}_2.
+ \label{restore:tail-row-recursion}
+\end{align}
+The completed-mean diagonal contributes at most $Cpt/d\le Ct/n$
+and is absorbed in the bounded terms; it is not treated as an
+observed self-loop.
+Although $O_i$ may depend on the tested row, the argument only uses
+$\norm{K_iO_i}_2=\norm{K_i}_2$.
+No conditional concentration is applied to rotated coordinates.
+
+Take $R$ sufficiently large and then $d$ sufficiently large to absorb
+the baseline and self terms.  Retain from
+\eqref{restore:tail-bounded-weight} the excess
+$Ct\sqrt{D_i/d^3}\ind{D_i\ge c_*d^3}$.
+For $\norm{U_{i\cdot}}_2>t$, separate the cases
+$\norm{K_i}_2>c'dt$ and $\norm{K_i}_2\le c'dt$ and square.
+The resulting bound is
+\begin{align}
+ \norm{U_{i\cdot}}_2^2\ind{\norm{U_{i\cdot}}_2>t}
+ \le{}&\frac C{d^2}\norm{K_i}_2^2
+                         \ind{\norm{K_i}_2>c'dt}\nonumber\\
+ &+\frac C{d^2}\norm{(E_0T)_{i\cdot}}_2^2
+ +\frac{C\beta_i^2}{d^2}\norm{\Gamma_iT}_F^2
+ +\frac{Ct^2}{d^3}D_i\ind{D_i\ge c_*d^3}.
+ \label{restore:tail-pointwise-recursion}
+\end{align}
+Summing, using $\norm{E_0}_{\op}^2\le Cd$ and
+\eqref{restore:tail-summable-weight}, and multiplying by
+$\ind{\mathcal E_r}$ gives
+\begin{align}
+ H_R(U)\ind{\mathcal E_r}
+ \le{}&\frac C{d^2}\sum_i\norm{K_i}_2^2
+                         \ind{\norm{K_i}_2>c'dt}
+ +\frac CdH_R(U)\ind{\mathcal E_r}\nonumber\\
+ &+\frac{Ct^2}{d^3}\sum_iD_i\ind{D_i\ge c_*d^3}.
+ \label{restore:tail-energy-recursion}
+\end{align}
+Both energy terms use the same threshold $R$.
+
+\medskip\noindent\textbf{Expectation bounds.}
+Conditional on $A_{JJ}$, \eqref{restore:tail-innovation} is a sum
+of independent centered vectors.  In each coordinate its summands
+are bounded by $t$, and its total variance is at most
+\[
+ Cp\norm{W^{(-i)}f_t(U^{(-i)})}_F^2\le Cd/n.
+\]
+These bounds hold for every training graph, without conditioning on
+$\mathcal E_r$.  Bennett's inequality in the fixed $K$ coordinates,
+followed by integration of the squared-norm tail, gives
+\begin{equation}
+ \E\!\left[\norm{K_i}_2^2
+                        \ind{\norm{K_i}_2>c'dt}\right]
+ \le Cd^2t^2e^{-c_1d\log R}.
+ \label{restore:tail-innovation-moment}
+\end{equation}
+To see the exponent, set $v=Cd/n$ and
+$h(u)=(1+u)\log(1+u)-u$.
+At $x=c'dt$, the Bennett exponent
+$(v/t^2)h(tx/v)$ is at least $c_1d\log R$, since
+$tx/v$ is proportional to $R^2$.
+Beyond that point the derivative of the exponent is at least
+$c\log R/t$, which gives the same bound upon tail integration.
+
+Every $D_i$ is a Bernoulli sum with mean at most $Cd$.
+Its Chernoff bound and tail integration yield
+\begin{equation}
+ \E[D_i\ind{D_i\ge c_*d^3}]
+ \le Cd^3e^{-c_2d^3\log d}.
+ \label{restore:tail-large-degree-moment}
+\end{equation}
+The left side is zero if $c_*d^3>n$.
+Taking expectations in \eqref{restore:tail-energy-recursion},
+absorbing $C/d$, and using $nt^2=R^2$ now gives
+\[
+ \E[H_R(U)\ind{\mathcal E_r}]
+ \le CR^2\{e^{-c_1d\log R}+e^{-c_2d^3\log d}\}.
+\]
+For each fixed $R$, the second exponential is eventually bounded by
+the first after reducing $c_1$.  This proves
+\eqref{restore:tail-energy}.  The proof is uniform under deletion
+of a fixed number of vertices and uses their recomputed weights,
+so it also proves the asserted training-graph version.
+The same proof applies to any event supplying the stated aggregate
+geometry, including the exponentially accurate event of
+\cref{restore:high-aggregate}. The innovation and degree-tail bounds
+are unconditional before restriction to that event.
+\end{proof}
+
+\begin{corollary}[Exceptional coefficients are hit with exponentially small mass]
+\label{restore:tail-hit-corollary}
+On a training graph with the preceding floor, put
+$H=G^{-1/2}UU^\top G^{1/2}$.
+Let $f$ be any training-measurable vector satisfying
+$\norm f_\infty\le F_0$, and let $e=(H-I)f$.
+For every prescribed fixed $H_0>0$, there is a fixed $M<\infty$
+such that, for any independent tested Bernoulli row with probabilities
+$p_j\le Cd/n$,
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+                 \sum_{j:|e_j|>M}p_j\right]
+ \le C_{H_0}e^{-H_0d}.
+ \label{restore:tail-hit-mass}
+\end{equation}
+Here $\mathcal E_r$ is the training-measurable geometry event.
+\end{corollary}
+
+\begin{proof}
+On that event, $G_j\ge a_-d$ and $\sum_jG_j\le C_Gnd$.
+Consequently
+\[
+ |e_j|
+ \le F_0+\frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
+                  \norm{U^\top G^{1/2}f}_2
+ \le F_0+F_0\sqrt{C_G/a_-}\sqrt n\norm{U_{j\cdot}}_2.
+\]
+For $M_R=F_0+F_0\sqrt{C_G/a_-}R$, the event
+$|e_j|>M_R$ implies $\sqrt n\norm{U_{j\cdot}}_2>R$.
+Thus \cref{restore:tail-energy-lemma} gives
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+                    \sum_j\ind{|e_j|>M_R}\right]
+ \le\frac n{R^2}\E[H_R(U)\ind{\mathcal E_r}]
+ \le Cne^{-cd\log R}.
+ \label{restore:tail-coefficient-count}
+\end{equation}
+Multiplication by $Cd/n$ bounds the expected hit mass by
+$Cd e^{-cd\log R}$.
+Choose a fixed $R$ with $c\log R>H_0+1$ and absorb the factor $d$.
+Independence is required only to interpret the conditional probability
+that the tested row hits the training exceptional set; no independence
+between the training geometry event and its eigenvectors is asserted.
+\end{proof}
+
+\begin{corollary}[Average exceptional target-row mass]
+\label{restore:tail-target-corollary}
+For every fixed degree cutoff $L$ and every fixed $H_0>0$, there is
+a fixed $L_0$ such that
+\begin{equation}
+ \frac1n\sum_i\PP\!\left\{
+    \sqrt{G_i}\norm{U_{i\cdot}}_2>L_0\sqrt{d/n},\quad
+    D_i\le Ld,\quad \mathcal E_r\right\}
+ \le C_{H_0,L}e^{-H_0d}.
+ \label{restore:tail-target-mass}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+On the displayed event, $G_i\le C_Ld$.
+Choose $L_0=R\sqrt{C_L}$.
+The target-row exception then implies
+$\sqrt n\norm{U_{i\cdot}}_2>R$.
+Apply \eqref{restore:tail-energy} and divide its corresponding
+expected count by $n$.  Choosing fixed $R$ sufficiently large gives
+\eqref{restore:tail-target-mass}.
+\end{proof}
+

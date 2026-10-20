@@ -1,0 +1,46 @@
+\section{Restoring the sparse argument without a logarithmic lower bound}
+\label{sec:sparse-restored}
+
+This revision restores a proof chain that was present in the 9 October
+degree-plus-spectrum draft\footnote{The retained source is
+\href{https://github.com/zhixin0825/spectral-lrt/blob/de60b64c7d7f127ae6dc1d010c840af707a080da/paper/previous_draft/sbm_spectral_lrt_20261009.tex}{the 9 October sparse proof at commit \texttt{de60b64}}.}:
+a same-threshold truncated-row-energy
+recursion and local full-to-deleted-graph comparison. That draft treated
+$d\to\infty$, $d=o(\log n)$ and obtained a leading-exponent result.
+Its non-tail score errors were $O(\sqrt d)$ or $o(d)$, so it cannot be
+quoted verbatim for a constant risk ratio. The argument below reuses its
+row-tail mechanism, proves a scalar $O(1)$ LOO comparison for the current
+floor normalization, and supplies the fitted-parameter bounds.
+
+The distinction between decoders is explicit. The completed sparse
+result below uses the finite radius-count initializer already specified
+for DC-SBM and block-parameter Bernoulli likelihood updates. Its ordinary
+SBM specialization fixes all degree parameters at one and uses the
+ordinary, unprofiled Bernoulli LRT. It is not a theorem for the unchanged
+ordinary free-profile growing/replacement/soft-EM schedule of
+\cref{sbm:algorithm}. That schedule's global generated-profile box must
+not be transferred silently to graphs with exceptional high degrees.
+
+\subsection{Scope of what has been restored}
+
+The degree-floor row-energy bound, local scalar LOO comparison, and
+weighted fitted-parameter argument above repair the three specific
+gaps listed at the end of the previous revision's Section 9. The DC
+profile-LRT algorithm now has an unconditional constant-oracle-risk
+bound at every diverging degree scale in its bounded-$np^2$ class.
+Its known-target-degree comparison still requires the stated
+equal-exposure restriction; the general obstruction in
+\cref{thm:imposs} is unchanged.
+
+For ordinary SBM, the sparse block-LRT route has been restored with an
+explicit initializer and true Bernoulli likelihood. This is different
+from asserting the previous free-profile soft-EM schedule without
+modification. Exact degree preservation and a uniform entry bound
+$|R_{ij}|\le Cp$ would force $D_i\le Cd$ for every vertex; that global
+bound is not available in the sparse model. The old common-box proof
+therefore cannot simply be copied. This algorithm distinction is kept
+visible rather than absorbed into a theorem with an unspecified decoder.
+
+All new comparisons are internal mathematical derivations with explicit
+proofs. They are not justified by simulations, and they do not claim a
+small numerical risk multiplier or a ratio converging to one.

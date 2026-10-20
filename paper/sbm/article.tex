@@ -1,0 +1,245 @@
+\section{Introduction}
+
+The incident edges of a vertex determine a natural likelihood classifier
+when the community parameters and the other labels are known. A spectral
+method replaces those unknown labels by a low-dimensional representation
+of the graph. We ask whether the degrees and a single normalized
+eigensystem retain enough information to match the error of the
+incident-row likelihood classifier up to a constant factor.
+
+We construct an explicit classifier with this property for stochastic
+block models with arbitrary fixed \(K\). Its normalization uses an
+empirical positive degree floor. The decoder retains the raw degrees,
+reconstructs a signed matrix with exactly those row sums, and alternates
+symmetric Bernoulli block fitting with ordinary likelihood classification.
+The only initialization is a deterministic radius-count procedure on
+normalized spectral rows. At least one likelihood update is required;
+any finite number of the specified updates is allowed.
+
+The main result holds for every diverging degree scale \(d=np\), subject
+to the upper sparsity condition \(np^2\le C_1\). In particular, it covers
+\(d=\log\log n\) and slower divergence. The proof controls average
+classification risk directly, allowing isolated vertices and exceptional
+spectral rows. A graph-wide bound on the largest spectral row would
+discard this range. Instead, a truncated-energy estimate bounds the
+probability that the tested incident row actually encounters an
+exceptional coefficient.
+
+The target comparison is sharp at the level of risk. For a pair of
+communities with exact Bernoulli Chernoff information \(I\), the oracle
+error is of order \(d^{-1/2}e^{-I}\). Sharp Chernoff bounds in community
+detection are developed by Zhou and Li~\cite{zhouli}; spectral error
+exponents are studied by Zhang~\cite{zhang}. Here the local spectral
+and fitted-likelihood errors are bounded on the scale needed to
+preserve a constant risk multiplier. The geometric input uses sparse
+graph regularization~\cite{llv2017} and, at larger degree scales,
+a bounded-entry matrix norm inequality~\cite{bvh}.
+
+\section{Model and the incident-row oracle}\label{sec:statements}
+
+There are \(n\) vertices and a fixed number \(K\ge2\) of communities.
+Let \(z\in[K]^n\), let \(Z\) be its indicator matrix, and let
+\(n_a=\#\{i:z_i=a\}\). The symmetric adjacency matrix has zero diagonal
+and independent upper-triangular entries satisfying
+\begin{equation}\label{eq:mean-model}
+ A_{ij}\sim\Ber(P_{z_i z_j}),\qquad
+ P=pC,\qquad d=np,\qquad \Omega=ZPZ^\top,\qquad i<j.
+\end{equation}
+The structural constants obey
+\begin{equation}\label{eq:structural}
+ n_a\ge\pi_-n,\qquad C=C^\top,\qquad
+ 0<c_-\le C_{ab}\le c_+<\infty,\qquad
+ \sigma_{\min}(C)\ge\kappa>0.
+\end{equation}
+The number \(K\), \(\pi_-\), \(c_-\), \(c_+\) and \(\kappa\) are fixed.
+The matrix \(C\) may vary with \(n\) inside this class. Constants in
+bounds may depend on these fixed quantities and on the stated upper
+bound for \(np^2\), but not on \(n\). The completed mean \(\Omega\)
+includes a diagonal solely for algebra; the actual mean is
+\(\Omega-\diag(\Omega_{ii})\). We keep this \(O(p)\) difference in the
+proof.
+
+For a partition \(\widehat z\), define
+\[
+ \ell(\widehat z,z)=\frac1n\min_{\sigma\in\mathfrak S_K}
+       \sum_i\ind{\sigma(\widehat z_i)\ne z_i}.
+\]
+The oracle knows \(P\) and all labels except the tested label. At vertex
+\(i\) it maximizes the exact Bernoulli log likelihood
+\begin{equation}\label{eq:sbm-oracle}
+ L_{i,*}(a)=\sum_{j\ne i}
+ \{A_{ij}\log P_{az_j}+(1-A_{ij})\log(1-P_{az_j})\}.
+\end{equation}
+It uses uniform candidate weights and a fixed rule for ties. An exact
+global community-size constraint is not used to infer the missing
+label. If \(z_{i,*}\) denotes this local classifier, its average
+directional error is
+\begin{equation}\label{eq:oracle-risk}
+ R_{\mathrm{SBM},*}(n)=\frac1n\sum_i\PP\{z_{i,*}\ne z_i\}.
+\end{equation}
+This is the oracle used throughout the article.
+
+\section{A decoder from degrees and normalized spectrum}
+\label{restore:algorithm}
+
+The input is \(A\) and \(K\). Fix sufficiently small constants
+\(a_0,c_0>0\), depending only on the structural class. All choices and
+ties below are deterministic. A fixed fallback partition defines the
+algorithm whenever a required operation is undefined.
+
+\paragraph{Encoding.}
+Write
+\[
+ \mathbf d=A\one,\qquad D_i=\mathbf d_i,\qquad
+ \bar D=\frac1n\sum_iD_i.
+\]
+\[
+ G=\diag\{\max(D_i,a_0\bar D)\},\qquad
+ S_G=G^{-1/2}AG^{-1/2}.
+\]
+The all-zero graph has the fixed output. Otherwise \(G\) is positive.
+Retain the raw degrees and the \(K\) eigenpairs of \(S_G\) with largest
+absolute eigenvalues:
+\[
+ U^\top U=I_K,\qquad S_GU=U\Lambda.
+\]
+Only \((\mathbf d,U,\Lambda)\) are used after this step. Flooring does
+not require a degree vector to be a retained eigenvector.
+
+\paragraph{Exact-degree reconstruction.}
+Put
+\[
+ H=G^{-1/2}UU^\top G^{1/2},\qquad
+ R_0=G^{1/2}U\Lambda U^\top G^{1/2}=AH.
+\]
+Let \(v=\mathbf d-R_0\one\), let \(R_1=R_0+v\one^\top/n\),
+and let \(r\) be the vector of diagonal entries of \(R_1\). Define
+\begin{equation}\label{restore:reconstruction}
+ R^h=R_1+\frac{r\one^\top}{n-1}
+              -\frac{n}{n-1}\diag(r).
+\end{equation}
+Then
+\[
+ R^h\one=\mathbf d,\qquad \diag(R^h)=0.
+\]
+The matrix \(R^h\) can be signed and need not be symmetric. Its entries
+are not clipped. The formula is computed entirely from the retained
+quantities. In particular, an isolated vertex has a zero reconstructed
+row and does not stop classification of other vertices.
+
+\paragraph{Initialization.}
+Normalize each nonzero row of \(U\) to unit length; assign a fixed unit
+direction to a zero row. Among the remaining rows, select one having
+the largest number of remaining rows within distance \(1/8\), and
+remove all rows within distance \(1/4\) of it. Repeat for \(K\) centers,
+then assign every row to its nearest center. If fewer than \(K\)
+centers can be selected, use the fixed fallback. This is a finite
+procedure using \(O(Kn^2)\) distance comparisons.
+
+\paragraph{Block fitting and classification.}
+Given current labels \(\widehat z\), for \(a\le b\) let
+\(\mathcal I_{ab}(\widehat z)\) contain all ordered pairs \(i\ne j\)
+whose unordered label pair is \(\{a,b\}\). Let
+\[
+ E_{ab}=\sum_{(i,j)\in\mathcal I_{ab}(\widehat z)}R^h_{ij},
+ \qquad N_{ab}=|\mathcal I_{ab}(\widehat z)|,
+ \qquad \varepsilon=c_0\bar D/n.
+\]
+The symmetric fitted matrix is
+\begin{equation}\label{eq:block-fit}
+ \widehat P_{ab}=\widehat P_{ba}
+   =\operatorname{clip}_{[\varepsilon,\,1/2]}(E_{ab}/N_{ab}).
+\end{equation}
+This maximizes the ordered-pair Bernoulli working criterion with a
+symmetric block probability. The fit is interior on the event used in
+the proof. Update all labels simultaneously by maximizing
+\begin{equation}\label{eq:fitted-row-score}
+ \widehat L_i(a)=\sum_{j\ne i}
+ \{R^h_{ij}\log\widehat P_{a\widehat z_j}
+   +(1-R^h_{ij})\log(1-\widehat P_{a\widehat z_j})\}.
+\end{equation}
+In particular, the full nonedge term is retained. There is no target
+degree parameter to profile in this ordinary SBM algorithm.
+Write \(\widehat L_i^{ab}=\widehat L_i(a)-\widehat L_i(b)\)
+for a fitted pairwise contrast.
+
+Perform at least one block fit and likelihood update. The output may
+follow any finite number of these hard refits, including finite
+data-dependent stopping. Empty fitted groups or undefined operations
+use the stated fallback; the proof shows they do not occur on the
+aggregate event. No leave-one-out graph, true label or true model
+parameter is an algorithm input.
+
+\section{Oracle-risk guarantee}\label{sec:main-result}
+
+\begin{theorem}\label{restore:sbm-theorem}
+Under \eqref{eq:mean-model}--\eqref{eq:structural}, suppose
+\[
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+\]
+For sufficiently small fixed \(a_0,c_0>0\), the algorithm in
+\cref{restore:algorithm}, after any finite positive number of the
+specified likelihood updates, satisfies
+\begin{equation}\label{eq:target}
+ \E\ell(\widehat z,z)\le C R_{\mathrm{SBM},*}(n)
+\end{equation}
+for all sufficiently large \(n\). The same bound holds for finite
+data-dependent stopping. The constant \(C\) is independent of \(n\)
+and of the number of refits.
+\end{theorem}
+
+There is no condition of the form \(np\ge c\log n\).
+The assumptions allow general symmetric positive block profiles and
+comparable, unequal community sizes. They do not require a planted
+partition or equal expected degrees. The condition \(np^2\le C_1\)
+is retained as an upper sparsity assumption.
+
+For the exact pairwise Bernoulli information \(I_{i,ab}\) defined in
+\eqref{eq:sbm-information}, \cref{lem:sharp} gives
+\[
+ R_{\mathrm{SBM},*}(n)\asymp
+ \frac{1}{n\sqrt d}\sum_i\sum_{b\ne z_i}e^{-I_{i,z_i b}}.
+\]
+Thus \eqref{eq:target} preserves the sharp prefactor as well as the
+exponent. It asserts a bounded risk ratio; it does not assert that
+the ratio tends to one. Since a nonzero loss is at least \(1/n\),
+the theorem also implies exact recovery whenever
+\(nR_{\mathrm{SBM},*}(n)\to0\).
+
+\subsection{Proof structure}
+
+The proof has four ingredients. First, degree-floor geometry gives a
+fixed informative spectral gap, \(O(d^{-1/2})\) subspace error and
+\(O(n)\) weighted degree energy. These aggregate bounds suffice for
+the deterministic initialization and an invariant \(O(n/d)\)
+misclassification basin.
+
+Second, a same-threshold truncated-energy recursion controls large
+spectral rows in expectation. By taking a fixed row threshold large
+enough, the average probability of an exceptional tested row, or of
+an incident edge hitting an exceptional training row, is at most
+\(C_He^{-Hd}\) for any prescribed fixed \(H\). This estimate replaces
+a simultaneous row bound.
+
+Third, on the local regular event, the exact block fit has error
+\(O(1/n)\), and every fitted row contrast differs by \(O(1)\) from its
+true block contrast. A scalar leave-one-out identity replaces the
+full-graph spectral action by a function of independent training
+data and the tested incident row, again with \(O(1)\) error. Under
+the oracle Chernoff tilt, the resulting coefficient error has bounded
+mean and quadratic mass.
+
+Finally, a sharp Bernoulli transfer preserves
+\(d^{-1/2}e^{-I_{i,ab}}\). Exceptional coefficients are paid for only
+when the incident row hits them. Polynomially accurate regularized
+geometry suffices below an internal logarithmic proof threshold;
+an exponentially accurate norm event supplies the complementary
+range. These estimates together cover every \(d\to\infty\).
+The appendices give the complete argument and the proof of
+\cref{restore:sbm-theorem}.
+
+\paragraph{Organization of related material.}
+The companion notes contain degree correction, alternative earlier
+decoders, counterexamples and supplementary derivations. None of
+those notes is required for this article's theorem or proof.
+

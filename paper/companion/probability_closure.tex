@@ -1,0 +1,245 @@
+\section{Probability closure for the historical decoders}
+\label{sec:probability}
+
+The preceding sections prove fitted-score comparisons on events whose
+deterministic premises are consequences of raw noise, degree and row
+concentration bounds. This section completes the unconditional theorems.
+It is not enough that those events have probability tending to one.
+
+\subsection{Events with an arbitrarily large fixed exponential rate}
+
+For any fixed $H>0$, choose the raw norm threshold $L_H\sqrt d$ in
+\eqref{eq:raw-norm-tail}. Since $\lambda_i\le\lambda_+d$ for a fixed
+$\lambda_+$, the elementary Bernoulli Chernoff inequality also gives,
+for a sufficiently large fixed $b_H$,
+\[
+ \PP\{\max_iD_i>b_Hd\}\le ne^{-Hd}.
+\]
+For example the exponent in the Poisson upper bound is
+$b_H\log(b_H/\lambda_+)-b_H+\lambda_+$, which grows without bound as
+$b_H$ grows. Here this is a bound on a Bernoulli transform, not a change
+of sampling model.
+The conditional events in \cref{lem:normalized-rows} contribute at most
+$2Kn e^{-Hd}$. The constants in the deterministic lemmas may increase
+with $H$, but remain independent of $n$.
+
+For DC-SBM we additionally impose
+\begin{equation}\label{eq:raw-block-event}
+ \max_{a,b}|[Z^\top(A-\Omega)Z]_{ab}|\le L_Bn.
+\end{equation}
+Each centered block total is a sum of independent bounded upper-triangular
+edge variables, with coefficients at most two and variance at most $Cnd$.
+The completed diagonal contributes only $O(d)$.
+Scalar Bernstein therefore implies, for sufficiently large fixed $L_B$
+and all large $n$,
+\[
+ \PP\{\eqref{eq:raw-block-event}\text{ fails}\}
+ \le 2K^2\exp\left\{-\frac{cL_B^2 n}{d+L_B}\right\}.
+\]
+Under $d^2\le C_1n$, the exponent is at least
+$c'L_B^2d/C_1$ once $d\ge L_B$. Thus $L_B$ can be chosen to make this
+probability at most $2K^2e^{-Hd}$ for any prescribed fixed $H$.
+Ordinary free-profile fitting does not need this event: it integrates the
+block-fluctuation exponential moment instead, as proved in
+\cref{sec:sbm-proof}.
+
+Let $\mathcal G$ be the intersection of these required events and the
+minimum-degree event $D_i\ge a_0d$. All spectral, initialization and fitting
+premises in the earlier sections follow on $\mathcal G$.
+In particular all tested deleted graphs satisfy their own measurable
+training premises there. Apart from the minimum-degree event, the failure
+probability is at most
+\begin{equation}\label{eq:other-bad-events}
+ C_Kne^{-Hd}.
+\end{equation}
+
+\subsection{Ordinary SBM on the explicit parameter class}
+
+For $P_{ab}\in[p/2,p]$ and $p\le1/4$, the log-odds coefficient of any
+pairwise oracle contrast satisfies
+\[
+ |w_c^{ab}|\le W:=\log(7/3).
+\]
+Every tilted Bernoulli probability between the two candidates is at most
+$p$, so the second derivative of the log affinity in
+\eqref{eq:sbm-information} is at most $dW^2$.
+A twice differentiable convex function vanishing at zero and one with
+second derivative at most $M$ is at least $-Mt(1-t)/2$.
+Consequently
+\begin{equation}\label{eq:sbm-information-upper}
+ I_{i,ab}\le d\,\frac{\log^2(7/3)}8<0.09d.
+\end{equation}
+
+For all sufficiently large $n$, every mean degree is at least $0.49d$.
+Choose $a_0=1/16$. The Bernoulli lower-tail transform yields
+\begin{align*}
+ \PP(D_i<d/16)
+ &\le \exp\left\{-d\left[
+ 0.49-\frac1{16}-\frac1{16}\log(16\cdot0.49)\right]\right\}\\
+ &\le e^{-0.298d}.
+\end{align*}
+\begin{equation}\label{eq:sbm-low-degree}
+ \PP(\min_iD_i<d/16)\le ne^{-0.298d}.
+\end{equation}
+Take $H=1$, increasing the other fixed thresholds if necessary.
+Equations \eqref{eq:other-bad-events} and
+\eqref{eq:sbm-low-degree} give
+$\PP(\mathcal G^c)\le Cne^{-0.298d}$.
+The information bound \eqref{eq:sbm-information-upper} applies to every
+vertex and every competitor. Thus the sharp pairwise lower bound
+\eqref{eq:oracle-pairs}, followed by averaging over all vertices, gives
+\[
+ R_{\mathrm{SBM},*}\ge
+ \frac1n\sum_{i=1}^n\frac c{\sqrt d}e^{-0.09d}
+ =\frac c{\sqrt d}e^{-0.09d}.
+\]
+No additional balancing assumption is needed: the uniform coefficient
+bound, group-proportion bound and full-rank separation already hold at
+every vertex. Consequently
+\[
+ \frac{\PP(\mathcal G^c)}{R_{\mathrm{SBM},*}}
+ \le Cn\sqrt d\,e^{-0.208d}.
+\]
+The function $\sqrt d\,e^{-0.208d}$ is decreasing once
+$d>1/(2\cdot0.208)$. Therefore, for $d\ge5\log n$ and all sufficiently
+large $n$,
+\[
+ n\sqrt d\,e^{-0.208d}
+ \le \sqrt{5\log n}\,n^{1-5\cdot0.208}
+ =\sqrt{5\log n}\,n^{-0.04}=o(1).
+\]
+The earlier coefficient $20$ was a sufficient numerical choice obtained
+by retaining only one vertex in the oracle lower bound and then bounding
+$\sqrt d$ by $\sqrt n$. Both losses are unnecessary. The improved
+coefficient $5$ changes neither the encoder nor the likelihood decoder;
+it does not remove the global minimum-degree event from this proof.
+The good-event comparison in \cref{sec:sbm-proof} and
+\eqref{eq:bad-payment} complete \cref{thm:sbm}.
+
+\subsection{The automatic margin for a general DC profile oracle}
+
+Let $J_{i,a\to b}$ be the exact Bernoulli directional profile information
+defined in \cref{sec:dcsbm-proof}. For the self-excluded neighbor masses
+$M_c=\sum_{j\ne i:z_j=c}\theta_j$, set
+\[
+ T_a=\sum_cM_cC_{ac},\qquad
+ q_{ac}=\frac{M_cC_{ac}}{T_a},\qquad
+ h_{ab}^*=\min_{0\le s\le1}\sum_cq_{ac}^{1-s}q_{bc}^s.
+\]
+Uniform positive group proportions and entries of $C$ give
+$q_{ac}\ge q_->0$ for all large $n$. Hence
+\begin{equation}\label{eq:profile-overlap}
+ h_{ab}^*\ge\sum_c\min(q_{ac},q_{bc})\ge Kq_->0.
+\end{equation}
+The exact log-transform expansion, uniformly in $s\in[0,1]$, is
+\begin{align*}
+ \sum_{j\ne i}\log\{1+\theta_i\theta_jpC_{az_j}
+                    (e^{-sw_{z_j}}-1)\}
+ &=\theta_ipT_a
+       \left[\sum_cq_{ac}^{1-s}q_{bc}^s-1\right]+O(np^2).
+\end{align*}
+Minimizing therefore gives
+\begin{equation}\label{eq:profile-leading-information}
+ J_{i,a\to b}
+ =\lambda_i(1-h_{ab}^*)+O(np^2),
+ \qquad \lambda_i=\theta_ipT_a.
+\end{equation}
+This calculation uses the exact Bernoulli transform.
+Under $np^2\le C_1$, \eqref{eq:profile-overlap} and
+$\lambda_i\ge\lambda_-d$ imply, for a fixed $\eta>0$ and all large $n$,
+\begin{equation}\label{eq:profile-degree-margin}
+ J_{\min}:=\min_i\min_{b\ne z_i}J_{i,z_i\to b}
+ \le\lambda_{\min}-\eta d.
+\end{equation}
+To see it, choose a vertex with minimum mean degree and any competitor.
+Equal candidate exposures are not required for this profile margin.
+
+Choose $a_0>0$ sufficiently small that
+\[
+ a_0\{1+\log(\lambda_+/a_0)\}\le\eta/2,\qquad a_0<\lambda_-.
+\]
+For each vertex, the Bernoulli lower-tail bound is
+\[
+ \PP(D_i<a_0d)
+ \le\exp\{-\lambda_i+a_0d+
+                   a_0d\log(\lambda_i/(a_0d))\}.
+\]
+The exponent is monotone in $\lambda_i$ above $a_0d$.
+Together with \eqref{eq:profile-degree-margin}, it follows that
+\begin{equation}\label{eq:dc-low-degree}
+ \PP(\min_iD_i<a_0d)
+ \le n\exp\{-J_{\min}-\eta d/2\}.
+\end{equation}
+The full profile reference has the lower bound
+\[
+ R_{\mathrm{prof},*}\ge
+ \frac c{n\sqrt d}e^{-J_{\min}}.
+\]
+Thus the ratio of \eqref{eq:dc-low-degree} to that reference is at most
+\[
+ Cn^2\sqrt d\,e^{-\eta d/2}=o(1)
+\]
+when $d\ge C_0\log n$ with, for example, $C_0>6/\eta$ and sufficiently
+large $n$. We used only $d\le n$ in bounding the polynomial factor.
+The constants can be enlarged without changing their independence of $n$.
+
+Also $J_{\min}\le C_Jd$ for a fixed $C_J$ by its bounded-weight transform.
+Choosing $H>C_J+1$ in \eqref{eq:other-bad-events}, and enlarging $C_0$ if
+needed, pays those remaining failures at the same reference scale.
+Hence $\PP(\mathcal G^c)=O(R_{\mathrm{prof},*})$.
+The good-event theorem and invariant-basin result in
+\cref{sec:dcsbm-proof} now prove \cref{thm:dc}, including its finite
+hard-refit version.
+
+Under the equal-exposure condition, the profile and known-target-degree
+oracle risks are comparable by the bounded-contrast proof in
+\cref{sec:dcsbm-proof}. This proves the DC assertion of \cref{cor:known}.
+For the native Euclidean ordinary-SBM decoder, the same sparse transform
+expansion gives
+$I_{i,ab}=\lambda_i(1-h_{ab}^*)+O(np^2+p)$ under equal exposures.
+Thus its information--degree margin is also automatic.
+The general-positive-profile version of \cref{sec:sbm-proof}, with its
+block fluctuation integrated instead of imposing \eqref{eq:raw-block-event},
+therefore proves the remaining assertion of \cref{cor:known}.
+
+\subsection{An explicit extension for ordinary SBM with unequal exposures}
+
+The entry-ratio-two restriction in \cref{thm:sbm} is a simple sufficient
+way to ensure the failure-event comparison. The deterministic and
+conditional likelihood proof covers a larger parameter range.
+
+\begin{proposition}[A deterministic information--degree margin suffices]
+\label{prop:sbm-margin}
+Suppose ordinary SBM has fixed $K$, positive comparable group sizes,
+$c_-p\le P_{ab}\le c_+p$, $\max P_{ab}\le1-\epsilon_0$,
+and $\sigma_{\min}(P)\ge\kappa p$, for fixed positive constants.
+If for some fixed $\eta>0$ and all sufficiently large $n$,
+\[
+ \lambda_{\min}-I_{\min}\ge\eta d,\qquad d=np\ge C_0\log n,
+\]
+then the native Euclidean signed likelihood decoder, with sufficiently
+small structural floor coefficient, satisfies
+$\E\ell(\widehat z_E,z)\le C R_{\mathrm{SBM},*}$
+when $C_0$ is sufficiently large. No condition $np^2=O(1)$ is needed
+for this ordinary-SBM proposition.
+\end{proposition}
+
+\begin{proof}
+All true Bernoulli likelihood coefficients and tilted means are exactly
+block constant, so the Euclidean projection, fitted-score and sharp-tail
+arguments of \cref{sec:sbm-proof} apply without a sparse Bernoulli
+approximation. Generated profiles remain comparable to $p$ and uniformly
+away from one when the floor is chosen for the structural class.
+The displayed margin, the same small degree cutoff used above and an
+arbitrarily strong choice of the other exponential bounds imply
+$\PP(\mathcal G^c)=O(R_{\mathrm{SBM},*})$.
+Here the polynomial comparison uses $d\le Cn$, which follows from
+$c_-p\le P_{ab}\le1-\epsilon_0$; it does not require $p\le1$.
+\end{proof}
+
+This proposition is a condition on the deterministic model parameters,
+not an assumed success event or a hypothesis that the desired risk ratio
+already holds. It is nevertheless an additional restriction. For model
+families violating it, a refined analysis of exceptional low-degree
+graphs or a different normalized encoder is needed; the crude loss bound
+one on all such graphs does not prove a constant ratio.

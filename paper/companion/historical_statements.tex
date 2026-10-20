@@ -1,0 +1,154 @@
+\section{Historical unregularized encoders and their separate results}\label{sec:historical}
+
+This part preserves the separate analyses of the earlier unregularized
+algorithms. Its degree-range assumptions describe those historical
+encoders only; the current regularized theorem has no logarithmic
+lower bound. Their logarithmic-range hypotheses
+are not hypotheses of \cref{thm:regularized}. Their positive-degree
+fallback convention is replaced by the explicit floor in the primary
+algorithm.
+
+When all degrees are positive, form
+\[
+ S=D^{-1/2}AD^{-1/2}=I-L.
+\]
+Retain the degree eigenvector $D^{1/2}\one/\norm{D^{1/2}\one}_2$ and the
+$K-1$ other eigenvectors with largest absolute eigenvalues in its orthogonal
+complement. Let $U^\top U=I_K$ and $SU=U\Lambda$, where
+$\Lambda=\diag(\mu_1,\ldots,\mu_K)$. On the proved event this is exactly
+the informative $K$-dimensional space. The encoder supplies only
+$(D,U,\Lambda)$ to the decoder. Put
+\begin{equation}\label{eq:encoder-action}
+ X=D^{-1/2}U,\qquad AX=D^{1/2}U\Lambda.
+\end{equation}
+Thus row actions on the retained space require no later edge lookup.
+The normalized Laplacian eigenvalues contain the same information via
+$\mu=1-\lambda_L$. Exact arithmetic and algebraic retained spaces define
+the theorem; a fixed numerical rank threshold is not its definition.
+
+The ordinary-SBM decoder uses the \emph{signed} reconstruction
+\begin{equation}\label{eq:euclidean-decoder}
+ Q=\operatorname{orth}(X),\quad \Pi_X=QQ^\top,\quad R_E=A\Pi_X.
+\end{equation}
+It fits free Bernoulli row profiles with the finite growing/replacement
+schedule and mandatory final E/M step specified in
+\cref{sec:sbm-proof}. Only probabilities are clipped; $R_E$ is not clipped.
+Neither true labels nor a correct initial partition are inputs.
+
+For DC-SBM we make the explicit degree-metric correction
+\begin{equation}\label{eq:metric-decoder}
+ H_D=D^{-1/2}UU^\top D^{1/2},\qquad
+ R_D=AH_D=D^{1/2}U\Lambda U^\top D^{1/2}.
+\end{equation}
+With $h_i=\norm{U_{i\cdot}}_2^2$ and
+$s_i=(R_D)_{ii}/(1-h_i)$, its hollow version is
+\begin{equation}\label{eq:hollow-decoder}
+ R^\circ=R_D+\diag(s)(H_D-I).
+\end{equation}
+It satisfies
+$\diag(R^\circ)=0$, $R^\circ\one=D\one$ and $R^\circ X=AX$.
+It need not be symmetric after hollowing; a symmetric block parameter is
+fitted with the ordered-row working criterion divided by two.
+
+For the initial partition, normalize every row of $U$ to unit length.
+Repeatedly select a remaining row having the largest number of remaining
+rows within distance $1/8$, and remove rows within distance $1/4$ of the
+selected row. After $K$ selections assign every row to the closest selected
+row. The separation argument in \cref{sec:dcsbm-proof} proves its
+$O(1/d)$ error; this is a deterministic procedure with $O(Kn^2)$ distance
+comparisons, not an assumed global k-means solution.
+Normalize degree estimates to mean one within each fitted group, fit
+the symmetric block matrix by the exact Bernoulli working criterion, and
+perform at least one exact Bernoulli profile-LRT assignment using
+$R^\circ$. One pass suffices. The same theorem permits a finite number of
+the stated hard refits, including adaptive stopping, by the invariant-basin
+argument proved below.
+
+Both algorithms return a fixed partition, or their initial partition,
+if a prescribed operation is undefined. This includes zero degrees,
+insufficient retained rank, a hollow denominator zero, an empty initial
+group, or an inadmissible parameter fit. The required operations are all
+well-defined on the good event, so this convention costs only its actual
+failure probability.
+
+\begin{theorem}[Earlier ordinary free-profile decoder]\label{thm:sbm}
+Fix $K\ge2$, $\pi_->0$ and $\kappa>0$. Suppose
+\[
+ n_a\ge\pi_-n,\qquad
+ p/2\le P_{ab}\le p\le1/4,\qquad
+ \sigma_{\min}(P)\ge\kappa p,\qquad d=np\ge5\log n.
+\]
+Use \eqref{eq:euclidean-decoder} and the finite growing/replacement
+likelihood decoder, with probability floor
+$\varepsilon=c_0\max(1,n^{-1}\sum_iD_i)/n$ for a fixed sufficiently small
+$c_0>0$ (for example any $c_0<1/16$ on this class).
+There are constants $C,n_0$, depending only on the displayed fixed
+structural constants and $c_0$, such that for $n\ge n_0$,
+\begin{equation}\label{eq:sbm-risk}
+ \E\ell(\widehat z_E,z)\le C R_{\mathrm{SBM},*}(n).
+\end{equation}
+The algorithm uses neither $P$, $p$, nor the true partition.
+This includes fixed arbitrary $K$, unbalanced group sizes of comparable
+order, and general symmetric full-rank block probability matrices in the
+displayed range. It does not require all within-group probabilities, or all
+between-group probabilities, to be identical.
+\end{theorem}
+
+\begin{theorem}[Earlier unregularized DC profile decoder]
+\label{thm:dc}
+Assume \eqref{eq:mean-model}--\eqref{eq:structural}. Fix $C_1<\infty$ and
+suppose
+\begin{equation}\label{eq:dc-range}
+ C_0\log n\le d=np,\qquad np^2\le C_1,
+\end{equation}
+where $C_0$ is sufficiently large depending only on the fixed structural
+bounds and $C_1$. The degree-metric decoder
+\eqref{eq:metric-decoder}--\eqref{eq:hollow-decoder}, with the deterministic
+initialization and estimated-parameter profile procedure just specified,
+satisfies
+\begin{equation}\label{eq:dc-risk}
+ \E\ell(\widehat z_D,z)\le C R_{\mathrm{prof},*}(n)
+\end{equation}
+for all sufficiently large $n$, with $C$ independent of $n$.
+The statement is uniform over the displayed compact parameter class.
+No correct grouping, true degree parameters, true block matrix, sample
+splitting, or leave-one-out eigensystem is an input to the algorithm.
+\end{theorem}
+
+\begin{corollary}[The known-target-degree oracle on equal exposures]
+\label{cor:known}
+Under \cref{thm:dc}, suppose additionally that the actual finite-$n$ block
+exposures satisfy
+\begin{equation}\label{eq:equal-exposure}
+ \sum_b(n_b/n)C_{ab}=S\quad\text{for all }a.
+\end{equation}
+Then
+\[
+ R_{\mathrm{prof},*}\asymp R_{\theta,*},\qquad
+ \E\ell(\widehat z_D,z)\le C R_{\theta,*}.
+\]
+Thus there are nontrivial fixed-$K$ SBM and DC-SBM classes on which the
+spectral-only fitted likelihood procedure attains a constant multiple of
+the original known-parameter local LRT risk. The ordinary free-profile
+decoder, with a sufficiently small floor coefficient for its structural
+parameter class, also satisfies \eqref{eq:sbm-risk} for general positive
+full-rank $C$ under \eqref{eq:dc-range} and \eqref{eq:equal-exposure},
+without the entry-ratio-two restriction of \cref{thm:sbm}.
+\end{corollary}
+
+Exact equality in \eqref{eq:equal-exposure} can be relaxed to exposure
+differences whose contribution to all likelihood contrasts is uniformly
+$O(1)$. For example fixed $C\pi=S\one$ with
+$n_a=n\pi_a+O(1)$ suffices. Equality of limiting exposures with no rate
+is not by itself sufficient. The general known-$\theta_i$ claim without
+an additional restriction is false: \cref{thm:imposs} gives an explicit
+diverging risk ratio for every full-graph algorithm.
+
+\begin{remark}[What is and is not constant]
+The factor may depend on signal conditioning, group proportions, the
+allowed degree-parameter range and $C_1$. It is independent of $n$ on
+the stated class. We do not assert a small numerical constant, a limit of
+the risk ratio, or uniformity when $\sigma_{\min}(C)\to0$. The latter
+weak-signal extension needs separate quantitative estimates.
+\end{remark}
+

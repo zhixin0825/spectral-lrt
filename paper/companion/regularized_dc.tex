@@ -1,0 +1,80 @@
+\section{The current regularized DC-SBM result}\label{sec:sparse-restored}
+\label{restore:algorithm}
+
+Fix sufficiently small $a_0,\alpha>0$ and sufficiently large $\beta>0$,
+depending only on the fixed structural parameter bounds. Choose them so
+that the population degrees lie strictly inside the propensity-clamping
+interval, and the population floor is inactive. Put
+\[
+ \mathbf d=A\one,\quad \bar D=n^{-1}\one^\top\mathbf d,\quad
+ \tau=a_0\bar D,\quad G_i=\max(D_i,\tau).
+\]
+The all-zero graph has a fixed output. Otherwise $G$ is positive, even
+when some vertices are isolated. Retain the $K$ eigenpairs with largest
+absolute eigenvalues of $S_G=G^{-1/2}AG^{-1/2}$ and the raw degrees.
+There is no requirement that a Perron degree vector be one of these
+eigenvectors after flooring. Compute
+\[
+ R_0=G^{1/2}U\Lambda U^\top G^{1/2}=AH_G,
+ \qquad H_G=G^{-1/2}UU^\top G^{1/2},
+\]
+and put, with $r=\diag(R_1)$ understood as a column vector,
+\begin{equation}\label{restore:reconstruction}
+ R_1=R_0+(\mathbf d-R_0\one)\one^\top/n,\qquad
+ R^h=R_1+\frac{r\one^\top}{n-1}-\frac n{n-1}\diag(r).
+\end{equation}
+Thus $R^h\one=\mathbf d$ and $\diag(R^h)=0$ exactly. Only $(\mathbf d,U,\Lambda)$ are used
+after encoding; $G$ is recovered from $\mathbf d$.
+
+Initialize by normalizing the rows of $U$ and using the deterministic
+radius-$1/8$, deletion-radius-$1/4$ count procedure in
+\cref{dcsbm:initializer}. A zero row is assigned any fixed unit direction
+for this initialization, without stopping other vertices.
+
+Define
+\[
+ T_i=\min\{\max(D_i,\alpha\bar D),\beta\bar D\},\qquad
+ \widehat\theta_i=T_i/\overline T_{\widehat z_i},\qquad
+ \overline T_a=\widehat n_a^{-1}\sum_{j:\widehat z_j=a}T_j.
+\]
+Fit the symmetric block matrix by the exact signed Bernoulli working
+criterion \eqref{dcsbm:block-criterion}, with $R^h$ and these degree
+estimates, under the same fixed candidate-probability cap. Classify each
+row by exact Bernoulli target profiling, with the degree parameter
+profiled separately for every candidate community.
+
+At least one fit-and-LRT update is performed. The procedure may use any
+finite number of these hard refits, including finite data-dependent
+stopping. The invariant basin below covers every such endpoint
+simultaneously. An undefined empty-group or parameter-fit operation may
+have a fixed fallback; those operations are well-defined on the proved
+aggregate event. No individual zero degree triggers a graph-wide fallback.
+
+\begin{theorem}[Regularized DC-SBM at every diverging expected-degree
+scale]\label{restore:dc-theorem}\label{thm:regularized}
+Under the fixed structural assumptions \eqref{eq:mean-model}--%
+\eqref{eq:structural}, suppose
+\[
+ d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+\]
+The regularized algorithm of \cref{restore:algorithm}, using the
+DC-SBM profile LRT, satisfies
+\[
+ \E\ell(\widehat z,z)\le C R_{\mathrm{prof},*}(n)
+\]
+for all sufficiently large $n$. The constant may depend on the fixed
+structural bounds, clamping constants and $C_1$, but not on $n$.
+Under the finite-$n$ equal-exposure condition
+\eqref{eq:equal-exposure}, the right side may be replaced by
+$C R_{\theta,*}(n)$. In particular, the classical balanced planted
+partition with fixed separated $q/p$ is included. There is no lower
+bound proportional to $\log n$ in this statement.
+\end{theorem}
+
+
+The reference $R_{\mathrm{prof},*}$ uses the full incident edge row.
+The second comparison is available only under the stated equal-exposure
+condition. The impossibility result in \cref{thm:imposs} shows why a
+known-target-degree oracle is not a valid unrestricted benchmark.
+Only retained degrees and one eigensystem enter the algorithm;
+deleted graphs below are proof devices.

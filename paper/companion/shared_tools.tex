@@ -1,0 +1,584 @@
+\section{Shared tools and their degree-corrected specialization}\label{sec:sparse-extension}
+The ordinary-SBM article supplies the full proofs of the sharp Bernoulli
+transfer, empirical-floor geometry, same-threshold spectral-row tail,
+and local floored scalar comparison. We recall the statements needed
+here and spell out the additional degree-corrected identities. These
+are shared mathematical tools, rather than an assumption of an
+ordinary-SBM data-generating law for the DC graph.
+
+\subsection{Sharp likelihood transfer}\label{sec:sharp}
+\begin{lemma}[Bounded tilted error preserves the sharp prefactor]
+\label{lem:sharp}
+Let $X_j$ be independent Bernoulli variables with probabilities $p_j$,
+and let
+\[
+ T=b_0+\sum_jw_jX_j,\qquad
+ K(s)=\log\E e^{-sT}.
+\]
+Suppose $\abs{w_j}\le W$, the minimizer $s_*$ satisfies
+$\tau\le s_*\le1-\tau$ for a fixed $\tau>0$, and under the probability
+measure $Q$ proportional to $e^{-s_*T}$,
+\begin{equation}\label{eq:sharp-premises}
+ \E_Q T=0,\quad vd\le\operatorname{Var}_Q(T)\le V_0d,
+ \quad\sum_jr_j\le V_0d,
+\end{equation}
+where $r_j=Q(X_j=1)$. Put $I=-K(s_*)$.
+For every fixed $L<\infty$ and all sufficiently large $d$, uniformly over
+$|x|\le L$,
+\begin{equation}\label{eq:sharp-oracle}
+ c_Ld^{-1/2}e^{-I}\le\PP(T<x)
+ \le\PP(T\le x)\le C_Ld^{-1/2}e^{-I}.
+\end{equation}
+
+Let $\mathcal W$ be independent of $(X_j)_j$ and let
+\[
+ \widehat T=T+b+\sum_je_jX_j
+\]
+have coefficients measurable with respect to $\mathcal W$. On a measurable
+training event suppose
+\begin{equation}\label{eq:tilt-error}
+ \max_j|e_j|\le M,\qquad
+ \left|b+\sum_jr_je_j\right|\le B,\qquad
+ \sum_jr_je_j^2\le V.
+\end{equation}
+For fixed $M,V$ and every real $x$,
+\begin{equation}\label{eq:sharp-transfer}
+ \PP(\widehat T\le x\mid\mathcal W)
+ \le C\exp\{s_*x+B+e^M V/2\}\,d^{-1/2}e^{-I}.
+\end{equation}
+The constant is uniform over the training event. In particular $B$ can
+be a nonnegative training-measurable random bound, provided its indicated
+exponential moment is integrated when removing the conditioning.
+\end{lemma}
+
+
+\noindent\emph{Proof reference.}
+Lemma~A.1 of the SBM article proves this by
+Berry--Esseen under the exact Bernoulli tilt, followed by a second tilt
+for the independent-training perturbation. That argument makes no
+block-model assumption. It therefore applies directly to all scores
+used below. See also Zhou and Li~\cite{zhouli} for sharp Chernoff
+comparisons in community detection.
+
+\subsection{Application to the actual Bernoulli SBM oracle}
+
+For a true label $a$ and a competitor $b$, the oracle contrast is
+\[
+ T_{i,ab}=\ell_{i,*}(a)-\ell_{i,*}(b)
+ =b_{i,ab}+\sum_{j\ne i}w^{ab}_{z_j}A_{ij},
+\]
+where
+\begin{equation}\label{eq:sbm-weights}
+ w_c^{ab}=\log\frac{P_{ac}(1-P_{bc})}{P_{bc}(1-P_{ac})},\qquad
+ b_{i,ab}=\sum_{j\ne i}\log\frac{1-P_{az_j}}{1-P_{bz_j}}.
+\end{equation}
+Its exact Chernoff information is
+\begin{equation}\label{eq:sbm-information}
+ I_{i,ab}= -\min_{0\le s\le1}
+ \sum_{j\ne i}\log\left[
+ P_{az_j}^{1-s}P_{bz_j}^{s}
+ +(1-P_{az_j})^{1-s}(1-P_{bz_j})^{s}\right].
+\end{equation}
+On the compact positive full-rank classes used here, probabilities are
+comparable to $p$ and bounded away from one, the weights are bounded,
+$s_*$ stays away from the endpoints, and the tilted variance is comparable
+to $d$. To verify the last assertions, the derivatives of the transform
+at its endpoints are respectively minus and plus the two directional
+Bernoulli KL divergences, both of order $d$. Its second derivative is
+bounded by $Cd$. The row separation implied by
+$\sigma_{\min}(P)\ge\kappa p$ gives a lower bound $cd$ on that derivative
+throughout $[0,1]$: tilted probabilities are comparable to $p$ and the
+sum of squared log-odds differences is at least $cn$.
+Thus \cref{lem:sharp} applies uniformly to every pair.
+
+The same conclusion holds for the profile contrasts defined below, with
+their own directional information $J_{i,a\to b}$.
+It is not necessary for those two directional exponents to coincide.
+
+\subsection{Fixed-\texorpdfstring{$K$}{K} comparison and label alignment}
+
+Let $q_i$ be the error probability of the specified oracle at vertex $i$.
+For any coherent family of its candidate scores, strict pairwise loss to a
+competitor implies an oracle error; an oracle error implies non-strict
+loss to some competitor. Hence
+\[
+ \max_{b\ne a}\PP(T_{i,ab}<0)
+ \le q_i\le\sum_{b\ne a}\PP(T_{i,ab}\le0).
+\]
+By \eqref{eq:sharp-oracle},
+\begin{equation}\label{eq:oracle-pairs}
+ q_i\asymp\frac1{\sqrt d}\sum_{b\ne z_i}e^{-I_{i,ab}}
+\end{equation}
+for the SBM oracle; replace $I$ by $J$ for the profile oracle. The constants
+may include a factor depending on fixed $K$.
+Fitted partitions are aligned with the true groups by a single common
+permutation on the good event. Uniform score comparisons under that
+alignment imply
+\[
+ \E[\ell(\widehat z,z)\ind{\mathcal G}]
+ \le\frac1n\sum_i\PP(\text{aligned fitted error at }i,\mathcal G).
+\]
+The ensuing pairwise bounds apply to fixed true coefficient vectors; a
+data-dependent matching does not become an independence assumption.
+Finally,
+\begin{equation}\label{eq:bad-payment}
+ \E\ell(\widehat z,z)
+ \le C R_*+\PP(\mathcal G^c).
+\end{equation}
+\Cref{sec:probability} proves, for the historical decoders, $\PP(\mathcal G^c)=O(R_*)$ under the stated
+model conditions. It is this comparison, rather than merely
+$\PP(\mathcal G^c)=o(1)$, that completes each theorem.
+
+\subsection{Empirical-floor geometry for bounded degree parameters}
+Throughout this section $D_0=\diag(\Omega\one)$,
+$G_i=\max(D_i,a_0\bar D)$, and $\norm v_G^2=v^\top Gv$.
+The floor multiplier is fixed and sufficiently small.
+\begin{proposition}[Sparse degree-floor geometry]\label{prop:sparse-floor}
+Under the fixed structural conditions \eqref{eq:mean-model}--%
+\eqref{eq:structural}, suppose $d=np\to\infty$ and $np^2\le C_1$.
+For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
+\begin{align}
+ \norm{G^{-1/2}(A-\Omega)G^{-1/2}}&\le C_r d^{-1/2},
+ &\sum_iG_i&\le C_rnd,\label{eq:floor-noise}\\
+ \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
+ +\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}
+ &\le C_rn.\label{eq:floor-degree-energy}
+\end{align}
+Let $U$ contain the $K$ eigenvectors of $S_G$ with largest absolute
+eigenvalues, let $\Pi=UU^\top$, and let
+$H=G^{-1/2}\Pi G^{1/2}$. For all sufficiently large $n$, on the same
+event the retained eigenvalues have a fixed separation from zero and
+\begin{equation}\label{eq:floor-block-residual}
+ \norm{(I-\Pi)G^{1/2}Z}_F\le C_r\sqrt n.
+\end{equation}
+For every block-constant $f$ with $\norm f_\infty\le C_f$,
+\begin{equation}\label{eq:floor-weighted-errors}
+ \norm{(I-H)f}_G\le C_r\sqrt n,\qquad
+ \norm{(I-H)f}_2^2\le C_rn/d,
+ \quad \norm v_G^2=v^\top Gv.
+\end{equation}
+No lower bound proportional to $\log n$ is imposed.
+\end{proposition}
+
+
+\begin{proof}[Degree-corrected specialization of the shared geometry proof]
+The regularized-adjacency bound of Le, Levina and Vershynin
+\cite[Theorem 2.1 and Remark 2.2]{llv2017} applies to general independent
+inhomogeneous Bernoulli edges. Since
+$n\max_{ij}\E A_{ij}\asymp d$ under \eqref{eq:structural}, the cap,
+empirical-floor comparison, total-edge concentration, and weighted
+degree-energy proof of Proposition~B.1 in the SBM article are unchanged. The deterministic
+diagonal completion costs $O(p)$.
+
+For completeness, the only change to its population-space argument is
+\[
+ V=G^{-1/2}\Theta Z
+    (Z^\top\Theta G^{-1}\Theta Z)^{-1/2}O.
+\]
+For every group the diagonal Gram entry satisfies
+\[
+ \frac{cn}{d}
+ \le \frac{(\sum_{i:z_i=a}\theta_i)^2}{\sum_{i:z_i=a}G_i}
+ \le\sum_{i:z_i=a}\frac{\theta_i^2}{G_i}
+ \le\frac{Cn}{d}.
+\]
+The lower bound uses comparable block sizes, mean-one normalization,
+and the total-degree bound; the upper bound uses the floor and bounded
+$\theta$. Thus the signal retains a fixed gap, and
+$\norm{U-V}_F\le C/\sqrt d$ after alignment. Moreover
+$D_0^{-1}\Theta Z$ is block constant, since
+$(D_0)_{ii}=d\theta_iS_{z_i}$. Consequently
+$G^{-1/2}D_0Z$ lies in the population signal space and
+\[
+ \norm{G^{1/2}Z-G^{-1/2}D_0Z}_F^2
+   =\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}\le Cn.
+\]
+The same projection calculation proves
+\eqref{eq:floor-block-residual}--\eqref{eq:floor-weighted-errors}.
+This also verifies the population row bound
+$\sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{d/n}$ used by the shared
+row-tail proof. Fixed-depth deletions change block masses by $O(1)$;
+recomputing degrees and the floor gives the same bounds. Increasing the
+fixed probability parameter covers all such minors when needed.
+\end{proof}
+
+\subsection{Spectral-row tails and local deleted-graph comparison}
+Let $\mathcal E_r$ denote the aggregate event just described, including
+recomputed versions after at most three deletions. Each deleted graph
+also has its own training-measurable event. The same-threshold row-tail
+proof of Lemma~C.1 in the SBM article uses bounded edge probabilities $O(d/n)$,
+the floor, the fixed spectral gap, and the population row bound verified
+above. It does not use equality of degree parameters. Hence it gives
+\begin{lemma}[Truncated energy for the degree-floor eigenvectors]
+\label{restore:tail-energy-lemma}
+There are fixed constants $R_0,C,c>0$ such that, for every fixed
+$R\ge R_0$ and all sufficiently large $n$,
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+       \sum_{j=1}^n\norm{U_{j\cdot}}_2^2
+                  \ind{\sqrt n\norm{U_{j\cdot}}_2>R}\right]
+ \le CR^2e^{-cd\log R}.
+ \label{restore:tail-energy}
+\end{equation}
+The constants $R_0,C,c$ depend on the fixed structural bounds,
+$a_0$, and $r$, but not on $R$ or $n$.  The sufficiently-large-$n$
+condition may depend on the chosen fixed $R$.  The same result holds
+for each recomputed deleted graph with its training-measurable
+geometry event.
+\end{lemma}
+
+
+The proof keeps the empirical-threshold perturbation of order $1/n$,
+uses unrotated training coefficients in its conditional Bennett bound,
+and absorbs the recurrence at the same truncation threshold. It therefore
+also applies on the stronger aggregate event below. For an all-zero
+training graph its proof-only convention is a deterministic orthonormal
+fallback and identity weights; no conditioning on a full-graph event
+is introduced.
+
+\begin{corollary}[Exceptional coefficients are hit with exponentially small mass]
+\label{restore:tail-hit-corollary}
+On a training graph with the preceding floor, put
+$H=G^{-1/2}UU^\top G^{1/2}$.
+Let $f$ be any training-measurable vector satisfying
+$\norm f_\infty\le F_0$, and let $e=(H-I)f$.
+For every prescribed fixed $H_0>0$, there is a fixed $M<\infty$
+such that, for any independent tested Bernoulli row with probabilities
+$p_j\le Cd/n$,
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+                 \sum_{j:|e_j|>M}p_j\right]
+ \le C_{H_0}e^{-H_0d}.
+ \label{restore:tail-hit-mass}
+\end{equation}
+Here $\mathcal E_r$ is the training-measurable geometry event.
+No exchangeability among degree parameters is required.
+\end{corollary}
+
+\begin{proof}
+On that event, $G_j\ge a_-d$ and $\sum_jG_j\le C_Gnd$.
+Consequently
+\[
+ |e_j|
+ \le F_0+\frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
+                  \norm{U^\top G^{1/2}f}_2
+ \le F_0+F_0\sqrt{C_G/a_-}\sqrt n\norm{U_{j\cdot}}_2.
+\]
+For $M_R=F_0+F_0\sqrt{C_G/a_-}R$, the event
+$|e_j|>M_R$ implies $\sqrt n\norm{U_{j\cdot}}_2>R$.
+Write $H_R(U)=\sum_j\norm{U_{j\cdot}}_2^2
+\ind{\sqrt n\norm{U_{j\cdot}}_2>R}$.
+Then \cref{restore:tail-energy-lemma} gives
+\begin{equation}
+ \E\!\left[\ind{\mathcal E_r}
+                    \sum_j\ind{|e_j|>M_R}\right]
+ \le\frac n{R^2}\E[H_R(U)\ind{\mathcal E_r}]
+ \le Cne^{-cd\log R}.
+ \label{restore:tail-coefficient-count}
+\end{equation}
+Multiplication by $Cd/n$ bounds the expected hit mass by
+$Cd e^{-cd\log R}$.
+Choose a fixed $R$ with $c\log R>H_0+1$ and absorb the factor $d$.
+Independence is required only to interpret the conditional probability
+that the tested row hits the training exceptional set; no independence
+between the training geometry event and its eigenvectors is asserted.
+\end{proof}
+
+\begin{corollary}[Average exceptional target-row mass]
+\label{restore:tail-target-corollary}
+For every fixed degree cutoff $L$ and every fixed $H_0>0$, there is
+a fixed $L_0$ such that
+\begin{equation}
+ \frac1n\sum_i\PP\!\left\{
+    \sqrt{G_i}\norm{U_{i\cdot}}_2>L_0\sqrt{d/n},\quad
+    D_i\le Ld,\quad \mathcal E_r\right\}
+ \le C_{H_0,L}e^{-H_0d}.
+ \label{restore:tail-target-mass}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+On the displayed event, $G_i\le C_Ld$.
+Choose $L_0=R\sqrt{C_L}$.
+The target-row exception then implies
+$\sqrt n\norm{U_{i\cdot}}_2>R$.
+Apply \eqref{restore:tail-energy} and divide its corresponding
+expected count by $n$.  Choosing fixed $R$ sufficiently large gives
+\eqref{restore:tail-target-mass}.
+\end{proof}
+
+\subsection{The local scalar comparison}\label{restore:loo}
+\begin{lemma}[A local floored scalar comparison]\label{restore:loo-scalar}
+Write $A=\left(\begin{smallmatrix}0&x^\top\\x&B\end{smallmatrix}\right)$,
+$k=\sum_jx_j\le Ld$, and let $\Delta$ be the diagonal degree floor
+recomputed from $B$. Suppose
+\[
+ cd\le\Delta_j,\qquad \sum_j\Delta_j\le Cnd,
+ \qquad S_B=\Delta^{-1/2}B\Delta^{-1/2}
+   =U_B\Lambda_BU_B^\top+N,
+\]
+where $NU_B=0$, $\norm N_{\op}\le C/\sqrt d$, and the $K$ retained
+eigenvalues have a fixed gap from zero. Let the full floor be
+$G=\diag(g,\Delta+E)$, with
+\[
+ cd\le g\le Cd,\qquad E=E_\mathrm{loc}+E_\mathrm{glob},\qquad
+ 0\le E_\mathrm{loc}\le\diag(x),\quad
+ \norm{E_\mathrm{glob}}_{\op}\le Cd/n.
+\]
+Here $d\to\infty$ and $d\le Cn$. Suppose only on hit coordinates that
+\begin{equation}\label{restore:loo-hit}
+ \norm{\Delta_j^{-1/2}(U_B)_{j\cdot}}_2
+       \le R/\sqrt{nd}\quad\text{whenever }x_j=1.
+\end{equation}
+Let $U,\Lambda$ be the full informative eigensystem of
+$G^{-1/2}AG^{-1/2}$, and put
+\[
+ H_G=G^{-1/2}UU^\top G^{1/2},\qquad
+ H_B=\Delta^{-1/2}U_BU_B^\top\Delta^{1/2}.
+\]
+For every $\norm w_\infty\le W$, uniformly over the stated inputs,
+\begin{equation}\label{restore:loo-main}
+ (AH_Gw)_i=x^\top H_Bw_{-i}+O_{L,R,W}(1).
+\end{equation}
+No bound is assumed on unhit rows of $U_B$ or on $\max_j\Delta_j$.
+\end{lemma}
+
+
+\noindent\emph{Proof reference.}
+Lemma~D.1 of the SBM article is deterministic
+under precisely these premises. Its generalized eigenvector equations
+contain the floored top degree $g$, not the raw incident degree $k$.
+Consequently its proof applies unchanged here.
+
+\begin{corollary}[Exact-degree and hollow comparison]\label{restore:loo-corrected}
+Under the same local premises, the reconstruction
+\eqref{restore:reconstruction} satisfies, for
+$\bar w_{-i}=(n-1)^{-1}\sum_{j\ne i}w_j$,
+\begin{equation}\label{restore:loo-corrected-action}
+ (R^h w)_i=x^\top\{H_B(w_{-i}-\bar w_{-i}\one)
+                        +\bar w_{-i}\one\}+O_{L,R,W}(1).
+\end{equation}
+\end{corollary}
+The same deterministic proof, including its local diagonal bound,
+is given in Corollary~D.2 of the SBM article. Uniformity in $w$ is algebraic; fitted
+coefficients are first replaced by true block contrasts in
+\cref{restore:fit-score} before conditioning on the deleted graph.
+
+\subsection{Aggregate probabilities over all degree scales}
+\begin{lemma}[Exponentially accurate aggregate geometry above a logarithmic scale]
+\label{restore:high-aggregate}
+Fix any $A_0>0$ and $H>0$. Under the fixed positive compact structural
+conditions, if $d\ge A_0\log n$ and $np^2\le C_1$, there is an aggregate
+event $\mathcal E_H$ with
+\[
+ \PP(\mathcal E_H^c)\le C_H e^{-Hd}
+\]
+on which the empirical-floor geometry, weighted degree-energy bounds,
+two-sided total-degree bounds, and true block-total bounds used in
+\cref{restore:fit-geometry-one,restore:fit-geometry-two,restore:fit-block-event}
+hold for the full graph and every graph obtained by deleting at most three
+vertices. The constants may depend on $A_0,H,C_1$ and the structural
+bounds. No condition is imposed on the smallest raw degree or the
+largest spectral row.
+\end{lemma}
+
+
+\noindent\emph{Proof reference.}
+Lemma~F.1 of the SBM article uses only the
+centered bounded-entry norm inequality of Bandeira--van Handel
+\cite[Corollary 3.12 and Remark 3.13]{bvh}, total-edge concentration,
+and fixed-$K$ block-total Bernstein bounds. All apply to bounded-parameter
+DC-SBM. The required exponent for a block-total threshold $Ln$ is
+$cL^2n/(d+L)$; $d^2/n\le C_1$ makes it at least a prescribed fixed
+multiple of $d$ after increasing $L$. Principal-submatrix norms and
+deterministic $O(n)$ changes in block totals cover the fixed-depth
+minors without a union over their raw minimum degrees. The deterministic
+DC specialization above then supplies all floor consequences.
+
+\subsection{The degree-corrected tilted cancellation}
+
+Work on a deleted graph so that all coordinates below index actual
+neighbors of a separate tested vertex. For the bounded block-constant
+linear candidate contrast used in the DC profile reduction,
+the exact tilted Bernoulli probabilities have the decomposition
+\begin{equation}\label{eq:floor-tilt-decomposition}
+ r=D_0h+\epsilon,\qquad
+ h\text{ block constant},\quad
+ \norm h_\infty\le C/n,\quad \norm\epsilon_\infty\le Cp^2.
+\end{equation}
+For example the leading term of the exact tilt is
+$\theta_i\theta_jpC_{a,z_j}e^{-s w_{z_j}}$, while
+$(D_0)_{jj}=\theta_jp\sum_k\theta_k C_{z_j,z_k}$.
+Dividing the former by the latter gives the required block-constant
+$h_j$. The denominator in the exact Bernoulli tilt contributes
+$O(p^2)$ uniformly. This uses the original Bernoulli law throughout.
+The target coordinate is absent; artificially appending $r_i=0$ would
+instead create an $O(p)$ error at that one coordinate.
+
+For bounded block-constant $f$, put $e=(H-I)f$. The
+$G$-orthogonality of $H$ gives the exact cancellation
+\begin{align}
+ r^\top e
+ ={}&-\langle(I-H)h,(I-H)f\rangle_G
+       +((D_0-G)h)^\top e+\epsilon^\top e.
+       \label{eq:floor-tilted-cancellation}
+\end{align}
+The first term is $O(1)$ by \eqref{eq:floor-block-residual}, since
+the block coefficients of $h$ are $O(1/n)$. For the second,
+Cauchy--Schwarz and \eqref{eq:floor-degree-energy} give
+\[
+ |((D_0-G)h)^\top e|
+ \le \norm h_\infty
+ \left(\sum_j\frac{((D_0)_{jj}-G_j)^2}{G_j}\right)^{1/2}
+ \norm e_G
+ \le C.
+\]
+The last term is at most
+$Cp^2\sqrt n\,\sqrt{n/d}\le Cnp^2$. Also $r_j\le Cp$, so
+\begin{equation}\label{eq:floor-tilt-moments}
+ |r^\top e|\le C(1+np^2),\qquad
+ \sum_jr_je_j^2\le Cp\norm e_2^2\le C.
+\end{equation}
+Thus the first-order bias cancellation and bounded quadratic error do
+not require logarithmic degree. The replacement for a uniform
+coefficient bound is supplied by
+\cref{restore:tail-energy-lemma,restore:tail-hit-corollary}.
+
+\subsection{Two sharp transfers that do not assume every coefficient is bounded}
+
+The next two lemmas give concrete alternatives to a global
+row-incoherence event. They concern a row-independent, training-measurable
+score, just as in \cref{lem:sharp}.
+
+\begin{lemma}[Exponential-moment coefficient control]\label{lem:sparse-exp-transfer}
+Assume the oracle hypotheses of \cref{lem:sharp}. Let
+$\widehat T=T+b+\sum_je_jX_j$, with $(b,e)$ measurable from independent
+training data. On a measurable training event suppose
+\[
+ \left|b+\sum_jr_je_j\right|\le B,\qquad
+ \sum_jr_je_j^2e^{|e_j|}\le V,
+\]
+where $B,V$ are fixed. Then, for all real $x$ and all sufficiently
+large $d$,
+\[
+ \PP(\widehat T\le x\mid\text{training})
+ \le C e^{s_*x+B+V/2}d^{-1/2}e^{-I}.
+\]
+The constant is independent of the largest coefficient.
+\end{lemma}
+
+\begin{proof}
+Taylor's inequality gives, under the original oracle tilt $Q$,
+\[
+ \log\E e^{-s_*\widehat T}
+ \le-I-s_*\left(b+\sum_jr_je_j\right)
+       +\frac12\sum_jr_je_j^2e^{|e_j|}
+ \le-I+B+V/2.
+\]
+Tilt again by $e^{-s_*\widehat T}$. The new probabilities satisfy
+\[
+ \widehat r_j
+ =\frac{r_je^{-s_*e_j}}{1-r_j+r_je^{-s_*e_j}}
+ \le r_je^{s_*|e_j|}.
+\]
+For $|e_j|\le1$, this bounds the new centered third absolute moments
+by $C_W\sum_jr_j=O(d)$. For $|e_j|>1$, use $s_*\le1-\tau$ and
+\[
+ e^{s_*|u|}(W+|u|)^3
+ \le C_{W,\tau}u^2e^{|u|}\qquad (|u|>1).
+\]
+The remaining third moments are therefore $O(V)$. The upper variance
+bound follows from the same estimates. There is no restriction that
+every $e_j$ be bounded.
+
+For the lower variance, restrict to $|e_j|\le1$. The original variance
+discarded by this restriction is at most $W^2V$, and the weighted
+$\ell_2$ norm of the remaining perturbation is at most $\sqrt V$.
+Thus the square root of the original-weight variance of the remaining
+$(w_j+e_j)$ is at least $\sqrt{vd-W^2V}-\sqrt V$.
+On this restricted set, the new and old Bernoulli variances differ by
+only fixed factors. The new total variance is therefore at least $cd$
+for large $d$. Berry--Esseen gives a $C/\sqrt d$ bound for every unit
+interval under the new tilt. Summing those intervals, using the first
+displayed exponential-moment bound, proves the assertion as in
+\cref{lem:sharp}.
+\end{proof}
+
+\begin{lemma}[Paying exceptional coefficients only when the row hits them]
+\label{lem:sparse-truncated-transfer}
+Assume the oracle hypotheses of \cref{lem:sharp}, and write $p_j$
+for the un-tilted row probabilities. Suppose $p_j\le C_pr_j$, as
+holds here for bounded oracle likelihood coefficients. On an independent
+training event $\mathcal E$, suppose
+\[
+ \left|b+\sum_jr_je_j\right|\le B,\qquad \sum_jr_je_j^2\le V.
+\]
+Here $B,V$ are fixed constants. For any fixed $M>0$ define
+\[
+ h_M=\sum_{j:|e_j|>M}p_j,\qquad
+ \eta_M=\sum_jr_je_j^2\ind{|e_j|>M}.
+\]
+Then, for every fixed bounded $x$,
+\begin{equation}\label{eq:sparse-truncated-transfer}
+ \PP(\widehat T\le x)
+ \le C_Md^{-1/2}e^{-I}
+       +\E[\ind{\mathcal E}h_M]
+       +\PP(\mathcal E^c).
+\end{equation}
+Since $h_M\le C_p\eta_M/M^2$, an expected truncated quadratic error of order
+$d^{-1/2}e^{-I}$ suffices. A bound $Ce^{-Hd}$ is a convenient
+sufficient condition whenever $I\le C_Id$ and $H>C_I$.
+The expected hit-mass condition on $h_M$ is weaker and is itself enough.
+\end{lemma}
+
+\begin{proof}
+For analysis only, replace $e_j$ by
+$e'_j=e_j\ind{|e_j|\le M}$. The truncated coefficients satisfy
+\[
+ \left|b+\sum_jr_je'_j\right|
+ \le B+\eta_M/M\le B+V/M,\qquad
+ \sum_jr_j(e'_j)^2\le V.
+\]
+Hence \cref{lem:sharp} bounds their score error by
+$C_Md^{-1/2}e^{-I}$ on $\mathcal E$.
+The original and truncated random scores are identical whenever
+$X_j=0$ for every $j$ with $|e_j|>M$. Conditional on training, the
+probability that this fails is at most
+\[
+ \sum_{j:|e_j|>M}p_j
+ =h_M\le \frac{C_p}{M^2}\eta_M.
+\]
+Integrate this bound on $\mathcal E$ and pay at most
+$\PP(\mathcal E^c)$ outside it. No coefficient truncation is an
+additional input or computation required of the implemented decoder.
+\end{proof}
+
+For the degree-floor projection there is a concrete reduction to a
+weighted row count. Define
+\[
+ \zeta_j=\sqrt{\frac{nd}{G_j}}\norm{U_{j\cdot}}_2.
+\]
+If $e=(H-I)f$, $\norm f_\infty\le C_f$ and
+$\sum_jG_j\le C_Gnd$, then deterministically
+\[
+ |e_j|
+ \le \frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
+        \norm{U^\top G^{1/2}f}_2+C_f
+ \le C_f\sqrt{C_G}\,\zeta_j+C_f.
+\]
+Choosing $M=C_f\sqrt{C_G}L+C_f$ thus gives
+$\{|e_j|>M\}\subseteq\{\zeta_j>L\}$. Since $p_j\le Cd/n$,
+the sufficient expected-count estimate
+\begin{equation}\label{eq:sparse-row-count-target}
+ \E\!\left[\ind{\mathcal E}
+       \sum_j\ind{\zeta_j>L}\right]\le Cne^{-Hd},
+ \qquad H>C_I,
+\end{equation}
+would imply
+$\E[\ind{\mathcal E}h_M]\le Cd e^{-Hd}
+=o(d^{-1/2}e^{-I})$ whenever $I\le C_Id$.
+Equation \eqref{eq:sparse-row-count-target} is not a consequence of
+aggregate geometry alone. It is proved by the same-threshold
+truncated-energy argument in \cref{restore:tail-energy-lemma}
+and the floor lower bound.
+

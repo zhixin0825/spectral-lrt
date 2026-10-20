@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{afwz}
+Emmanuel Abbe, Jianqing Fan, Kaizheng Wang, and Yiqiao Zhong.
+\newblock Entrywise eigenvector analysis of random matrices with low expected
+  rank, 2017.
+\newblock arXiv:1709.09565; Lemma 7, equation (C.2), version accessed 20
+  October 2026.
+
+\bibitem{bvh}
+Afonso~S. Bandeira and Ramon van Handel.
+\newblock Sharp nonasymptotic bounds on the norm of random matrices with
+  independent entries.
+\newblock {\em The Annals of Probability}, 44(4):2479--2506, 2016.
+\newblock Corollary 3.12 and Remark 3.13; arXiv:1408.6185v4.
+
+\bibitem{gmzz2018}
+Chao Gao, Zongming Ma, Anderson~Y. Zhang, and Harrison~H. Zhou.
+\newblock Community detection in degree-corrected block models.
+\newblock {\em The Annals of Statistics}, 46(5):2153--2185, 2018.
+\newblock Local testing formulation checked in the author manuscript
+  arXiv:1607.06993.
+
+\bibitem{llv2017}
+Can~M. Le, Elizaveta Levina, and Roman Vershynin.
+\newblock Concentration and regularization of random graphs.
+\newblock {\em Random Structures \& Algorithms}, 51(3):538--561, 2017.
+\newblock Theorem 2.1 and Remark 2.2; arXiv:1506.00669.
+
+\bibitem{zhouli}
+Zhixin Zhou and Ping Li.
+\newblock Rate optimal {Chernoff} bound and application to community detection
+  in the stochastic block models.
+\newblock {\em Electronic Journal of Statistics}, 14(1):1302--1347, 2020.
+
+\end{thebibliography}

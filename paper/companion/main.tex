@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,longtable,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,filecolor=blue!45!black]{hyperref}
+\usepackage{cleveref}
+\hypersetup{
+  pdftitle={Companion notes: degree correction and additional likelihood results},
+  pdfauthor={spectral-lrt research project},
+  pdfsubject={DC-SBM, historical decoders, and supplementary working material},
+  pdfkeywords={spectral clustering, likelihood ratio, oracle risk, SBM, DC-SBM},
+  bookmarksdepth=2
+}
+\setlist{itemsep=3pt,topsep=5pt,leftmargin=2em}
+\setlength{\emergencystretch}{2em}
+\allowdisplaybreaks[2]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Ber}{\operatorname{Bern}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\ind}[1]{\mathbf1\{#1\}}
+\title{Companion notes: degree correction\\and additional likelihood results\\
+\large A working collection accompanying the SBM article}
+\author{spectral-lrt research project}
+\date{20 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+These notes collect material separated from the ordinary-SBM article.
+The first part gives the bounded-parameter degree-corrected model,
+the distinction between profile and known-target-degree oracles,
+and the regularized fitted Bernoulli profile classifier. Its current
+risk bound requires only $np\to\infty$ and $np^2\le C_1$, with no
+logarithmic lower bound. The DC-specific nuisance estimation,
+profile reduction, and tilted cancellation are retained here.
+Shared degree-floor, spectral-row-tail, and local deleted-graph tools
+are recalled from the SBM article without repeating their full proofs.
+The later parts preserve the separate earlier unregularized decoders,
+the wider-probability ordinary free-profile result, an obstruction for
+the unrestricted known-target-degree oracle, and auxiliary arguments.
+This is a working companion, not a second article with a unified scope.
+Historical hypotheses are attached to their original decoders and do
+not restrict the current regularized theorem.
+\end{abstract}
+\paragraph{Reading map.}
+The first article is
+\href{../sbm/sbm_spectral_likelihood.pdf}{\emph{Spectral likelihood classification in stochastic block models}}.
+It is independent of this companion. The source package contains the
+following overflow from the combined revision.
+\begin{center}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{.46\textwidth}>{\raggedright\arraybackslash}p{.45\textwidth}}
+\toprule
+Original component & Present location\\
+\midrule
+Ordinary regularized theorem and shared full proofs
+& The first article; shared statements recalled in Section~3 here.\\[3pt]
+DC model, current regularized algorithm and DC fitting
+& Sections~1--5; bounded degree parameters and no logarithmic lower bound.\\[3pt]
+Earlier normalized geometry, ordinary free-profile decoder and probability closure
+& Sections~6--8 and~10; their separate historical algorithms and full proofs.\\[3pt]
+Earlier DC decoder and classical oracle bridge
+& Section~9, with its probability closure in Section~10.\\[3pt]
+Known-target obstruction and zero-degree fallback
+& Section~11 and Section~12.1.\\[3pt]
+Optional exponential-moment transfer and retained-spectrum identity
+& Sections~3.9 and~12.2.\\[3pt]
+Implementation scope, sparse history and audit records
+& Sections~12.3--12.4; source directories \texttt{audits/} and \texttt{archive/}.\\
+\bottomrule
+\end{tabular}
+\end{center}
+\clearpage
+\setcounter{tocdepth}{1}
+\tableofcontents
+\clearpage
+\input{models}
+\input{regularized_dc}
+\input{shared_tools}
+\input{dc_fitting}
+\input{dc_risk}
+\clearpage
+\part{Earlier decoders and additional results}
+\input{historical_statements}
+\input{normalized_geometry}
+\input{sbm_proof}
+\input{dcsbm_proof}
+\input{probability_closure}
+\input{impossibility}
+\input{additional_notes}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
