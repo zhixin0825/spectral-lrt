@@ -8,23 +8,22 @@ eigensystem retain enough information to match the error of the
 incident-row likelihood classifier up to a constant factor.
 
 We construct an explicit classifier with this property for stochastic
-block models with arbitrary fixed \(K\). Its spectral input is a
-regularized adjacency matrix \(\widetilde A=WAW\): the diagonal weight is one
-unless the observed degree exceeds a sufficiently large fixed
-multiple of the average degree. Above that threshold a square-root
-cap controls the row energy. The decoder retains the raw degrees,
-reconstructs a signed matrix with exactly those row sums, and alternates
+block models with arbitrary fixed \(K\). Its basic quantities are the
+raw degrees, adjacency eigenpairs \((U,\Lambda)\), and a rank-\(K\)
+spectral reconstruction \(F\). When no high-degree truncation is active,
+\(F=A_K=U\Lambda U^\top\). A rowwise degree correction produces
+\(\widehat A\), with zero diagonal and the original row sums. The
+classifier then alternates
 symmetric Bernoulli block fitting with ordinary likelihood classification.
 The only initialization is a deterministic radius-count procedure on
 normalized spectral rows. At least one likelihood update is required;
 any finite number of the specified updates is allowed.
 
-When no degree exceeds the threshold, \(W=I\), so the encoding is
-exactly the leading adjacency eigenpairs together with the raw degrees.
-For the full sparse range the theorem uses the stated cap. The weighted
-population signal \(W\Omega W\) has informative space \(\col(WZ)\), with one direction
-per true community after row normalization. This explicit adjacency
-construction is the version analyzed throughout the article.
+For the full sparse range, a square-root cap reweights only vertices
+whose degrees exceed a large fixed multiple of the average degree.
+Section~\ref{restore:algorithm} specifies this preprocessing and the
+reconstruction on the original adjacency scale. All spectral steps
+below use this adjacency matrix.
 
 The main result holds for every diverging degree scale \(d=np\), subject
 to the upper sparsity condition \(np^2\le C_1\). In particular, it covers
@@ -98,18 +97,15 @@ only on the structural class. All choices and
 ties below are deterministic. A fixed fallback partition defines the
 algorithm whenever a required operation is undefined.
 
-\paragraph{Encoding.}
+\paragraph{Adjacency spectrum.}
 Write
 \[
  \mathbf d=A\one,\qquad D_i=\mathbf d_i,\qquad
  \bar D=\frac1n\sum_iD_i.
 \]
-\[
- \tau=b_0\bar D,\qquad G=\diag\{\max(D_i,\tau)\},\qquad
- W=\tau^{1/2}G^{-1/2},\qquad \widetilde A=WAW.
-\]
-The all-zero graph has the fixed output. Otherwise \(G\) is positive,
-and the diagonal weights are
+The all-zero graph has the fixed output. Otherwise put
+\(\tau=b_0\bar D\). The only spectral preprocessing uses the diagonal
+matrix \(W=\diag(W_i)\), where
 \[
  W_i=\begin{cases}
   1,&D_i\le\tau,\\
@@ -117,35 +113,30 @@ and the diagonal weights are
  \end{cases}
 \]
 Thus edges between vertices below the threshold keep their original
-weights. Retain the raw degrees and the \(K\) eigenpairs of \(\widetilde A\)
-with largest
-absolute eigenvalues:
+weights. Let \(\widetilde A=WAW\), and retain the raw degrees and
+the \(K\) eigenpairs with largest absolute eigenvalues:
 \[
- U^\top U=I_K,\qquad \widetilde A U=U\Xi.
+ U^\top U=I_K,\qquad \widetilde A U=U\Lambda.
 \]
-Only \((\mathbf d,U,\Xi)\) are used after this step; \(\tau,G,W\)
+Only \((\mathbf d,U,\Lambda)\) are used after this step; \(\tau,W\)
 are recovered from \(\mathbf d\). All informative eigenvalues are
 retained by magnitude, allowing either sign.
 
-\paragraph{Exact-degree reconstruction.}
-Put
+\paragraph{Spectral reconstruction and degree correction.}
+Write the rank-\(K\) reconstruction on the original adjacency scale as
 \[
- H=WUU^\top W^{-1},\qquad
- R_0=W^{-1}U\Xi U^\top W^{-1}=AH.
+ F=W^{-1}U\Lambda U^\top W^{-1}.
 \]
-If the cap is inactive, these reduce to \(H=UU^\top\) and
-\(R_0=A_K\), the rank-\(K\) adjacency spectral reconstruction.
-Let \(v=\mathbf d-R_0\one\), let \(R_1=R_0+v\one^\top/n\),
-and let \(r\) be the vector of diagonal entries of \(R_1\). Define
+When the cap is inactive, \(W=I\) and
+\(F=A_K=U\Lambda U^\top\). Set the diagonal to zero and distribute
+each row's degree discrepancy equally over its off-diagonal entries:
 \begin{equation}\label{restore:reconstruction}
- R^h=R_1+\frac{r\one^\top}{n-1}
-              -\frac{n}{n-1}\diag(r).
+ \widehat A_{ii}=0,\qquad
+ \widehat A_{ij}=F_{ij}
+      +\frac{D_i-\sum_{k\ne i}F_{ik}}{n-1},\quad j\ne i.
 \end{equation}
-Then
-\[
- R^h\one=\mathbf d,\qquad \diag(R^h)=0.
-\]
-The matrix \(R^h\) can be signed and need not be symmetric. Its entries
+Thus \(\widehat A\one=\mathbf d\) exactly.
+The matrix \(\widehat A\) can be signed and need not be symmetric. Its entries
 are not clipped. The formula is computed entirely from the retained
 quantities. In particular, an isolated vertex has a zero reconstructed
 row and does not stop classification of other vertices.
@@ -164,7 +155,7 @@ Given current labels \(\widehat z\), for \(a\le b\) let
 \(\mathcal I_{ab}(\widehat z)\) contain all ordered pairs \(i\ne j\)
 whose unordered label pair is \(\{a,b\}\). Let
 \[
- E_{ab}=\sum_{(i,j)\in\mathcal I_{ab}(\widehat z)}R^h_{ij},
+ E_{ab}=\sum_{(i,j)\in\mathcal I_{ab}(\widehat z)}\widehat A_{ij},
  \qquad N_{ab}=|\mathcal I_{ab}(\widehat z)|,
  \qquad \varepsilon=c_0\bar D/n.
 \]
@@ -178,8 +169,8 @@ symmetric block probability. The fit is interior on the event used in
 the proof. Update all labels simultaneously by maximizing
 \begin{equation}\label{eq:fitted-row-score}
  \widehat L_i(a)=\sum_{j\ne i}
- \{R^h_{ij}\log\widehat P_{a\widehat z_j}
-   +(1-R^h_{ij})\log(1-\widehat P_{a\widehat z_j})\}.
+ \{\widehat A_{ij}\log\widehat P_{a\widehat z_j}
+   +(1-\widehat A_{ij})\log(1-\widehat P_{a\widehat z_j})\}.
 \end{equation}
 In particular, the full nonedge term is retained. There is no target
 degree parameter to profile in this ordinary SBM algorithm.
@@ -232,38 +223,19 @@ the theorem also implies exact recovery whenever
 
 \subsection{Proof structure}
 
-The proof has four ingredients. First, regularized adjacency geometry
-gives an informative spectral gap of order \(d\),
-\(O(d^{-1/2})\) subspace error and \(O(n)\) weighted cap energy
-\(\sum_i(G_i-\tau)^2/G_i\). The threshold lies above all population
-degrees on the aggregate event, so this energy is bounded by the
-weighted degree fluctuation. These aggregate bounds suffice for
-the deterministic initialization and an invariant \(O(n/d)\)
-misclassification basin.
+Aggregate adjacency estimates give the spectral initializer and an
+invariant \(O(n/d)\) error basin. Uniform block fitting and a local
+leave-one-out comparison reduce fitted contrasts, up to an \(O(1)\)
+remainder, to independent incident-row scores. Relative to the true
+Bernoulli contrast, their coefficient errors have bounded tilted mean
+and quadratic mass.
 
-Second, a same-threshold truncated-energy recursion controls large
-spectral rows in expectation. By taking a fixed row threshold large
-enough, the average probability of an exceptional tested row, or of
-an incident edge hitting an exceptional training row, is at most
-\(C_He^{-Hd}\) for any prescribed fixed \(H\). This estimate replaces
-a simultaneous row bound.
-
-Third, on the local regular event, the exact block fit has error
-\(O(1/n)\), and every fitted row contrast differs by \(O(1)\) from its
-true block contrast. A scalar leave-one-out identity replaces the
-full-graph spectral action by a function of independent training
-data and the tested incident row, again with \(O(1)\) error. Under
-the oracle Chernoff tilt, the resulting coefficient error has bounded
-mean and quadratic mass.
-
-Finally, a sharp Bernoulli transfer preserves
-\(d^{-1/2}e^{-I_{i,ab}}\). Exceptional coefficients are paid for only
-when the incident row hits them. Polynomially accurate regularized
-geometry suffices below an internal logarithmic proof threshold;
-an exponentially accurate norm event supplies the complementary
-range. These estimates together cover every \(d\to\infty\).
-The appendices give the complete argument and the proof of
-\cref{restore:sbm-theorem}.
+A truncated spectral-row energy bound controls exceptional rows in
+average risk. Paying only for exceptional coefficients actually hit
+by the tested row, the sharp transfer preserves
+\(d^{-1/2}e^{-I_{i,ab}}\). The appendices prove these estimates and
+complete the probability comparison for every \(d\to\infty\),
+without requiring a graph-wide bound on the largest spectral row.
 
 \paragraph{Organization of related material.}
 The companion notes contain the degree-normalized formulation, degree

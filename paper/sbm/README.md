@@ -18,6 +18,8 @@ The finite algorithm retains raw degrees and one eigensystem of the high-degree-
 
 The decoder performs exact degree correction and hollowing, initializes by deterministic radius counts, and uses symmetric Bernoulli block fits followed by ordinary, unprofiled likelihood updates. The full nonedge intercept is retained. Any finite positive number of the specified hard refits, including finite adaptive stopping, is covered.
 
+The main text uses the familiar eigenpair notation U, Lambda and F for the rank-K reconstruction on the original adjacency scale. Without an active cap, F = A_K = U Lambda U^T. A single off-diagonal row formula defines the final degree-preserving reconstruction A_hat. The proof auxiliaries G, H, Q and R1 appear only in the appendices. This notation cleanup leaves the algorithm and theorem unchanged.
+
 ## Contents
 
 | File | Content |

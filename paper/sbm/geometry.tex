@@ -29,7 +29,9 @@ In particular,
 $\norm{G^{-1/2}(A-\Omega)G^{-1/2}}_{\op}\le C_r/\sqrt d$.
 Let $U$ contain the $K$ eigenvectors of $\widetilde A$ with largest absolute
 eigenvalues, and put $\Pi=UU^\top$ and $H=G^{-1/2}\Pi G^{1/2}$.
-Its retained eigenvalues have magnitude at least $c_rd$;
+The eigenvalue equation gives $F=AH$ for the reconstruction
+$F=W^{-1}U\Lambda U^\top W^{-1}$ in \cref{restore:algorithm}.
+The retained eigenvalues of $\widetilde A$ have magnitude at least $c_rd$;
 the remaining eigenvalues have magnitude at most $C_r\sqrt d$.
 There is an orthogonal matrix $O$ such that the orthonormal population
 basis
@@ -96,12 +98,13 @@ these graph-dependent weights. Also
 by the Frobenius norm: the difference is supported on rows or columns
 in $\mathcal S$. The completed-mean diagonal has norm $O(p)$.
 Consequently $\norm{W_h(A-\Omega)W_h}_{\op}\le C_r\sqrt d$.
-There is a bounded diagonal $F$ such that
+The exact diagonal comparison is
 \[
- G^{-1/2}=(2d_*)^{-1/2}FW_h,
- \qquad F_{ii}=\sqrt{\frac{\max(D_i,2d_*)}{G_i}}.
+ G^{-1/2}=(2d_*)^{-1/2}
+ \diag\!\left\{\sqrt{\frac{\max(D_i,2d_*)}{G_i}}\right\}W_h.
 \]
-Indeed, $G_i\ge\max(D_i,cd)$ and $d_*\asymp d$.
+The displayed diagonal multiplier is bounded, since
+$G_i\ge\max(D_i,cd)$ and $d_*\asymp d$.
 Conjugation gives the stated bound for the noise in $Q$;
 multiplication by $\tau\asymp d$ proves the adjacency-scale bound
 in \eqref{eq:floor-noise}. Since $G_i\le D_i+\tau$, the total

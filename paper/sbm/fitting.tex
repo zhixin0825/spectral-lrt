@@ -34,8 +34,8 @@ where $O$ is orthogonal. The signal gap gives
 \end{equation}
 Moreover $\norm Q_{\op}\le1$, since
 $|x^\top Ax|\le\sum_iD_ix_i^2\le\sum_iG_ix_i^2$.
-In particular $\norm{\Xi/\tau}_{\op}\le1$, and
-$R_0=G^{1/2}Q_KG^{1/2}$ for $Q_K=U(\Xi/\tau)U^\top$.
+In particular $\norm{\Lambda/\tau}_{\op}\le1$, and
+$F=G^{1/2}Q_KG^{1/2}$ for $Q_K=U(\Lambda/\tau)U^\top$.
 
 \begin{lemma}[Weighted mass of incorrectly assigned vertices]
 \label{restore:fit-wrong-mass}
@@ -109,34 +109,43 @@ misclassified.
 The hollow, degree-preserving reconstruction in
 \eqref{restore:reconstruction} satisfies
 \begin{equation}\label{restore:fit-global-absolute}
- \sum_{i,j}|R^h_{ij}|\le Cnd.
+ \sum_{i,j}|\widehat A_{ij}|\le Cnd.
 \end{equation}
 For every partition $\widehat Z$ with at most $Mn/d$ errors under
 the common label matching,
 \begin{equation}\label{restore:fit-total-accuracy}
- [\widehat Z^\top R^h\widehat Z]_{ab}
+ [\widehat Z^\top \widehat A\widehat Z]_{ab}
      =n_an_bP_{ab}+O_M(n).
 \end{equation}
 The omitted diagonal is included in the remainder.
 \end{lemma}
 
 \begin{proof}
+For these estimates write $v=\mathbf d-F\one$,
+$R_1=F+v\one^\top/n$, and $r_i=(R_1)_{ii}$.
+Equation~\eqref{restore:reconstruction} is equivalently
+\[
+ \widehat A=R_1+\frac{r\one^\top}{n-1}
+                    -\frac n{n-1}\diag(r),
+\]
+because its off-diagonal entries are
+$F_{ij}+(v_i+F_{ii})/(n-1)$.
 Let $Q_{\rm tail}=(I-\Pi)Q(I-\Pi)$ and
 $F_1=(I-\Pi)G^{1/2}\one$. Then
 $\norm{Q_{\rm tail}}_{\op}\le C/\sqrt d$,
 $\norm{F_1}_2\le C\sqrt n$, and the degree correction is exactly
-$v=\mathbf d-R_0\one=G^{1/2}Q_{\rm tail}F_1$. Consequently
+$v=\mathbf d-F\one=G^{1/2}Q_{\rm tail}F_1$. Consequently
 \[
  \sum_i|v_i|\le Cn,\qquad
- \sum_i|(R_0)_{ii}|
+ \sum_i|F_{ii}|
  \le\sum_iG_i\Pi_{ii}
  \le2\tau K
        +\sum_i\frac{(G_i-\tau)^2}{G_i}\le Cn.
 \]
 It follows that $\sum_i|(R_1)_{ii}|\le Cn$, and hollowing has
 total absolute cost at most $2\sum_i|(R_1)_{ii}|$. Since
-$|(R_0)_{ij}|\le a_ia_j$, \cref{restore:fit-wrong-mass} yields
-$\sum_{ij}|(R_0)_{ij}|\le Cnd$. The correction $v\one^\top/n$
+$|F_{ij}|\le a_ia_j$, \cref{restore:fit-wrong-mass} yields
+$\sum_{ij}|F_{ij}|\le Cnd$. The correction $v\one^\top/n$
 has absolute mass $\sum_i|v_i|$, proving
 \eqref{restore:fit-global-absolute}.
 
@@ -144,14 +153,14 @@ Put $\widehat F=(I-\Pi)G^{1/2}\widehat Z$. The wrong-set bound
 gives $\norm{\widehat F}_F\le C_M\sqrt n$. Spectral invariance
 gives the exact identity
 \[
- \widehat Z^\top(R_0-A)\widehat Z
+ \widehat Z^\top(F-A)\widehat Z
        =-\widehat F^\top Q_{\rm tail}\widehat F
        =O_M(n/\sqrt d).
 \]
 Moving the wrongly labeled vertices changes any raw block total by
 at most $C\sum_{i\in E}D_i\le C_Mn$. Thus
 \eqref{restore:fit-block-event} gives
-\eqref{restore:fit-total-accuracy} for $R_0$. The degree correction
+\eqref{restore:fit-total-accuracy} for $F$. The degree correction
 changes a block total by
 $[\widehat Z^\top v]_a\widehat n_b/n$, where
 $\widehat Z^\top v=\widehat F^\top Q_{\rm tail}F_1=O_M(n/\sqrt d)$.
@@ -169,15 +178,15 @@ where $b,L$ are fixed. It is imposed only at the tested target.
 \label{restore:fit-local-mass}
 On \eqref{restore:fit-local-row},
 \begin{equation}\label{restore:fit-local-mass-bounds}
- \sum_j|R^h_{ij}|\le C_{b,L}d,\qquad
- \sup_{|E|\le Mn/d}\sum_{j\in E}|R^h_{ij}|\le C_{M,b,L}.
+ \sum_j|\widehat A_{ij}|\le C_{b,L}d,\qquad
+ \sup_{|E|\le Mn/d}\sum_{j\in E}|\widehat A_{ij}|\le C_{M,b,L}.
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-The bound $|(R_0)_{ij}|\le a_ia_j$ and
-\cref{restore:fit-wrong-mass} give the two claims for $R_0$.
-They also imply $|v_i|\le D_i+\sum_j|(R_0)_{ij}|\le Cd$.
+The bound $|F_{ij}|\le a_ia_j$ and
+\cref{restore:fit-wrong-mass} give the two claims for $F$.
+They also imply $|v_i|\le D_i+\sum_j|F_{ij}|\le Cd$.
 The rank-one correction therefore adds at most $Cd$ to the full
 row mass and $Cd|E|/n\le C_M$ to the wrong-set mass. Finally,
 $|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp$; hollowing changes
@@ -194,7 +203,7 @@ Bernoulli block fit is unique and interior for large $n$, and
 \end{equation}
 At every target satisfying \eqref{restore:fit-local-row},
 \begin{equation}\label{restore:fit-ordinary-score}
- \widehat L_i^{ab}=[R^h w_{ab}]_i+b_{i,ab}+O_{M,b,L}(1),
+ \widehat L_i^{ab}=[\widehat A w_{ab}]_i+b_{i,ab}+O_{M,b,L}(1),
 \end{equation}
 where $w_{ab}$ and the full nonedge intercept $b_{i,ab}$ are the
 true Bernoulli quantities in \eqref{eq:sbm-weights}.
@@ -243,7 +252,7 @@ $Mn/d$ error basin into itself under the same label matching.
 At every target satisfying \eqref{restore:fit-local-row}, an error
 at any updated iterate implies
 \begin{equation}\label{restore:fit-canonical-error}
- [R^h w_{z_i b}]_i+b_{i,z_i b}\le C_M
+ [\widehat A w_{z_i b}]_i+b_{i,z_i b}\le C_M
  \quad\text{for some }b\ne z_i.
 \end{equation}
 The same event controls any finite, possibly data-dependent stopping
@@ -265,7 +274,7 @@ Let $Q_0=G^{-1/2}\Omega G^{-1/2}$. Best rank-$K$
 approximation gives $\norm{Q_K-Q_0}_{\op}\le C/\sqrt d$;
 consequently
 \[
- \norm{G^{-1/2}(R_0-\Omega)Z}_F^2
+ \norm{G^{-1/2}(F-\Omega)Z}_F^2
  \le (C/d)\norm{G^{1/2}Z}_F^2\le Cn.
 \]
 Since $\norm{G^{-1/2}v}_2^2\le Cn/d$, the degree correction

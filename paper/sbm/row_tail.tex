@@ -14,7 +14,7 @@ For the high-degree cap in \cref{restore:algorithm}, recall
  W=\tau^{1/2}G^{-1/2},\qquad \widetilde A=WAW.
 \]
 Let $U$ be an orthonormal basis of the informative $K$-dimensional
-eigenspace and write $\widetilde AU=U\Xi$.
+eigenspace and write $\widetilde AU=U\Lambda$.
 All bounds below are uniform in the fixed compact structural class.
 In particular,
 \begin{equation}
@@ -116,7 +116,7 @@ To verify this, write
 $\widetilde A=\left(\begin{smallmatrix}0&m_i^\top\\m_i&B_i\end{smallmatrix}\right)$.
 By \eqref{restore:tail-floor-operator},
 $\norm{m_i}_2\le\sqrt\tau$ and $\norm{B_i}_{\op}\le\tau$.
-Also $B_iU_J=U_J\Xi-m_iU_{i\cdot}$.
+Also $B_iU_J=U_J\Lambda-m_iU_{i\cdot}$.
 The lower block of the recomputed deleted matrix is
 $(I+\Gamma_i)B_i(I+\Gamma_i)$.
 Subtracting the full matrix and applying the difference to $U$ gives
@@ -189,7 +189,7 @@ Define the unrotated, training-measurable-coefficient innovation
 Let $E_0=W(A-\Omega)W$.
 The eigenvector equation is
 \[
- U=W\Omega WU\Xi^{-1}+E_0V\Xi^{-1}+E_0T\Xi^{-1}.
+ U=W\Omega WU\Lambda^{-1}+E_0V\Lambda^{-1}+E_0T\Lambda^{-1}.
 \]
 The first term has every row bounded by $C/\sqrt n$, by
 \eqref{restore:tail-population-rows}.

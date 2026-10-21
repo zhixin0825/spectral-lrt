@@ -11,6 +11,8 @@
 
 第一篇的算法保留原始 degree 和高程度截断 adjacency 矩阵 **A_tilde = W A W** 的一个 eigensystem。阈值 **tau = b0 × 平均度数**，其中 b0 是足够大的固定常数；D_i ≤ tau 时 W_i = 1，超出时 W_i = sqrt(tau / D_i)。截断未触发时，保留的就是原始 A 的特征对。算法使用精确 degree correction、hollowing、radius-count initializer 与普通 Bernoulli block fitting/LRT；完整非边截距保留，目标 degree 不 profiling。
 
+第一篇正文恢复 U、Lambda、F 的谱记号，用一条逐行公式定义保留原始度数的 A_hat；G、H、Q 等辅助量仅用于证明附录。算法和定理范围不变。
+
 第二篇保留当前无 log 下限的 normalized DC-SBM 结果，并在本篇内完整证明其 small-floor geometry 与高程度范围的概率闭合；共享工具的引用已同步更新。此前普通 SBM 的 normalized 源稿保存在 [源文件快照](paper/companion/archive/ordinary_normalized_20261020/)。第二篇仍为补充工作材料集。
 
 原来的 [68 页合并证明（revision 3）](paper/notes/normalized_oracle_risk_20261020/normalized_spectral_oracle_risk_20261020.pdf) 及其 [源文件包](paper/notes/normalized_oracle_risk_20261020/normalized_spectral_oracle_risk_20261020_source.zip) 保留归档。10 月 18 日正文和实验说明已移至补充材料中的 [历史记录](paper/companion/archive/repository_history_20261018.md)；其中关于旧 Algorithm 2 的未完成项不描述当前主定理。
