@@ -1,9 +1,13 @@
 \section{Aggregate geometry for the capped adjacency matrix}
 \label{sec:sparse-extension}
 
-Let $D_0=\diag(\Omega\one)$, using the completed mean in
-\eqref{eq:mean-model}. Its diagonal entries are block constant and lie
-between fixed positive multiples of $d$. Throughout this section
+For the proof, let $Z$ be the community indicator matrix and write
+$\Omega=ZPZ^\top$ for the completed mean. It includes a diagonal solely
+for algebra; the actual mean is $\E A=\Omega-\diag(\Omega_{ii})$.
+This deterministic difference has norm $O(p)$ and is included in all
+error bounds. Let $D_0=\diag(\Omega\one)$. Its diagonal entries are
+block constant and lie between fixed positive multiples of $d$.
+Throughout this section
 $\tau=b_0\bar D$, $G_i=\max(D_i,\tau)$ and
 $W=\tau^{1/2}G^{-1/2}$ are the high-degree cap used by the algorithm,
 with $b_0$ sufficiently large for the structural class. Thus
@@ -134,8 +138,9 @@ comparable group sizes, $G_i\ge cd$ and the total-degree bound give
  \le J_{aa}=\sum_{i:z_i=a}G_i^{-1}\le\frac{Cn}{d}.
 \]
 The nonzero spectrum of the capped population matrix $W\Omega W$ is
-the spectrum of $p\tau J^{1/2}CJ^{1/2}$. Full rank of $C$ gives a
-separation of order $d$ from zero. The adjacency noise bound and
+the spectrum of $\tau J^{1/2}PJ^{1/2}$. The bound
+$\sigma_{\min}(P)\ge\kappa p$ gives a separation of order $d$ from zero.
+The adjacency noise bound and
 subspace perturbation then give the stated eigenspace and eigenvalue
 bounds. The formula for $V$
 and the lower bound on $J$ give its weighted row bound.

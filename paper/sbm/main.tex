@@ -43,6 +43,7 @@
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
 \newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
 \newcommand{\ind}[1]{\mathbf1\{#1\}}
+\newcommand{\Mis}{\operatorname{Mis}}
 \title{Adjacency spectral likelihood classification\\in stochastic block models}
 \author{}
 \date{21 October 2026}
@@ -56,10 +57,10 @@ and permits arbitrarily slowly diverging expected degrees.
 An exact degree correction, deterministic spectral initialization and
 Bernoulli block likelihood updates define a finite classifier. For any
 fixed number of communities, comparable community sizes and a positive
-full-rank block profile, its expected misclassification loss is at most
-a constant times the true-parameter incident-row oracle risk whenever
-\(d=np\to\infty\) and \(np^2\) is bounded. The comparison retains both the
-exact Bernoulli Chernoff information and its \(d^{-1/2}\) prefactor.
+full-rank block profile, its expected misclassification proportion is at
+most a constant times the oracle risk. The oracle knows the block
+probabilities and all labels except that of the vertex being classified.
+The bound holds whenever \(np\to\infty\) and \(np^2\) is bounded.
 The proof combines truncated spectral-row energy, a local scalar
 leave-one-out comparison and uniform fitted-score bounds. It imposes
 no logarithmic lower bound on expected degree.
