@@ -3,6 +3,11 @@
 These are internal working reviews, not external peer review. The current
 TeX statements, explicit algorithms, and proofs are authoritative.
 
+## 21 October: adjacency ordinary article
+
+- **adjacency_revision_20261021.md** records the high-degree-cap conversion,
+  the constant-risk proof interfaces, and the separate normalized DC proof.
+
 ## Revision 3: sparse restoration
 
 - **sparse_history_audit.md** records the 9 October sparse proof and later archival history.

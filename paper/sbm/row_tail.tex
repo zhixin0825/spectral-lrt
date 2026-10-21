@@ -7,14 +7,14 @@ concentration of independent deleted-row innovations.
 
 Work under the fixed structural assumptions of
 \cref{prop:sparse-floor}, with $d=np\to\infty$ and $np^2\le C_1$.
-For the empirical floor in \cref{restore:algorithm}, write
+For the high-degree cap in \cref{restore:algorithm}, recall
 \[
- \tau=a_0\bar D,\qquad
+ \tau=b_0\bar D,\qquad
  G_j=\max(D_j,\tau),\qquad
- W=\tau^{1/2}G^{-1/2},\qquad M=WAW=\tau S_G.
+ W=\tau^{1/2}G^{-1/2},\qquad \widetilde A=WAW.
 \]
 Let $U$ be an orthonormal basis of the informative $K$-dimensional
-eigenspace and write $MU=U\Xi$, so $\Xi=\tau\Lambda$.
+eigenspace and write $\widetilde AU=U\Xi$.
 All bounds below are uniform in the fixed compact structural class.
 In particular,
 \begin{equation}
@@ -43,17 +43,18 @@ For a deleted training graph, use the analogous event formed from
 that graph and its further deletions. This event is measurable from
 the training graph alone and has the same probability bound.
 
-Two deterministic properties of the floor will be useful:
+The following deterministic properties of the cap will be useful:
 \begin{equation}
  W_j\le1,\qquad W_j^2D_j\le\tau,
- \qquad \norm M_{\op}\le\tau.
+ \qquad \norm{\widetilde A}_{\op}\le\tau.
  \label{restore:tail-floor-operator}
 \end{equation}
 Indeed, $G\ge\diag(A\one)$ and the inequality
 $2|ab|\le a^2+b^2$ gives
-$|x^\top S_Gx|\le\sum_j(D_j/G_j)x_j^2\le\norm x_2^2$.
+$|x^\top Qx|\le\sum_j(D_j/G_j)x_j^2\le\norm x_2^2$,
+where $Q=\widetilde A/\tau$.
 
-\begin{lemma}[Truncated energy for the degree-floor eigenvectors]
+\begin{lemma}[Truncated energy for the capped-adjacency eigenvectors]
 \label{restore:tail-energy-lemma}
 There are fixed constants $R_0,C,c>0$ such that, for every fixed
 $R\ge R_0$ and all sufficiently large $n$,
@@ -65,7 +66,7 @@ $R\ge R_0$ and all sufficiently large $n$,
  \label{restore:tail-energy}
 \end{equation}
 The constants $R_0,C,c$ depend on the fixed structural bounds,
-$a_0$, and $r$, but not on $R$ or $n$.  The sufficiently-large-$n$
+$b_0$, and $r$, but not on $R$ or $n$.  The sufficiently-large-$n$
 condition may depend on the chosen fixed $R$.  The same result holds
 for each recomputed deleted graph with its training-measurable
 geometry event.
@@ -89,7 +90,7 @@ $(\Gamma_i)_{ii}=0$.
 The exact threshold difference is
 \[
  \tau^{(-i)}-\tau
- =a_0\frac{\bar D-2D_i}{n-1}.
+ =b_0\frac{\bar D-2D_i}{n-1}.
 \]
 Comparing the two square-root caps, using the comparability of the
 thresholds to $d$, gives on $\mathcal E_r$
@@ -100,7 +101,7 @@ thresholds to $d$, gives on $\mathcal E_r$
  \qquad \norm{\Gamma_i}_{\op}\le C/d.
  \label{restore:tail-weight-change}
 \end{equation}
-This also covers a crossing of a floor threshold.  It follows either
+This also covers a crossing of the cap threshold. It follows either
 by splitting the cases in the two maxima or by comparing the logarithms
 of $\sqrt{\tau/\max(D_j,\tau)}$; the relative threshold change is
 $O((d+D_i)/(nd))$.  The last bound uses $D_i\le n$ and $d\le Cn$.
@@ -112,7 +113,7 @@ There is an orthogonal matrix $O_i$ such that
  \label{restore:tail-loo-residual}
 \end{equation}
 To verify this, write
-$M=\left(\begin{smallmatrix}0&m_i^\top\\m_i&B_i\end{smallmatrix}\right)$.
+$\widetilde A=\left(\begin{smallmatrix}0&m_i^\top\\m_i&B_i\end{smallmatrix}\right)$.
 By \eqref{restore:tail-floor-operator},
 $\norm{m_i}_2\le\sqrt\tau$ and $\norm{B_i}_{\op}\le\tau$.
 Also $B_iU_J=U_J\Xi-m_iU_{i\cdot}$.
@@ -292,7 +293,7 @@ are unconditional before restriction to that event.
 
 \begin{corollary}[Exceptional coefficients are hit with exponentially small mass]
 \label{restore:tail-hit-corollary}
-On a training graph with the preceding floor, put
+On a training graph with the preceding cap, put
 $H=G^{-1/2}UU^\top G^{1/2}$.
 Let $f$ be any training-measurable vector satisfying
 $\norm f_\infty\le F_0$, and let $e=(H-I)f$.

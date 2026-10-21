@@ -8,9 +8,9 @@
 \usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
 \usepackage{cleveref}
 \hypersetup{
- pdftitle={Spectral likelihood classification in stochastic block models},
+ pdftitle={Adjacency spectral likelihood classification in stochastic block models},
  pdfsubject={Constant oracle-risk bounds at every diverging expected-degree scale},
- pdfkeywords={stochastic block model, spectral clustering, Bernoulli likelihood, oracle risk}
+ pdfkeywords={stochastic block model, adjacency spectrum, Bernoulli likelihood, oracle risk}
 }
 \setlist{itemsep=3pt,topsep=5pt,leftmargin=2em}
 \setlength{\emergencystretch}{2em}
@@ -43,15 +43,16 @@
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
 \newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
 \newcommand{\ind}[1]{\mathbf1\{#1\}}
-\title{Spectral likelihood classification\\in stochastic block models}
+\title{Adjacency spectral likelihood classification\\in stochastic block models}
 \author{}
-\date{20 October 2026}
+\date{21 October 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
 We study community classification from the raw degrees and a single
-normalized eigensystem of a stochastic block model. A positive empirical
-degree floor permits arbitrarily slowly diverging expected degrees.
+eigensystem of a high-degree-regularized adjacency matrix. A square-root
+cap reweights only vertices above a large empirical degree threshold
+and permits arbitrarily slowly diverging expected degrees.
 An exact degree correction, deterministic spectral initialization and
 Bernoulli block likelihood updates define a finite classifier. For any
 fixed number of communities, comparable community sizes and a positive

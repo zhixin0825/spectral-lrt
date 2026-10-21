@@ -1,10 +1,12 @@
 \section{Shared tools and their degree-corrected specialization}\label{sec:sparse-extension}
-The ordinary-SBM article supplies the full proofs of the sharp Bernoulli
-transfer, empirical-floor geometry, same-threshold spectral-row tail,
-and local floored scalar comparison. We recall the statements needed
-here and spell out the additional degree-corrected identities. These
-are shared mathematical tools, rather than an assumption of an
-ordinary-SBM data-generating law for the DC graph.
+The ordinary-SBM article now uses a high-degree-capped adjacency
+encoder. Its sharp Bernoulli transfer, same-threshold spectral-row tail,
+and deterministic local scalar comparison also apply here. We recall
+those tools with their degree-corrected premises. The small-floor
+geometry and its exponentially accurate event are proved in full below,
+since they differ from the large-threshold adjacency geometry in that
+article. The DC classifier in these notes retains its normalized
+encoder; no large-threshold DC extension is asserted.
 
 \subsection{Sharp likelihood transfer}\label{sec:sharp}
 \begin{lemma}[Bounded tilted error preserves the sharp prefactor]
@@ -137,8 +139,9 @@ The floor multiplier is fixed and sufficiently small.
 Under the fixed structural conditions \eqref{eq:mean-model}--%
 \eqref{eq:structural}, suppose $d=np\to\infty$ and $np^2\le C_1$.
 For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
+$cd\le G_i$, $cnd\le\sum_iD_i$, and
 \begin{align}
- \norm{G^{-1/2}(A-\Omega)G^{-1/2}}&\le C_r d^{-1/2},
+ \norm{G^{-1/2}(A-\Omega)G^{-1/2}}_{\op}&\le C_r d^{-1/2},
  &\sum_iG_i&\le C_rnd,\label{eq:floor-noise}\\
  \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
  +\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}
@@ -147,68 +150,146 @@ For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
 Let $U$ contain the $K$ eigenvectors of $S_G$ with largest absolute
 eigenvalues, let $\Pi=UU^\top$, and let
 $H=G^{-1/2}\Pi G^{1/2}$. For all sufficiently large $n$, on the same
-event the retained eigenvalues have a fixed separation from zero and
+event the retained eigenvalues have a fixed separation from zero, the
+remaining eigenvalues have magnitude at most $C_r/\sqrt d$, and
 \begin{equation}\label{eq:floor-block-residual}
  \norm{(I-\Pi)G^{1/2}Z}_F\le C_r\sqrt n.
 \end{equation}
 For every block-constant $f$ with $\norm f_\infty\le C_f$,
 \begin{equation}\label{eq:floor-weighted-errors}
- \norm{(I-H)f}_G\le C_r\sqrt n,\qquad
- \norm{(I-H)f}_2^2\le C_rn/d,
+ \norm{(I-H)f}_G\le C_rC_f\sqrt n,\qquad
+ \norm{(I-H)f}_2^2\le C_rC_f^2n/d,
  \quad \norm v_G^2=v^\top Gv.
 \end{equation}
-No lower bound proportional to $\log n$ is imposed.
+After alignment, the orthonormal population basis
+\[
+ V=G^{-1/2}\Theta Z
+       (Z^\top\Theta G^{-1}\Theta Z)^{-1/2}O
+\]
+satisfies $\norm{U-V}_F\le C_r/\sqrt d$ and
+$\sqrt{G_i}\norm{V_{i\cdot}}_2\le C_r\sqrt{d/n}$.
+The same assertions hold simultaneously for recomputed graphs after
+any fixed number of deletions, after increasing the probability
+parameter. No lower bound proportional to $\log n$ is imposed.
 \end{proposition}
 
 
-\begin{proof}[Degree-corrected specialization of the shared geometry proof]
-The regularized-adjacency bound of Le, Levina and Vershynin
-\cite[Theorem 2.1 and Remark 2.2]{llv2017} applies to general independent
-inhomogeneous Bernoulli edges. Since
-$n\max_{ij}\E A_{ij}\asymp d$ under \eqref{eq:structural}, the cap,
-empirical-floor comparison, total-edge concentration, and weighted
-degree-energy proof of Proposition~B.1 in the SBM article are unchanged. The deterministic
-diagonal completion costs $O(p)$.
-
-For completeness, the only change to its population-space argument is
+\begin{proof}
+The Bernoulli transform of the total number of edges gives
+$cnd\le\sum_iD_i\le Cnd$ except with probability $e^{-cnd}$.
+For a sufficiently small fixed $a_0$, on this event
 \[
- V=G^{-1/2}\Theta Z
-    (Z^\top\Theta G^{-1}\Theta Z)^{-1/2}O.
+ cd\le\tau=a_0\bar D\le Cd,
+ \qquad \tau<\min_i(D_0)_{ii}.
 \]
-For every group the diagonal Gram entry satisfies
+Let $d_* = n\max_{i\ne j}\E A_{ij}\asymp d$, and put
+$W_{h,ii}=\sqrt{\min(1,2d_*/D_i)}$, with value one at zero degree.
+The set $\mathcal S=\{i:D_i>2d_*\}$ has size at most $10n/d_*$
+except with probability $e^{-cn}$. Indeed, if
+$m=\lfloor10n/d_*\rfloor+1\le n$ vertices exceed the threshold,
+some set $T$ of size $m$ satisfies $\sum_{i\in T}D_i>2md_*$.
+This is an independent-edge sum with coefficients in $\{1,2\}$
+and mean at most $md_*$. At $t=(\log2)/2$, its exponential
+transform bounds this probability by
+$\exp\{-(\log2-1/2)md_*\}$, since
+$(e^{tc}-1)/c\le(e^{2t}-1)/2=1/2$ for $c=1,2$.
+The union over $T$ costs at most
+$\exp\{m\log(en/m)\}=\exp\{o(md_*)\}$.
+If $m>n$, the assertion is automatic.
+
+Every row of $W_hAW_h$ has squared Euclidean norm at most
+$W_{h,ii}^2D_i\le2d_*$. The regularized-adjacency theorem of
+Le, Levina and Vershynin
+\cite[Theorem 2.1 and Remark 2.2]{llv2017}, in its row-norm form,
+therefore gives
+\[
+ \norm{W_hAW_h-\E A}_{\op}\le C_r\sqrt d
+\]
+with failure probability at most $C_rn^{-r}$. It permits these
+observed-graph-dependent weights. The difference
+$W_h\Omega W_h-\Omega$ is supported on rows or columns in
+$\mathcal S$, and every entry has magnitude at most $Cp$; hence
+\[
+ \norm{W_h\Omega W_h-\Omega}_{\op}
+ \le Cp\sqrt{n|\mathcal S|}\le C\sqrt d.
+\]
+The completed-mean diagonal costs $O(p)$. Thus
+$\norm{W_h(A-\Omega)W_h}_{\op}\le C_r\sqrt d$.
+The exact factorization
+\[
+ G^{-1/2}=(2d_*)^{-1/2}FW_h,
+ \qquad F_{ii}=\sqrt{\frac{\max(D_i,2d_*)}{G_i}}
+\]
+has uniformly bounded $F$, because $G_i\ge cd$ and $G_i\ge D_i$.
+Conjugating proves the noise bound in \eqref{eq:floor-noise}.
+Also $G_i\le D_i+\tau$ gives $\sum_iG_i\le Cnd$.
+
+Applying the noise bound to $G^{1/2}\one$ gives
+\[
+ \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
+ =\norm{G^{-1/2}(A-\Omega)\one}_2^2\le C_rn.
+\]
+Since $\tau<(D_0)_{ii}$, the maximum defining $G_i$ only reduces
+the coordinatewise distance to $(D_0)_{ii}$. This proves the
+second energy bound in \eqref{eq:floor-degree-energy}.
+
+Let $J=Z^\top\Theta G^{-1}\Theta Z$. In each block,
+Cauchy--Schwarz, the bounded degree parameters, and comparable
+block masses give
 \[
  \frac{cn}{d}
- \le \frac{(\sum_{i:z_i=a}\theta_i)^2}{\sum_{i:z_i=a}G_i}
- \le\sum_{i:z_i=a}\frac{\theta_i^2}{G_i}
+ \le\frac{(\sum_{i:z_i=a}\theta_i)^2}
+          {\sum_{i:z_i=a}G_i}
+ \le J_{aa}=\sum_{i:z_i=a}\frac{\theta_i^2}{G_i}
  \le\frac{Cn}{d}.
 \]
-The lower bound uses comparable block sizes, mean-one normalization,
-and the total-degree bound; the upper bound uses the floor and bounded
-$\theta$. Thus the signal retains a fixed gap, and
-$\norm{U-V}_F\le C/\sqrt d$ after alignment. Moreover
-$D_0^{-1}\Theta Z$ is block constant, since
-$(D_0)_{ii}=d\theta_iS_{z_i}$. Consequently
-$G^{-1/2}D_0Z$ lies in the population signal space and
+The nonzero spectrum of $G^{-1/2}\Omega G^{-1/2}$ is that of
+$pJ^{1/2}CJ^{1/2}$, which has a fixed separation from zero.
+Subspace perturbation and \eqref{eq:floor-noise} give the claimed
+eigenvalue and Frobenius bounds. The formula for $V$ and the lower
+bound on $J$ give its weighted row bound.
+
+The identity $(D_0)_{ii}=d\theta_iS_{z_i}$ shows that
+$G^{-1/2}D_0Z$ belongs to
+$\col(G^{-1/2}\Theta Z)$. Moreover
 \[
  \norm{G^{1/2}Z-G^{-1/2}D_0Z}_F^2
-   =\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}\le Cn.
+ =\sum_i\frac{(G_i-(D_0)_{ii})^2}{G_i}\le C_rn,
+ \qquad \norm{G^{1/2}Z}_F^2\le C_rnd.
 \]
-The same projection calculation proves
-\eqref{eq:floor-block-residual}--\eqref{eq:floor-weighted-errors}.
-This also verifies the population row bound
-$\sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{d/n}$ used by the shared
-row-tail proof. Fixed-depth deletions change block masses by $O(1)$;
-recomputing degrees and the floor gives the same bounds. Increasing the
-fixed probability parameter covers all such minors when needed.
+Combining this approximation with the $O(d^{-1/2})$ projector
+error proves \eqref{eq:floor-block-residual}.
+The matrix $H$ is the $G$-orthogonal projector corresponding to
+$\Pi$. Writing $f=Zb$ then gives the first bound in
+\eqref{eq:floor-weighted-errors}; the second follows from $G_i\ge cd$.
+
+Deleting a fixed number of vertices changes each block mass and
+each sum of degree parameters by $O(1)$. The preceding argument
+uses their comparability, not exact mean-one normalization on a
+minor, and applies with its recomputed degrees and threshold.
+Increasing the fixed probability parameter before a finite-depth
+union bound proves the simultaneous assertion.
 \end{proof}
 
 \subsection{Spectral-row tails and local deleted-graph comparison}
 Let $\mathcal E_r$ denote the aggregate event just described, including
 recomputed versions after at most three deletions. Each deleted graph
 also has its own training-measurable event. The same-threshold row-tail
-proof of Lemma~C.1 in the SBM article uses bounded edge probabilities $O(d/n)$,
-the floor, the fixed spectral gap, and the population row bound verified
-above. It does not use equality of degree parameters. Hence it gives
+proof of Lemma~C.1 in the adjacency SBM article applies to any fixed
+multiplier in $\tau/\bar D$, provided the aggregate premises hold.
+Indeed, with $W=\tau^{1/2}G^{-1/2}$ and $\widetilde A=WAW$, the preceding
+proposition gives $\norm{W(A-\Omega)W}_{\op}\le C\sqrt d$ and
+an informative gap of order $d$. Also
+\[
+ W_i\le1,\quad W_i^2D_i\le\tau,\quad
+ \norm{\widetilde A}_{\op}\le\tau,\quad
+ \norm{\Omega_{i\cdot}}_2\le Cd/\sqrt n.
+\]
+These bounds and the exact threshold change
+$\tau^{(-i)}-\tau=a_0(\bar D-2D_i)/(n-1)$ are all the
+weight and population inputs to that proof. It uses neither
+$\tau\ge\max_i(D_0)_{ii}$ nor equality of the degree parameters.
+Thus the small multiplier $a_0$ used here gives
 \begin{lemma}[Truncated energy for the degree-floor eigenvectors]
 \label{restore:tail-energy-lemma}
 There are fixed constants $R_0,C,c>0$ such that, for every fixed
@@ -383,17 +464,86 @@ largest spectral row.
 \end{lemma}
 
 
-\noindent\emph{Proof reference.}
-Lemma~F.1 of the SBM article uses only the
-centered bounded-entry norm inequality of Bandeira--van Handel
-\cite[Corollary 3.12 and Remark 3.13]{bvh}, total-edge concentration,
-and fixed-$K$ block-total Bernstein bounds. All apply to bounded-parameter
-DC-SBM. The required exponent for a block-total threshold $Ln$ is
-$cL^2n/(d+L)$; $d^2/n\le C_1$ makes it at least a prescribed fixed
-multiple of $d$ after increasing $L$. Principal-submatrix norms and
-deterministic $O(n)$ changes in block totals cover the fixed-depth
-minors without a union over their raw minimum degrees. The deterministic
-DC specialization above then supplies all floor consequences.
+\begin{proof}
+Bounded degree parameters give independent upper-triangular entries
+with probabilities at most $Cd/n$. The centered bounded-entry norm
+inequality of Bandeira--van Handel
+\cite[Corollary 3.12 and Remark 3.13]{bvh} gives
+\[
+ \PP\{\norm{A-\Omega}_{\op}>L_H\sqrt d\}
+ \le e^{-(H+2)d}
+\]
+after choosing a sufficiently large fixed $L_H$. Indeed, the row
+variance sum is $O(d)$, the entry bound is one, and the prefactor $n$
+in the norm-tail inequality is absorbed using $\log n\le d/A_0$.
+The completed-mean diagonal has norm $O(p)$ and is absorbed in the
+same threshold. No minimum raw degree is imposed.
+
+The Bernoulli transform of the total number of edges gives, with
+failure probability at most $Ce^{-cnd}$,
+\[
+ cnd\le\sum_iD_i\le Cnd.
+\]
+For each of the fixed $K^2$ true block totals, Bernstein's inequality
+for the independent upper-triangular edges, whose coefficients have
+absolute value at most two, gives
+\[
+ \PP\left\{\left|[Z^\top(A-\Omega)Z]_{ab}\right|>Ln\right\}
+ \le 2\exp\left\{-\frac{cL^2n}{d+L}\right\}.
+\]
+The deterministic completed diagonal costs $O(d)$ and is included
+by increasing $L$. Since $d\to\infty$ and $d^2/n\le C_1$,
+the exponent is at least $c'L^2d/C_1$ for all sufficiently large $n$.
+Increasing the fixed $L=L_H$ therefore makes the failure of all block
+totals at most $C_He^{-(H+2)d}$. The total-degree failure is also
+bounded by $Ce^{-(H+2)d}$ for large $n$.
+
+These three full-graph events imply the required events on every
+fixed-depth minor without a degree-wise probability union. To see this,
+let $J=[n]\setminus T$ with $|T|\le3$, set $A_J=A_{JJ}$ and
+$\Omega_J=\Omega_{JJ}$, and recompute all degrees and the empirical
+floor on $J$. The centered matrix $A_J-\Omega_J$ is a principal
+submatrix of $A-\Omega$, so its norm is at most $L_H\sqrt d$.
+Removing $T$ changes the total raw degree by at most $2|T|n$;
+as $d\to\infty$, the two-sided bound by fixed multiples of $nd$
+therefore persists uniformly over $T$. Removing $T$ changes a true
+block total of $A-\Omega$ by $O(|T|n)$ deterministically, since
+the entries have bounded absolute value. Its $O_H(n)$ bound persists
+as well. The surviving group masses and sums of degree parameters differ from
+their original values by $O(1)$ and remain comparable to $n$.
+
+The recomputed average degree is consequently comparable to $d$.
+For the fixed sufficiently small floor multiplier $a_0$, its threshold
+$\tau_J=a_0\overline D_J$ lies between positive fixed multiples of
+$d$ and below every coordinate of $D_{0,J}=\Omega_J\one$.
+Thus $G_{J,j}=\max(D_{J,j},\tau_J)\ge cd$ and
+$\sum_jG_{J,j}\le Cnd$. The raw norm bound immediately gives
+\begin{align*}
+ \norm{G_J^{-1/2}(A_J-\Omega_J)G_J^{-1/2}}_{\op}
+   &\le C_Hd^{-1/2},\\
+ \sum_{j\in J}\frac{(D_{J,j}-D_{0,J,j})^2}{G_{J,j}}
+   &=\norm{G_J^{-1/2}(A_J-\Omega_J)\one}_2^2
+     \le C_Hn.
+\end{align*}
+Since the population floor is inactive,
+$|G_{J,j}-D_{0,J,j}|\le|D_{J,j}-D_{0,J,j}|$; this proves the
+other weighted energy bound. The fixed signal gap and the residual
+$\norm{(I-U_JU_J^\top)G_J^{1/2}Z_J}_F\le C_H\sqrt n$
+now follow by the deterministic Gram-matrix and projection arguments
+in \cref{prop:sparse-floor}. Those arguments use only the floor,
+total degree, normalized noise, and degree energy, all just proved.
+Intersecting the stated aggregate consequences defines
+$\mathcal E_H$. The three full-graph events imply it simultaneously
+for every indicated minor, proving its claimed failure bound.
+
+For a deleted graph used as independent training data, form the
+analogous event using that graph and its further minors. The same
+argument gives failure probability $C_He^{-Hd}$, and this event is
+measurable from the training graph alone. The full-graph common event
+is used only for deterministic implications, never as a condition
+that would preserve independence of an incident row.
+\end{proof}
+
 
 \subsection{The degree-corrected tilted cancellation}
 

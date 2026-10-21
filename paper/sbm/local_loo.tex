@@ -2,19 +2,23 @@
 \label{restore:loo}
 
 The comparison below requires spectral row bounds only on neighbors
-of the tested vertex. The degree threshold is recomputed after deletion.
+of the tested vertex. The cap threshold is recomputed after deletion.
+We divide each capped adjacency matrix by its own scalar threshold
+to write a generalized eigenvalue equation; this does not change its
+retained eigenspace or the reconstruction $AH$.
 
-\begin{lemma}[A local floored scalar comparison]\label{restore:loo-scalar}
+\begin{lemma}[A local scalar comparison for capped adjacency]\label{restore:loo-scalar}
 Write $A=\left(\begin{smallmatrix}0&x^\top\\x&B\end{smallmatrix}\right)$,
-$k=\sum_jx_j\le Ld$, and let $\Delta$ be the diagonal degree floor
-recomputed from $B$. Suppose
+$k=\sum_jx_j\le Ld$, and let
+$\Delta=\diag\{\max(D_{B,j},\tau_B)\}$ be recomputed from $B$.
+Suppose
 \[
  cd\le\Delta_j,\qquad \sum_j\Delta_j\le Cnd,
- \qquad S_B=\Delta^{-1/2}B\Delta^{-1/2}
+ \qquad Q_B=\Delta^{-1/2}B\Delta^{-1/2}
    =U_B\Lambda_BU_B^\top+N,
 \]
 where $NU_B=0$, $\norm N_{\op}\le C/\sqrt d$, and the $K$ retained
-eigenvalues have a fixed gap from zero. Let the full floor be
+eigenvalues have a fixed gap from zero. Let the full diagonal cap weight be
 $G=\diag(g,\Delta+E)$, with
 \[
  cd\le g\le Cd,\qquad E=E_\mathrm{loc}+E_\mathrm{glob},\qquad
@@ -26,15 +30,14 @@ Here $d\to\infty$ and $d\le Cn$. Suppose only on hit coordinates that
  \norm{\Delta_j^{-1/2}(U_B)_{j\cdot}}_2
        \le R/\sqrt{nd}\quad\text{whenever }x_j=1.
 \end{equation}
-Let $U,\Lambda$ be the full informative eigensystem of
-$G^{-1/2}AG^{-1/2}$, and put
+Let $U$ contain orthonormal informative eigenvectors of $\widetilde A=WAW$, and put
 \[
  H_G=G^{-1/2}UU^\top G^{1/2},\qquad
  H_B=\Delta^{-1/2}U_BU_B^\top\Delta^{1/2}.
 \]
-For every $\norm w_\infty\le W$, uniformly over the stated inputs,
+For every $\norm w_\infty\le W_0$, uniformly over the stated inputs,
 \begin{equation}\label{restore:loo-main}
- (AH_Gw)_i=x^\top H_Bw_{-i}+O_{L,R,W}(1).
+ (AH_Gw)_i=x^\top H_Bw_{-i}+O_{L,R,W_0}(1).
 \end{equation}
 No bound is assumed on unhit rows of $U_B$ or on $\max_j\Delta_j$.
 \end{lemma}
@@ -42,13 +45,14 @@ No bound is assumed on unhit rows of $U_B$ or on $\max_j\Delta_j$.
 \begin{proof}
 For $k=0$ both row actions vanish. For $k>0$, put
 $F=\Delta^{-1/2}E\Delta^{-1/2}$, $h=\Delta^{-1/2}x$,
-$Q=I-U_BU_B^\top$. Then $\norm F\le C/d$ and
-$\norm h^2\le Ck/d$. The full normalized matrix differs from
-$\diag(0,S_B)$ by $O(d^{-1/2})$: its off-diagonal row has norm
+$Q_\perp=I-U_BU_B^\top$. Then $\norm F\le C/d$ and
+$\norm h^2\le Ck/d$. The scalar-rescaled matrix $Q=G^{-1/2}AG^{-1/2}$ differs from
+$\diag(0,Q_B)$ by $O(d^{-1/2})$: its off-diagonal row has norm
 at most $C\sqrt{k/(gd)}$, and the lower renormalization has norm
 $O(d^{-1})$. Thus the full signal remains separated.
 
-Write a full generalized eigenvector as
+For an eigenvalue $\mu_r$ of $Q=\widetilde A/\tau_A$, write a full
+generalized eigenvector as
 \[
  G^{-1/2}u_r=\binom{t_r}{\Delta^{-1/2}(U_By_r+z_r)},
  \qquad U_B^\top z_r=0.
@@ -56,17 +60,17 @@ Write a full generalized eigenvector as
 The exact top and complementary equations are
 \begin{align*}
  h^\top(U_By_r+z_r)&=\mu_r g t_r,\\
- (\mu_rI-N+\mu_rQFQ)z_r
-   &=t_rQh-\mu_rQFU_By_r.
+ (\mu_rI-N+\mu_rQ_\perp FQ_\perp)z_r
+   &=t_rQ_\perp h-\mu_rQ_\perp FU_By_r.
 \end{align*}
 The inverse $T_r$ of the complementary operator is bounded. Therefore
 \[
- (\mu_rg-(Qh)^\top T_rQh)t_r
+ (\mu_rg-(Q_\perp h)^\top T_rQ_\perp h)t_r
   =(U_B^\top h)^\top y_r
-       -\mu_r(Qh)^\top T_rQFU_By_r.
+       -\mu_r(Q_\perp h)^\top T_rQ_\perp FU_By_r.
 \]
 The denominator has magnitude at least $cd-Ck/d\ge c'd$.
-It is the floored degree $g$, not the raw degree $k$, in this formula.
+Here $g=\max(k,\tau_A)\asymp d$ is the diagonal weight in this formula.
 The matrix $Y=(y_1,\ldots,y_K)$ and its inverse have bounded norm,
 by the signal-space angle and $(I+F)^{1/2}=I+O(d^{-1})$.
 
@@ -104,15 +108,15 @@ Only total degree is needed to bound global coefficient vectors. In
 particular,
 \begin{align*}
  \norm{x^\top V}&\le C_Rk/\sqrt{nd},&
- \norm{w_V}&\le C_W\sqrt{nd},\\
+ \norm{w_V}&\le C_{W_0}\sqrt{nd},\\
  \norm{x^\top v}&\le C_R\{k/(d^{3/2}\sqrt n)+\sqrt{k}/(n\sqrt d)\},&
- \norm{v^\top\Delta w_{-i}}&\le C_{R,W}\{\sqrt{k/d}+\sqrt{d/n}\},\\
+ \norm{v^\top\Delta w_{-i}}&\le C_{R,W_0}\{\sqrt{k/d}+\sqrt{d/n}\},\\
  \norm{gt}&\le C_R\sqrt{d/n},&
- \norm{f^\top Ew_{-i}}&\le C_{R,W}\{k/\sqrt{nd}+\sqrt{d/n}\}.
+ \norm{f^\top Ew_{-i}}&\le C_{R,W_0}\{k/\sqrt{nd}+\sqrt{d/n}\}.
 \end{align*}
 For example the global part of the last bound follows from
 $|f_r^\top E_\mathrm{glob}w_{-i}|
-\le (Cd/n)W\sqrt n\norm{f_r}\le C_W\sqrt{d/n}$.
+\le (Cd/n)W_0\sqrt n\norm{f_r}\le C_{W_0}\sqrt{d/n}$.
 The leading term is $x^\top VYY^\top w_V$; its error relative to
 $x^\top VV^\top\Delta w_{-i}$ is
 $O(k^2/(nd)+k/n)$. Every other product is bounded by a fixed
@@ -124,11 +128,11 @@ These quantities are bounded for $k\le Ld$ and $d\le Cn$.
 This proves the scalar comparison.
 \end{proof}
 
-For the empirical floor $\tau=a_0\bar D$, the displayed decomposition of
+For the empirical cap threshold $\tau=b_0\bar D$, the displayed decomposition of
 $E$ is automatic on the two-sided total-degree event. Indeed, if
 $\bar D_B$ is the mean degree of $B$, then
 \[
- \tau_A-\tau_B=a_0(2k-\bar D_B)/n.
+ \tau_A-\tau_B=b_0(2k-\bar D_B)/n.
 \]
 First change each deleted degree by $x_j$ while keeping $\tau_B$;
 this yields $E_\mathrm{loc}\in[0,\diag(x)]$. Then change the threshold;
@@ -144,7 +148,7 @@ give
 \begin{equation}\label{restore:loo-corrected-action}
  (R^h w)_i
  =x^\top\{H_B(w_{-i}-\bar w_{-i}\one)+\bar w_{-i}\one\}
-       +O_{L,R,W}(1).
+       +O_{L,R,W_0}(1).
 \end{equation}
 \end{corollary}
 
@@ -158,7 +162,7 @@ Moreover \eqref{restore:loo-refined} gives
 $\norm{u_i}^2=g\norm t^2\le C_R/n$, hence
 $|(R_0)_{ii}|\le C_Rd/n$. Also $(R_0\one)_i=O_R(k+1)$.
 Thus $|(R_1)_{ii}|\le C_Rd/n$ and the hollow change to a bounded
-contrast is at most $2W|(R_1)_{ii}|=O(d/n)$. The two exact identities
+contrast is at most $2W_0|(R_1)_{ii}|=O(d/n)$. The two exact identities
 follow by summing the defined rows and examining their diagonal.
 \end{proof}
 

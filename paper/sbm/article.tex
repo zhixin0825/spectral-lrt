@@ -3,18 +3,28 @@
 The incident edges of a vertex determine a natural likelihood classifier
 when the community parameters and the other labels are known. A spectral
 method replaces those unknown labels by a low-dimensional representation
-of the graph. We ask whether the degrees and a single normalized
+of the graph. We ask whether the degrees and a single adjacency
 eigensystem retain enough information to match the error of the
 incident-row likelihood classifier up to a constant factor.
 
 We construct an explicit classifier with this property for stochastic
-block models with arbitrary fixed \(K\). Its normalization uses an
-empirical positive degree floor. The decoder retains the raw degrees,
+block models with arbitrary fixed \(K\). Its spectral input is a
+regularized adjacency matrix \(\widetilde A=WAW\): the diagonal weight is one
+unless the observed degree exceeds a sufficiently large fixed
+multiple of the average degree. Above that threshold a square-root
+cap controls the row energy. The decoder retains the raw degrees,
 reconstructs a signed matrix with exactly those row sums, and alternates
 symmetric Bernoulli block fitting with ordinary likelihood classification.
 The only initialization is a deterministic radius-count procedure on
 normalized spectral rows. At least one likelihood update is required;
 any finite number of the specified updates is allowed.
+
+When no degree exceeds the threshold, \(W=I\), so the encoding is
+exactly the leading adjacency eigenpairs together with the raw degrees.
+For the full sparse range the theorem uses the stated cap. The weighted
+population signal \(W\Omega W\) has informative space \(\col(WZ)\), with one direction
+per true community after row normalization. This explicit adjacency
+construction is the version analyzed throughout the article.
 
 The main result holds for every diverging degree scale \(d=np\), subject
 to the upper sparsity condition \(np^2\le C_1\). In particular, it covers
@@ -79,11 +89,12 @@ directional error is
 \end{equation}
 This is the oracle used throughout the article.
 
-\section{A decoder from degrees and normalized spectrum}
+\section{A decoder from degrees and adjacency spectrum}
 \label{restore:algorithm}
 
-The input is \(A\) and \(K\). Fix sufficiently small constants
-\(a_0,c_0>0\), depending only on the structural class. All choices and
+The input is \(A\) and \(K\). Fix a sufficiently large constant
+\(b_0>0\) and a sufficiently small constant \(c_0>0\), depending
+only on the structural class. All choices and
 ties below are deterministic. A fixed fallback partition defines the
 algorithm whenever a required operation is undefined.
 
@@ -94,24 +105,36 @@ Write
  \bar D=\frac1n\sum_iD_i.
 \]
 \[
- G=\diag\{\max(D_i,a_0\bar D)\},\qquad
- S_G=G^{-1/2}AG^{-1/2}.
+ \tau=b_0\bar D,\qquad G=\diag\{\max(D_i,\tau)\},\qquad
+ W=\tau^{1/2}G^{-1/2},\qquad \widetilde A=WAW.
 \]
-The all-zero graph has the fixed output. Otherwise \(G\) is positive.
-Retain the raw degrees and the \(K\) eigenpairs of \(S_G\) with largest
+The all-zero graph has the fixed output. Otherwise \(G\) is positive,
+and the diagonal weights are
+\[
+ W_i=\begin{cases}
+  1,&D_i\le\tau,\\
+  \sqrt{\tau/D_i},&D_i>\tau.
+ \end{cases}
+\]
+Thus edges between vertices below the threshold keep their original
+weights. Retain the raw degrees and the \(K\) eigenpairs of \(\widetilde A\)
+with largest
 absolute eigenvalues:
 \[
- U^\top U=I_K,\qquad S_GU=U\Lambda.
+ U^\top U=I_K,\qquad \widetilde A U=U\Xi.
 \]
-Only \((\mathbf d,U,\Lambda)\) are used after this step. Flooring does
-not require a degree vector to be a retained eigenvector.
+Only \((\mathbf d,U,\Xi)\) are used after this step; \(\tau,G,W\)
+are recovered from \(\mathbf d\). All informative eigenvalues are
+retained by magnitude, allowing either sign.
 
 \paragraph{Exact-degree reconstruction.}
 Put
 \[
- H=G^{-1/2}UU^\top G^{1/2},\qquad
- R_0=G^{1/2}U\Lambda U^\top G^{1/2}=AH.
+ H=WUU^\top W^{-1},\qquad
+ R_0=W^{-1}U\Xi U^\top W^{-1}=AH.
 \]
+If the cap is inactive, these reduce to \(H=UU^\top\) and
+\(R_0=A_K\), the rank-\(K\) adjacency spectral reconstruction.
 Let \(v=\mathbf d-R_0\one\), let \(R_1=R_0+v\one^\top/n\),
 and let \(r\) be the vector of diagonal entries of \(R_1\). Define
 \begin{equation}\label{restore:reconstruction}
@@ -177,7 +200,8 @@ Under \eqref{eq:mean-model}--\eqref{eq:structural}, suppose
 \[
  d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
 \]
-For sufficiently small fixed \(a_0,c_0>0\), the algorithm in
+For sufficiently large fixed \(b_0\) and sufficiently small fixed
+\(c_0>0\), the algorithm in
 \cref{restore:algorithm}, after any finite positive number of the
 specified likelihood updates, satisfies
 \begin{equation}\label{eq:target}
@@ -208,9 +232,12 @@ the theorem also implies exact recovery whenever
 
 \subsection{Proof structure}
 
-The proof has four ingredients. First, degree-floor geometry gives a
-fixed informative spectral gap, \(O(d^{-1/2})\) subspace error and
-\(O(n)\) weighted degree energy. These aggregate bounds suffice for
+The proof has four ingredients. First, regularized adjacency geometry
+gives an informative spectral gap of order \(d\),
+\(O(d^{-1/2})\) subspace error and \(O(n)\) weighted cap energy
+\(\sum_i(G_i-\tau)^2/G_i\). The threshold lies above all population
+degrees on the aggregate event, so this energy is bounded by the
+weighted degree fluctuation. These aggregate bounds suffice for
 the deterministic initialization and an invariant \(O(n/d)\)
 misclassification basin.
 
@@ -239,7 +266,8 @@ The appendices give the complete argument and the proof of
 \cref{restore:sbm-theorem}.
 
 \paragraph{Organization of related material.}
-The companion notes contain degree correction, alternative earlier
-decoders, counterexamples and supplementary derivations. None of
+The companion notes contain the degree-normalized formulation, degree
+correction, alternative earlier decoders, counterexamples and
+supplementary derivations. None of
 those notes is required for this article's theorem or proof.
 

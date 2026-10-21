@@ -1,0 +1,78 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{cleveref}
+\hypersetup{
+ pdftitle={Spectral likelihood classification in stochastic block models},
+ pdfsubject={Constant oracle-risk bounds at every diverging expected-degree scale},
+ pdfkeywords={stochastic block model, spectral clustering, Bernoulli likelihood, oracle risk}
+}
+\setlist{itemsep=3pt,topsep=5pt,leftmargin=2em}
+\setlength{\emergencystretch}{2em}
+\allowdisplaybreaks[2]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Ber}{\operatorname{Bern}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\ind}[1]{\mathbf1\{#1\}}
+\title{Spectral likelihood classification\\in stochastic block models}
+\author{}
+\date{20 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We study community classification from the raw degrees and a single
+normalized eigensystem of a stochastic block model. A positive empirical
+degree floor permits arbitrarily slowly diverging expected degrees.
+An exact degree correction, deterministic spectral initialization and
+Bernoulli block likelihood updates define a finite classifier. For any
+fixed number of communities, comparable community sizes and a positive
+full-rank block profile, its expected misclassification loss is at most
+a constant times the true-parameter incident-row oracle risk whenever
+\(d=np\to\infty\) and \(np^2\) is bounded. The comparison retains both the
+exact Bernoulli Chernoff information and its \(d^{-1/2}\) prefactor.
+The proof combines truncated spectral-row energy, a local scalar
+leave-one-out comparison and uniform fitted-score bounds. It imposes
+no logarithmic lower bound on expected degree.
+\end{abstract}
+\input{article}
+\appendix
+\input{sharp_tail}
+\input{geometry}
+\input{row_tail}
+\input{local_loo}
+\input{fitting}
+\input{high_range}
+\input{risk_proof}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+

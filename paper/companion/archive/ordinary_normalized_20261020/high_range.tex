@@ -1,0 +1,98 @@
+\section{Exponential accuracy of the aggregate event}
+\label{sec:high-range}
+
+\begin{lemma}[Exponentially accurate aggregate geometry above a logarithmic scale]
+\label{restore:high-aggregate}
+Fix any $A_0>0$ and $H>0$. Under the fixed positive compact structural
+conditions, if $d\ge A_0\log n$ and $np^2\le C_1$, there is an aggregate
+event $\mathcal E_H$ with
+\[
+ \PP(\mathcal E_H^c)\le C_H e^{-Hd}
+\]
+on which the empirical-floor geometry, weighted degree-energy bounds,
+two-sided total-degree bounds, and true block-total bounds used in
+\cref{restore:fit-geometry-one,restore:fit-geometry-two,restore:fit-block-event}
+hold for the full graph and every graph obtained by deleting at most three
+vertices. The constants may depend on $A_0,H,C_1$ and the structural
+bounds. No condition is imposed on the smallest raw degree or the
+largest spectral row.
+\end{lemma}
+
+\begin{proof}
+The centered bounded-entry norm inequality of Bandeira--van Handel
+\cite[Corollary 3.12 and Remark 3.13]{bvh} gives
+\[
+ \PP\{\norm{A-\Omega}_{\op}>L_H\sqrt d\}
+ \le e^{-(H+2)d}
+\]
+after choosing a sufficiently large fixed $L_H$. Indeed, the row
+variance sum is $O(d)$, the entry bound is one, and the prefactor $n$
+in the norm-tail inequality is absorbed using $\log n\le d/A_0$.
+The completed-mean diagonal has norm $O(p)$ and is absorbed in the
+same threshold. No minimum raw degree is imposed.
+
+The Bernoulli transform of the total number of edges gives, with
+failure probability at most $Ce^{-cnd}$,
+\[
+ cnd\le\sum_iD_i\le Cnd.
+\]
+For each of the fixed $K^2$ true block totals, Bernstein's inequality
+for the independent upper-triangular edges, whose coefficients have
+absolute value at most two, gives
+\[
+ \PP\left\{\left|[Z^\top(A-\Omega)Z]_{ab}\right|>Ln\right\}
+ \le 2\exp\left\{-\frac{cL^2n}{d+L}\right\}.
+\]
+The deterministic completed diagonal costs $O(d)$ and is included
+by increasing $L$. Since $d\to\infty$ and $d^2/n\le C_1$,
+the exponent is at least $c'L^2d/C_1$ for all sufficiently large $n$.
+Increasing the fixed $L=L_H$ therefore makes the failure of all block
+totals at most $C_He^{-(H+2)d}$. The total-degree failure is also
+bounded by $Ce^{-(H+2)d}$ for large $n$.
+
+These three full-graph events imply the required events on every
+fixed-depth minor without a degree-wise probability union. To see this,
+let $J=[n]\setminus T$ with $|T|\le3$, set $A_J=A_{JJ}$ and
+$\Omega_J=\Omega_{JJ}$, and recompute all degrees and the empirical
+floor on $J$. The centered matrix $A_J-\Omega_J$ is a principal
+submatrix of $A-\Omega$, so its norm is at most $L_H\sqrt d$.
+Removing $T$ changes the total raw degree by at most $2|T|n$;
+as $d\to\infty$, the two-sided bound by fixed multiples of $nd$
+therefore persists uniformly over $T$. Removing $T$ changes a true
+block total of $A-\Omega$ by $O(|T|n)$ deterministically, since
+the entries have bounded absolute value. Its $O_H(n)$ bound persists
+as well. The surviving group masses differ from their original
+values by $O(1)$ and remain comparable to $n$.
+
+The recomputed average degree is consequently comparable to $d$.
+For the fixed sufficiently small floor multiplier $a_0$, its threshold
+$\tau_J=a_0\overline D_J$ lies between positive fixed multiples of
+$d$ and below every coordinate of $D_{0,J}=\Omega_J\one$.
+Thus $G_{J,j}=\max(D_{J,j},\tau_J)\ge cd$ and
+$\sum_jG_{J,j}\le Cnd$. The raw norm bound immediately gives
+\begin{align*}
+ \norm{G_J^{-1/2}(A_J-\Omega_J)G_J^{-1/2}}_{\op}
+   &\le C_Hd^{-1/2},\\
+ \sum_{j\in J}\frac{(D_{J,j}-D_{0,J,j})^2}{G_{J,j}}
+   &=\norm{G_J^{-1/2}(A_J-\Omega_J)\one}_2^2
+     \le C_Hn.
+\end{align*}
+Since the population floor is inactive,
+$|G_{J,j}-D_{0,J,j}|\le|D_{J,j}-D_{0,J,j}|$; this proves the
+other weighted energy bound. The fixed signal gap and the residual
+$\norm{(I-U_JU_J^\top)G_J^{1/2}Z_J}_F\le C_H\sqrt n$
+now follow by the deterministic Gram-matrix and projection arguments
+in \cref{prop:sparse-floor}. Those arguments use only the floor,
+total degree, normalized noise, and degree energy, all just proved.
+Intersecting the stated aggregate consequences defines
+$\mathcal E_H$. The three full-graph events imply it simultaneously
+for every indicated minor, proving its claimed failure bound.
+
+For a deleted graph used as independent training data, form the
+analogous event using that graph and its further minors. The same
+argument gives failure probability $C_He^{-Hd}$, and this event is
+measurable from the training graph alone. The full-graph common event
+is used only for deterministic implications, never as a condition
+that would preserve independence of an incident row.
+\end{proof}
+

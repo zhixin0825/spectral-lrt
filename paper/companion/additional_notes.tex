@@ -67,9 +67,17 @@ The current ordinary article uses the regularized block Bernoulli LRT,
 with fixed degree parameters equal to one and no target profiling.
 The current DC result in this companion uses clamped, group-normalized
 nuisance estimates and profiles the target separately for each candidate.
-Both retain raw degrees and the informative normalized eigensystem,
-apply exact degree correction and simple hollowing, and control finite
-hard refits through a uniform invariant basin.
+The ordinary article retains the eigensystem of $WAW$ with
+$W_i=\sqrt{\min(1,b_0\bar D/D_i)}$ and a sufficiently large fixed
+$b_0$. This leaves every vertex below the cap unweighted. The current
+DC result retains the small-floor normalized eigensystem, with
+$G_i=\max(D_i,a_0\bar D)$ and sufficiently small fixed $a_0$.
+Both retain raw degrees, apply exact degree correction and simple
+hollowing, and control finite hard refits through a uniform invariant
+basin. The large-threshold ordinary proof uses the population vector
+$\tau G^{-1/2}Z$; it does not supply the DC argument involving
+$G^{-1/2}\Theta Z$. The small-floor DC geometry and its probability
+bounds are therefore established separately in Section~3.
 
 The older ordinary free-profile growing/replacement/soft-EM schedule
 in \cref{sec:sbm-proof} is a different finite algorithm. Its separate
@@ -124,3 +132,10 @@ now belongs. The original implementation/audit narrative is retained as
 \texttt{archive/scope\_audit.tex}; the obsolete end-of-revision status
 narrative is retained as \texttt{archive/sparse\_interfaces.tex}. These
 source records are not assertions of a remaining logarithmic lower bound.
+
+The ordinary normalized version dated 20 October is preserved as a
+complete source-only snapshot in
+\texttt{archive/ordinary\_normalized\_20261020/}. Its algorithm and
+proof preceded the adjacency-based first article. The snapshot is an
+archival alternative, not an additional hypothesis on the current
+ordinary theorem or an unproved extension of the DC theorem.

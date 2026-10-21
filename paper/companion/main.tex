@@ -48,7 +48,7 @@
 \title{Companion notes: degree correction\\and additional likelihood results\\
 \large A working collection accompanying the SBM article}
 \author{spectral-lrt research project}
-\date{20 October 2026}
+\date{21 October 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -59,8 +59,10 @@ and the regularized fitted Bernoulli profile classifier. Its current
 risk bound requires only $np\to\infty$ and $np^2\le C_1$, with no
 logarithmic lower bound. The DC-specific nuisance estimation,
 profile reduction, and tilted cancellation are retained here.
-Shared degree-floor, spectral-row-tail, and local deleted-graph tools
-are recalled from the SBM article without repeating their full proofs.
+The small-floor geometry and its probability bounds are proved here;
+sharp-transfer, spectral-row-tail, and local deleted-graph tools are
+shared with the adjacency-based SBM article. Their applicability to
+this normalized DC encoder is checked explicitly.
 The later parts preserve the separate earlier unregularized decoders,
 the wider-probability ordinary free-profile result, an obstruction for
 the unrestricted known-target-degree oracle, and auxiliary arguments.
@@ -70,7 +72,7 @@ not restrict the current regularized theorem.
 \end{abstract}
 \paragraph{Reading map.}
 The first article is
-\href{../sbm/sbm_spectral_likelihood.pdf}{\emph{Spectral likelihood classification in stochastic block models}}.
+\href{../sbm/sbm_spectral_likelihood.pdf}{\emph{Adjacency spectral likelihood classification in stochastic block models}}.
 It is independent of this companion. The source package contains the
 following overflow from the combined revision.
 \begin{center}
@@ -79,8 +81,8 @@ following overflow from the combined revision.
 \toprule
 Original component & Present location\\
 \midrule
-Ordinary regularized theorem and shared full proofs
-& The first article; shared statements recalled in Section~3 here.\\[3pt]
+Ordinary adjacency theorem and shared sharp/local tools
+& The first article; small-floor DC geometry proved in Section~3 here.\\[3pt]
 DC model, current regularized algorithm and DC fitting
 & Sections~1--5; bounded degree parameters and no logarithmic lower bound.\\[3pt]
 Earlier normalized geometry, ordinary free-profile decoder and probability closure

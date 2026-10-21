@@ -9,7 +9,7 @@ event $\mathcal E_H$ with
 \[
  \PP(\mathcal E_H^c)\le C_H e^{-Hd}
 \]
-on which the empirical-floor geometry, weighted degree-energy bounds,
+on which the capped-adjacency geometry, weighted degree-energy bounds,
 two-sided total-degree bounds, and true block-total bounds used in
 \cref{restore:fit-geometry-one,restore:fit-geometry-two,restore:fit-block-event}
 hold for the full graph and every graph obtained by deleting at most three
@@ -53,8 +53,8 @@ bounded by $Ce^{-(H+2)d}$ for large $n$.
 These three full-graph events imply the required events on every
 fixed-depth minor without a degree-wise probability union. To see this,
 let $J=[n]\setminus T$ with $|T|\le3$, set $A_J=A_{JJ}$ and
-$\Omega_J=\Omega_{JJ}$, and recompute all degrees and the empirical
-floor on $J$. The centered matrix $A_J-\Omega_J$ is a principal
+$\Omega_J=\Omega_{JJ}$, and recompute all degrees and the cap
+threshold on $J$. The centered matrix $A_J-\Omega_J$ is a principal
 submatrix of $A-\Omega$, so its norm is at most $L_H\sqrt d$.
 Removing $T$ changes the total raw degree by at most $2|T|n$;
 as $d\to\infty$, the two-sided bound by fixed multiples of $nd$
@@ -65,9 +65,9 @@ as well. The surviving group masses differ from their original
 values by $O(1)$ and remain comparable to $n$.
 
 The recomputed average degree is consequently comparable to $d$.
-For the fixed sufficiently small floor multiplier $a_0$, its threshold
-$\tau_J=a_0\overline D_J$ lies between positive fixed multiples of
-$d$ and below every coordinate of $D_{0,J}=\Omega_J\one$.
+For the fixed sufficiently large cap multiplier $b_0$, its threshold
+$\tau_J=b_0\overline D_J$ lies between positive fixed multiples of
+$d$ and above every coordinate of $D_{0,J}=\Omega_J\one$.
 Thus $G_{J,j}=\max(D_{J,j},\tau_J)\ge cd$ and
 $\sum_jG_{J,j}\le Cnd$. The raw norm bound immediately gives
 \begin{align*}
@@ -77,13 +77,21 @@ $\sum_jG_{J,j}\le Cnd$. The raw norm bound immediately gives
    &=\norm{G_J^{-1/2}(A_J-\Omega_J)\one}_2^2
      \le C_Hn.
 \end{align*}
-Since the population floor is inactive,
-$|G_{J,j}-D_{0,J,j}|\le|D_{J,j}-D_{0,J,j}|$; this proves the
-other weighted energy bound. The fixed signal gap and the residual
+The cap exceeds the completed population degrees, so coordinatewise
+\[
+ \frac{(G_{J,j}-\tau_J)^2}{G_{J,j}}
+ \le\frac{(D_{J,j}-D_{0,J,j})^2}{G_{J,j}}.
+\]
+Indeed, the left side is zero when $D_{J,j}\le\tau_J$; otherwise
+$0\le D_{J,j}-\tau_J\le D_{J,j}-D_{0,J,j}$. This proves the
+other weighted energy bound. The order-$d$ signal gap of the
+capped adjacency matrix (a fixed gap after dividing by $\tau_J$)
+and the residual
 $\norm{(I-U_JU_J^\top)G_J^{1/2}Z_J}_F\le C_H\sqrt n$
 now follow by the deterministic Gram-matrix and projection arguments
-in \cref{prop:sparse-floor}. Those arguments use only the floor,
-total degree, normalized noise, and degree energy, all just proved.
+in \cref{prop:sparse-floor}. Those arguments use only
+$G_{J,j}\ge\tau_J\asymp d$, total degree, the displayed rescaled
+noise bound, and the energy relative to $\tau_J$, all just proved.
 Intersecting the stated aggregate consequences defines
 $\mathcal E_H$. The three full-graph events imply it simultaneously
 for every indicated minor, proving its claimed failure bound.

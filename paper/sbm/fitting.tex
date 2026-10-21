@@ -1,21 +1,23 @@
 \section{Block fitting and a uniform refinement basin}
 \label{restore:fit}
 
-Write $D_{0,i}=(\Omega\one)_i$, $\Pi=UU^\top$, and
-$S=G^{-1/2}AG^{-1/2}$. We work on the aggregate event
+Write $D_{0,i}=(\Omega\one)_i$ and $\Pi=UU^\top$. For the
+proof, rescale the encoded adjacency matrix by its common threshold:
+$Q=\widetilde A/\tau=G^{-1/2}AG^{-1/2}$. This changes the eigenvalue scale,
+not the retained eigenspace. We work on the aggregate event
 \begin{align}
- \norm{S-G^{-1/2}\Omega G^{-1/2}}_{\op}
+ \norm{Q-G^{-1/2}\Omega G^{-1/2}}_{\op}
    &\le C/\sqrt d,& \sum_iG_i&\le Cnd,
  \label{restore:fit-geometry-one}\\
- \sum_i\frac{(G_i-D_{0,i})^2+(D_i-D_{0,i})^2}{G_i}
+ \sum_i\frac{(G_i-\tau)^2+(D_i-D_{0,i})^2}{G_i}
    &\le Cn,&
  \norm{(I-\Pi)G^{1/2}Z}_F&\le C\sqrt n,
  \label{restore:fit-geometry-two}\\
  \max_{a,b}\left|[Z^\top(A-\Omega)Z]_{ab}\right|
    &\le Cn.&&\label{restore:fit-block-event}
 \end{align}
-We also have $G_i\ge cd$, $D_{0,i}\asymp d$, and
-$\bar D\asymp d$, with the population floor inactive. The first two
+We also have $G_i\ge\tau\asymp d$, $D_{0,i}\asymp d$,
+$\bar D\asymp d$, and $\tau\ge\max_iD_{0,i}$. The first two
 lines follow from \cref{prop:sparse-floor}; the block-total event is
 paid in the risk proof. All bounds in this section are deterministic
 on this event. A constant subscript $M$ permits dependence on a fixed
@@ -30,9 +32,10 @@ where $O$ is orthogonal. The signal gap gives
  \norm{U-V}_F\le C/\sqrt d,\qquad
  \sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{d/n}.
 \end{equation}
-Moreover $\norm S_{\op}\le1$, since
+Moreover $\norm Q_{\op}\le1$, since
 $|x^\top Ax|\le\sum_iD_ix_i^2\le\sum_iG_ix_i^2$.
-In particular $\norm\Lambda_{\op}\le1$.
+In particular $\norm{\Xi/\tau}_{\op}\le1$, and
+$R_0=G^{1/2}Q_KG^{1/2}$ for $Q_K=U(\Xi/\tau)U^\top$.
 
 \begin{lemma}[Weighted mass of incorrectly assigned vertices]
 \label{restore:fit-wrong-mass}
@@ -48,7 +51,7 @@ These bounds hold simultaneously for all such sets.
 
 \begin{proof}
 The inequality
-$G_i\le2D_{0,i}+(G_i-D_{0,i})^2/G_i$ gives
+$G_i\le2\tau+(G_i-\tau)^2/G_i$ gives
 $\sum_EG_i\le C(d|E|+n)\le C_Mn$. Put
 $a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2$. By
 \eqref{restore:fit-basis} and Cauchy--Schwarz,
@@ -70,8 +73,9 @@ errors on the aggregate event, after one common label permutation.
 
 \begin{proof}
 The normalized rows of $V$ are the $K$ rows of $O$, with pairwise
-distance $\sqrt2$. Fix $b_0>2\max_iD_{0,i}/d$. Each row with
-$G_i>b_0d$ contributes at least $b_0d/4$ to the degree energy, so
+distance $\sqrt2$. Choose a fixed $B_0$ larger than twice the
+uniform upper bound on $\tau/d$. Each row with $G_i>B_0d$
+contributes at least $B_0d/4$ to $\sum_i(G_i-\tau)^2/G_i$, so
 there are at most $Cn/d$ such rows. For every remaining row,
 $\norm{V_{i\cdot}}_2\ge c/\sqrt n$. The normalization inequality
 \[
@@ -81,7 +85,8 @@ $\norm{V_{i\cdot}}_2\ge c/\sqrt n$. The normalization inequality
 (with any fixed unit direction when $u=0$) and
 \eqref{restore:fit-basis} imply that the normalized empirical rows
 $x_i$ have total squared distance at most $Cn/d$ from their true
-centers $c_{z_i}$.
+centers $c_{z_i}$: the remaining rows satisfy this by the displayed
+inequality, and the $O(n/d)$ high-degree rows each contribute at most four.
 
 Call a row good if $\norm{x_i-c_{z_i}}_2\le\epsilon=1/32$.
 At most $m=Cn/d$ rows are bad, and $m<\pi_-n/3$ for large $n$.
@@ -116,17 +121,17 @@ The omitted diagonal is included in the remainder.
 \end{lemma}
 
 \begin{proof}
-Let $S_{\rm tail}=(I-\Pi)S(I-\Pi)$ and
+Let $Q_{\rm tail}=(I-\Pi)Q(I-\Pi)$ and
 $F_1=(I-\Pi)G^{1/2}\one$. Then
-$\norm{S_{\rm tail}}_{\op}\le C/\sqrt d$,
+$\norm{Q_{\rm tail}}_{\op}\le C/\sqrt d$,
 $\norm{F_1}_2\le C\sqrt n$, and the degree correction is exactly
-$v=\mathbf d-R_0\one=G^{1/2}S_{\rm tail}F_1$. Consequently
+$v=\mathbf d-R_0\one=G^{1/2}Q_{\rm tail}F_1$. Consequently
 \[
  \sum_i|v_i|\le Cn,\qquad
  \sum_i|(R_0)_{ii}|
  \le\sum_iG_i\Pi_{ii}
- \le2(\max_iD_{0,i})K
-       +\sum_i\frac{(G_i-D_{0,i})^2}{G_i}\le Cn.
+ \le2\tau K
+       +\sum_i\frac{(G_i-\tau)^2}{G_i}\le Cn.
 \]
 It follows that $\sum_i|(R_1)_{ii}|\le Cn$, and hollowing has
 total absolute cost at most $2\sum_i|(R_1)_{ii}|$. Since
@@ -140,7 +145,7 @@ gives $\norm{\widehat F}_F\le C_M\sqrt n$. Spectral invariance
 gives the exact identity
 \[
  \widehat Z^\top(R_0-A)\widehat Z
-       =-\widehat F^\top S_{\rm tail}\widehat F
+       =-\widehat F^\top Q_{\rm tail}\widehat F
        =O_M(n/\sqrt d).
 \]
 Moving the wrongly labeled vertices changes any raw block total by
@@ -149,7 +154,7 @@ at most $C\sum_{i\in E}D_i\le C_Mn$. Thus
 \eqref{restore:fit-total-accuracy} for $R_0$. The degree correction
 changes a block total by
 $[\widehat Z^\top v]_a\widehat n_b/n$, where
-$\widehat Z^\top v=\widehat F^\top S_{\rm tail}F_1=O_M(n/\sqrt d)$.
+$\widehat Z^\top v=\widehat F^\top Q_{\rm tail}F_1=O_M(n/\sqrt d)$.
 The $O(n)$ hollowing cost completes the proof.
 \end{proof}
 
@@ -246,7 +251,8 @@ rule after at least one update.
 \end{lemma}
 
 \begin{proof}
-Choose large fixed $b,R$. The degree energy bounds
+Choose large fixed $b,R$, with $b$ larger than twice the uniform
+upper bounds on $D_{0,i}/d$ and $\tau/d$. The degree energy bounds
 $|\{i:D_i>bd\}|\le Cn/d$. Also
 $\norm{V_{i\cdot}}_2\le C/\sqrt n$, so
 \eqref{restore:fit-basis} gives
@@ -255,9 +261,9 @@ Every other target satisfies \eqref{restore:fit-local-row} for
 fixed $L$, because $G_i\le C_bd$ there. This exceptional set and
 its bound are independent of the input partition and of $M$.
 
-Let $M_G=G^{-1/2}\Omega G^{-1/2}$ and $S_K=U\Lambda U^\top$.
-Best rank-$K$ approximation gives
-$\norm{S_K-M_G}_{\op}\le C/\sqrt d$; consequently
+Let $Q_0=G^{-1/2}\Omega G^{-1/2}$. Best rank-$K$
+approximation gives $\norm{Q_K-Q_0}_{\op}\le C/\sqrt d$;
+consequently
 \[
  \norm{G^{-1/2}(R_0-\Omega)Z}_F^2
  \le (C/d)\norm{G^{1/2}Z}_F^2\le Cn.

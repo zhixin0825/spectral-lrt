@@ -4,7 +4,7 @@
 The final step uses a deleted graph only as a proof device. The
 implemented procedure retains one full-graph eigensystem.
 For each target $i$, put $B=A_{-i,-i}$ and recompute its degrees,
-floor and projection $H_B$. Throughout this section, all constants
+cap threshold, weights and projection $H_B$. Throughout this section, all constants
 are uniform over the fixed structural class.
 
 \begin{lemma}[Ordinary Bernoulli tilted cancellation]
@@ -25,28 +25,37 @@ satisfy
 \end{lemma}
 
 \begin{proof}
-Both $r_j$ and the completed deleted population degree
-$D_{0,j}$ are constant within each true block. Thus
-$r=D_0h$ exactly for a block-constant vector $h$ with
-$\norm h_\infty\le C/n$. Here $D_0$ and $G$ denote the diagonal
-population and floored degree matrices on the deleted graph.
+The tilted probabilities $r_j$ are constant within each true block
+and satisfy $r_j\le Cp$. Write $\tau$ and $G$ for the threshold
+and diagonal matrix recomputed from $B$. Then $r=\tau h$ exactly
+for the block-constant vector $h=r/\tau$, with
+$\norm h_\infty\le C/n$ because $\tau\asymp d=np$.
+The common scalar $\tau$ may depend on the training graph; this
+identity holds pointwise on its aggregate event.
 Since $H_B$ is the $G$-orthogonal projector,
 \[
  r^\top e
  =-\big\langle(I-H_B)h,(I-H_B)f\big\rangle_G
-       +h^\top(D_0-G)e.
+       +h^\top(\tau I-G)e.
 \]
 By \eqref{eq:floor-weighted-errors}, the two norms in the first
 term are at most $C/\sqrt n$ and $C\sqrt n$. For the second term,
-the weighted degree energy gives
+$\sum_j(G_j-\tau)^2/G_j\le Cn$ gives
 \[
- \norm{G^{-1/2}(D_0-G)h}_2\le C/\sqrt n,
+ \norm{G^{-1/2}(\tau I-G)h}_2\le C/\sqrt n,
  \qquad \norm e_G\le C\sqrt n.
 \]
 This proves the first bound. Since $r_j\le Cp$ and
 $\norm e_2^2\le Cn/d$, the second bound follows as well.
 The deterministic nonedge intercept remains in the oracle score
 and is not absorbed into this cancellation.
+When the cap is inactive on the deleted graph, $G=\tau I$ and
+$H_B=\Pi_B=U_BU_B^\top$. The second term vanishes, leaving the
+ordinary Euclidean adjacency identity
+\[
+ r^\top e
+ =-\big\langle(I-\Pi_B)r,(I-\Pi_B)f\big\rangle.
+\]
 \end{proof}
 
 \begin{proof}[Proof of \cref{restore:sbm-theorem}]
@@ -81,7 +90,7 @@ incident row hits no exceptional deleted spectral row. By
 \cref{restore:tail-energy-lemma,restore:tail-hit-corollary,restore:tail-target-corollary},
 the average probability cost of these spectral exceptions is at
 most $C_He^{-Hd}$ for any prescribed fixed $H$, on choosing fixed
-thresholds sufficiently large. Indeed, the floor gives
+thresholds sufficiently large. Indeed, $G_j\ge\tau\asymp d$ gives
 \eqref{restore:loo-hit} outside a deleted exceptional set
 $\{j:\sqrt n\norm{(U_B)_{j\cdot}}_2>R\}$, whose expected hit
 mass is controlled by \eqref{restore:tail-coefficient-count}.
