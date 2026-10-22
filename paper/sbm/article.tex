@@ -7,23 +7,28 @@ of the graph. We ask whether the degrees and a single adjacency
 eigensystem retain enough information to match the error of the
 incident-row likelihood classifier up to a constant factor.
 
-We construct an explicit classifier with this property for stochastic
-block models with arbitrary fixed \(K\). Its basic quantities are the
-raw degrees, adjacency eigenpairs \((U,\Lambda)\), and a rank-\(K\)
-spectral reconstruction \(F\). When no high-degree truncation is active,
-\(F=A_K=U\Lambda U^\top\). A rowwise degree correction produces
-\(\widehat A\), with zero diagonal and the original row sums. The
-classifier then alternates
-symmetric Bernoulli block fitting with ordinary likelihood classification.
-The only initialization is a deterministic radius-count procedure on
-normalized spectral rows. At least one likelihood update is required;
-any finite number of the specified updates is allowed.
+We construct one degree-plus-spectrum classifier for stochastic block
+models with arbitrary fixed \(K\). The encoder keeps the original degree
+vector and computes one eigensystem \((U,\Lambda)\) of the regularized
+adjacency matrix \(\widetilde A=WAW\). The square-root cap \(W\)
+reweights only vertices whose observed degrees exceed a large fixed
+multiple of the average degree. The retained degree vector is not
+replaced by the degrees of this reweighted matrix.
 
-For the full sparse range, a square-root cap reweights only vertices
-whose degrees exceed a large fixed multiple of the average degree.
-Section~\ref{restore:algorithm} specifies this preprocessing and the
-reconstruction on the original adjacency scale. All spectral steps
-below use this adjacency matrix.
+The decoder reconstructs a rank-\(K\) matrix \(F\) on the original
+adjacency scale, then applies a rowwise correction to obtain
+\(\widehat A\) with zero diagonal and exactly the original row sums.
+This separates the roles of the retained information: the spectral
+reconstruction estimates the row structure, while the observed degree
+supplies its exact total edge count. A deterministic radius-count
+initialization is followed by symmetric Bernoulli block fitting and
+ordinary likelihood classification. At least one likelihood update is
+required; any finite number of the specified updates is allowed.
+The cap, original-scale reconstruction, degree correction and likelihood
+updates are parts of the single algorithm in
+Section~\ref{restore:algorithm}, rather than separate dense and sparse
+decoders. All subsequent computations use only the retained degrees
+and eigenpairs.
 
 The main result holds for every diverging degree scale \(d=np\), subject
 to the upper sparsity condition \(np^2\le C_1\). In particular, it covers
@@ -95,6 +100,10 @@ The input is \(A\) and \(K\). Fix a sufficiently large constant
 only on the structural class. All choices and
 ties below are deterministic. A fixed fallback partition defines the
 algorithm whenever a required operation is undefined.
+The encoder reads the adjacency matrix; the decoder then uses only the
+original degree vector and the retained eigenpairs. The regularization
+and exact degree correction below are included in the algorithm covered
+by the main theorem, not deferred to a separate extension.
 
 \paragraph{Adjacency spectrum.}
 Write
@@ -227,8 +236,11 @@ The appendices prove these estimates for every \(d\to\infty\),
 without requiring a graph-wide bound on the largest spectral row.
 
 \paragraph{Organization of related material.}
-The companion notes contain the degree-normalized formulation, degree
-correction, alternative earlier decoders, counterexamples and
-supplementary derivations. None of
-those notes is required for this article's theorem or proof.
+The companion notes contain degree-corrected SBM extensions,
+alternative degree-normalized formulations, earlier decoders,
+counterexamples and supplementary derivations. The original-degree
+correction required by the ordinary-SBM algorithm remains in
+\cref{restore:algorithm}; all lemmas needed for its oracle-risk guarantee
+remain in this article's appendices. None of the companion notes is
+required for this article's theorem or proof.
 
