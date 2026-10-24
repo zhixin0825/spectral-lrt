@@ -1,57 +1,65 @@
 # Adjacency spectral likelihood classification in stochastic block models
 
-This is the independent ordinary-SBM article, revised on 21 October 2026 to use adjacency spectral information and raw degrees. The compiled 21 October snapshot has 22 pages containing the algorithm, theorem and proofs.
+## 24 October 2026: simple first, complete sparse version retained
 
-**22 October 2026 editorial source revision:** `article.tex` now presents the complete degree-plus-spectrum algorithm from the outset and distinguishes its required raw-degree correction from the DC-SBM companion material. The model, oracle, algorithm steps, theorem and proof outline are unchanged. The PDF, source ZIP and existing build/checksum records still refer to the preceding 21 October build; they have not been regenerated for this editorial revision.
+The article now introduces a spectrum-only likelihood construction before the complete degree-plus-spectrum classifier. The rewrite changes exposition and adds an explicitly separate motivating procedure. It does not replace the complete algorithm, change the oracle, weaken the main theorem, or remove any proof appendix.
 
-- [Article PDF: preceding compiled snapshot](sbm_spectral_likelihood.pdf)
-- [Compilable source package: preceding compiled snapshot](sbm_spectral_likelihood_source.zip)
-- [Current article source](article.tex)
-- [Companion working notes: DC-SBM and additional material](../companion/README.md)
+A new 24-page PDF and a complete source ZIP were compiled and supplied with the conversation. The repository's existing `sbm_spectral_likelihood.pdf`, `sbm_spectral_likelihood_source.zip`, `BUILD.txt`, and their checksum records remain the 21 October compiled snapshot unless replaced in a separate artifact publication. Do not describe those historical binary files as the 24 October build. The current editable sources are `main.tex` and `article.tex`.
 
-## Main result
+## Reading order
 
-For arbitrary fixed K, comparable community sizes, and a general positive symmetric block-probability matrix P whose entries are comparable to p and whose smallest singular value is at least kappa p, the classifier satisfies
+1. Model and one common incident-row oracle.
+2. Spectrum-only likelihood: raw adjacency eigenpairs, reconstructed block counts, symmetric block fitting and likelihood updates. It does not receive the observed degree vector. This motivating procedure has no asserted constant-oracle-risk theorem in the present article.
+3. Complete sparse algorithm: high-degree regularization, original-scale reconstruction, exact degree correction and hollowing, radius-count initialization, and Bernoulli block fits/LRT updates. Exact count and score identities explain its relation to the simple construction.
+4. Main theorem, its scope, proof outline, discussion, and all seven proof appendices.
+
+An inactive cap does not make degree correction inactive. Neither the simple procedure nor a historical free-profile EM decoder is silently identified with the complete estimator.
+
+## Preserved main result
+
+For arbitrary fixed K, comparable community sizes and a general symmetric block matrix P satisfying
+
+    c_- p <= P_ab <= c_+ p,   sigma_min(P) >= kappa p,
+
+with fixed positive structural constants, the complete classifier satisfies
 
     E Mis(z_hat, z) <= C R_oracle
 
-under d = np -> infinity and np^2 <= C1. There is no lower bound proportional to log n. R_oracle is the actual average error probability of the true-parameter, raw incident-row Bernoulli oracle, evaluated at the true labels with a fixed tie rule. The bound gives a constant risk ratio; it does not claim that the ratio tends to one. Exact recovery follows when n R_oracle -> 0.
+under np -> infinity and np^2 <= C1. No lower bound proportional to log n is added. R_oracle remains the actual average error probability of the true-parameter raw incident-row Bernoulli oracle at the true labels, with a fixed tie rule. The constant is independent of n and of the number of specified hard refits. The statement is a bounded risk ratio, not convergence of the ratio to one; exact recovery follows when n R_oracle -> 0.
 
-The finite algorithm retains raw degrees and one eigensystem of the high-degree-regularized adjacency matrix A_tilde = W A W. Its threshold is tau = b0 times the observed average degree, with b0 sufficiently large and fixed. The weight is W_i = 1 when D_i <= tau, and W_i = sqrt(tau / D_i) otherwise. If the cap is inactive, these are precisely the eigenpairs of the original adjacency matrix A. The theorem over every diverging degree scale uses the stated cap.
+Absence of a logarithmic density floor is not absence of the relative entrywise lower bound c_- p or the signal-conditioning assumption. The clipping definition of a data-driven procedure does not itself extend the theorem beyond its stated model class.
 
-The decoder performs exact degree correction and hollowing, initializes by deterministic radius counts, and uses symmetric Bernoulli block fits followed by ordinary, unprofiled likelihood updates. The full nonedge intercept is retained. Any finite positive number of the specified hard refits, including finite adaptive stopping, is covered.
+The complete encoder retains raw degrees and one eigensystem of A_tilde = W A W. With tau = b0 times the observed average degree, W_i is 1 below tau and sqrt(tau / D_i) above tau. The decoder reconstructs F = W^-1 U Lambda U^T W^-1, then applies the same exact degree-preserving hollowing formula as before. Its full nonedge intercept, initializer, symmetric block fit and finite hard-update schedule are unchanged.
 
-The main text uses the familiar eigenpair notation U, Lambda and F for the rank-K reconstruction on the original adjacency scale. Without an active cap, F = A_K = U Lambda U^T. A single off-diagonal row formula defines the final degree-preserving reconstruction A_hat. The proof auxiliaries Z, Omega, G, H, Q and R1 appear only in the appendices. This notation cleanup leaves the algorithm and theorem unchanged.
+## Writing requirements
 
-## Established writing requirements
+Simple-first exposition is encouraged. Build it around the retained complete version rather than rebuilding the manuscript from the simple version. Every required general-algorithm step and every proof dependency must remain identifiable in the ordinary-SBM article.
 
-The full degree-plus-spectrum algorithm is the sole main-text specification. Present it directly, not as a later extension of a degree-free default. An identity for an inactive cap may explain a special case, but is not permission to remove the cap, raw-degree information, reconstruction correction, sparse theorem, or supporting proofs. Simplifying exposition must not change the estimator, theorem scope, or oracle benchmark. Any mathematical change must be identified separately rather than presented as editorial cleanup.
+- State results in terms of R_oracle; keep Chernoff expansions in the proof appendices.
+- Preserve A, P, z, z_hat, K, Mis, U, Lambda, F and A_hat. The superscript (0) is local to the simple construction. Do not introduce a new sparsity parameter or redefine p.
+- Keep arbitrary fixed K, comparable group sizes, the constant oracle-risk comparison, np -> infinity and np^2 <= C1. Do not reintroduce a logarithmic degree floor.
+- Distinguish degree correction in ordinary SBM from the DC-SBM companion. All ordinary-SBM theorem dependencies stay here.
+- Do not attach the general theorem to the raw, uncorrected spectral version. Changes of estimator or mathematical scope must be identified, not described as editorial cleanup.
+- Check preservation by file hashes and theorem/equation comparisons. This is not a substitute for independent mathematical review.
 
-- State the abstract, introduction and main result directly in terms of oracle risk. Keep the exponential expansions and Chernoff calculations in the proof appendices.
-- Write R_oracle in full. Do not reintroduce the abbreviation "or" or the combined-paper suffix R_SBM,*. Preserve the current average oracle-risk definition; do not replace it with a worst-pair equal-prior error or an affinity.
-- Follow Zhou--Li for A, P, z, z_hat, K and Mis. Keep U, Lambda, F and A_hat stable. State the structural assumptions directly on P and p; do not introduce a second block matrix or a new sparsity parameter. The scale p has not been redefined.
-- Use adjacency spectral information and retain the raw degrees. Describe the high-degree cap explicitly; the all-sparsity theorem uses that cap.
-- Preserve arbitrary fixed K, comparable group sizes, the constant oracle-risk comparison, np -> infinity and np^2 <= C1. Do not add a logarithmic degree lower bound.
-- Keep ordinary SBM self-contained in this first article. Its degree correction and every lemma required for its main theorem stay here. DC-SBM extensions and optional alternative material belong in the companion working notes.
-
-The former R_SBM,* notation came from the combined ordinary/DC manuscript. In this separate ordinary-SBM article, the model suffix and star are unnecessary. The completed-mean matrix and other proof-only definitions are introduced where they are first used in the appendices.
-
-## Contents
+## Source map
 
 | File | Content |
 | --- | --- |
-| `article.tex` | Introduction, ordinary model and oracle, complete algorithm, main theorem, proof outline |
+| `article.tex` | Introduction; model/oracle; simple spectrum-only version; complete algorithm; main theorem; proof outline; discussion |
+| `main.tex` | Preamble, abstract and complete input list |
 | `sharp_tail.tex` | Sharp Bernoulli transfer and exceptional-coefficient payment |
 | `geometry.tex` | Capped-adjacency aggregate geometry and weighted cap energy |
 | `row_tail.tex` | Same-threshold truncated spectral-row energy |
 | `local_loo.tex` | Local scalar leave-one-out comparison and exact-degree hollowing |
-| `fitting.tex` | Initializer, block fitting, score replacement, invariant refinement basin |
+| `fitting.tex` | Initializer, block fits, score comparison and invariant refinement basin |
 | `high_range.tex` | Exponentially accurate aggregate geometry |
-| `risk_proof.tex` | Ordinary tilted cancellation and completion over every diverging degree scale |
-| `references.bib` | References cited by this article |
+| `risk_proof.tex` | Tilted cancellation and completion over all diverging degree scales |
+| `references.bib`, `main.bbl` | Editable bibliography and retained generated bibliography |
+| `EDITORIAL_AUDIT_20261024.md` | Preservation checks and precise revision scope |
 
-The article is self-contained and has no proof dependency on the companion. Degree-corrected SBM extensions, alternative degree-normalized formulations, historical alternative decoders, counterexamples, optional derivations and the internal review record are collected in the companion. The ordinary-SBM raw-degree correction is part of this article, not deferred to the companion. The preceding normalized ordinary article is preserved as a source snapshot in `paper/companion/archive/ordinary_normalized_20261020/`. The original 68-page combined note remains archived in `paper/notes/normalized_oracle_risk_20261020/`.
+The seven proof files, structural assumptions, oracle definition, complete-algorithm equations and main theorem are unchanged from base commit `8f3962e913bf32cf6c93d9325b37de4faf171b68`. The companion remains separate. No proof needed by the ordinary-SBM main theorem has been moved to it.
 
-## Build and checks
+## Build
 
-Run the commands in `BUILD.txt` from this directory. The preceding source package includes the generated `main.bbl`, so its bibliography is also available without re-running BibTeX. The 21 October build record reports pdfLaTeX and BibTeX, no undefined references, duplicate labels or overfull boxes, and embedded fonts, with both manuscripts rendered and visually inspected. Those build checks are historical and are not a claim that the 22 October editorial source revision has been compiled or visually inspected.
+The supplied source package includes `main.bbl`. Compile `main.tex` with three PDFLaTeX passes. If bibliography entries are edited, run BibTeX between the first and subsequent PDFLaTeX passes. The 24 October local build used the retained bibliography, produced 24 pages, and had no undefined references/citations or overfull/underfull boxes. These are build and editorial checks, not a new certification of the inherited statistical proofs.

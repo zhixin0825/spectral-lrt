@@ -46,24 +46,26 @@
 \newcommand{\Mis}{\operatorname{Mis}}
 \title{Adjacency spectral likelihood classification\\in stochastic block models}
 \author{}
-\date{21 October 2026}
+\date{24 October 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-We study community classification from the raw degrees and a single
-eigensystem of a high-degree-regularized adjacency matrix. A square-root
-cap reweights only vertices above a large empirical degree threshold
-and permits arbitrarily slowly diverging expected degrees.
-An exact degree correction, deterministic spectral initialization and
-Bernoulli block likelihood updates define a finite classifier. For any
-fixed number of communities, comparable community sizes and a positive
-full-rank block profile, its expected misclassification proportion is at
-most a constant times the oracle risk. The oracle knows the block
-probabilities and all labels except that of the vertex being classified.
-The bound holds whenever \(np\to\infty\) and \(np^2\) is bounded.
-The proof combines truncated spectral-row energy, a local scalar
-leave-one-out comparison and uniform fitted-score bounds. It imposes
-no logarithmic lower bound on expected degree.
+We study community recovery by applying a Bernoulli likelihood criterion
+to spectral reconstructions of a stochastic block model. We first
+explain a spectrum-only version: reconstructed incident block counts
+replace raw edge counts in parameter fitting and likelihood-based label
+updates. We then give the complete sparse classifier, which retains
+original degrees, regularizes high-degree vertices before the spectral
+calculation, and corrects the reconstructed rows to have exactly their
+observed degree totals. For any fixed number of communities, comparable
+community sizes and a positive full-rank block profile, this complete
+classifier has expected misclassification proportion at most a constant
+times the true-parameter incident-row oracle risk whenever
+\(np\to\infty\) and \(np^2\) is bounded. The guarantee concerns the
+complete classifier, not the preliminary spectrum-only version.
+Truncated spectral-row energy, a local leave-one-out comparison and
+uniform fitted-score bounds yield the result without a logarithmic
+lower bound on expected degree.
 \end{abstract}
 \input{article}
 \appendix
