@@ -4,7 +4,7 @@
 For the proof, let $Z$ be the community indicator matrix and write
 $\Omega=ZPZ^\top$ for the completed mean. It includes a diagonal solely
 for algebra; the actual mean is $\E A=\Omega-\diag(\Omega_{ii})$.
-This deterministic difference has norm $O(p)$ and is included in all
+This deterministic difference has norm $O(p^*)$ and is included in all
 error bounds. Let $D_0=\diag(\Omega\one)$. Its diagonal entries are
 block constant and lie between fixed positive multiples of $d$.
 Throughout this section
@@ -18,7 +18,7 @@ $\norm v_G^2=v^\top Gv$. The scalar rescaling $Q$ has the same
 eigenvectors as the encoded adjacency matrix $\widetilde A$.
 
 \begin{proposition}[Aggregate capped-adjacency geometry]\label{prop:sparse-floor}
-Under \eqref{eq:structural}, let $d=np\to\infty$ and $np^2\le C_1$.
+Under \eqref{eq:structural}, let $d=np^*\to\infty$ and $n(p^*)^2\le C_1$.
 For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
 $cd\le\tau\le Cd$, $\tau\ge\max_i(D_0)_{ii}$,
 $cnd\le\sum_iD_i$, and
@@ -70,24 +70,24 @@ For large enough $b_0$, this event implies
  cd\le\tau=b_0\bar D\le Cd,
  \qquad \tau\ge\max_i(D_0)_{ii}.
 \]
-Let $d_*=\max_{i\ne j}n\E A_{ij}\asymp d$, and put
-$W_{h,ii}=\sqrt{\min(1,2d_*/D_i)}$, with value one at zero degrees.
-The changed set $\mathcal S=\{i:D_i>2d_*\}$ contains at most
-$10n/d_*$ vertices except with probability $e^{-cn}$. To check the
-strength of this bound, set $m=\lfloor10n/d_*\rfloor+1$. If $m\le n$
+Since $\E A_{ij}\le p^*$ and $d=np^*$, put
+$W_{h,ii}=\sqrt{\min(1,2d/D_i)}$, with value one at zero degrees.
+The changed set $\mathcal S=\{i:D_i>2d\}$ contains at most
+$10n/d$ vertices except with probability $e^{-cn}$. To check the
+strength of this bound, set $m=\lfloor10n/d\rfloor+1$. If $m\le n$
 and $m$ vertices exceed the threshold, some set $T$ of size $m$ has
-$\sum_{i\in T}D_i>2md_*$. This is an independent-edge sum with
-coefficients in $\{1,2\}$ and mean at most $md_*$. At
+$\sum_{i\in T}D_i>2md$. This is an independent-edge sum with
+coefficients in $\{1,2\}$ and mean at most $md$. At
 $t=(\log2)/2$, its exponential transform bounds the tail by
 \[
- \exp\{-(\log2-1/2)md_*\},
+ \exp\{-(\log2-1/2)md\},
 \]
 because $(e^{tc}-1)/c\le(e^{2t}-1)/2=1/2$ for $c=1,2$.
-Since $\log\binom nm\le m\log(en/m)=o(md_*)$, a union over $T$
+Since $\log\binom nm\le m\log(en/m)=o(md)$, a union over $T$
 gives the stated bound. If $m>n$, the claim is automatic.
 
 Every row of $W_hAW_h$ has squared Euclidean norm at most
-$W_{h,ii}^2D_i\le2d_*$. The row-norm form of the regularized adjacency
+$W_{h,ii}^2D_i\le2d$. The row-norm form of the regularized adjacency
 theorem of Le, Levina and Vershynin
 \cite[Theorem 2.1 and Remark 2.2]{llv2017} therefore yields
 \[
@@ -97,18 +97,18 @@ with failure probability at most $C_rn^{-r}$. The theorem permits
 these graph-dependent weights. Also
 \[
  \norm{W_h\Omega W_h-\Omega}_{\op}
- \le Cp\sqrt{n|\mathcal S|}\le C\sqrt d,
+ \le Cp^*\sqrt{n|\mathcal S|}\le C\sqrt d,
 \]
 by the Frobenius norm: the difference is supported on rows or columns
-in $\mathcal S$. The completed-mean diagonal has norm $O(p)$.
+in $\mathcal S$. The completed-mean diagonal has norm $O(p^*)$.
 Consequently $\norm{W_h(A-\Omega)W_h}_{\op}\le C_r\sqrt d$.
 The exact diagonal comparison is
 \[
- G^{-1/2}=(2d_*)^{-1/2}
- \diag\!\left\{\sqrt{\frac{\max(D_i,2d_*)}{G_i}}\right\}W_h.
+ G^{-1/2}=(2d)^{-1/2}
+ \diag\!\left\{\sqrt{\frac{\max(D_i,2d)}{G_i}}\right\}W_h.
 \]
 The displayed diagonal multiplier is bounded, since
-$G_i\ge\max(D_i,cd)$ and $d_*\asymp d$.
+$G_i\ge\max(D_i,cd)$.
 Conjugation gives the stated bound for the noise in $Q$;
 multiplication by $\tau\asymp d$ proves the adjacency-scale bound
 in \eqref{eq:floor-noise}. Since $G_i\le D_i+\tau$, the total
@@ -139,7 +139,7 @@ comparable group sizes, $G_i\ge cd$ and the total-degree bound give
 \]
 The nonzero spectrum of the capped population matrix $W\Omega W$ is
 the spectrum of $\tau J^{1/2}PJ^{1/2}$. The bound
-$\sigma_{\min}(P)\ge\kappa p$ gives a separation of order $d$ from zero.
+$\sigma_K(P)\ge c p^*$ gives a separation of order $d$ from zero.
 The adjacency noise bound and
 subspace perturbation then give the stated eigenspace and eigenvalue
 bounds. The formula for $V$

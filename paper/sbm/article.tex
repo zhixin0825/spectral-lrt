@@ -28,7 +28,7 @@ For arbitrary fixed \(K\), comparable community sizes and the positive
 full-rank block-probability class specified below, its expected
 misclassification proportion is at most a constant times the error of
 the true-parameter incident-row oracle. The result holds for every
-\(np\to\infty\), subject to \(np^2\le C_1\); it imposes no logarithmic
+\(np^*\to\infty\), subject to \(n(p^*)^2\le C_1\); it imposes no logarithmic
 lower bound on expected degree. The spectrum-only version is a separate
 motivating procedure, not a replacement for the estimator covered by
 this theorem.
@@ -61,23 +61,36 @@ has zero diagonal and independent upper-triangular entries satisfying
  A_{ij}\sim\Ber(P_{z_i z_j}),\qquad
  i<j.
 \end{equation}
-For a positive scale \(p\), put \(d=np\) and assume
+Following Zhou and Li~\cite{zhouli}, define the maximum connection
+probability by
+\[
+ p^*=\max_{a,b\in[K]}P_{ab},\qquad d=np^*.
+\]
+The abbreviation $d$ is used repeatedly in the proofs; it is not an
+additional model parameter. For fixed $\beta\ge1$ and $\omega>1$, assume
 \begin{equation}\label{eq:structural}
- n_a\ge\pi_-n,\qquad P=P^\top,\qquad
- c_-p\le P_{ab}\le c_+p,\qquad
- \sigma_{\min}(P)\ge\kappa p.
+ n_a\ge\frac{n}{\beta K},\qquad P=P^\top,\qquad
+ 0<\frac{p^*}{\omega}\le P_{ab}\le p^*,\qquad
+ \sigma_K(P)\ge c p^*.
 \end{equation}
-The number \(K\) and the positive constants \(\pi_-\), \(c_-\),
-\(c_+\) and \(\kappa\) are fixed, with \(c_-\le c_+<\infty\).
-The matrix \(P/p\) may vary with \(n\) inside this class.
-Constants in bounds may depend on these fixed quantities and on the
-stated upper bound for \(np^2\), but not on \(n\).
+Here $\sigma_1(P)\ge\cdots\ge\sigma_K(P)$ are the singular values
+of the $K$-by-$K$ matrix $P$, and the positive constant $c$ in the
+last condition is fixed. Thus $\beta$ measures community imbalance,
+$\omega$ bounds the ratio of the largest and smallest connection
+probabilities, and the last condition keeps the normalized signal
+nondegenerate. Only the displayed lower bound on community sizes is
+needed. The matrix $P/p^*$ may vary with $n$ inside this class.
+Constants in bounds may depend on fixed $K,\beta,\omega$, the fixed
+lower bound on $\sigma_K(P)/p^*$, and the stated upper bound for
+$n(p^*)^2$, but not on $n$. Elsewhere $c,C$ denote positive constants
+whose values may change between occurrences.
 
 For a partition \(\widehat z\), define
 \[
- \Mis(\widehat z,z)=\frac1n\min_{\sigma\in\mathfrak S_K}
-       \sum_i\ind{\sigma(\widehat z_i)\ne z_i}.
+ \Mis(\widehat z,z)=\frac1n\min_{\pi\in S_K}
+       \sum_i\ind{\pi(\widehat z_i)\ne z_i}.
 \]
+Here $S_K$ is the set of permutations of $[K]$.
 The oracle knows \(P\) and all labels except the tested label. At vertex
 \(i\) it maximizes the exact Bernoulli log likelihood
 \begin{equation}\label{eq:sbm-oracle}
@@ -315,7 +328,7 @@ parameter is an algorithm input.
 \begin{theorem}\label{restore:sbm-theorem}
 Under \eqref{eq:mean-model}--\eqref{eq:structural}, suppose
 \[
- d=np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
+ d=np^*\longrightarrow\infty,\qquad n(p^*)^2\le C_1<\infty.
 \]
 For sufficiently large fixed \(b_0\) and sufficiently small fixed
 \(c_0>0\), the algorithm in
@@ -329,21 +342,21 @@ data-dependent stopping. The constant \(C\) is independent of \(n\)
 and of the number of refits.
 \end{theorem}
 
-There is no condition of the form \(np\ge c\log n\).
+There is no condition of the form \(np^*\ge c\log n\).
 The assumptions allow general symmetric positive block profiles and
 comparable, unequal community sizes. They do not require a planted
-partition or equal expected degrees. The condition \(np^2\le C_1\)
+partition or equal expected degrees. The condition \(n(p^*)^2\le C_1\)
 is retained as an upper sparsity assumption.
 
 \paragraph{Scope of the probability assumptions.}
 The absence of a logarithmic density floor permits, for example,
-\(np=\log\log n\), and indeed any slower divergence. It does not remove
-the separate structural condition \(P_{ab}\ge c_-p\) or the lower
+\(np^*=\log\log n\), and indeed any slower divergence. It does not remove
+the separate structural condition \(P_{ab}\ge p^*/\omega\) or the lower
 singular-value condition in \eqref{eq:structural}. The algorithm does
 not require the true \(P\) as input, but the oracle-risk theorem is
 uniform only over its stated positive, well-conditioned class. We do
 not claim this theorem for arbitrary zero entries or vanishing relative
-signal separation. The upper condition \(np^2\le C_1\) is likewise
+signal separation. The upper condition \(n(p^*)^2\le C_1\) is likewise
 retained; it is not a lower density requirement.
 
 The bound compares the two error probabilities at each \(n\), with a
@@ -387,6 +400,6 @@ Bernoulli LRT. The complete classifier adds high-degree regularization
 and exact observed-degree preservation, while retaining the same
 edge-and-nonedge likelihood principle. Its theorem compares expected
 misclassification directly with \(R_{\mathrm{oracle}}\), without a
-logarithmic lower bound on \(np\). All of the complete algorithm and
+logarithmic lower bound on \(np^*\). All of the complete algorithm and
 its supporting proofs remain in this ordinary-SBM article.
 

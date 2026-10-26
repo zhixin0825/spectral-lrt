@@ -12,21 +12,21 @@ Let $X_j$ be independent Bernoulli variables with probabilities $p_j$,
 and let
 \[
  T=b_0+\sum_jw_jX_j,\qquad
- K(s)=\log\E e^{-sT}.
+ \psi(\alpha)=\log\E e^{-\alpha T}.
 \]
-Suppose $\abs{w_j}\le W$, the minimizer $s_*$ satisfies
-$\tau\le s_*\le1-\tau$ for a fixed $\tau>0$, and under the probability
-measure $Q$ proportional to $e^{-s_*T}$,
+Suppose $\abs{w_j}\le W$, the minimizer $\alpha^*$ satisfies
+$\delta\le \alpha^*\le1-\delta$ for a fixed $\delta>0$, and under the probability
+measure $Q$ proportional to $e^{-\alpha^*T}$,
 \begin{equation}\label{eq:sharp-premises}
  \E_Q T=0,\quad vd\le\operatorname{Var}_Q(T)\le V_0d,
  \quad\sum_jr_j\le V_0d,
 \end{equation}
-where $r_j=Q(X_j=1)$. Put $I=-K(s_*)$.
+where $r_j=Q(X_j=1)$. Put $D^*=-\psi(\alpha^*)$.
 For every fixed $L<\infty$ and all sufficiently large $d$, uniformly over
 $|x|\le L$,
 \begin{equation}\label{eq:sharp-oracle}
- c_Ld^{-1/2}e^{-I}\le\PP(T<x)
- \le\PP(T\le x)\le C_Ld^{-1/2}e^{-I}.
+ c_Ld^{-1/2}e^{-D^*}\le\PP(T<x)
+ \le\PP(T\le x)\le C_Ld^{-1/2}e^{-D^*}.
 \end{equation}
 
 Let $\mathcal W$ be independent of $(X_j)_j$ and let
@@ -43,7 +43,7 @@ training event suppose
 For fixed $M,V$ and every real $x$,
 \begin{equation}\label{eq:sharp-transfer}
  \PP(\widehat T\le x\mid\mathcal W)
- \le C\exp\{s_*x+B+e^M V/2\}\,d^{-1/2}e^{-I}.
+ \le C\exp\{\alpha^*x+B+e^M V/2\}\,d^{-1/2}e^{-D^*}.
 \end{equation}
 The constant is uniform over the training event. In particular $B$ can
 be a nonnegative training-measurable random bound, provided its indicated
@@ -53,13 +53,13 @@ exponential moment is integrated when removing the conditioning.
 \begin{proof}
 Under $Q$, the coordinates remain independent Bernoulli variables,
 \[
- r_j=\frac{p_je^{-s_*w_j}}{1-p_j+p_je^{-s_*w_j}}.
+ r_j=\frac{p_je^{-\alpha^*w_j}}{1-p_j+p_je^{-\alpha^*w_j}}.
 \]
 The sum of their centered weighted third absolute moments is at most
 $2W^3\sum_jr_j=O(d)$. Berry--Esseen and
 \eqref{eq:sharp-premises} therefore show that every interval of length one
 has $Q$ probability at most $C/\sqrt d$, uniformly in its location. Since
-$d\PP/dQ=e^{-I}e^{s_*T}$, partitioning $(-\infty,x]$ into unit intervals
+$d\PP/dQ=e^{-D^*}e^{\alpha^*T}$, partitioning $(-\infty,x]$ into unit intervals
 gives the upper bound in \eqref{eq:sharp-oracle}.
 
 For the lower bound choose a fixed interval $(x-L_0,x)$, with $L_0$
@@ -67,22 +67,22 @@ sufficiently large. Its Gaussian probability under a centered normal
 variable of variance in $[vd,V_0d]$ is at least $cL_0/\sqrt d$ for large
 $d$, uniformly over bounded $x$. Choose $L_0$ so this exceeds twice the
 Berry--Esseen error. The $Q$ probability is then at least $c'/\sqrt d$,
-and $e^{s_*T}$ is bounded below by a positive constant on the interval.
+and $e^{\alpha^*T}$ is bounded below by a positive constant on the interval.
 Using strict endpoints also handles arbitrary lattice atoms and tie rules.
 
 For the perturbation, independence of training and the row allows us to
 regard $b,e$ as fixed. The elementary Bernoulli exponential-moment bound
 gives
 \begin{align*}
- \log\E e^{-s_*\widehat T}
- &= -I-s_*b+\log\E_Qe^{-s_*\sum_je_jX_j}\\
- &\le -I-s_*\left(b+\sum_jr_je_j\right)
-       +\frac{s_*^2e^{s_*M}}2\sum_jr_je_j^2\\
- &\le -I+B+e^M V/2.
+ \log\E e^{-\alpha^*\widehat T}
+ &= -D^*-\alpha^*b+\log\E_Qe^{-\alpha^*\sum_je_jX_j}\\
+ &\le -D^*-\alpha^*\left(b+\sum_jr_je_j\right)
+       +\frac{(\alpha^*)^2e^{\alpha^*M}}2\sum_jr_je_j^2\\
+ &\le -D^*+B+e^M V/2.
 \end{align*}
-Now tilt the original law by $e^{-s_*\widehat T}$.
+Now tilt the original law by $e^{-\alpha^*\widehat T}$.
 Under this new measure $\widehat Q$ the coordinates remain independent and
-their odds are those under $Q$ multiplied by $e^{-s_*e_j}$.
+their odds are those under $Q$ multiplied by $e^{-\alpha^*e_j}$.
 Consequently their probabilities and variances are within fixed factors
 of those under $Q$. Furthermore,
 \[
@@ -110,22 +110,31 @@ where
  w_c^{ab}=\log\frac{P_{ac}(1-P_{bc})}{P_{bc}(1-P_{ac})},\qquad
  b_{i,ab}=\sum_{j\ne i}\log\frac{1-P_{az_j}}{1-P_{bz_j}}.
 \end{equation}
+Write $p_{a,-i}=(P_{az_j})_{j\ne i}$ for the self-excluded row
+profile. Following Zhou and Li~\cite{zhouli}, let
+\[
+ D_\alpha(p_{a,-i}\Vert p_{b,-i})
+ =-\sum_{j\ne i}\log\left[
+ P_{az_j}^{1-\alpha}P_{bz_j}^{\alpha}
+ +(1-P_{az_j})^{1-\alpha}(1-P_{bz_j})^{\alpha}\right].
+\]
 Its exact Chernoff information is
 \begin{equation}\label{eq:sbm-information}
- I_{i,ab}= -\min_{0\le s\le1}
- \sum_{j\ne i}\log\left[
- P_{az_j}^{1-s}P_{bz_j}^{s}
- +(1-P_{az_j})^{1-s}(1-P_{bz_j})^{s}\right].
+ D^*_{i,ab}=\max_{0\le\alpha\le1}
+       D_\alpha(p_{a,-i}\Vert p_{b,-i})
+ =D_{\alpha^*}(p_{a,-i}\Vert p_{b,-i}),
 \end{equation}
+where the maximizing $\alpha^*$ depends on the tested pair.
+The self-exclusion is explicit; no diagonal observation is added.
 On the compact positive full-rank classes used here, probabilities are
-comparable to $p$ and bounded away from one, the weights are bounded,
-$s_*$ stays away from the endpoints, and the tilted variance is comparable
+comparable to $p^*$ and bounded away from one, the weights are bounded,
+$\alpha^*$ stays away from the endpoints, and the tilted variance is comparable
 to $d$. To verify the last assertions, the derivatives of the transform
 at its endpoints are respectively minus and plus the two directional
 Bernoulli KL divergences, both of order $d$. Its second derivative is
 bounded by $Cd$. The row separation implied by
-$\sigma_{\min}(P)\ge\kappa p$ gives a lower bound $cd$ on that derivative
-throughout $[0,1]$: tilted probabilities are comparable to $p$ and the
+$\sigma_K(P)\ge c p^*$ gives a lower bound $cd$ on that derivative
+throughout $[0,1]$: tilted probabilities are comparable to $p^*$ and the
 sum of squared log-odds differences is at least $cn$.
 Thus \cref{lem:sharp} applies uniformly to every pair.
 
@@ -141,7 +150,7 @@ loss to some competitor. Hence
 \]
 By \eqref{eq:sharp-oracle},
 \begin{equation}\label{eq:oracle-pairs}
- q_i\asymp\frac1{\sqrt d}\sum_{b\ne z_i}e^{-I_{i,ab}}
+ q_i\asymp\frac1{\sqrt d}\sum_{b\ne z_i}e^{-D^*_{i,ab}}
 \end{equation}
 The constants may include a factor depending on fixed $K$.
 Fitted partitions are aligned with the true groups by a single common
@@ -173,13 +182,13 @@ Here $B,V$ are fixed constants. For any fixed $M>0$ define
 Then, for every fixed bounded $x$,
 \begin{equation}\label{eq:sparse-truncated-transfer}
  \PP(\widehat T\le x)
- \le C_Md^{-1/2}e^{-I}
+ \le C_Md^{-1/2}e^{-D^*}
        +\E[\ind{\mathcal E}h_M]
        +\PP(\mathcal E^c).
 \end{equation}
 Since $h_M\le C_p\eta_M/M^2$, an expected truncated quadratic error of order
-$d^{-1/2}e^{-I}$ suffices. A bound $Ce^{-Hd}$ is a convenient
-sufficient condition whenever $I\le C_Id$ and $H>C_I$.
+$d^{-1/2}e^{-D^*}$ suffices. A bound $Ce^{-Hd}$ is a convenient
+sufficient condition whenever $D^*\le C_Dd$ and $H>C_D$.
 The expected hit-mass condition on $h_M$ is weaker and is itself enough.
 \end{lemma}
 
@@ -192,7 +201,7 @@ $e'_j=e_j\ind{|e_j|\le M}$. The truncated coefficients satisfy
  \sum_jr_j(e'_j)^2\le V.
 \]
 Hence \cref{lem:sharp} bounds their score error by
-$C_Md^{-1/2}e^{-I}$ on $\mathcal E$.
+$C_Md^{-1/2}e^{-D^*}$ on $\mathcal E$.
 The original and truncated random scores are identical whenever
 $X_j=0$ for every $j$ with $|e_j|>M$. Conditional on training, the
 probability that this fails is at most

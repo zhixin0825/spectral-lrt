@@ -89,7 +89,7 @@ centers $c_{z_i}$: the remaining rows satisfy this by the displayed
 inequality, and the $O(n/d)$ high-degree rows each contribute at most four.
 
 Call a row good if $\norm{x_i-c_{z_i}}_2\le\epsilon=1/32$.
-At most $m=Cn/d$ rows are bad, and $m<\pi_-n/3$ for large $n$.
+At most $m=Cn/d$ rows are bad, and $m<n/(3\beta K)$ for large $n$.
 Inductively, all good rows of a selected block have been removed and
 all good rows of unselected blocks remain. A radius-$1/8$ ball
 centered at a good row of an unselected block contains every good row
@@ -189,7 +189,7 @@ The bound $|F_{ij}|\le a_ia_j$ and
 They also imply $|v_i|\le D_i+\sum_j|F_{ij}|\le Cd$.
 The rank-one correction therefore adds at most $Cd$ to the full
 row mass and $Cd|E|/n\le C_M$ to the wrong-set mass. Finally,
-$|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp$; hollowing changes
+$|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp^*$; hollowing changes
 either bound by at most $2|(R_1)_{ii}|$.
 \end{proof}
 
@@ -224,11 +224,11 @@ The exact criterion is
 $E_{ab}\log q+(N_{ab}-E_{ab})\log(1-q)$. Since
 $0<E_{ab}<N_{ab}$ for large $n$, it has the unique maximizer
 $\widehat P_{ab}=E_{ab}/N_{ab}$. Its clipping bounds are inactive
-because this ratio is between fixed positive multiples of $p$.
+because this ratio is between fixed positive multiples of $p^*$.
 Using $|\widehat n_a-n_a|\le Mn/d$ gives
 \[
  |\widehat P_{ab}-P_{ab}|
- \le C_M\{n/n^2+p(n/d)/n\}\le C_M/n.
+ \le C_M\{n/n^2+p^*(n/d)/n\}\le C_M/n.
 \]
 
 The Bernoulli contrast is exactly a log-odds action plus a nonedge
@@ -239,8 +239,8 @@ wrong neighbor labels changes bounded coefficients on at most
 $Mn/d$ coordinates, again at cost $O_M(1)$.
 For the intercept, bounded derivatives of $\log(1-q)$ give
 parameter cost $n\,O_M(1/n)=O_M(1)$. Wrong neighbor labels change
-each nonedge log-ratio by at most $Cp$, for an additional cost
-$C_M(n/d)p=O_M(1)$. All bounds hold simultaneously for every
+each nonedge log-ratio by at most $Cp^*$, for an additional cost
+$C_M(n/d)p^*=O_M(1)$. All bounds hold simultaneously for every
 partition in the basin; fitted coefficients need not be independent
 of the tested row.
 \end{proof}
@@ -293,7 +293,7 @@ exception in the sharp risk argument.
 
 For $a=z_i$, the population contrast
 $[\Omega w_{ab}]_i+b_{i,ab}$ is the sum of the incident Bernoulli
-Kullback--Leibler divergences, with an $O(p)$ completed-diagonal
+Kullback--Leibler divergences, with an $O(p^*)$ completed-diagonal
 term. Row separation and positive group proportions therefore give
 a uniform lower bound $c_{\rm gap}d$. The block coefficients of
 $w_{ab}$ are bounded. At a regular target,

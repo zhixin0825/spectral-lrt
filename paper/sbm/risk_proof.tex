@@ -26,10 +26,10 @@ satisfy
 
 \begin{proof}
 The tilted probabilities $r_j$ are constant within each true block
-and satisfy $r_j\le Cp$. Write $\tau$ and $G$ for the threshold
+and satisfy $r_j\le Cp^*$. Write $\tau$ and $G$ for the threshold
 and diagonal matrix recomputed from $B$. Then $r=\tau h$ exactly
 for the block-constant vector $h=r/\tau$, with
-$\norm h_\infty\le C/n$ because $\tau\asymp d=np$.
+$\norm h_\infty\le C/n$ because $\tau\asymp d=np^*$.
 The common scalar $\tau$ may depend on the training graph; this
 identity holds pointwise on its aggregate event.
 Since $H_B$ is the $G$-orthogonal projector,
@@ -45,7 +45,7 @@ $\sum_j(G_j-\tau)^2/G_j\le Cn$ gives
  \norm{G^{-1/2}(\tau I-G)h}_2\le C/\sqrt n,
  \qquad \norm e_G\le C\sqrt n.
 \]
-This proves the first bound. Since $r_j\le Cp$ and
+This proves the first bound. Since $r_j\le Cp^*$ and
 $\norm e_2^2\le Cn/d$, the second bound follows as well.
 The deterministic nonedge intercept remains in the oracle score
 and is not absorbed into this cancellation.
@@ -124,19 +124,19 @@ averaging targets and taking the fixed-$K$ union over competitors,
 we obtain
 \begin{equation}\label{eq:sbm-final-payment}
  \E\Mis(\widehat z,z)
- \le\frac Cn\sum_i\sum_{b\ne z_i}d^{-1/2}e^{-I_{i,z_i b}}
+ \le\frac Cn\sum_i\sum_{b\ne z_i}d^{-1/2}e^{-D^*_{i,z_i b}}
        +C_He^{-Hd}+\varepsilon_{\rm geom}.
 \end{equation}
 The strict and non-strict oracle comparisons in
 \eqref{eq:oracle-pairs} bound the first term by
 $C R_{\mathrm{oracle}}$, independently of the oracle tie rule.
 
-On the compact structural class $I_{i,ab}\le C_Id$. Hence
-$R_{\mathrm{oracle}}\ge c d^{-1/2}e^{-C_Id}$.
-Choose $H>C_I+1$ and $r>A_0(C_I+1)+2$. When
+On the compact structural class $D^*_{i,ab}\le C_Dd$. Hence
+$R_{\mathrm{oracle}}\ge c d^{-1/2}e^{-C_Dd}$.
+Choose $H>C_D+1$ and $r>A_0(C_D+1)+2$. When
 $d\le A_0\log n$,
 \[
- \frac{e^{-Hd}+n^{-r}}{d^{-1/2}e^{-C_Id}}\longrightarrow0,
+ \frac{e^{-Hd}+n^{-r}}{d^{-1/2}e^{-C_Dd}}\longrightarrow0,
 \]
 which pays both remainders in \eqref{eq:sbm-final-payment}.
 
@@ -149,8 +149,8 @@ geometry and applies innovation concentration before restricting
 to that event. Its estimates, the local LOO comparison and the
 fitting argument therefore remain valid for this stronger event.
 Equation \eqref{eq:sbm-final-payment} follows with the new geometry
-remainder. Choosing $H,H'>C_I+1$ pays both exponential terms.
+remainder. Choosing $H,H'>C_D+1$ pays both exponential terms.
 The two proof ranges cover every sequence $d\to\infty$ under
-$np^2\le C_1$, proving the theorem without a logarithmic degree
+$n(p^*)^2\le C_1$, proving the theorem without a logarithmic degree
 lower bound.
 \end{proof}

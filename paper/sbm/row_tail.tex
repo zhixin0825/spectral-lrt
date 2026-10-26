@@ -6,7 +6,7 @@ uses a recurrence at a single truncation threshold, together with
 concentration of independent deleted-row innovations.
 
 Work under the fixed structural assumptions of
-\cref{prop:sparse-floor}, with $d=np\to\infty$ and $np^2\le C_1$.
+\cref{prop:sparse-floor}, with $d=np^*\to\infty$ and $n(p^*)^2\le C_1$.
 For the high-degree cap in \cref{restore:algorithm}, recall
 \[
  \tau=b_0\bar D,\qquad
@@ -142,9 +142,9 @@ rotations.  Moreover $\norm T_F^2\le H_R(U)$,
 $\max_j\norm{V_{j\cdot}}_2\le t$, and $\norm V_F\le\sqrt K$.
 Define
 \[
- \beta_i=W_i\left(\sqrt{D_i}+Cd/\sqrt n\right).
+ \xi_i=W_i\left(\sqrt{D_i}+Cd/\sqrt n\right).
 \]
-By \eqref{restore:tail-floor-operator}, $\beta_i^2\le Cd$.
+By \eqref{restore:tail-floor-operator}, $\xi_i^2\le Cd$.
 Equation \eqref{restore:tail-weight-change} yields
 \[
  \norm{\Gamma_iV}_F
@@ -152,7 +152,7 @@ Equation \eqref{restore:tail-weight-change} yields
 \]
 and therefore
 \begin{equation}
- \frac{C\beta_i}d\norm{\Gamma_iV}_F
+ \frac{C\xi_i}d\norm{\Gamma_iV}_F
  \le Ct\left\{\frac1d+\frac{\sqrt{D_i}}{d^{3/2}}\right\}.
  \label{restore:tail-bounded-weight}
 \end{equation}
@@ -166,7 +166,7 @@ $D_i\ge c_*d^3$.
 
 The unbounded part satisfies the summable estimate
 \begin{equation}
- \sum_i\beta_i^2\norm{\Gamma_iT}_F^2\le C\norm T_F^2.
+ \sum_i\xi_i^2\norm{\Gamma_iT}_F^2\le C\norm T_F^2.
  \label{restore:tail-summable-weight}
 \end{equation}
 Indeed, after interchanging $i,j$, the local coefficient of
@@ -200,13 +200,13 @@ $W^{(-i)}f_t(U_J^{(-i)})O_i$ and use radial Lipschitzness,
 \begin{align}
  \norm{U_{i\cdot}}_2\le{}&
  C/\sqrt n+(C/d)\norm{K_i}_2
- +(C\beta_i/d)\norm{U_{i\cdot}}_2\nonumber\\
- &+(C\beta_i/d)\norm{\Gamma_iV}_F
- +(C\beta_i/d)\norm{\Gamma_iT}_F
+ +(C\xi_i/d)\norm{U_{i\cdot}}_2\nonumber\\
+ &+(C\xi_i/d)\norm{\Gamma_iV}_F
+ +(C\xi_i/d)\norm{\Gamma_iT}_F
  +(C/d)\norm{(E_0T)_{i\cdot}}_2.
  \label{restore:tail-row-recursion}
 \end{align}
-The completed-mean diagonal contributes at most $Cpt/d\le Ct/n$
+The completed-mean diagonal contributes at most $Cp^*t/d\le Ct/n$
 and is absorbed in the bounded terms; it is not treated as an
 observed self-loop.
 Although $O_i$ may depend on the tested row, the argument only uses
@@ -225,7 +225,7 @@ The resulting bound is
  \le{}&\frac C{d^2}\norm{K_i}_2^2
                          \ind{\norm{K_i}_2>c'dt}\nonumber\\
  &+\frac C{d^2}\norm{(E_0T)_{i\cdot}}_2^2
- +\frac{C\beta_i^2}{d^2}\norm{\Gamma_iT}_F^2
+ +\frac{C\xi_i^2}{d^2}\norm{\Gamma_iT}_F^2
  +\frac{Ct^2}{d^3}D_i\ind{D_i\ge c_*d^3}.
  \label{restore:tail-pointwise-recursion}
 \end{align}
@@ -247,7 +247,7 @@ Conditional on $A_{JJ}$, \eqref{restore:tail-innovation} is a sum
 of independent centered vectors.  In each coordinate its summands
 are bounded by $t$, and its total variance is at most
 \[
- Cp\norm{W^{(-i)}f_t(U^{(-i)})}_F^2\le Cd/n.
+ Cp^*\norm{W^{(-i)}f_t(U^{(-i)})}_F^2\le Cd/n.
 \]
 These bounds hold for every training graph, without conditioning on
 $\mathcal E_r$.  Bennett's inequality in the fixed $K$ coordinates,

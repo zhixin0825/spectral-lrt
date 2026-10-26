@@ -1,0 +1,39 @@
+{
+  "base_commit": "0fe40da1fee92f7bec3ea3f7f6fdd53faae8c442",
+  "date": "2026-10-26",
+  "total_labels_retained": 95,
+  "total_statements_retained": 17,
+  "simple_algorithm_identical": true,
+  "general_algorithm_identical": true,
+  "main_theorem_only_scale_normalization": true,
+  "protected_equations_identical": {
+    "eq:mean-model": true,
+    "eq:sbm-oracle": true,
+    "eq:oracle-risk": true,
+    "eq:simple-counts": true,
+    "eq:simple-factor-counts": true,
+    "eq:simple-score": true,
+    "eq:simple-fit": true,
+    "restore:reconstruction": true,
+    "eq:count-bridge": true,
+    "eq:score-bridge": true,
+    "eq:block-fit": true,
+    "eq:fitted-row-score": true,
+    "eq:target": true
+  },
+  "source_git_blobs_verified": {
+    "article.tex": "68012465151f440cca2f920a820c8666dcd01a7b",
+    "fitting.tex": "b721dbd4757e67eb071449120105c7791d8abae9",
+    "geometry.tex": "92d34ecb0ceaed4d54bf69b459b846556a134654",
+    "high_range.tex": "e395b4693fed856901d30dcb0c32ad30c04497b4",
+    "local_loo.tex": "360bdecb01f88a609a7968eba44605cbce165dcf",
+    "main.tex": "a80cdbb0e093701d02f015b4134c53a54ddd1359",
+    "risk_proof.tex": "4b91a6dcc72d47357c3cca9edbf54e52e9adbae0",
+    "row_tail.tex": "625a86152c2cb6ff6391078873cd368438d6e257",
+    "sharp_tail.tex": "590b9031285d6ede40d77f63ff4b5e43caab7f34"
+  },
+  "local_pdf_sha256": "5ed6c4b4a9d7d4d0c020fe849d2becdc8e8b90f0502372f1c8b5bc3fc73ee286",
+  "pdf_pages": 25,
+  "repository_pdf_binary_updated": false,
+  "scope": "Notation, fixed-constant equivalence, preservation and build checks; not a new independent mathematical proof review."
+}
