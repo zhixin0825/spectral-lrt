@@ -1,7 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=25mm]{geometry}
 \usepackage{amsmath,amssymb,booktabs}
-\usepackage{tikz,pgfplots}
+\usepackage{tikz,pgfplots,needspace}
+\let\reportsubsection\subsection
+\renewcommand{\subsection}{\Needspace{10\baselineskip}\reportsubsection}
 \pgfplotsset{compat=1.18}
 \usepackage[hidelinks]{hyperref}
 \setlength{\parindent}{0pt}
