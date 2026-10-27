@@ -1,0 +1,65 @@
+[
+  {
+    "name": "symmetric zero diagonal simple Bernoulli graph",
+    "detail": {
+      "edges": 345
+    }
+  },
+  {
+    "name": "top absolute eigenvalues vs independent dense Jacobi",
+    "detail": {
+      "sparse": [
+        15.273860211190215,
+        8.379020074080934
+      ],
+      "dense": [
+        15.273860211190211,
+        8.379020074080945
+      ]
+    }
+  },
+  {
+    "name": "factorized counts equal dense zero-diagonal degree-corrected counts",
+    "detail": {
+      "maxCount": 3.552713678800501e-15,
+      "maxDegree": 7.105427357601002e-15
+    }
+  },
+  {
+    "name": "symmetric block fit equals dense ordered-pair formula",
+    "detail": {
+      "maxFit": 5.551115123125783e-17
+    }
+  },
+  {
+    "name": "block classifier equals independent per-entry edge/nonedge formula",
+    "detail": {
+      "mismatch": 0
+    }
+  },
+  {
+    "name": "exact binomial oracle vs exhaustive enumeration of all 128 incident rows",
+    "detail": {
+      "blockOracle": 0.25431957581662007,
+      "brute": 0.2543195758166198
+    }
+  },
+  {
+    "name": "active degree cap and informative negative eigenpair, with isolated vertices",
+    "detail": {
+      "capWeight": 0.4472135954999579,
+      "eigenvalues": [
+        -2.4494897427831783,
+        2.4494897427831774
+      ],
+      "maxReconstructionError": 8.881784197001252e-16
+    }
+  },
+  {
+    "name": "exact spatial-tree radius counts vs brute force",
+    "detail": {
+      "queries": 70,
+      "mismatches": 0
+    }
+  }
+]

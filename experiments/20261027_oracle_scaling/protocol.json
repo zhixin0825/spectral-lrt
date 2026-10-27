@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-27",
+  "models": [
+    "balanced2",
+    "unequal3",
+    "sublog2"
+  ],
+  "n": [
+    1000,
+    2000,
+    4000,
+    8000,
+    16000
+  ],
+  "graphsPerCell": 20,
+  "updates": 10,
+  "b0": 4,
+  "c0": 0.02,
+  "mainSeedFormula": "270000000 + 1000000*modelIndex + 100*n + replicate, zero-based modelIndex and replicate",
+  "confidence": "independent graph t interval; exact deterministic Bernoulli oracle denominator",
+  "algorithm": "v11 Section 3.2",
+  "selection": "Pilot-only model design frozen before all main seeds; record all pilots; main model definitions in code",
+  "modelsDefinedIn": "run_experiment.cjs",
+  "runtime": "JavaScript V8",
+  "solver": "balanced2: block subspace; unequal3 and sublog2: reorthogonalized Lanczos"
+}
