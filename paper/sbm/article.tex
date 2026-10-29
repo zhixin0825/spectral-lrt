@@ -167,7 +167,7 @@ parameters within this class, and in the number of specified refits.
 Local lemmas state any further dependence on fixed thresholds.
 We retain explicit $c,C$ when their choice or position in a bound
 matters; their values may change between occurrences. Vertex indices
-are $i,j,j'$ and community indices are $k,\ell$, with $\ell'$ used
+are $i,j,j'$ and community indices are $k,\ell$, with $r$ used
 when a third community is needed.
 For any label vector $\widehat z$, use the same size convention
 $n_k(\widehat z)=\sum_i\ind{\widehat z_i=k}$, so $n_k=n_k(z)$.
@@ -192,20 +192,20 @@ $z_i$. An exact global size constraint is not used to infer that label.
 
 The oracle experiment depends on the true community, not on which
 vertex in that community is tested. For a representative target in
-community $k$, let $b_{\ell'}$ be its raw count of edges to community
-$\ell'$. Under $\PP_k$, these counts are independent and
+community $k$, let $b_{r}$ be its raw count of edges to community
+$r$. Under $\PP_k$, these counts are independent and
 \[
- b_{\ell'}\sim\operatorname{Bin}
-       \bigl(n_{\ell'}-\ind{\ell'=k},P_{k\ell'}\bigr),
- \qquad \ell'=1,\ldots,K.
+ b_{r}\sim\operatorname{Bin}
+       \bigl(n_{r}-\ind{r=k},P_{kr}\bigr),
+ \qquad r=1,\ldots,K.
 \]
-There are $n_k-1$ trials in the target's own community and $n_{\ell'}$
+There are $n_k-1$ trials in the target's own community and $n_{r}$
 in every other community. The self-loop is deterministically zero
 under every candidate label and contributes no likelihood term; it
 is not an additional Bernoulli nonedge. For $\ell\ne k$, the exact
 log-likelihood ratio in favor of $k$ against $\ell$ is
 \[
-T_{k\ell}=\sum_{\ell'=1}^K\Bigl[b_{\ell'}\log\frac{P_{k\ell'}}{P_{\ell\ell'}}+(n_{\ell'}-\ind{\ell'=k}-b_{\ell'})\log\frac{1-P_{k\ell'}}{1-P_{\ell\ell'}}\Bigr].
+T_{k\ell}=\sum_{r=1}^K\Bigl[b_{r}\log\frac{P_{kr}}{P_{\ell r}}+(n_{r}-\ind{r=k}-b_{r})\log\frac{1-P_{kr}}{1-P_{\ell r}}\Bigr].
 \]
 For each fixed $k$, all the contrasts $T_{k\ell}$ use the same count
 vector; they are not assumed independent. Different vertices in that
@@ -496,15 +496,15 @@ recovery follows whenever $nR_{\mathrm{oracle}}\to0$.
 For the community-level contrast $T_{k\ell}$, define the adjusted
 Chernoff information using the full community sizes:
 \[
- I_{k\ell}=-\min_{0\le\alpha\le1}\sum_{\ell'=1}^K n_{\ell'}
- \log\!\left[P_{k\ell'}^{1-\alpha}P_{\ell\ell'}^\alpha
- +(1-P_{k\ell'})^{1-\alpha}(1-P_{\ell\ell'})^\alpha\right]
+ I_{k\ell}=-\min_{0\le\alpha\le1}\sum_{r=1}^K n_{r}
+ \log\!\left[P_{kr}^{1-\alpha}P_{\ell r}^\alpha
+ +(1-P_{kr})^{1-\alpha}(1-P_{\ell r})^\alpha\right]
  +\frac12\log(np).
 \]
 Put $I=\min_{k\ne\ell}I_{k\ell}$. Following the sharp testing scale
 in \citet{zhouli}, the added logarithm includes the square-root
-prefactor in the exponent. We use $n_{\ell'}$ rather than
-$n_{\ell'}-\ind{\ell'=k}$ only in this information expression;
+prefactor in the exponent. We use $n_{r}$ rather than
+$n_{r}-\ind{r=k}$ only in this information expression;
 $T_{k\ell}$ and the oracle risk in \eqref{eq:oracle-risk} remain exact.
 Adding the single missing Bernoulli factor increases the exact adjusted
 Chernoff information by an amount between zero and
