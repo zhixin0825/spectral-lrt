@@ -1,405 +1,605 @@
-\section{Introduction}
+\section{Introduction}\label{sec:related-work}
 
-A spectral representation compresses a graph into a small number of
-coordinates per vertex. The usual next step is to group these coordinates
-by geometric proximity. We instead ask a likelihood question: can the
-retained spectral information be used to compare the Bernoulli connection
-patterns of the candidate communities?
+The stochastic block model has a long history as a statistical model
+for community structure in networks. \citet{holland1983} introduced the stochastic blockmodel
+framework in 1983, in which connection probabilities are determined by the
+communities of the two endpoints. Subsequent work developed likelihood
+and Bayesian estimation of latent block structure~\citep{snijders1997,nowicki2001},
+statistical formulations of community recovery~\citep{bickelchen2009},
+and asymptotic theory for likelihood and variational
+estimators~\citep{bickel2013}. A central question throughout this
+literature is how accurately the unknown communities can be recovered
+by a computationally feasible procedure.
 
-The basic construction is simple. Approximate the adjacency matrix by
-its rank-\(K\) spectral reconstruction, sum the reconstructed entries
-within each current community, and insert these real-valued block counts
-into the Bernoulli row likelihood. Alternate estimation of the block
-probabilities with likelihood-based label updates. This spectrum-only
-version introduces the method without degree normalization,
-regularization, or an observed-degree correction.
+\paragraph{Spectral clustering.}
+A standard approach first represents each vertex by a small number of
+spectral coordinates and then clusters these coordinates, typically by
+$k$-means. \citet{rohe2011} studied Laplacian
+spectral clustering, while \citet{sussman2012} analyzed adjacency spectral embedding.
+\citet{lei2015} established consistency guarantees for
+adjacency spectral clustering under sparse block models. These results
+provide a statistical foundation for the familiar combination of a
+spectral representation and a geometric clustering step.
 
-The general sparse classifier retains this likelihood principle but
-adds two explicit operations. High-degree regularization stabilizes the
-spectral representation, and the original degree vector restores the
-exact total number of incident edges in each reconstructed row. These
-operations play different roles: regularization controls the spectrum;
-degree correction preserves a measured component of the likelihood
-evidence. They remain part of the general algorithm even though they
-are not needed to explain the initial spectrum-only construction.
+Sparse graphs require additional care because unusually large or small
+degrees can affect the spectral representation. Regularized spectral
+procedures were studied by \citet{qin2013} and \citet{joseph2016}; \citet{llv2017}
+established concentration results for regularized random graphs.
+\citet{zhouamini2019} analyzed data-driven
+regularization, spectral truncation and clustering in general bipartite
+models, including expected degrees growing arbitrarily slowly.
+\citet{chin2015} developed further spectral recovery
+methods for sparse block models. Thus a logarithmic lower bound on
+expected degree is not an intrinsic requirement of every spectral
+approach.
 
-Our main theorem concerns this complete degree-plus-spectrum classifier.
-For arbitrary fixed \(K\), comparable community sizes and the positive
-full-rank block-probability class specified below, its expected
-misclassification proportion is at most a constant times the error of
-the true-parameter incident-row oracle. The result holds for every
-\(np^*\to\infty\), subject to \(n(p^*)^2\le C_1\); it imposes no logarithmic
-lower bound on expected degree. The spectrum-only version is a separate
-motivating procedure, not a replacement for the estimator covered by
-this theorem.
+\paragraph{Likelihood refinement and optimal error rates.}
+Consistency alone does not determine whether the misclassification
+rate is close to the best possible rate. A common way to improve an
+initial clustering is to estimate its connection probabilities and
+reclassify each vertex using its connections to the estimated
+communities. Comparing two candidate labels is then a local
+likelihood-ratio calculation, possibly with a penalty or a
+pseudo-likelihood approximation. \citet{amini2013} developed scalable pseudo-likelihood methods
+based on incident block counts. \citet{zhangzhou2016}
+characterized minimax misclassification rates through local testing,
+and \citet{gao2017} showed how penalized
+local likelihood refinement can turn a weakly consistent initializer
+into an estimator attaining optimal misclassification rates.
 
-Sharp testing bounds and rate-optimal community recovery are developed
-by Zhou and Li~\cite{zhouli}; spectral clustering guarantees are studied
-by Zhang~\cite{zhang}. Our analysis combines sparse graph
-regularization~\cite{llv2017}, local likelihood comparisons, and
-truncated spectral-row energy. At larger degree scales we also use a
-bounded-entry matrix norm inequality~\cite{bvh}. Rather than requiring
-every spectral row to be uniformly regular, the proof controls the
-average classification risk and the probability that a tested row
-encounters exceptional spectral coefficients.
+The distinction between a leading error exponent and an actual
+constant-factor risk comparison matters here. \citet{zhouamini2020} combined spectral initialization with two
+pseudo-likelihood classifications to obtain an oracle-optimal
+biclustering rate up to constants. \citet{zhouli}
+established sharp testing bounds that retain the prefactor and used
+likelihood updates to obtain rate-optimal SBM recovery. These methods
+show that accurate initialization need not itself be statistically
+optimal: likelihood refinement can recover information that a purely
+geometric assignment does not use. In these constructions the local
+refinement uses observed edges or observed block counts, in addition
+to the initial clustering.
 
-After defining one common model and oracle, Section~\ref{sec:simple}
-explains the spectrum-only version. Section~\ref{restore:algorithm}
-gives the complete sparse algorithm and the exact relation between the
-two reconstructions. Section~\ref{sec:main-result} states its oracle-risk
-guarantee. All proofs required for that guarantee are included in the
-appendices of this article.
+\paragraph{The question addressed here.}
+This development suggests a natural question: can a spectral
+representation itself support the sharp recovery accuracy associated
+with likelihood refinement, without returning to individual adjacency
+entries? By a \emph{spectral representation} we mean the retained
+leading eigenvectors together with their associated eigenvalues.
+The question is not whether spectral initialization can be followed by
+an edge-based likelihood update, but whether the update can instead
+be computed from the retained representation.
 
-\section{Model and the incident-row oracle}\label{sec:statements}
+There is already important progress on the accuracy of spectral
+methods themselves. \citet{afwz} developed
+entrywise eigenvector analysis with sharp community-recovery
+consequences. \citet{zhang} obtained matching leading-exponent
+bounds for spectral clustering through truncated spectral-row
+analysis. Probabilistic classification of spectral coordinates has
+also been studied, for example by \citet{suwan2016}. Our target is a constant-factor comparison
+with a raw-edge likelihood oracle, rather than only a leading-exponent
+comparison or a Gaussian model for the embedding coordinates.
 
-There are \(n\) vertices and a fixed number \(K\ge2\) of communities.
-Following the notation of Zhou and Li~\cite{zhouli}, let
-\(z\in[K]^n\) denote the labels and \(P\) the block-probability matrix.
-Write \(n_a=\#\{i:z_i=a\}\). The symmetric adjacency matrix \(A\)
-has zero diagonal and independent upper-triangular entries satisfying
+We give an affirmative answer to this oracle-risk question for a
+\emph{degree-augmented spectral representation}: one eigensystem of a
+regularized adjacency matrix together with the original vertex degrees.
+We call the resulting procedure \emph{spectral likelihood-ratio clustering}.
+It reconstructs incident block counts, estimates block probabilities,
+and updates the partition through vertexwise likelihood-ratio classification.
+None of these later operations accesses individual adjacency entries.
+The main theorem bounds its expected fraction of misclassified vertices
+by a fixed constant times the error of an oracle that knows the true
+connection probabilities and the other vertices' community labels and
+classifies a vertex from its raw incident edges. The result allows
+arbitrarily slowly diverging expected degrees on the positive,
+well-conditioned model class specified in Section~\ref{sec:statements}.
+The upper sparsity restriction and all other assumptions are stated in
+Section~\ref{sec:main-result}; no logarithmic degree lower bound is
+imposed.
+
+The spectral reconstruction estimates how a vertex's connections are
+distributed across communities. The observed degree supplies their
+exact total, which is not in general preserved by spectral truncation.
+This separation motivates the degree correction in the complete
+procedure. We first explain a spectrum-only construction to make the
+likelihood idea transparent, and then give the degree-augmented
+procedure covered by the theorem. The result is therefore a statement
+about this retained representation and clustering procedure, not a claim that
+ordinary $k$-means or the preliminary uncorrected version satisfies
+the same bound. Section~\ref{sec:oracle-scale} relates the oracle
+error to the sharp testing exponent used by \citet{zhouli},
+including the square-root prefactor, and distinguishes this comparison
+from a classwise minimax statement.
+
+\paragraph{Other recovery objectives and model extensions.}
+Misclassification risk is one of several recovery criteria for SBMs.
+Detection transitions were investigated by \citet{decelle2011}, with sharp two-community results by
+\citet{mns2018} and
+\citet{massoulie2014}; nonbacktracking methods provide
+another spectral approach in very sparse networks~\citep{krzakala2013}.
+Exact-recovery thresholds and efficient procedures were studied by
+\citet{abh2016} and \citet{abbesandon2015}, including semidefinite approaches by
+\citet{hajek2016} and \citet{aminilevina2018}. \citet{abbe2018} surveys these
+recovery notions. Our average-risk guarantee concerns a different
+comparison and yields exact recovery when the total oracle error
+vanishes; it does not address detection at bounded expected degree.
+
+Degree heterogeneity is a separate modeling issue. \citet{karrer2011} introduced a degree-corrected blockmodel;
+related consistency, spectral and minimax results include
+\citet{zhao2012}, \citet{jin2015}, and
+\citet{gmzz2018}. In the ordinary SBM studied
+here, preserving observed degrees corrects a reconstruction; it does
+not introduce vertex-specific degree parameters into the sampling model.
+
+Section~\ref{sec:statements} introduces the stochastic block model,
+notation and oracle. Section~\ref{sec:algorithm} describes spectral likelihood-ratio clustering
+and its intuition, starting with the simple spectral construction.
+Section~\ref{sec:main-result} states the theorem, describes its sharp
+error scale and gives an outline of the proof. Section~\ref{sec:experiments}
+compares the empirical risk with the oracle as the graph size increases
+and reports implementation checks and finite-sample failures. The seven
+appendices contain all supporting arguments.
+
+\section{Stochastic Block Model}\label{sec:statements}
+
+Let $z\in[K]^n$ be the community labels and $P=P^\top$ the block
+probability matrix, where $K\ge2$ is fixed. Write
+$n_k=\sum_i\ind{z_i=k}$. The adjacency matrix $A$ is symmetric, has
+zero diagonal, and has independent upper-triangular entries with
 \begin{equation}\label{eq:mean-model}
- A_{ij}\sim\Ber(P_{z_i z_j}),\qquad
- i<j.
+ A_{ij}\sim\Ber(P_{z_i z_j}),\qquad i<j.
 \end{equation}
-Following Zhou and Li~\cite{zhouli}, define the maximum connection
-probability by
-\[
- p^*=\max_{a,b\in[K]}P_{ab},\qquad d=np^*.
-\]
-The abbreviation $d$ is used repeatedly in the proofs; it is not an
-additional model parameter. For fixed $\beta\ge1$ and $\omega>1$, assume
+Put $p=\max_{k,\ell\in[K]}P_{k\ell}$. For fixed $\beta\ge1$,
+$\omega>1$, and a fixed positive signal constant, assume
 \begin{equation}\label{eq:structural}
- n_a\ge\frac{n}{\beta K},\qquad P=P^\top,\qquad
- 0<\frac{p^*}{\omega}\le P_{ab}\le p^*,\qquad
- \sigma_K(P)\ge c p^*.
+ n_k\ge\frac{n}{\beta K},\qquad
+ 0<\frac{p}{\omega}\le P_{k\ell}\le p,\qquad
+ \sigma_K(P)\ge c p.
 \end{equation}
-Here $\sigma_1(P)\ge\cdots\ge\sigma_K(P)$ are the singular values
-of the $K$-by-$K$ matrix $P$, and the positive constant $c$ in the
-last condition is fixed. Thus $\beta$ measures community imbalance,
-$\omega$ bounds the ratio of the largest and smallest connection
-probabilities, and the last condition keeps the normalized signal
-nondegenerate. Only the displayed lower bound on community sizes is
-needed. The matrix $P/p^*$ may vary with $n$ inside this class.
-Constants in bounds may depend on fixed $K,\beta,\omega$, the fixed
-lower bound on $\sigma_K(P)/p^*$, and the stated upper bound for
-$n(p^*)^2$, but not on $n$. Elsewhere $c,C$ denote positive constants
-whose values may change between occurrences.
+Here $\sigma_K(P)$ is the smallest singular value of the $K$-by-$K$
+matrix $P$. The matrix $P/p$ may vary with $n$. For nonnegative
+quantities, $f\lesssim g$ means $f\le Cg$, $f\gtrsim g$ means
+$g\lesssim f$, and $f\asymp g$ means both. Unless stated otherwise,
+the implicit constants may depend only on fixed $K,\beta,\omega$,
+the fixed positive lower bound on $\sigma_K(P)/p$, the uniform upper
+bound on $np^2$, and the fixed algorithm constants $b_0,c_0$ introduced
+in Section~\ref{restore:algorithm}. They are uniform in $n$, in the
+parameters within this class, and in the number of specified refits.
+Local lemmas state any further dependence on fixed thresholds.
+We retain explicit $c,C$ when their choice or position in a bound
+matters; their values may change between occurrences. Vertex indices
+are $i,j,j'$ and community indices are $k,\ell$, with $\ell'$ used
+when a third community is needed.
+For any label vector $\widehat z$, use the same size convention
+$n_k(\widehat z)=\sum_i\ind{\widehat z_i=k}$, so $n_k=n_k(z)$.
 
-For a partition \(\widehat z\), define
+The misclassification proportion is
 \[
  \Mis(\widehat z,z)=\frac1n\min_{\pi\in S_K}
-       \sum_i\ind{\pi(\widehat z_i)\ne z_i}.
+     \sum_i\ind{\pi(\widehat z_i)\ne z_i},
 \]
-Here $S_K$ is the set of permutations of $[K]$.
-The oracle knows \(P\) and all labels except the tested label. At vertex
-\(i\) it maximizes the exact Bernoulli log likelihood
+where $S_K$ is the set of permutations of $[K]$.
+Following the classification-operator organization of \citet{zhouli},
+write the row-classification formula as
 \begin{equation}\label{eq:sbm-oracle}
- L_i(a)=\sum_{j\ne i}
- \{A_{ij}\log P_{az_j}+(1-A_{ij})\log(1-P_{az_j})\}.
+ [\mathcal L(A,P,\widehat z)]_i
+ =\argmax_{k\in[K]}\sum_{j\ne i}
+   \{A_{ij}\log P_{k\widehat z_j}+(1-A_{ij})\log(1-P_{k\widehat z_j})\}.
 \end{equation}
-It uses uniform candidate weights and a fixed rule for ties. An exact
-global community-size constraint is not used to infer the missing
-label. Its average error probability is
+Enumerate the communities in their fixed tie order, so a tie is won
+by the smallest index. For the raw graph the oracle classifier outputs
+$[\mathcal L(A,P,z)]_i$: it uses the true neighbor labels but not
+$z_i$. An exact global size constraint is not used to infer that label.
+
+The oracle experiment depends on the true community, not on which
+vertex in that community is tested. For a representative target in
+community $k$, let $b_{\ell'}$ be its raw count of edges to community
+$\ell'$. Under $\PP_k$, these counts are independent and
+\[
+ b_{\ell'}\sim\operatorname{Bin}
+       \bigl(n_{\ell'}-\ind{\ell'=k},P_{k\ell'}\bigr),
+ \qquad \ell'=1,\ldots,K.
+\]
+There are $n_k-1$ trials in the target's own community and $n_{\ell'}$
+in every other community. The self-loop is deterministically zero
+under every candidate label and contributes no likelihood term; it
+is not an additional Bernoulli nonedge. For $\ell\ne k$, the exact
+log-likelihood ratio in favor of $k$ against $\ell$ is
+\[
+T_{k\ell}=\sum_{\ell'=1}^K\Bigl[b_{\ell'}\log\frac{P_{k\ell'}}{P_{\ell\ell'}}+(n_{\ell'}-\ind{\ell'=k}-b_{\ell'})\log\frac{1-P_{k\ell'}}{1-P_{\ell\ell'}}\Bigr].
+\]
+For each fixed $k$, all the contrasts $T_{k\ell}$ use the same count
+vector; they are not assumed independent. Different vertices in that
+community give different realizations of this same experiment, so no
+vertex index is needed in its distribution or risk. The average oracle
+error is exactly
 \begin{equation}\label{eq:oracle-risk}
  R_{\mathrm{oracle}}
- =\frac1n\sum_i\PP\!\left\{\argmax_{a\in[K]}L_i(a)\ne z_i\right\}.
+ =\sum_{k=1}^K\frac{n_k}{n}\,
+   \PP_k\!\left\{
+     \min_{\ell<k}T_{k\ell}\le0
+     \ \text{or}\ 
+     \min_{\ell>k}T_{k\ell}<0
+   \right\}.
 \end{equation}
-This is the oracle used throughout the article.
+A minimum over an empty set is $+\infty$. The two inequalities in
+\eqref{eq:oracle-risk} implement the fixed tie rule. This is the same
+average error as $n^{-1}\sum_i\PP\{[\mathcal L(A,P,z)]_i\ne z_i\}$,
+not a new oracle. Section~\ref{sec:oracle-scale}, specifically
+\eqref{eq:oracle-scale-comparison}, relates it to the Chernoff
+information and shows $R_{\mathrm{oracle}}\asymp e^{-I}$ with the
+sharp prefactor included in $I$.
 
-\section{The spectrum-only likelihood construction}\label{sec:simple}
+\section{Spectral likelihood-ratio clustering}\label{sec:algorithm}
 
-We first describe the likelihood idea using only an eigensystem of the
-original adjacency matrix. No observed degree vector is supplied to the
-decoder in this section. The notation \(U,\Lambda\) here refers to the
-\(K\) eigenpairs of \(A\) with largest absolute eigenvalues:
+For fixed model parameters and neighbor labels, the log-likelihood ratio
+between two candidate communities depends on the incident block counts
+and community sizes. Replacing raw counts by their spectral reconstructions
+gives a vertexwise likelihood-ratio classifier. Fitting the block
+probabilities and applying this classifier to all vertices updates the
+estimated partition without reading individual edges again. We first
+give the spectrum-only construction; the general procedure then adds
+regularization and exact preservation of the observed row totals.
+
+\subsection{The spectrum-only construction}\label{sec:simple}
+
+Retain the $K$ eigenpairs of $A$ with largest absolute eigenvalues and
+form
 \[
- AU=U\Lambda,\qquad U^\top U=I_K,\qquad
- A_K=U\Lambda U^\top.
+ AU=U\Lambda,\qquad U^\top U=I_K,\qquad \widehat A=U\Lambda U^\top.
 \]
-Eigenvalues are selected by magnitude, so informative negative
-eigenvalues are retained as well. Remove the diagonal by setting
-\(F^{(0)}_{ii}=0\) and \(F^{(0)}_{ij}=(A_K)_{ij}\) for \(j\ne i\).
-The superscript \((0)\) denotes only this spectrum-only construction.
+Here $\widehat A$ is the rank-$K$ spectral reconstruction, before
+any degree correction. Eigenvalues are selected by magnitude, so
+informative negative ones are retained. The likelihood and parameter
+fits below always exclude the diagonal. This section uses only
+$(U,\Lambda)$ after the spectral calculation, not the observed
+degree vector.
 
-\subsection{From spectral coordinates to block evidence}
+The vertexwise classifier in \eqref{eq:sbm-oracle} is evaluated at
+its first argument: this section substitutes $\widehat A$ for $A$,
+and Section~\ref{restore:algorithm} substitutes $\widehat A^{\mathrm{c}}$.
+These reconstructions can be signed or asymmetric. Their classification
+criterion is a working likelihood, not an assertion that their entries
+are independent Bernoulli observations. The term \emph{spectral
+likelihood-ratio} refers to comparisons of this criterion, not to an
+exact joint likelihood for the retained eigenpairs.
 
-For current labels \(e\in[K]^n\), define the self-excluded community
-sizes and reconstructed block counts by
+\subsubsection{Block counts and likelihood-ratio classification}
+
+Using the same first-argument convention, define the block counts by
 \begin{equation}\label{eq:simple-counts}
- n_c^{(-i)}(e)=\#\{j\ne i:e_j=c\},\qquad
- b_{ic}^{(0)}(e)=\sum_{j\ne i:e_j=c}(A_K)_{ij}.
+ b_{i\ell}(A,\widehat z)=\sum_{j\ne i:\widehat z_j=\ell}A_{ij}.
 \end{equation}
-These quantities can be evaluated from the retained eigenpairs:
+In particular, the spectral counts are computable from the factors:
 \begin{equation}\label{eq:simple-factor-counts}
- b_{ic}^{(0)}(e)
+ b_{i\ell}(\widehat A,\widehat z)
  =U_{i\cdot}\Lambda
-       \left(\sum_{j:e_j=c}U_{j\cdot}\right)^\top
-       -(A_K)_{ii}\ind{e_i=c}.
+       \left(\sum_{j:\widehat z_j=\ell}U_{j\cdot}\right)^\top
+       -\widehat A_{ii}\ind{\widehat z_i=\ell}.
 \end{equation}
-Thus the decoder does not need a second lookup of the incident edges.
-The counts need not be integers or nonnegative; they are reconstructed
-linear statistics, not independently observed Bernoulli data.
-
-If the other labels and the block probabilities were known, the oracle
-score in \eqref{eq:sbm-oracle} could be written using the actual incident
-block counts. The spectrum-only score keeps the same form and substitutes
-\eqref{eq:simple-counts} and fitted probabilities:
+The expression uses only the vertex's retained spectral coordinates
+and the sums of those coordinates within the estimated communities.
+Thus changing the current labels changes the block counts through
+these sums, without another eigendecomposition or edge lookup.
+The reconstructed counts need not be integers or nonnegative. Grouping the criterion
+in \eqref{eq:sbm-oracle} by the current labels gives the candidate-$k$
+score
 \begin{equation}\label{eq:simple-score}
- L_i^{(0)}(a)
- =\sum_{c=1}^K\left\{
- b_{ic}^{(0)}(e)\log\widehat P_{ac}^{(0)}
- +\bigl[n_c^{(-i)}(e)-b_{ic}^{(0)}(e)\bigr]
-                   \log(1-\widehat P_{ac}^{(0)})\right\}.
+ \sum_{\ell=1}^K\left\{
+ b_{i\ell}(A,\widehat z)\log P_{k\ell}
+ +[n_\ell(\widehat z)-\ind{\widehat z_i=\ell}-b_{i\ell}(A,\widehat z)]
+       \log(1-P_{k\ell})\right\}.
 \end{equation}
-The selected community maximizes this score. Both the edge and nonedge
-terms are retained. In particular, the rule compares connection
-probabilities rather than Euclidean distances between spectral points.
-Since \(F^{(0)}\) is reconstructed and may be signed,
-\eqref{eq:simple-score} is a Bernoulli \emph{working criterion}; it is
-not a claim that its reconstructed entries are independent observations.
+Thus the raw-row oracle, the simple spectral update, and the general
+update below use the same classification operator with different
+matrix and parameter inputs. The full nonedge term is retained.
 
-\subsection{A finite spectrum-only procedure}
+The probability fit is just a block average. For this step write
+$b_{i\ell}=b_{i\ell}(\widehat A,\widehat z)$ and compute
+\begin{equation}\label{eq:block-average-operator}
+ \widehat P_{k\ell}\leftarrow
+ \begin{cases}
+ \dfrac{\sum_{i:\widehat z_i=k} b_{i\ell}}
+       {n_k(\widehat z)\,n_\ell(\widehat z)},
+       & k\ne\ell,\\[8pt]
+ \dfrac{\sum_{i:\widehat z_i=k} b_{ik}}
+       {n_k(\widehat z)\,[n_k(\widehat z)-1]},
+       & k=\ell.
+ \end{cases}
+\end{equation}
+Both cases average the reconstructed counts over community $k$ and
+then divide by the number of possible neighbors. The second excludes
+self-connections. Symmetry of $\widehat A$ makes this fit symmetric. Finally, replace estimates below $n^{-2}$
+by $n^{-2}$ and those above $1/2$ by $1/2$; estimates between these
+bounds are unchanged. These restrictions apply only to $\widehat P$,
+not to the reconstructed counts. A zero denominator invokes the
+fixed fallback below.
 
-The following specification makes the simple version explicit. Normalize
-nonzero rows of \(U\) to unit length and give each zero row a fixed unit
-direction. Select a remaining row with the largest number of remaining
-rows within distance \(1/8\), remove rows within distance \(1/4\), and
-repeat for \(K\) representatives. Assign every row to its nearest
-representative. All ties are deterministic. This is the same radius-count
-initialization used later, now applied to the unregularized eigensystem.
+\subsubsection{Initialization and iteration}
 
-For labels \(e\), let \(\mathcal I_{ab}(e)\), \(a\le b\), be the set
-of ordered off-diagonal pairs whose unordered label pair is \(\{a,b\}\).
-For definiteness, use the spectrum-only clipping level \(n^{-2}\) and set
+Normalize each nonzero row of $U$ to unit length; give a zero row a
+fixed unit direction. Select a remaining row having the largest
+number of remaining rows within distance $1/8$, and remove rows within
+distance $1/4$ of it. Repeat for $K$ representatives and assign each
+original row to its nearest representative. All ties are deterministic.
+If fewer than $K$ representatives are available, use a fixed fallback
+partition.
+
+Starting with these labels $\widehat z$, compute $\widehat P$ by
+\eqref{eq:block-average-operator}, apply the stated probability bounds,
+and then update
 \begin{equation}\label{eq:simple-fit}
- \widehat P_{ab}^{(0)}=\widehat P_{ba}^{(0)}
- =\operatorname{clip}_{[n^{-2},\,1/2]}
-   \left(\frac{\sum_{(i,j)\in\mathcal I_{ab}(e)}F^{(0)}_{ij}}
-                   {|\mathcal I_{ab}(e)|}\right).
+ \widehat z\leftarrow\mathcal L(\widehat A,\widehat P,\widehat z).
 \end{equation}
-For \(n\ge K+1\), the clipping interval is nonempty. It keeps the
-logarithms finite without using raw degrees or the unknown probability
-scale. Fit \eqref{eq:simple-fit}, update all labels simultaneously using
-\eqref{eq:simple-score}, and repeat for a specified finite positive
-number of updates. A fixed fallback partition handles empty pair sets,
-insufficient representatives, or other undefined operations. No correct
-initial labels or true block probabilities are inputs.
+Repeat the probability fit and label update for a specified finite
+positive number of rounds. Label updates are simultaneous, with the
+right-hand side evaluated at the pre-update labels. Empty block-pair
+sets or other undefined operations use the fixed fallback.
+The probability bounds depend only on $n$, so no degree or true
+probability parameter is required. For $n\ge K+1$ the interval is nonempty.
 
-The block fit is the exact maximizer of its clipped Bernoulli working
-criterion, even for signed reconstructed totals: the derivative of
-\(B\log q+(N-B)\log(1-q)\) has the sign of \(B/N-q\).
-This coordinatewise fact does not assert monotonicity or convergence of
-the simultaneous label updates. Nor is the constant-oracle-risk theorem
-below asserted for this unregularized, uncorrected procedure. Its purpose
-is to expose the likelihood construction before specifying the extra
-operations used in the general sparse guarantee.
+The block mean in \eqref{eq:block-average-operator}, after the stated
+probability bounds are applied, maximizes
+its Bernoulli working criterion, including when a reconstructed block
+total is signed.
+This fact does not establish convergence or monotonicity of the
+simultaneous label updates. The spectrum-only procedure illustrates
+the likelihood-ratio construction; \cref{restore:sbm-theorem} applies to the complete procedure next.
 
-\section{The general degree-plus-spectrum algorithm}
+\subsection{The general degree-plus-spectrum algorithm}
 \label{restore:algorithm}
 
-The input is \(A\) and \(K\). Fix a sufficiently large constant
-\(b_0>0\) and a sufficiently small constant \(c_0>0\), depending
-only on the structural class. All choices and
-ties below are deterministic. A fixed fallback partition defines the
-algorithm whenever a required operation is undefined.
-The spectrum-only construction uses a low-rank approximation both for
-connection structure and for each row's total mass. These need not be
-equally accurate. The general version keeps the observed total mass
-exact and regularizes the spectral calculation. The encoder reads the
-adjacency matrix; after encoding, the decoder uses only the original
-degree vector and the retained eigenpairs. Every step below is part of
-the algorithm covered by the main theorem. The likelihood updates are
-ordinary SBM updates, not degree-parameter profiling.
+The general clustering procedure retains raw degrees in addition to
+spectral information. It regularizes high-degree vertices before computing
+$\widehat A$, then corrects the row totals. The block-average fit
+and vertexwise likelihood-ratio classifier are given explicitly below.
+Fix sufficiently large $b_0>0$ and sufficiently small
+$c_0>0$, depending only on the structural class. All choices are
+deterministic, with the same fixed fallback for undefined operations.
 
-\paragraph{Adjacency spectrum.}
-Write
+\paragraph{Regularized adjacency spectrum.}
+Let
 \[
- \mathbf d=A\one,\qquad D_i=\mathbf d_i,\qquad
- \bar D=\frac1n\sum_iD_i.
+ D_i=\sum_jA_{ij},\qquad \bar D=\frac1n\sum_iD_i,
+ \qquad \tau=b_0\bar D.
 \]
-The all-zero graph has the fixed output. Otherwise put
-\(\tau=b_0\bar D\). The only spectral preprocessing uses the diagonal
-matrix \(W=\diag(W_i)\), where
+The all-zero graph has the fixed output. Otherwise form the diagonal
+matrix
 \[
  W_i=\begin{cases}
-  1,&D_i\le\tau,\\
-  \sqrt{\tau/D_i},&D_i>\tau.
+ 1,&D_i\le\tau,\\
+ \sqrt{\tau/D_i},&D_i>\tau,
  \end{cases}
+ \qquad W=\diag(W_i),\qquad \widetilde A=WAW.
 \]
-Thus edges between vertices below the threshold keep their original
-weights. Let \(\widetilde A=WAW\), and retain the raw degrees and
-the \(K\) eigenpairs with largest absolute eigenvalues:
+Retain the raw degrees $D_i$ and the $K$ eigenpairs of $\widetilde A$
+with largest absolute eigenvalues:
 \[
- U^\top U=I_K,\qquad \widetilde A U=U\Lambda.
+ \widetilde AU=U\Lambda,\qquad U^\top U=I_K.
 \]
-Only \((\mathbf d,U,\Lambda)\) are used after this step; \(\tau,W\)
-are recovered from \(\mathbf d\). All informative eigenvalues are
-retained by magnitude, allowing either sign.
+The decoder uses only these retained quantities; $\bar D,\tau,W$ are
+recovered from the degrees. Edges between vertices below the threshold
+are unchanged by the cap.
 
-\paragraph{Spectral reconstruction and degree correction.}
-Write the rank-\(K\) reconstruction on the original adjacency scale as
+\paragraph{Original-scale spectral reconstruction and degree correction.}
+The eigenpairs here belong to $\widetilde A=WAW$, so
+$U\Lambda U^\top$ is a reconstruction on the regularized scale.
+On the original adjacency scale, set
 \[
- F=W^{-1}U\Lambda U^\top W^{-1}.
+ \widehat A=W^{-1}U\Lambda U^\top W^{-1}.
 \]
-When the cap is inactive, \(W=I\) and
-\(F=A_K=U\Lambda U^\top\). Set the diagonal to zero and distribute
-each row's degree discrepancy equally over its off-diagonal entries:
+For $W=I$ this reduces to $\widehat A=U\Lambda U^\top$, exactly
+as in the simple version. Write $\widehat A^{\mathrm{c}}$ for its
+degree-preserving, zero-diagonal correction:
 \begin{equation}\label{restore:reconstruction}
- \widehat A_{ii}=0,\qquad
- \widehat A_{ij}=F_{ij}
-      +\frac{D_i-\sum_{k\ne i}F_{ik}}{n-1},\quad j\ne i.
+ \widehat A^{\mathrm{c}}_{ii}=0,\qquad
+ \widehat A^{\mathrm{c}}_{ij}=\widehat A_{ij}
+      +\frac{D_i-\sum_{j'\ne i}\widehat A_{ij'}}{n-1},\quad j\ne i.
 \end{equation}
-Thus \(\widehat A\one=\mathbf d\) exactly.
-The matrix \(\widehat A\) can be signed and need not be symmetric. Its entries
-are not clipped. The formula is computed entirely from the retained
-quantities. In particular, an isolated vertex has a zero reconstructed
-row and does not stop classification of other vertices.
+Then $\sum_j\widehat A^{\mathrm{c}}_{ij}=D_i$ exactly. The entries are not clipped;
+$\widehat A^{\mathrm{c}}$ can be signed and asymmetric. An isolated vertex has a
+zero reconstructed row and does not halt classification of other
+vertices. Everything in \eqref{restore:reconstruction} is computed
+from the retained degrees and eigenpairs.
 
-
-\paragraph{Relation to the simple block counts.}
-For any fixed partition \(e\), write
-\[
- b_{ic}^{F}(e)=\sum_{j\ne i:e_j=c}F_{ij},\qquad
- \delta_i=D_i-\sum_{j\ne i}F_{ij}.
-\]
-The degree-preserving counts satisfy the exact identity
+For the same labels $\widehat z$, the single count definition
+\eqref{eq:simple-counts} gives
 \begin{equation}\label{eq:count-bridge}
- \widehat b_{ic}(e):=\sum_{j\ne i:e_j=c}\widehat A_{ij}
- =b_{ic}^{F}(e)+\frac{n_c^{(-i)}(e)}{n-1}\delta_i,
- \qquad \sum_c\widehat b_{ic}(e)=D_i.
+ \begin{aligned}
+ b_{i\ell}(\widehat A^{\mathrm{c}},\widehat z)-b_{i\ell}(\widehat A,\widehat z)
+ &=\frac{n_\ell(\widehat z)-\ind{\widehat z_i=\ell}}{n-1}
+     \left(D_i-\sum_{j\ne i}\widehat A_{ij}\right),\\
+ \sum_{\ell=1}^K b_{i\ell}(\widehat A^{\mathrm{c}},\widehat z)&=D_i.
+ \end{aligned}
 \end{equation}
-When the cap is inactive, \(b_{ic}^{F}(e)=b_{ic}^{(0)}(e)\).
-The second term in \eqref{eq:count-bridge} is still present: an inactive
-cap does not imply that degree correction is inactive.
-At the same fixed labels and fitted probability matrix, replacing
-\(b^F\) by \(\widehat b\) changes the score contrast between candidates
-\(a\) and \(b\) by exactly
+At fixed $\widehat z$ and $\widehat P$, the resulting change in the
+candidate-$k$ versus candidate-$\ell$ log-likelihood contrast is
 \begin{equation}\label{eq:score-bridge}
- \delta_i\sum_{c=1}^K\frac{n_c^{(-i)}(e)}{n-1}
- \log\frac{\widehat P_{ac}(1-\widehat P_{bc})}
-               {\widehat P_{bc}(1-\widehat P_{ac})}.
+ \left(D_i-\sum_{j\ne i}\widehat A_{ij}\right)
+ \frac1{n-1}\sum_{j\ne i}
+ \log\frac{\widehat P_{k\widehat z_j}(1-\widehat P_{\ell \widehat z_j})}
+               {\widehat P_{\ell \widehat z_j}(1-\widehat P_{k\widehat z_j})}.
 \end{equation}
-This identity shows where the retained degree enters the LRT. It compares
-one update at fixed inputs, not the final outputs of two differently
-fitted algorithms. The spectral reconstruction supplies block structure;
-the correction supplies the exact row total.
+This is an identity for one update at fixed inputs, not for the final
+outputs of two differently fitted procedures. An inactive cap does
+not make the degree correction vanish.
 
-\paragraph{Initialization.}
-Normalize each nonzero row of \(U\) to unit length; assign a fixed unit
-direction to a zero row. Among the remaining rows, select one having
-the largest number of remaining rows within distance \(1/8\), and
-remove all rows within distance \(1/4\) of it. Repeat for \(K\) centers,
-then assign every row to its nearest center. If fewer than \(K\)
-centers can be selected, use the fixed fallback. This is a finite
-procedure using \(O(Kn^2)\) distance comparisons.
-
-\paragraph{Block fitting and classification.}
-Given current labels \(\widehat z\), for \(a\le b\) let
-\(\mathcal I_{ab}(\widehat z)\) contain all ordered pairs \(i\ne j\)
-whose unordered label pair is \(\{a,b\}\). The symmetric fitted
-matrix is
+\paragraph{Initialization, fitting, and classification.}
+Apply the radius-count initialization of Section~\ref{sec:simple} to
+this $U$. It uses $O(Kn^2)$ distance comparisons. Given current labels
+$\widehat z$, recompute $b_{i\ell}=b_{i\ell}(\widehat A^{\mathrm{c}},\widehat z)$
+and form the block averages in \eqref{eq:block-average-operator}.
+Before applying any probability bounds, average the two directions:
 \begin{equation}\label{eq:block-fit}
- \widehat P_{ab}=\widehat P_{ba}
-   =\operatorname{clip}_{[c_0\bar D/n,\,1/2]}
-     \left(\frac{\sum_{(i,j)\in\mathcal I_{ab}(\widehat z)}
-                     \widehat A_{ij}}
-                  {|\mathcal I_{ab}(\widehat z)|}\right).
+ \widehat P\leftarrow\frac{\widehat P+\widehat P^\top}{2}.
 \end{equation}
-This maximizes the ordered-pair Bernoulli working criterion with a
-symmetric block probability. The fit is interior on the event used in
-the proof. Update all labels simultaneously by maximizing
+This is needed because $\widehat A^{\mathrm{c}}$ can be asymmetric.
+Then replace estimates below $c_0\bar D/n$ by $c_0\bar D/n$ and
+those above $1/2$ by $1/2$. The simple version's lower bound $n^{-2}$
+is not used here. Only $\widehat P$ is symmetrized and restricted;
+$\widehat A^{\mathrm{c}}$, its degree sums, and its classification
+rows remain unchanged.
+Update all labels simultaneously by
 \begin{equation}\label{eq:fitted-row-score}
- \widehat L_i(a)=\sum_{j\ne i}
- \{\widehat A_{ij}\log\widehat P_{a\widehat z_j}
-   +(1-\widehat A_{ij})\log(1-\widehat P_{a\widehat z_j})\}.
+ \widehat z\leftarrow\mathcal L(\widehat A^{\mathrm{c}},\widehat P,\widehat z).
 \end{equation}
-In particular, the full nonedge term is retained. There is no target
-degree parameter to profile in this ordinary SBM algorithm.
+These are precisely the symmetric Bernoulli block fit and the full
+edge-and-nonedge row likelihood. There is no target degree parameter
+to profile in this ordinary SBM algorithm. Empty groups, empty pair
+sets, or undefined operations use the fixed fallback.
 
-Perform at least one block fit and likelihood update. The output may
-follow any finite number of these hard refits, including finite
-data-dependent stopping. Empty fitted groups or undefined operations
-use the stated fallback; the proof shows they do not occur on the
-aggregate event. No leave-one-out graph, true label or true model
-parameter is an algorithm input.
+Perform at least one completed fit and label update. Any finite number
+of these hard refits is permitted, including finite data-dependent
+stopping. The proof shows that the required operations are well-defined
+on its aggregate event. No true labels, true parameters, or
+leave-one-out eigensystems are algorithm inputs.
 
-\section{Oracle-risk guarantee}\label{sec:main-result}
+\section{Main theorem and proof outline}\label{sec:main-result}
+
+The theorem concerns the complete spectral likelihood-ratio clustering
+procedure of Section~\ref{restore:algorithm}, including its original-degree
+correction. The spectrum-only construction in Section~\ref{sec:simple}
+explains the likelihood-ratio principle; it is not assigned the complete
+procedure's guarantee.
+The model, oracle and estimator have now all been specified.
 
 \begin{theorem}\label{restore:sbm-theorem}
 Under \eqref{eq:mean-model}--\eqref{eq:structural}, suppose
 \[
- d=np^*\longrightarrow\infty,\qquad n(p^*)^2\le C_1<\infty.
+ np\longrightarrow\infty,\qquad np^2\le C_1<\infty.
 \]
 For sufficiently large fixed \(b_0\) and sufficiently small fixed
 \(c_0>0\), the algorithm in
 \cref{restore:algorithm}, after any finite positive number of the
 specified likelihood updates, satisfies
 \begin{equation}\label{eq:target}
- \E\Mis(\widehat z,z)\le C R_{\mathrm{oracle}}
+ \E\Mis(\widehat z,z)\lesssim R_{\mathrm{oracle}}
 \end{equation}
 for all sufficiently large \(n\). The same bound holds for finite
-data-dependent stopping. The constant \(C\) is independent of \(n\)
-and of the number of refits.
+data-dependent stopping. The implicit constant has only the fixed
+dependencies specified in Section~\ref{sec:statements}; in particular,
+it is independent of \(n\) and of the number of refits.
 \end{theorem}
 
-There is no condition of the form \(np^*\ge c\log n\).
-The assumptions allow general symmetric positive block profiles and
-comparable, unequal community sizes. They do not require a planted
-partition or equal expected degrees. The condition \(n(p^*)^2\le C_1\)
-is retained as an upper sparsity assumption.
-
-\paragraph{Scope of the probability assumptions.}
-The absence of a logarithmic density floor permits, for example,
-\(np^*=\log\log n\), and indeed any slower divergence. It does not remove
-the separate structural condition \(P_{ab}\ge p^*/\omega\) or the lower
-singular-value condition in \eqref{eq:structural}. The algorithm does
-not require the true \(P\) as input, but the oracle-risk theorem is
-uniform only over its stated positive, well-conditioned class. We do
-not claim this theorem for arbitrary zero entries or vanishing relative
-signal separation. The upper condition \(n(p^*)^2\le C_1\) is likewise
-retained; it is not a lower density requirement.
-
-The bound compares the two error probabilities at each \(n\), with a
-constant independent of \(n\). It asserts a bounded risk ratio;
-it does not assert that the ratio tends to one. Since a nonzero
-misclassification proportion is at least \(1/n\), the theorem also
-implies exact recovery whenever \(nR_{\mathrm{oracle}}\to0\).
-
-\subsection{Proof structure}
-
-Aggregate adjacency estimates give the spectral initializer and an
-invariant \(O(n/d)\) error basin. Uniform block fitting and a local
-leave-one-out comparison reduce fitted contrasts, up to an \(O(1)\)
-remainder, to independent incident-row scores. Relative to the true
-Bernoulli contrast, their coefficient errors have bounded tilted mean
-and quadratic mass.
-
-A truncated spectral-row energy bound controls exceptional rows in
-average risk. Paying only for exceptional coefficients actually hit
-by the tested row, the probability comparison bounds the fitted
-classifier's risk by a constant times the oracle risk.
-The appendices prove these estimates for every \(d\to\infty\),
-without requiring a graph-wide bound on the largest spectral row.
-
-\paragraph{Organization of related material.}
-The companion notes contain degree-corrected SBM extensions,
-alternative degree-normalized formulations, earlier decoders,
-counterexamples and supplementary derivations. The original-degree
-correction required by the ordinary-SBM algorithm remains in
-\cref{restore:algorithm}; all lemmas needed for its oracle-risk guarantee
-remain in this article's appendices. None of the companion notes is
-required for this article's theorem or proof.
+The result permits $np=\log\log n$ and arbitrarily slower
+divergence. It does not impose $np\ge c\log n$, a planted partition,
+or equal expected degrees. It retains the probability-comparability
+and signal conditions in \eqref{eq:structural}, as well as the upper
+bound on $np^2$. Thus it is not a statement for arbitrary zero
+block probabilities or vanishing relative signal separation.
+The risk ratio is bounded, not asserted to tend to one. Since a
+nonzero misclassification proportion is at least $1/n$, exact
+recovery follows whenever $nR_{\mathrm{oracle}}\to0$.
 
 
-\section{Discussion}
+\subsection{The sharp oracle scale and its interpretation}\label{sec:oracle-scale}
 
-The two presentations separate the statistical idea from the operations
-needed for the general sparse result. The spectrum-only construction
-shows how a spectral representation yields block evidence for a
-Bernoulli LRT. The complete classifier adds high-degree regularization
-and exact observed-degree preservation, while retaining the same
-edge-and-nonedge likelihood principle. Its theorem compares expected
-misclassification directly with \(R_{\mathrm{oracle}}\), without a
-logarithmic lower bound on \(np^*\). All of the complete algorithm and
-its supporting proofs remain in this ordinary-SBM article.
+For the community-level contrast $T_{k\ell}$, define the adjusted
+Chernoff information using the full community sizes:
+\[
+ I_{k\ell}=-\min_{0\le\alpha\le1}\sum_{\ell'=1}^K n_{\ell'}
+ \log\!\left[P_{k\ell'}^{1-\alpha}P_{\ell\ell'}^\alpha
+ +(1-P_{k\ell'})^{1-\alpha}(1-P_{\ell\ell'})^\alpha\right]
+ +\frac12\log(np).
+\]
+Put $I=\min_{k\ne\ell}I_{k\ell}$. Following the sharp testing scale
+in \citet{zhouli}, the added logarithm includes the square-root
+prefactor in the exponent. We use $n_{\ell'}$ rather than
+$n_{\ell'}-\ind{\ell'=k}$ only in this information expression;
+$T_{k\ell}$ and the oracle risk in \eqref{eq:oracle-risk} remain exact.
+Adding the single missing Bernoulli factor increases the exact adjusted
+Chernoff information by an amount between zero and
+$-\log(1-p)=O(p)$, as shown in Appendix~\ref{sec:sharp}.
+Thus $e^{-I_{k\ell}}$ is a risk scale, not an exact probability, and
+this simplification changes that scale by at most a fixed factor.
+The full-size expression satisfies $I_{k\ell}=I_{\ell k}$ by
+replacing $\alpha$ with $1-\alpha$; the exact directional risks need
+not be equal.
 
+Under the fixed structural assumptions and $np\to\infty$,
+Appendix~\ref{sec:sharp} proves, uniformly over $k\ne\ell$ and
+bounded $x$,
+\[
+ \PP_k(T_{k\ell}<x)\asymp
+ \PP_k(T_{k\ell}\le x)\asymp e^{-I_{k\ell}}.
+\]
+A strict defeat by any competitor forces an oracle error, and an
+oracle error entails a non-strict defeat by some competitor. For
+fixed $K$, \eqref{eq:oracle-risk} therefore gives
+\begin{equation}\label{eq:oracle-scale-comparison}
+ \begin{aligned}
+ R_{\mathrm{oracle}}
+ &\asymp\sum_{k=1}^K\frac{n_k}{n}
+              \sum_{\ell\ne k}\PP_k(T_{k\ell}\le0)\\
+ &\asymp\sum_{k=1}^K\frac{n_k}{n}
+              \sum_{\ell\ne k}e^{-I_{k\ell}}
+ \asymp e^{-I}.
+ \end{aligned}
+\end{equation}
+For the final comparison, a pair attaining $I$ has weight at least
+$1/(\beta K)$, whereas the total weight of all pairs is $K-1$.
+No equality of the pairwise exponents, and no independence of the
+competing contrasts, is needed. The main conclusion can thus be written
+\[
+ \E\Mis(\widehat z,z)\lesssim R_{\mathrm{oracle}}\asymp e^{-I}.
+\]
+Here $I$ is a sharp error exponent, not the unmodified Chernoff
+information or an exact negative log risk. The proof always tilts the
+actual self-excluded row law. Its exact exponent can be replaced by
+$I_{k\ell}$ in constant-factor bounds, but not in exact
+change-of-measure identities without the one-coordinate correction.
+
+A minimax lower bound is a statement about the worst-case risk over
+a specified parameter class, as in
+\citep{zhangzhou2016,zhouli,zhouamini2020}. Where such a lower bound
+matches this sharp scale on the same class, a uniform oracle upper
+bound yields minimax-rate optimality. That reasoning does not give
+a pointwise lower bound for this estimator at every parameter value.
+Accordingly, the theorem retains the upper inequality for the
+algorithmic risk; the two-sided comparison above is for the oracle.
+
+\subsection{Outline of the proof}\label{sec:proof-strategy}
+
+\paragraph{Initialization and fitted likelihoods.}
+Aggregate regularized spectral estimates give an initial partition
+with $\Mis(\widehat z,z)\lesssim (np)^{-1}$. The block-fit analysis keeps its
+dependence on the current error explicit: for sufficiently accurate current labels on the aggregate event,
+\[
+ \max_{k,\ell}|\widehat P_{k\ell}-P_{k\ell}|
+ \lesssim n^{-1}+p\Mis(\widehat z,z).
+\]
+At a locally regular target, replacing the fitted parameters and
+neighbor labels by their true values changes a reconstructed-row
+likelihood contrast by $O(1+np\Mis(\widehat z,z))$. The initializer
+and all specified refits share one fixed $O((np)^{-1})$ error bound,
+making this score cost
+bounded uniformly over all iterates. Appendix~\ref{restore:fit}
+proves these statements, with one common label matching.
+
+\paragraph{From a reconstructed score to independent incident edges.}
+The full-graph eigenvectors depend on the row being classified.
+For analysis only, remove the tested vertex and recompute the training
+representation. A local leave-one-out comparison expresses the actual
+reconstructed score as a linear statistic of the independent incident
+edges, with coefficients determined by the deleted graph, plus a
+bounded remainder. At the oracle tilt, projection identities bound
+both the mean error and the quadratic mass of the coefficient
+perturbation. No deleted graph or additional eigensystem is computed
+by the algorithm. These are the roles of Appendices~\ref{restore:loo}
+and~\ref{sec:probability}.
+
+\paragraph{Sharp risk without a logarithmic degree floor.}
+Uniform control of every spectral row would be unnecessarily strong
+for average misclassification risk. Instead, the truncated-row bound
+in Appendix~\ref{restore:tail-section} controls the expected mass of
+exceptional coefficients, and the tested row pays for them only when
+it actually encounters them. The sharp likelihood comparison in
+Appendix~\ref{sec:sharp} retains the prefactor already included in
+$I$. The polynomial and exponential aggregate bounds in
+Appendices~\ref{sec:sparse-extension} and~\ref{sec:high-range} cover
+complementary degree ranges; their combination is not a logarithmic
+lower-degree assumption. Averaging the local bounds and paying the
+exceptional events at the oracle scale completes the theorem.
+
+All seven proof appendices remain part of this ordinary-SBM article.
+No degree-corrected-SBM extension or companion note is needed for its
+main theorem.

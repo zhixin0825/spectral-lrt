@@ -8,124 +8,126 @@ to write a generalized eigenvalue equation; this does not change its
 retained eigenspace or the reconstruction $AH$.
 
 \begin{lemma}[A local scalar comparison for capped adjacency]\label{restore:loo-scalar}
-Write $A=\left(\begin{smallmatrix}0&x^\top\\x&B\end{smallmatrix}\right)$,
-$k=\sum_jx_j\le Ld$, and let
+Put the tested vertex $i$ first and write $A=\left(\begin{smallmatrix}0&x^\top\\x&B\end{smallmatrix}\right)$,
+$D_i=\sum_jx_j\le L_D{np}$, and let
 $\Delta=\diag\{\max(D_{B,j},\tau_B)\}$ be recomputed from $B$.
 Suppose
 \[
- cd\le\Delta_j,\qquad \sum_j\Delta_j\le Cnd,
+ c{np}\le\Delta_j,\qquad \sum_j\Delta_j\le C{n^2p},
  \qquad Q_B=\Delta^{-1/2}B\Delta^{-1/2}
    =U_B(\Lambda_B/\tau_B)U_B^\top+N,
 \]
 where $\Lambda_B$ contains the retained eigenvalues of $\tau_BQ_B$,
-$NU_B=0$, $\norm N_{\op}\le C/\sqrt d$, and the $K$ retained
+$NU_B=0$, $\norm N_{\op}\le C/\sqrt {np}$, and the $K$ retained
 eigenvalues of $Q_B$ have a fixed gap from zero. Let the full diagonal cap weight be
-$G=\diag(g,\Delta+E)$, with
+$G=\diag(G_i,\Delta+E)$, with
 \[
- cd\le g\le Cd,\qquad E=E_\mathrm{loc}+E_\mathrm{glob},\qquad
+ c{np}\le G_i\le C{np},\qquad E=E_\mathrm{loc}+E_\mathrm{glob},\qquad
  0\le E_\mathrm{loc}\le\diag(x),\quad
- \norm{E_\mathrm{glob}}_{\op}\le Cd/n.
+ \norm{E_\mathrm{glob}}_{\op}\le Cp.
 \]
-Here $d\to\infty$ and $d\le Cn$. Suppose only on hit coordinates that
+Here ${np}\to\infty$ and ${np}\le Cn$. Suppose only on hit coordinates that
 \begin{equation}\label{restore:loo-hit}
  \norm{\Delta_j^{-1/2}(U_B)_{j\cdot}}_2
-       \le R/\sqrt{nd}\quad\text{whenever }x_j=1.
+       \le \frac{R}{n\sqrt p}\quad\text{whenever }x_j=1.
 \end{equation}
 Let $U$ contain orthonormal informative eigenvectors of $\widetilde A=WAW$, and put
 \[
- H_G=G^{-1/2}UU^\top G^{1/2},\qquad
+ H=G^{-1/2}UU^\top G^{1/2},\qquad
  H_B=\Delta^{-1/2}U_BU_B^\top\Delta^{1/2}.
 \]
-For every $\norm w_\infty\le W_0$, uniformly over the stated inputs,
+For every $\norm w_\infty\le C_w$, uniformly over the stated inputs,
 \begin{equation}\label{restore:loo-main}
- (AH_Gw)_i=x^\top H_Bw_{-i}+O_{L,R,W_0}(1).
+ (AHw)_i=x^\top H_Bw_{-i}+O(1).
 \end{equation}
-No bound is assumed on unhit rows of $U_B$ or on $\max_j\Delta_j$.
+Implicit constants may depend on $L_D,R,C_w$ and the other fixed bounds
+in the statement. No bound is assumed on unhit rows of $U_B$ or on $\max_j\Delta_j$.
 \end{lemma}
 
 \begin{proof}
-For $k=0$ both row actions vanish. For $k>0$, put
+For $D_i=0$ both row actions vanish. For $D_i>0$, put
 $E_\Delta=\Delta^{-1/2}E\Delta^{-1/2}$, $h=\Delta^{-1/2}x$,
-$Q_\perp=I-U_BU_B^\top$. Then $\norm{E_\Delta}\le C/d$ and
-$\norm h^2\le Ck/d$. The scalar-rescaled matrix $Q=G^{-1/2}AG^{-1/2}$ differs from
-$\diag(0,Q_B)$ by $O(d^{-1/2})$: its off-diagonal row has norm
-at most $C\sqrt{k/(gd)}$, and the lower renormalization has norm
-$O(d^{-1})$. Thus the full signal remains separated.
+$\Pi_B^\perp=I-U_BU_B^\top$. Then $\norm{E_\Delta}\le C/(np)$ and
+$\norm h^2\le CD_i/(np)$. The scalar-rescaled matrix $Q=G^{-1/2}AG^{-1/2}$ differs from
+$\diag(0,Q_B)$ by $O({(np)}^{-1/2})$: its off-diagonal row has norm
+at most $C\sqrt{D_i/(G_i{np})}$, and the lower renormalization has norm
+$O({(np)}^{-1})$. Thus the full signal remains separated.
 
 For an eigenvalue $\mu_r$ of $Q=\widetilde A/\tau_A$, write a full
 generalized eigenvector as
 \[
- G^{-1/2}u_r=\binom{t_r}{\Delta^{-1/2}(U_By_r+z_r)},
- \qquad U_B^\top z_r=0.
+ G^{-1/2}u_r=\binom{t_r}{\Delta^{-1/2}(U_By_r+u_r^\perp)},
+ \qquad U_B^\top u_r^\perp=0.
 \]
 The exact top and complementary equations are
 \begin{align*}
- h^\top(U_By_r+z_r)&=\mu_r g t_r,\\
- (\mu_rI-N+\mu_rQ_\perp E_\Delta Q_\perp)z_r
-   &=t_rQ_\perp h-\mu_rQ_\perp E_\Delta U_By_r.
+ h^\top(U_By_r+u_r^\perp)&=\mu_r G_i t_r,\\
+ (\mu_rI-N+\mu_r\Pi_B^\perp E_\Delta \Pi_B^\perp)u_r^\perp
+   &=t_r\Pi_B^\perp h-\mu_r\Pi_B^\perp E_\Delta U_By_r.
 \end{align*}
 The inverse $T_r$ of the complementary operator is bounded. Therefore
 \[
- (\mu_rg-(Q_\perp h)^\top T_rQ_\perp h)t_r
+ (\mu_r G_i-(\Pi_B^\perp h)^\top T_r\Pi_B^\perp h)t_r
   =(U_B^\top h)^\top y_r
-       -\mu_r(Q_\perp h)^\top T_rQ_\perp E_\Delta U_By_r.
+       -\mu_r(\Pi_B^\perp h)^\top T_r\Pi_B^\perp E_\Delta U_By_r.
 \]
-The denominator has magnitude at least $cd-Ck/d\ge c'd$.
-Here $g=\max(k,\tau_A)\asymp d$ is the diagonal weight in this formula.
+The denominator has magnitude at least $c{np}-CD_i/(np)\ge c'{np}$.
+Here $G_i=\max(D_i,\tau_A)\asymp {np}$ is the diagonal weight in this formula.
 The matrix $Y=(y_1,\ldots,y_K)$ and its inverse have bounded norm,
-by the signal-space angle and $(I+E_\Delta)^{1/2}=I+O(d^{-1})$.
+by the signal-space angle and $(I+E_\Delta)^{1/2}=I+O({(np)}^{-1})$.
 
 The local row premise and the global threshold perturbation give
 \[
- \norm{U_B^\top h}\le C_Rk/\sqrt{nd},\qquad
- \norm{E_\Delta U_B}_F\le C_R\sqrt{k}/(d\sqrt n)+C/n.
+ \norm{U_B^\top h}\le \frac{C_RD_i}{n\sqrt p},\qquad
+ \norm{E_\Delta U_B}_F\le C_R\sqrt{D_i}/({np}\sqrt n)+C/n.
 \]
 The $C/n$ term is retained; it need not be supported on the neighbors.
-Substitution yields, for $Z_\perp=(z_1,\ldots,z_K)$,
+Substitution yields, for $U_\perp=(u_1^\perp,\ldots,u_K^\perp)$,
 \begin{equation}\label{restore:loo-refined}
- \norm t\le C_R/\sqrt{nd},\qquad
- \norm{Z_\perp}\le C_R\{\sqrt{k}/(d\sqrt n)+1/n\}.
+ \norm t\le \frac{C_R}{n\sqrt p},\qquad
+ \norm{U_\perp}\le C_R\{\sqrt{D_i}/({np}\sqrt n)+1/n\}.
 \end{equation}
-Let $V=\Delta^{-1/2}U_B$, $v_r=\Delta^{-1/2}z_r$ and
-$f_r=Vy_r+v_r$. Exact generalized orthonormality gives
+Let $V=\Delta^{-1/2}U_B$, $v_r=\Delta^{-1/2}u_r^\perp$ and
+$f_r=Vy_r+v_r$. Write $t=(t_1,\ldots,t_K)^\top$, 
+$v=(v_1,\ldots,v_K)$ and $f=(f_1,\ldots,f_K)$. Exact generalized orthonormality gives
 \[
- Y^\top Y+Z_\perp^\top Z_\perp+gtt^\top+f^\top Ef=I.
+ Y^\top Y+U_\perp^\top U_\perp+G_i tt^\top+f^\top Ef=I.
 \]
 On the local part of $E$, use the hit-row bound; on its global part
-use $\norm{E_\mathrm{glob}}\le Cd/n$ and
-$\norm f\le C/\sqrt d$. Consequently
+use $\norm{E_\mathrm{glob}}\le Cp$ and
+$\norm f\le C/\sqrt {np}$. Consequently
 \begin{equation}\label{restore:loo-gram}
- \norm{YY^\top-I}\le C_R\{k/(nd)+1/n\}.
+ \norm{YY^\top-I}\le C_R\{D_i/({n^2p})+1/n\}.
 \end{equation}
 
 For $w_V=V^\top\Delta w_{-i}$, the exact row expansion is
 \[
- (AH_Gw)_i=
+ (AHw)_i=
  \sum_r(x^\top Vy_r+x^\top v_r)
- \{g t_rw_i+y_r^\top w_V+v_r^\top\Delta w_{-i}
+ \{G_i t_rw_i+y_r^\top w_V+v_r^\top\Delta w_{-i}
                                       +f_r^\top Ew_{-i}\}.
 \]
 Only total degree is needed to bound global coefficient vectors. In
 particular,
 \begin{align*}
- \norm{x^\top V}&\le C_Rk/\sqrt{nd},&
- \norm{w_V}&\le C_{W_0}\sqrt{nd},\\
- \norm{x^\top v}&\le C_R\{k/(d^{3/2}\sqrt n)+\sqrt{k}/(n\sqrt d)\},&
- \norm{v^\top\Delta w_{-i}}&\le C_{R,W_0}\{\sqrt{k/d}+\sqrt{d/n}\},\\
- \norm{gt}&\le C_R\sqrt{d/n},&
- \norm{f^\top Ew_{-i}}&\le C_{R,W_0}\{k/\sqrt{nd}+\sqrt{d/n}\}.
+ \norm{x^\top V}&\le \frac{C_RD_i}{n\sqrt p},&
+ \norm{w_V}&\le Cn\sqrt p,\\
+ \norm{x^\top v}&\le C_R\{D_i/({(np)}^{3/2}\sqrt n)+\sqrt{D_i}/(n\sqrt {np})\},&
+ \norm{v^\top\Delta w_{-i}}&\le C_R\{\sqrt{D_i/(np)}+\sqrt{p}\},\\
+ \norm{G_i t}&\le C_R\sqrt{p},&
+ \norm{f^\top Ew_{-i}}&\le C_R\{\frac{D_i}{n\sqrt p}+\sqrt{p}\}.
 \end{align*}
 For example the global part of the last bound follows from
 $|f_r^\top E_\mathrm{glob}w_{-i}|
-\le (Cd/n)W_0\sqrt n\norm{f_r}\le C_{W_0}\sqrt{d/n}$.
+\le (Cp)C_w\sqrt n\norm{f_r}\le C\sqrt{p}$.
 The leading term is $x^\top VYY^\top w_V$; its error relative to
 $x^\top VV^\top\Delta w_{-i}$ is
-$O(k^2/(nd)+k/n)$. Every other product is bounded by a fixed
+$O(D_i^2/({n^2p})+D_i/n)$. Every other product is bounded by a fixed
 multiple of
 \[
- k/d+\sqrt{k/n}+k^2/(nd)+k/n+k\sqrt{k}/(d\sqrt n).
+ D_i/(np)+\sqrt{D_i/n}+D_i^2/({n^2p})+D_i/n+D_i\sqrt{D_i}/({np}\sqrt n).
 \]
-These quantities are bounded for $k\le Ld$ and $d\le Cn$.
+These quantities are bounded for $D_i\le L_D{np}$ and ${np}\le Cn$.
 This proves the scalar comparison.
 \end{proof}
 
@@ -133,37 +135,37 @@ For the empirical cap threshold $\tau=b_0\bar D$, the displayed decomposition of
 $E$ is automatic on the two-sided total-degree event. Indeed, if
 $\bar D_B$ is the mean degree of $B$, then
 \[
- \tau_A-\tau_B=b_0(2k-\bar D_B)/n.
+ \tau_A-\tau_B=b_0(2D_i-\bar D_B)/n.
 \]
 First change each deleted degree by $x_j$ while keeping $\tau_B$;
 this yields $E_\mathrm{loc}\in[0,\diag(x)]$. Then change the threshold;
-this yields $\norm{E_\mathrm{glob}}\le C_Ld/n$.
+this yields $\norm{E_\mathrm{glob}}\le C_{L_D}p$.
 
 \begin{corollary}[Exact-degree reconstruction and simple hollowing]
 \label{restore:loo-corrected}
-Let $\widehat A$ be the exact-degree hollow reconstruction in
-\eqref{restore:reconstruction}. Then $\widehat A\one=\mathbf d$ and
-$\diag(\widehat A)=0$ exactly.
+Let $\widehat A^{\mathrm{c}}$ be the exact-degree hollow reconstruction in
+\eqref{restore:reconstruction}. Then $\widehat A^{\mathrm{c}}\one=A\one$ and
+$\diag(\widehat A^{\mathrm{c}})=0$ exactly.
 For $\bar w_{-i}=(n-1)^{-1}\sum_{j\ne i}w_j$, the same local premises
 give
 \begin{equation}\label{restore:loo-corrected-action}
- (\widehat A w)_i
+ (\widehat A^{\mathrm{c}} w)_i
  =x^\top\{H_B(w_{-i}-\bar w_{-i}\one)+\bar w_{-i}\one\}
-       +O_{L,R,W_0}(1).
+       +O(1).
 \end{equation}
 \end{corollary}
 
 \begin{proof}
 The definition gives the exact row identity
 \[
- (\widehat A w)_i
- =[F(w-\bar w_{-i}\one)]_i+k\bar w_{-i}
-       -F_{ii}(w_i-\bar w_{-i}).
+ (\widehat A^{\mathrm{c}} w)_i
+ =[\widehat A(w-\bar w_{-i}\one)]_i+D_i\bar w_{-i}
+       -\widehat A_{ii}(w_i-\bar w_{-i}).
 \]
 Apply the preceding lemma to $w-\bar w_{-i}\one$, whose entries
-are bounded by $2W_0$. Equation~\eqref{restore:loo-refined} gives
-$\norm{u_i}^2=g\norm t^2\le C_R/n$, so
-$|F_{ii}|\le C_Rd/n$. The final term is therefore $O(d/n)=O(1)$,
+are bounded by $2C_w$. Equation~\eqref{restore:loo-refined} gives
+$\norm{U_{i\cdot}}_2^2=G_i\norm t^2\le C_R/n$, so
+$|\widehat A_{ii}|\le C_Rp$. The final term is therefore $O(p)=O(1)$,
 proving \eqref{restore:loo-corrected-action}. The degree and diagonal
 identities follow directly from \eqref{restore:reconstruction}.
 \end{proof}
@@ -174,22 +176,21 @@ $(H_B-I)(w_{-i}-\bar w_{-i}\one)$. For block-constant contrasts it
 therefore admits the tilted cancellation in
 \cref{lem:sbm-floor-cancellation}.
 For clarity, the hit-row exception is paid directly. On the
-training event, $\Delta_j\ge c d$, so
+training event, $\Delta_j\ge c {np}$, so
 \[
- \mathcal J_{\rm bad}
- :=\{j:\norm{\Delta_j^{-1/2}(U_B)_{j\cdot}}_2
-                          >R/\sqrt{nd}\}
+ \{j:\norm{\Delta_j^{-1/2}(U_B)_{j\cdot}}_2
+                          >\frac{R}{n\sqrt p}\}
  \subseteq
  \{j:\sqrt n\norm{(U_B)_{j\cdot}}_2>R\sqrt c\}.
 \]
 \Cref{restore:tail-energy-lemma} bounds the expected cardinality of
-this set on the training event by $Cn e^{-c'd\log R}$.
-Conditioning only on the deleted graph and using $p_{ij}\le Cd/n$
+this set on the training event by $Cn e^{-c'{np}\log R}$.
+Conditioning only on the deleted graph and using $P_{z_i z_j}\le p$
 therefore bounds the probability that the tested row hits it by
-$Cd e^{-c'd\log R}$. Choosing a sufficiently large fixed $R$
-gives any prescribed fixed exponential rate $H$.
-The upper-degree exception $k>Ld$ has arbitrarily large exponential
-rate after increasing the fixed $L$. Neither bound uses a union over
+$C{np} e^{-c'{np}\log R}$. Choosing a sufficiently large fixed $R$
+gives any prescribed fixed exponential rate $s$.
+The upper-degree exception $D_i>L_D{np}$ has arbitrarily large exponential
+rate after increasing the fixed $L_D$. Neither bound uses a union over
 all possible tested targets.
 
 Uniformity in $w$ is an algebraic stability statement. It does not make

@@ -1,0 +1,195 @@
+\section{Experiments}\label{sec:experiments}
+
+The theorem concerns a ratio of expected risks, not the number of mistakes
+in one graph. We therefore ask whether the empirical average
+$\Mis(\widehat z,z)/R_{\mathrm{oracle}}$ remains on a constant scale as
+$n$ increases. We compare only the complete spectral likelihood-ratio
+clustering procedure of Section~\ref{restore:algorithm} with its
+specified oracle classifier. There is
+no comparison with other clustering methods, no fitted multiplicative
+rescaling of the oracle curve, and no oracle initialization.
+
+\subsection{Models, implementation, and the oracle denominator}
+
+We use $n=1000,2000,4000,8000,16000,32000$, with 100 independent
+Bernoulli graphs at every size in each of three settings. The two-community
+model has equal community sizes and
+\[
+ P=p\begin{pmatrix}1&0.25\\0.25&1\end{pmatrix}.
+\]
+We first take $np=4\log n$. The three-community model has proportions
+$(0.40,0.35,0.25)$ and
+\[
+ P=p\begin{pmatrix}
+ 1&0.10&0.15\\
+ 0.10&0.90&0.12\\
+ 0.15&0.12&0.80
+ \end{pmatrix},\qquad np=6\log n.
+\]
+This second model has unequal expected degrees as well as unequal sizes.
+As a third setting, we use the two-community matrix with
+$np=6\sqrt{\log n}$. All matrix shapes and community proportions stay
+fixed as $n$ changes. All three sequences satisfy $np\to\infty$ and
+$np^2\to0$. The third sequence is $o(\log n)$ asymptotically;
+on the displayed finite grid, however, $np$ still exceeds $\log n$.
+It is not a numerical test of $np<\log n$ on these graph sizes.
+
+The algorithm constants are fixed throughout: $b_0=3$, $c_0=0.01$,
+and at most ten complete block-fit and simultaneous label-update rounds.
+We stop earlier only if the labels are unchanged after a completed round.
+The radius-count initializer uses the stated radii $1/8$ and $1/4$,
+without $k$-means substitution or label-based restarts. The encoder retains
+the $K$ eigenpairs of largest absolute eigenvalue, with relative eigensolver
+tolerance $10^{-10}$. After encoding, the decoder receives only the original
+degrees, the retained eigenpairs, and the fixed algorithm constants;
+it has no access to adjacency entries, true labels, or true probabilities.
+Block counts and symmetric block fits are computed from low-rank factors,
+with the exact degree correction and all self-exclusions retained.
+
+The denominator is not an observed error fraction from a single oracle
+run, nor the asymptotic approximation $e^{-I}$. For a target in community
+$k$, we use the independent count variables $b_{\ell'}$ and the
+contrasts $T_{k\ell}$ defined in Section~\ref{sec:statements}.
+We sum their joint binomial probabilities over the error event in
+\eqref{eq:oracle-risk}, including the full nonedge term, the $n_k-1$
+own-community trials, and the fixed tie ordering, and then weight
+community $k$ by $n_k/n$. This is a numerical evaluation of the specified
+$R_{\mathrm{oracle}}$. Truncating the binomial supports discards total
+probability less than $10^{-13}$ in each setting; no Poisson or Gaussian
+approximation is used. The oracle errors observed on the simulated graphs
+are also retained as an independent calibration check.
+
+For each setting we divide the mean of the 100 misclassification
+proportions by this fixed oracle risk. Pointwise 95\% Monte Carlo intervals
+are Student-$t$ intervals for the mean across independent graphs, divided
+by the same denominator. Vertices in one graph are not treated as
+independent trials. These intervals describe simulation uncertainty,
+not a simultaneous confidence bound over all $n$ or all model parameters.
+
+\subsection{Risk ratios as the graph size grows}
+
+Table~\ref{tab:experiment-risks} reports both risks and their ratio;
+Figure~\ref{fig:experiment-ratios} shows the ratio without any vertical
+rescaling. The balanced two-community ratios range from 2.84 to 2.96,
+the unequal-size three-community ratios from 2.15 to 2.49, and the
+more slowly growing two-community ratios from 3.19 to 3.31. In none
+of these three sequences is there a sustained increase in the ratio
+over the 32-fold increase in $n$.
+
+In the first setting the mean misclassification proportion decreases
+from 0.00791 to 0.00123 while the oracle risk decreases from 0.00271
+to 0.000433. In the three-community setting the corresponding changes
+are from 0.00404 to 0.000426 and from 0.00188 to 0.000198.
+Thus the comparison concerns two decreasing risks, rather than a
+constant error level at a fixed average degree. The ratios remain
+above one; these results do not suggest convergence of the ratio to one.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Risk estimates for spectral likelihood-ratio clustering from 100 independent graphs per entry. The denominator is the raw-edge oracle risk computed from the exact Bernoulli block-count law. The last column gives a pointwise 95\% Monte Carlo confidence interval for the ratio, treating graphs, not vertices, as independent replicates.}\label{tab:experiment-risks}
+\begin{tabular}{rcccc}
+\toprule
+$n$ & $R_{\mathrm{oracle}}$ & Mean $\Mis$ & Risk ratio & 95\% interval\\
+\midrule
+\multicolumn{5}{l}{\textit{Balanced $K=2$, $np=4\log n$}}\\[2pt]
+1,000 & $2.709\times10^{-3}$ & $7.910\times10^{-3}$ & 2.92 & [2.69, 3.15]\\
+2,000 & $1.893\times10^{-3}$ & $5.610\times10^{-3}$ & 2.96 & [2.79, 3.14]\\
+4,000 & $1.315\times10^{-3}$ & $3.805\times10^{-3}$ & 2.89 & [2.75, 3.04]\\
+8,000 & $9.094\times10^{-4}$ & $2.654\times10^{-3}$ & 2.92 & [2.78, 3.05]\\
+16,000 & $6.280\times10^{-4}$ & $1.806\times10^{-3}$ & 2.88 & [2.78, 2.97]\\
+32,000 & $4.334\times10^{-4}$ & $1.230\times10^{-3}$ & 2.84 & [2.74, 2.94]\\
+\midrule
+\multicolumn{5}{l}{\textit{Unequal-size $K=3$, $np=6\log n$}}\\[2pt]
+1,000 & $1.881\times10^{-3}$ & $4.040\times10^{-3}$ & 2.15 & [1.92, 2.38]\\
+2,000 & $1.228\times10^{-3}$ & $3.055\times10^{-3}$ & 2.49 & [2.31, 2.67]\\
+4,000 & $7.981\times10^{-4}$ & $1.735\times10^{-3}$ & 2.17 & [2.01, 2.34]\\
+8,000 & $4.913\times10^{-4}$ & $1.077\times10^{-3}$ & 2.19 & [2.04, 2.35]\\
+16,000 & $3.119\times10^{-4}$ & $6.706\times10^{-4}$ & 2.15 & [2.02, 2.28]\\
+32,000 & $1.977\times10^{-4}$ & $4.259\times10^{-4}$ & 2.15 & [2.04, 2.27]\\
+\midrule
+\multicolumn{5}{l}{\textit{Balanced $K=2$, $np=6\sqrt{\log n}$}}\\[2pt]
+1,000 & $1.495\times10^{-2}$ & $4.956\times10^{-2}$ & 3.31 & [3.19, 3.44]\\
+2,000 & $1.349\times10^{-2}$ & $4.422\times10^{-2}$ & 3.28 & [3.19, 3.36]\\
+4,000 & $1.219\times10^{-2}$ & $4.018\times10^{-2}$ & 3.29 & [3.24, 3.35]\\
+8,000 & $1.105\times10^{-2}$ & $3.609\times10^{-2}$ & 3.27 & [3.22, 3.31]\\
+16,000 & $1.005\times10^{-2}$ & $3.246\times10^{-2}$ & 3.23 & [3.20, 3.26]\\
+32,000 & $9.160\times10^{-3}$ & $2.922\times10^{-2}$ & 3.19 & [3.17, 3.21]\\
+\bottomrule\end{tabular}\end{table}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=.94\linewidth]{figures/risk_ratios.pdf}
+ \caption{Mean misclassification divided by the exact raw-edge oracle risk.
+ Each point uses 100 independent graphs. Error bars are the pointwise
+ 95\% Monte Carlo intervals in Table~\ref{tab:experiment-risks}.
+ Stable finite-grid ratios support, but do not prove, the asymptotic
+ constant-factor guarantee.}\label{fig:experiment-ratios}
+\end{figure}
+
+Across these 1800 primary graphs, every run reached an unchanged-label
+update within ten rounds; none invoked the fixed fallback or activated
+probability clipping. The largest individual misclassification proportions
+were 0.015, 0.012, and 0.075 in the three settings, respectively. The
+third setting included 78 isolated vertices in total, which were processed
+without aborting classification of the other vertices. No degree cap was
+active in these primary runs. Consequently, these performance measurements
+exercise the full decoder, including degree correction, but do not by
+themselves assess the statistical effect of active regularization.
+
+\subsection{Implementation checks and finite-sample failures}
+
+To distinguish numerical mistakes from poor finite-sample behavior,
+we checked factorized counts, exact row sums, zero diagonals, symmetric
+block fits, and likelihood scores against direct dense calculations
+in 60 small-graph cases. These included 20 cases with active caps,
+37 with retained negative eigenvalues, and 12 with a deliberately
+isolated vertex. The largest absolute discrepancy was
+$7.2\times10^{-15}$. Exhaustive enumeration of two small incident-row
+experiments also agreed with the block-count oracle computation to
+$8.4\times10^{-17}$. The largest relative eigen-equation residual
+in the primary simulations was $5.1\times10^{-11}$.
+These are implementation checks, not independent proofs of the risk theorem.
+
+The choice of the stronger three-community sequence was made after a
+separate pilot exposed unstable small-sample behavior at $np=4\log n$.
+The pilot used different seeds from the primary experiment, and all its
+outcomes are archived. We then ran a separate, independent stress test
+with 100 graphs at each of $n=1000,2000,4000,8000$, retaining the same
+three-community matrix and proportions but using $np=4\log n$.
+Table~\ref{tab:stress} includes every run, not only successful ones.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Independent finite-sample stress test: the same three-community matrix and proportions, but $np=4\log n$. Each row includes all 100 simulated graphs. A large error means $\Mis>0.10$.}\label{tab:stress}
+\begin{tabular}{rcccc}
+\toprule
+$n$ & Mean $\Mis$ & Risk ratio & 95\% interval & Large-error graphs\\
+\midrule
+1,000 & 0.10293 & 9.67 & [8.31, 11.02] & 43/100\\
+2,000 & 0.06712 & 8.97 & [7.23, 10.71] & 9/100\\
+4,000 & 0.02346 & 4.37 & [3.63, 5.11] & 1/100\\
+8,000 & 0.01133 & 2.89 & [2.81, 2.96] & 0/100\\
+\bottomrule\end{tabular}\end{table}
+
+The weakest three-community samples can therefore fail substantially:
+at $n=1000$, 43 of 100 graphs have more than 10\% misclassification,
+and the largest error is 0.41. In 59 of those 100 graphs the retained
+three-dimensional space includes a negative eigenvalue, even though
+all three nonzero eigenvalues of the completed population matrix are
+positive. One recorded failure retains eigenvalues approximately
+$(12.86,9.37,-7.30)$ and selects two initial representatives from the
+same true community; the true labels are used only for this post-run
+diagnosis. This exposes a finite-sample noise-direction and initialization
+failure, rather than an omitted nonedge term or an incorrect degree
+correction. It is not asserted to explain every failed run. At $n=8000$
+the same weaker sequence has mean risk ratio 2.89 and no graph with
+more than 10\% error.
+
+No graph was discarded, rerun with an oracle-selected seed, or repaired
+using its true labels. The code, frozen designs, all 2200 non-pilot
+replicate records, all 24 pilot records, oracle calculations, and
+implementation checks accompany the source. These experiments provide
+finite-sample evidence for constant-scale oracle comparisons on the
+three specified sequences, while documenting a range in which the
+method is not yet reliable. They do not establish a uniform numerical
+constant for the entire parameter class or replace the asymptotic theorem.

@@ -1,15 +1,14 @@
 \section{Aggregate geometry for the capped adjacency matrix}
 \label{sec:sparse-extension}
 
-For the proof, let $Z$ be the community indicator matrix and write
-$\Omega=ZPZ^\top$ for the completed mean. It includes a diagonal solely
-for algebra; the actual mean is $\E A=\Omega-\diag(\Omega_{ii})$.
-This deterministic difference has norm $O(p^*)$ and is included in all
-error bounds. Let $D_0=\diag(\Omega\one)$. Its diagonal entries are
-block constant and lie between fixed positive multiples of $d$.
-Throughout this section
-$\tau=b_0\bar D$, $G_i=\max(D_i,\tau)$ and
-$W=\tau^{1/2}G^{-1/2}$ are the high-degree cap used by the algorithm,
+Let $Z_{ik}=\ind{z_i=k}$ be the community indicator matrix.
+The completed matrix $ZPZ^\top$ includes its diagonal, whereas
+$\E A=ZPZ^\top-\diag(P_{z_i z_i})$. Their difference has norm at
+most $p$ and is retained in the bounds below. The completed row
+sums $\sum_jP_{z_i z_j}$ are block constant and comparable to $np$.
+In this appendix put $\tau=b_0\bar D$ and
+$G=\diag\{\max(D_i,\tau)\}$, with diagonal entries $G_i$.
+Then $W=\tau^{1/2}G^{-1/2}$ is the algorithm's high-degree cap,
 with $b_0$ sufficiently large for the structural class. Thus
 $\widetilde A=WAW$ leaves every edge between vertices of degree at most $\tau$
 unchanged. For analysis only, write
@@ -18,25 +17,25 @@ $\norm v_G^2=v^\top Gv$. The scalar rescaling $Q$ has the same
 eigenvectors as the encoded adjacency matrix $\widetilde A$.
 
 \begin{proposition}[Aggregate capped-adjacency geometry]\label{prop:sparse-floor}
-Under \eqref{eq:structural}, let $d=np^*\to\infty$ and $n(p^*)^2\le C_1$.
+Under \eqref{eq:structural}, let $np\to\infty$ and $np^2\le C_1$.
 For every fixed $r>0$, with probability at least $1-C_rn^{-r}$,
-$cd\le\tau\le Cd$, $\tau\ge\max_i(D_0)_{ii}$,
-$cnd\le\sum_iD_i$, and
+$c{np}\le\tau\le C{np}$, $\tau\ge\max_i\sum_jP_{z_i z_j}$,
+$c{n^2p}\le\sum_iD_i$, and
 \begin{align}
- \norm{W(A-\Omega)W}_{\op}&\le C_r\sqrt d,
- &\sum_iG_i&\le C_rnd,\label{eq:floor-noise}\\
- \sum_i\frac{(D_i-(D_0)_{ii})^2}{G_i}
+ \norm{W(A-{ZPZ^\top})W}_{\op}&\le C_r\sqrt {np},
+ &\sum_iG_i&\le C_r{n^2p},\label{eq:floor-noise}\\
+ \sum_i\frac{(D_i-\sum_jP_{z_i z_j})^2}{G_i}
  +\sum_i\frac{(G_i-\tau)^2}{G_i}
  &\le C_rn.\label{eq:floor-degree-energy}
 \end{align}
 In particular,
-$\norm{G^{-1/2}(A-\Omega)G^{-1/2}}_{\op}\le C_r/\sqrt d$.
+$\norm{G^{-1/2}(A-{ZPZ^\top})G^{-1/2}}_{\op}\le C_r/\sqrt {np}$.
 Let $U$ contain the $K$ eigenvectors of $\widetilde A$ with largest absolute
 eigenvalues, and put $\Pi=UU^\top$ and $H=G^{-1/2}\Pi G^{1/2}$.
-The eigenvalue equation gives $F=AH$ for the reconstruction
-$F=W^{-1}U\Lambda U^\top W^{-1}$ in \cref{restore:algorithm}.
-The retained eigenvalues of $\widetilde A$ have magnitude at least $c_rd$;
-the remaining eigenvalues have magnitude at most $C_r\sqrt d$.
+The eigenvalue equation gives $\widehat A=AH$ for the reconstruction
+$\widehat A=W^{-1}U\Lambda U^\top W^{-1}$ in \cref{restore:algorithm}.
+The retained eigenvalues of $\widetilde A$ have magnitude at least $c_r{np}$;
+the remaining eigenvalues have magnitude at most $C_r\sqrt {np}$.
 There is an orthogonal matrix $O$ such that the orthonormal population
 basis
 \[
@@ -44,8 +43,8 @@ basis
 \]
 satisfies
 \[
- \norm{U-V}_F\le C_r/\sqrt d,
- \qquad \sqrt{G_i}\norm{V_{i\cdot}}_2\le C_r\sqrt{d/n}.
+ \norm{U-V}_F\le C_r/\sqrt {np},
+ \qquad \sqrt{G_i}\norm{V_{i\cdot}}_2\le C_r\sqrt{p}.
 \]
 Moreover,
 \begin{equation}\label{eq:floor-block-residual}
@@ -54,7 +53,7 @@ Moreover,
 and every block-constant $f$ with $\norm f_\infty\le C_f$ obeys
 \begin{equation}\label{eq:floor-weighted-errors}
  \norm{(I-H)f}_G\le C_rC_f\sqrt n,\qquad
- \norm{(I-H)f}_2^2\le C_rC_f^2n/d.
+ \norm{(I-H)f}_2^2\le \frac{C_rC_f^2}{p}.
 \end{equation}
 The same assertions hold simultaneously after deletion of any fixed
 number of vertices, with each cap recomputed from the remaining graph,
@@ -64,82 +63,81 @@ condition is imposed.
 
 \begin{proof}
 The Bernoulli transform of the total number of edges gives
-$cnd\le\sum_iD_i\le Cnd$ except with probability $e^{-cnd}$.
+$c{n^2p}\le\sum_iD_i\le C{n^2p}$ except with probability $e^{-c{n^2p}}$.
 For large enough $b_0$, this event implies
 \[
- cd\le\tau=b_0\bar D\le Cd,
- \qquad \tau\ge\max_i(D_0)_{ii}.
+ c{np}\le\tau=b_0\bar D\le C{np},
+ \qquad \tau\ge\max_i\sum_jP_{z_i z_j}.
 \]
-Since $\E A_{ij}\le p^*$ and $d=np^*$, put
-$W_{h,ii}=\sqrt{\min(1,2d/D_i)}$, with value one at zero degrees.
-The changed set $\mathcal S=\{i:D_i>2d\}$ contains at most
-$10n/d$ vertices except with probability $e^{-cn}$. To check the
-strength of this bound, set $m=\lfloor10n/d\rfloor+1$. If $m\le n$
+Since $\E A_{ij}\le p$, put
+$W_{h,ii}=\sqrt{\min(1,2{np}/D_i)}$, with value one at zero degrees.
+The changed set $\mathcal S=\{i:D_i>2{np}\}$ contains at most
+$\frac{10}{p}$ vertices except with probability $e^{-cn}$. To check the
+strength of this bound, set $m=\lfloor\frac{10}{p}\rfloor+1$. If $m\le n$
 and $m$ vertices exceed the threshold, some set $T$ of size $m$ has
-$\sum_{i\in T}D_i>2md$. This is an independent-edge sum with
-coefficients in $\{1,2\}$ and mean at most $md$. At
+$\sum_{i\in T}D_i>2m{np}$. This is an independent-edge sum with
+coefficients in $\{1,2\}$ and mean at most $m{np}$. At
 $t=(\log2)/2$, its exponential transform bounds the tail by
 \[
- \exp\{-(\log2-1/2)md\},
+ \exp\{-(\log2-1/2)m{np}\},
 \]
 because $(e^{tc}-1)/c\le(e^{2t}-1)/2=1/2$ for $c=1,2$.
-Since $\log\binom nm\le m\log(en/m)=o(md)$, a union over $T$
+Since $\log\binom nm\le m\log(en/m)=o(m{np})$, a union over $T$
 gives the stated bound. If $m>n$, the claim is automatic.
 
 Every row of $W_hAW_h$ has squared Euclidean norm at most
-$W_{h,ii}^2D_i\le2d$. The row-norm form of the regularized adjacency
-theorem of Le, Levina and Vershynin
-\cite[Theorem 2.1 and Remark 2.2]{llv2017} therefore yields
+$W_{h,ii}^2D_i\le2{np}$. The row-norm form of the regularized adjacency
+theorem of \citet[Theorem 2.1 and Remark 2.2]{llv2017} therefore yields
 \[
- \norm{W_hAW_h-\E A}_{\op}\le C_r\sqrt d
+ \norm{W_hAW_h-\E A}_{\op}\le C_r\sqrt {np}
 \]
 with failure probability at most $C_rn^{-r}$. The theorem permits
 these graph-dependent weights. Also
 \[
- \norm{W_h\Omega W_h-\Omega}_{\op}
- \le Cp^*\sqrt{n|\mathcal S|}\le C\sqrt d,
+ \norm{W_h{ZPZ^\top} W_h-{ZPZ^\top}}_{\op}
+ \le Cp\sqrt{n|\mathcal S|}\le C\sqrt {np},
 \]
 by the Frobenius norm: the difference is supported on rows or columns
-in $\mathcal S$. The completed-mean diagonal has norm $O(p^*)$.
-Consequently $\norm{W_h(A-\Omega)W_h}_{\op}\le C_r\sqrt d$.
+in $\mathcal S$. The completed-mean diagonal has norm $O(p)$.
+Consequently $\norm{W_h(A-{ZPZ^\top})W_h}_{\op}\le C_r\sqrt {np}$.
 The exact diagonal comparison is
 \[
- G^{-1/2}=(2d)^{-1/2}
- \diag\!\left\{\sqrt{\frac{\max(D_i,2d)}{G_i}}\right\}W_h.
+ G^{-1/2}=(2{np})^{-1/2}
+ \diag\!\left\{\sqrt{\frac{\max(D_i,2{np})}{G_i}}\right\}W_h.
 \]
 The displayed diagonal multiplier is bounded, since
-$G_i\ge\max(D_i,cd)$.
+$G_i\ge\max(D_i,c{np})$.
 Conjugation gives the stated bound for the noise in $Q$;
-multiplication by $\tau\asymp d$ proves the adjacency-scale bound
+multiplication by $\tau\asymp {np}$ proves the adjacency-scale bound
 in \eqref{eq:floor-noise}. Since $G_i\le D_i+\tau$, the total
-weight $\sum_iG_i$ is at most $Cnd$.
+weight $\sum_iG_i$ is at most $C{n^2p}$.
 
 Applying the scalar-rescaled noise to $G^{1/2}\one$ gives
 \[
- \norm{G^{-1/2}(A-\Omega)\one}_2
- \le C_rd^{-1/2}\norm{G^{1/2}\one}_2\le C_r\sqrt n,
+ \norm{G^{-1/2}(A-{ZPZ^\top})\one}_2
+ \le C_r{(np)}^{-1/2}\norm{G^{1/2}\one}_2\le C_r\sqrt n,
 \]
 which is the first sum in \eqref{eq:floor-degree-energy}.
 For the second sum, $G_i-\tau=0$ when $D_i\le\tau$; otherwise
-$0\le G_i-\tau=D_i-\tau\le D_i-(D_0)_{ii}$. Thus, coordinatewise,
+$0\le G_i-\tau=D_i-\tau\le D_i-\sum_jP_{z_i z_j}$. Thus, coordinatewise,
 \[
  \frac{(G_i-\tau)^2}{G_i}
- \le\frac{(D_i-(D_0)_{ii})^2}{G_i}.
+ \le\frac{(D_i-\sum_jP_{z_i z_j})^2}{G_i}.
 \]
 The same bound also gives
-$\sum_i(1-W_{ii})^2\le C_rn/d$, since
+$\sum_i(1-W_{ii})^2\le \frac{C_r}{p}$, since
 $(1-W_{ii})^2\le(G_i-\tau)^2/(\tau G_i)$.
 
-Let $J=Z^\top G^{-1}Z$. For every block $a$, Cauchy--Schwarz,
-comparable group sizes, $G_i\ge cd$ and the total-degree bound give
+Let $J=Z^\top G^{-1}Z$. For every block $k$, Cauchy--Schwarz,
+comparable group sizes, $G_i\ge c{np}$ and the total-degree bound give
 \[
- \frac{cn}{d}\le
- \frac{n_a^2}{\sum_{i:z_i=a}G_i}
- \le J_{aa}=\sum_{i:z_i=a}G_i^{-1}\le\frac{Cn}{d}.
+ \frac{c}{p}\le
+ \frac{n_k^2}{\sum_{i:z_i=k}G_i}
+ \le J_{kk}=\sum_{i:z_i=k}G_i^{-1}\le\frac{C}{p}.
 \]
-The nonzero spectrum of the capped population matrix $W\Omega W$ is
+The nonzero spectrum of the capped population matrix $W{ZPZ^\top} W$ is
 the spectrum of $\tau J^{1/2}PJ^{1/2}$. The bound
-$\sigma_K(P)\ge c p^*$ gives a separation of order $d$ from zero.
+$\sigma_K(P)\ge c p$ gives a separation of order ${np}$ from zero.
 The adjacency noise bound and
 subspace perturbation then give the stated eigenspace and eigenvalue
 bounds. The formula for $V$
@@ -150,13 +148,13 @@ $\col(WZ)=\col(G^{-1/2}Z)$. Furthermore,
 \[
  \norm{G^{1/2}Z-\tau G^{-1/2}Z}_F^2
  =\sum_i\frac{(G_i-\tau)^2}{G_i}\le C_rn,
- \qquad \norm{G^{1/2}Z}_F^2\le C_rnd.
+ \qquad \norm{G^{1/2}Z}_F^2\le C_r{n^2p}.
 \]
-Together with the projector error $O(d^{-1/2})$, these imply
+Together with the projector error $O({(np)}^{-1/2})$, these imply
 \eqref{eq:floor-block-residual}. The matrix $H$ is the
 $G$-orthogonal projector corresponding to $\Pi$, so the first bound
-in \eqref{eq:floor-weighted-errors} follows by writing $f=Zb$.
-The second uses $G_i\ge cd$.
+in \eqref{eq:floor-weighted-errors} follows by applying the residual bound to the $K$ block values of $f$.
+The second uses $G_i\ge c{np}$.
 
 Deleting a fixed number of vertices preserves the structural bounds.
 Apply the same argument to each recomputed graph and choose a larger

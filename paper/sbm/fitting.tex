@@ -1,27 +1,37 @@
-\section{Block fitting and a uniform refinement basin}
+\section{Block fitting and misclassification control}
 \label{restore:fit}
 
-Write $D_{0,i}=(\Omega\one)_i$ and $\Pi=UU^\top$. For the
+Write $\Pi=UU^\top$. For the
 proof, rescale the encoded adjacency matrix by its common threshold:
 $Q=\widetilde A/\tau=G^{-1/2}AG^{-1/2}$. This changes the eigenvalue scale,
 not the retained eigenspace. We work on the aggregate event
 \begin{align}
- \norm{Q-G^{-1/2}\Omega G^{-1/2}}_{\op}
-   &\le C/\sqrt d,& \sum_iG_i&\le Cnd,
+ \norm{Q-G^{-1/2}{ZPZ^\top} G^{-1/2}}_{\op}
+   &\le C/\sqrt {np},& \sum_iG_i&\le C{n^2p},
  \label{restore:fit-geometry-one}\\
- \sum_i\frac{(G_i-\tau)^2+(D_i-D_{0,i})^2}{G_i}
+ \sum_i\frac{(G_i-\tau)^2+(D_i-\sum_jP_{z_i z_j})^2}{G_i}
    &\le Cn,&
  \norm{(I-\Pi)G^{1/2}Z}_F&\le C\sqrt n,
  \label{restore:fit-geometry-two}\\
- \max_{a,b}\left|[Z^\top(A-\Omega)Z]_{ab}\right|
+ \max_{k,\ell}\left|[Z^\top(A-{ZPZ^\top})Z]_{k\ell}\right|
    &\le Cn.&&\label{restore:fit-block-event}
 \end{align}
-We also have $G_i\ge\tau\asymp d$, $D_{0,i}\asymp d$,
-$\bar D\asymp d$, and $\tau\ge\max_iD_{0,i}$. The first two
+We also have $G_i\ge\tau\asymp {np}$, $\sum_jP_{z_i z_j}\asymp {np}$,
+$\bar D\asymp {np}$, and $\tau\ge\max_i\sum_jP_{z_i z_j}$. The first two
 lines follow from \cref{prop:sparse-floor}; the block-total event is
 paid in the risk proof. All bounds in this section are deterministic
-on this event. A constant subscript $M$ permits dependence on a fixed
-basin radius $M$, but never on the fitted partition or on $n$.
+on this event. Constants depend only on the fixed structural and
+aggregate-event bounds and, for local estimates, on the fixed thresholds
+$L_D,L_U$. They do not depend on the fitted partition. As in the
+parameter-estimation and classification arguments of \citet{zhouli}, we display the dependence on misclassification rather
+than absorbing it into a separately named error-radius constant.
+Align the current labels once with the true labels. Then the incorrectly
+assigned set $E=\{i:\widehat z_i\ne z_i\}$ has
+$|E|=n\Mis(\widehat z,z)$. The iteration argument below preserves this
+same label matching.
+For current labels $\widehat z$, let
+$\widehat Z_{ik}=\ind{\widehat z_i=k}$, and use
+$n_k(\widehat z)$ for their community sizes.
 
 An aligned population basis is
 \[
@@ -29,54 +39,59 @@ An aligned population basis is
 \]
 where $O$ is orthogonal. The signal gap gives
 \begin{equation}\label{restore:fit-basis}
- \norm{U-V}_F\le C/\sqrt d,\qquad
- \sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{d/n}.
+ \norm{U-V}_F\le C/\sqrt {np},\qquad
+ \sqrt{G_i}\norm{V_{i\cdot}}_2\le C\sqrt{p}.
 \end{equation}
 Moreover $\norm Q_{\op}\le1$, since
 $|x^\top Ax|\le\sum_iD_ix_i^2\le\sum_iG_ix_i^2$.
 In particular $\norm{\Lambda/\tau}_{\op}\le1$, and
-$F=G^{1/2}Q_KG^{1/2}$ for $Q_K=U(\Lambda/\tau)U^\top$.
+$\widehat A=G^{1/2}Q_KG^{1/2}$ for $Q_K=U(\Lambda/\tau)U^\top$.
+
+For the row bounds in this section, put
+$a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2$.
 
 \begin{lemma}[Weighted mass of incorrectly assigned vertices]
 \label{restore:fit-wrong-mass}
-For every set $E$ with $|E|\le Mn/d$,
+For every set $E\subseteq[n]$,
 \begin{equation}\label{restore:fit-wrong-mass-bounds}
- \sum_{i\in E}G_i\le C_Mn,\qquad
- \sum_{i\in E}\sqrt{G_i}\norm{U_{i\cdot}}_2
-       \le C_M\sqrt{n/d}.
+ \sum_{i\in E}G_i\le C(n+np|E|),\qquad
+ \sum_{i\in E}a_i\le C\left(|E|\sqrt p+\frac1{\sqrt p}\right).
 \end{equation}
-Also $\sum_i\sqrt{G_i}\norm{U_{i\cdot}}_2\le C\sqrt{nd}$.
-These bounds hold simultaneously for all such sets.
+Also $\sum_i a_i\le Cn\sqrt p$. These bounds hold simultaneously
+for all sets; in particular, the error set has
+$|E|=n\Mis(\widehat z,z)$ under the common label matching.
 \end{lemma}
 
 \begin{proof}
-The inequality
-$G_i\le2\tau+(G_i-\tau)^2/G_i$ gives
-$\sum_EG_i\le C(d|E|+n)\le C_Mn$. Put
-$a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2$. By
+The inequality $G_i\le2\tau+(G_i-\tau)^2/G_i$ and the aggregate
+energy bound give $\sum_EG_i\le C(np|E|+n)$. By
 \eqref{restore:fit-basis} and Cauchy--Schwarz,
 \[
  \sum_{i\in E}a_i
- \le C|E|\sqrt{d/n}
-    +\left(\sum_{i\in E}G_i\right)^{1/2}\norm{U-V}_F
- \le C_M\sqrt{n/d}.
+ \le C|E|\sqrt p+
+      \left(\sum_{i\in E}G_i\right)^{1/2}\norm{U-V}_F
+ \le C\left(|E|\sqrt p+\sqrt{|E|+p^{-1}}\right).
 \]
+The inequality $\sqrt{p|E|+1}\le p|E|+1$ yields the second bound.
 The global bound follows from
 $\sum_i a_i\le(\sum_iG_i)^{1/2}\norm U_F$ and fixed $K$.
 \end{proof}
 
 \begin{lemma}[Radius-count initialization]
 \label{restore:fit-initializer}
-The initializer in \cref{restore:algorithm} makes at most $Cn/d$
-errors on the aggregate event, after one common label permutation.
+The initializer in \cref{restore:algorithm} satisfies
+\[
+ \Mis(\widehat z,z)\le \frac{C}{np}
+\]
+on the aggregate event. The comparison uses one common label permutation.
 \end{lemma}
 
 \begin{proof}
 The normalized rows of $V$ are the $K$ rows of $O$, with pairwise
 distance $\sqrt2$. Choose a fixed $B_0$ larger than twice the
-uniform upper bound on $\tau/d$. Each row with $G_i>B_0d$
-contributes at least $B_0d/4$ to $\sum_i(G_i-\tau)^2/G_i$, so
-there are at most $Cn/d$ such rows. For every remaining row,
+uniform upper bound on $\tau/(np)$. Each row with $G_i>B_0{np}$
+contributes at least $B_0{np}/4$ to $\sum_i(G_i-\tau)^2/G_i$, so
+there are at most $\frac{C}{p}$ such rows. For every remaining row,
 $\norm{V_{i\cdot}}_2\ge c/\sqrt n$. The normalization inequality
 \[
  \left\|\frac u{\norm u_2}-\frac v{\norm v_2}\right\|_2
@@ -84,236 +99,309 @@ $\norm{V_{i\cdot}}_2\ge c/\sqrt n$. The normalization inequality
 \]
 (with any fixed unit direction when $u=0$) and
 \eqref{restore:fit-basis} imply that the normalized empirical rows
-$x_i$ have total squared distance at most $Cn/d$ from their true
-centers $c_{z_i}$: the remaining rows satisfy this by the displayed
-inequality, and the $O(n/d)$ high-degree rows each contribute at most four.
+$x_i$ have total squared distance at most $\frac{C}{p}$ from their true
+centers $O_{z_i\cdot}$: the remaining rows satisfy this by the displayed
+inequality, and the $O(\frac{1}{p})$ high-degree rows each contribute at most four.
 
-Call a row good if $\norm{x_i-c_{z_i}}_2\le\epsilon=1/32$.
-At most $m=Cn/d$ rows are bad, and $m<n/(3\beta K)$ for large $n$.
+Call a row good if $\norm{x_i-O_{z_i\cdot}}_2\le1/32$.
+At most $m=\frac{C}{p}$ rows are bad, and $m<n/(3\beta K)$ for large $n$.
 Inductively, all good rows of a selected block have been removed and
 all good rows of unselected blocks remain. A radius-$1/8$ ball
 centered at a good row of an unselected block contains every good row
 of that block, hence more than $m$ remaining rows. The maximizing
 ball must therefore contain a good row from an unselected block;
-its representative is within $1/8+\epsilon=5/32$ of that center.
+its representative is within $1/8+1/32=5/32$ of that center.
 Every good row of that block lies within $3/16<1/4$ of the
 representative. Good rows of any other block are farther than
 $\sqrt2-3/16>1/4$, so deletion preserves the induction.
 After $K$ selections, each good row is closer to its own
 representative than to all others. Only the $m$ bad rows can be
-misclassified.
+misclassified. Dividing by $n$ gives the stated misclassification rate.
 \end{proof}
+
+For the remaining reconstruction estimates, write
+$v=A\one-\widehat A\one$ and $R_1=\widehat A+v\one^\top/n$.
+These are proof quantities computed from the same fixed reconstruction;
+they are not additional algorithmic updates.
 
 \begin{lemma}[Reconstructed block totals]
 \label{restore:fit-block-totals}
 The hollow, degree-preserving reconstruction in
 \eqref{restore:reconstruction} satisfies
 \begin{equation}\label{restore:fit-global-absolute}
- \sum_{i,j}|\widehat A_{ij}|\le Cnd.
+ \sum_{i,j}|\widehat A^{\mathrm{c}}_{ij}|\le Cn^2p.
 \end{equation}
-For every partition $\widehat Z$ with at most $Mn/d$ errors under
-the common label matching,
+For every estimated partition, under the common label matching,
 \begin{equation}\label{restore:fit-total-accuracy}
- [\widehat Z^\top \widehat A\widehat Z]_{ab}
-     =n_an_bP_{ab}+O_M(n).
+ \left|[\widehat Z^\top\widehat A^{\mathrm{c}}\widehat Z]_{k\ell}
+                  -n_kn_\ell P_{k\ell}\right|
+ \le Cn\{1+np\Mis(\widehat z,z)\}.
 \end{equation}
-The omitted diagonal is included in the remainder.
+The omitted diagonal is included in the bound, and the constant is
+uniform over the estimated partition.
 \end{lemma}
 
 \begin{proof}
-For these estimates write $v=\mathbf d-F\one$,
-$R_1=F+v\one^\top/n$, and $r_i=(R_1)_{ii}$.
-Equation~\eqref{restore:reconstruction} is equivalently
+With $r_i=(R_1)_{ii}$, the reconstruction formula is equivalently
 \[
- \widehat A=R_1+\frac{r\one^\top}{n-1}
-                    -\frac n{n-1}\diag(r),
+ \widehat A^{\mathrm{c}}=R_1+\frac{r\one^\top}{n-1}
+                   -\frac n{n-1}\diag(r),
 \]
-because its off-diagonal entries are
-$F_{ij}+(v_i+F_{ii})/(n-1)$.
-Let $Q_{\rm tail}=(I-\Pi)Q(I-\Pi)$ and
-$F_1=(I-\Pi)G^{1/2}\one$. Then
-$\norm{Q_{\rm tail}}_{\op}\le C/\sqrt d$,
-$\norm{F_1}_2\le C\sqrt n$, and the degree correction is exactly
-$v=\mathbf d-F\one=G^{1/2}Q_{\rm tail}F_1$. Consequently
+because its off-diagonal entries are $\widehat A_{ij}+(v_i+\widehat A_{ii})/(n-1)$.
+Let $Q_{\rm tail}=(I-\Pi)Q(I-\Pi)$. Spectral invariance gives
 \[
- \sum_i|v_i|\le Cn,\qquad
- \sum_i|F_{ii}|
- \le\sum_iG_i\Pi_{ii}
- \le2\tau K
-       +\sum_i\frac{(G_i-\tau)^2}{G_i}\le Cn.
+ v=G^{1/2}Q_{\rm tail}(I-\Pi)G^{1/2}\one.
 \]
-It follows that $\sum_i|(R_1)_{ii}|\le Cn$, and hollowing has
-total absolute cost at most $2\sum_i|(R_1)_{ii}|$. Since
-$|F_{ij}|\le a_ia_j$, \cref{restore:fit-wrong-mass} yields
-$\sum_{ij}|F_{ij}|\le Cnd$. The correction $v\one^\top/n$
+The bounds $\norm{Q_{\rm tail}}_{\op}\le C/\sqrt{np}$,
+$\norm{(I-\Pi)G^{1/2}\one}_2\le C\sqrt n$ and
+$\sum_iG_i\le Cn^2p$ imply $\sum_i|v_i|\le Cn$.
+Also
+\[
+ \sum_i|\widehat A_{ii}|\le\sum_iG_i\Pi_{ii}
+ \le2\tau K+\sum_i\frac{(G_i-\tau)^2}{G_i}\le Cn.
+\]
+Consequently $\sum_i|(R_1)_{ii}|\le Cn$; hollowing has total
+absolute cost at most $2\sum_i|(R_1)_{ii}|$.
+Since $|\widehat A_{ij}|\le a_ia_j$, \cref{restore:fit-wrong-mass} bounds
+its total absolute mass by $Cn^2p$. The rank-one degree correction
 has absolute mass $\sum_i|v_i|$, proving
 \eqref{restore:fit-global-absolute}.
 
-Put $\widehat F=(I-\Pi)G^{1/2}\widehat Z$. The wrong-set bound
-gives $\norm{\widehat F}_F\le C_M\sqrt n$. Spectral invariance
-gives the exact identity
+Let $E$ be the incorrectly assigned set. Each nonzero row of
+$\widehat Z-Z$ has squared norm two, so the block-space residual and
+\cref{restore:fit-wrong-mass} give
 \[
- \widehat Z^\top(F-A)\widehat Z
-       =-\widehat F^\top Q_{\rm tail}\widehat F
-       =O_M(n/\sqrt d).
+ \norm{(I-\Pi)G^{1/2}\widehat Z}_F^2
+ \le 2\norm{(I-\Pi)G^{1/2}Z}_F^2
+       +2\norm{G^{1/2}(\widehat Z-Z)}_F^2
+ \le C(n+np|E|).
 \]
-Moving the wrongly labeled vertices changes any raw block total by
-at most $C\sum_{i\in E}D_i\le C_Mn$. Thus
-\eqref{restore:fit-block-event} gives
-\eqref{restore:fit-total-accuracy} for $F$. The degree correction
-changes a block total by
-$[\widehat Z^\top v]_a\widehat n_b/n$, where
-$\widehat Z^\top v=\widehat F^\top Q_{\rm tail}F_1=O_M(n/\sqrt d)$.
-The $O(n)$ hollowing cost completes the proof.
+The exact identity
+\[
+ \widehat Z^\top(\widehat A-A)\widehat Z
+ =-\{(I-\Pi)G^{1/2}\widehat Z\}^\top Q_{\rm tail}
+       \{(I-\Pi)G^{1/2}\widehat Z\}
+\]
+therefore has norm at most $C(n+np|E|)/\sqrt{np}$.
+Moving the incorrectly assigned vertices changes any raw block total
+by at most $C\sum_E D_i\le C(n+np|E|)$.
+Together with \eqref{restore:fit-block-event}, this bounds the error
+for $\widehat A$ by $C(n+np|E|)$.
+
+The degree correction changes a block total by
+$[\widehat Z^\top v]_k n_\ell(\widehat z)/n$.
+Using spectral invariance again gives
+\[
+ \norm{\widehat Z^\top v}_2
+ \le \frac{C\sqrt{n(n+np|E|)}}{\sqrt{np}}
+ \le C(n+np|E|)
+\]
+for all sufficiently large $np$. The global $O(n)$ hollowing cost
+has already been proved. Finally, $|E|=n\Mis(\widehat z,z)$ gives
+\eqref{restore:fit-total-accuracy}.
 \end{proof}
 
 For a tested vertex $i$, the local regularity condition is
 \begin{equation}\label{restore:fit-local-row}
- D_i\le bd,\qquad
- a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2\le L\sqrt{d/n},
+ D_i\le L_Dnp,\qquad
+ a_i=\sqrt{G_i}\norm{U_{i\cdot}}_2\le L_U\sqrt p,
 \end{equation}
-where $b,L$ are fixed. It is imposed only at the tested target.
+where $L_D,L_U$ are fixed. It is imposed only at the tested target.
 
 \begin{lemma}[Local absolute mass]
 \label{restore:fit-local-mass}
 On \eqref{restore:fit-local-row},
 \begin{equation}\label{restore:fit-local-mass-bounds}
- \sum_j|\widehat A_{ij}|\le C_{b,L}d,\qquad
- \sup_{|E|\le Mn/d}\sum_{j\in E}|\widehat A_{ij}|\le C_{M,b,L}.
+ \sum_j|\widehat A^{\mathrm{c}}_{ij}|\le Cnp,\qquad
+ \sum_{j\in E}|\widehat A^{\mathrm{c}}_{ij}|\le C(1+p|E|)
+       \quad\text{for every }E\subseteq[n].
 \end{equation}
+For the incorrectly assigned set the second bound is
+$C\{1+np\Mis(\widehat z,z)\}$.
 \end{lemma}
 
 \begin{proof}
-The bound $|F_{ij}|\le a_ia_j$ and
-\cref{restore:fit-wrong-mass} give the two claims for $F$.
-They also imply $|v_i|\le D_i+\sum_j|F_{ij}|\le Cd$.
-The rank-one correction therefore adds at most $Cd$ to the full
-row mass and $Cd|E|/n\le C_M$ to the wrong-set mass. Finally,
-$|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp^*$; hollowing changes
-either bound by at most $2|(R_1)_{ii}|$.
+The inequality $|\widehat A_{ij}|\le a_ia_j$, the local bound on $a_i$ and
+\cref{restore:fit-wrong-mass} prove both claims for $\widehat A$.
+They also give $|v_i|\le D_i+\sum_j|\widehat A_{ij}|\le Cnp$.
+The rank-one correction adds at most $Cnp$ to the full row mass and
+$Cp|E|$ to its mass over $E$. Finally,
+$|(R_1)_{ii}|\le a_i^2+|v_i|/n\le Cp$; hollowing changes either
+bound by at most $2|(R_1)_{ii}|$. This proves the assertion.
 \end{proof}
 
-\begin{proposition}[Block fitting and the Bernoulli contrast]
+\begin{proposition}[Parameter and score errors in terms of misclassification]
 \label{restore:fit-ordinary}
 \label{restore:fit-score}
-Uniformly over partitions in the $Mn/d$ basin, the symmetric
-Bernoulli block fit is unique and interior for large $n$, and
+There is a fixed $c>0$ such that, uniformly over current labels with
+$\Mis(\widehat z,z)\le c$, the symmetric Bernoulli block fit is unique
+and interior for all sufficiently large $n$, and
 \begin{equation}\label{restore:fit-ordinary-parameter}
- \max_{a,b}|\widehat P_{ab}-P_{ab}|\le C_M/n.
+ \max_{k,\ell}|\widehat P_{k\ell}-P_{k\ell}|
+ \le C\left\{\frac1n+p\Mis(\widehat z,z)\right\}.
 \end{equation}
-Write $\widehat L_i^{ab}=\widehat L_i(a)-\widehat L_i(b)$ for the
-fitted pairwise contrast. At every target satisfying
-\eqref{restore:fit-local-row},
+At every target satisfying \eqref{restore:fit-local-row}, the fitted
+log-likelihood contrast obeys
 \begin{equation}\label{restore:fit-ordinary-score}
- \widehat L_i^{ab}=[\widehat A w_{ab}]_i+b_{i,ab}+O_{M,b,L}(1),
+ \begin{aligned}
+ &\sum_{j\ne i}\left\{
+ \widehat A^{\mathrm{c}}_{ij}\log\frac{\widehat P_{k\widehat z_j}}
+                              {\widehat P_{\ell\widehat z_j}}
+ +(1-\widehat A^{\mathrm{c}}_{ij})\log\frac{1-\widehat P_{k\widehat z_j}}
+                                   {1-\widehat P_{\ell\widehat z_j}}
+ \right\}\\
+ &\qquad=[\widehat A^{\mathrm{c}} w_{k\ell}]_i
+       +\sum_{j\ne i}\log\frac{1-P_{kz_j}}{1-P_{\ell z_j}}
+       +O\{1+np\Mis(\widehat z,z)\}.
+ \end{aligned}
 \end{equation}
-where $w_{ab}$ and the full nonedge intercept $b_{i,ab}$ are the
-true Bernoulli quantities in \eqref{eq:sbm-weights}.
+Here $w_{k\ell}$ is the true log-odds vector in
+\eqref{eq:sbm-weights}. The constants are uniform over the current
+labels. In particular, a misclassification rate of order $1/(np)$
+gives parameter error $O(1/n)$ and a bounded score remainder.
 \end{proposition}
 
 \begin{proof}
-For an unordered fitted block pair, write $E_{ab}$ for its ordered
-reconstructed total and $N_{ab}$ for the corresponding number of
-ordered off-diagonal pairs. With $\nu_{ab}=2-\ind{a=b}$,
-\cref{restore:fit-block-totals} gives
+For one unordered fitted block pair, write $E_{k\ell}$ for its ordered
+reconstructed total and $N_{k\ell}$ for the number of ordered
+ off-diagonal pairs. There are two directions when $k\ne\ell$ and
+one ordered within-group total when $k=\ell$. Consequently
+\cref{restore:fit-block-totals} and the exact pair counts give
 \[
- E_{ab}=\nu_{ab}n_an_bP_{ab}+O_M(n),\qquad
- N_{ab}=\nu_{ab}\widehat n_a\widehat n_b+O(n).
+ \begin{aligned}
+ E_{k\ell}
+ &=(2-\ind{k=\ell})n_kn_\ell P_{k\ell}
+        +O\bigl(n\{1+np\Mis(\widehat z,z)\}\bigr),\\
+ N_{k\ell}
+ &=(2-\ind{k=\ell})n_k(\widehat z)n_\ell(\widehat z)+O(n).
+ \end{aligned}
 \]
-The exact criterion is
-$E_{ab}\log q+(N_{ab}-E_{ab})\log(1-q)$. Since
-$0<E_{ab}<N_{ab}$ for large $n$, it has the unique maximizer
-$\widehat P_{ab}=E_{ab}/N_{ab}$. Its clipping bounds are inactive
-because this ratio is between fixed positive multiples of $p^*$.
-Using $|\widehat n_a-n_a|\le Mn/d$ gives
+For the common label matching,
+$|n_k(\widehat z)-n_k|\le n\Mis(\widehat z,z)$.
+Choose the fixed $c$ small enough that every fitted group has size
+at least $n/(2\beta K)$. Thus $N_{k\ell}\asymp n^2$, and
 \[
- |\widehat P_{ab}-P_{ab}|
- \le C_M\{n/n^2+p^*(n/d)/n\}\le C_M/n.
+ \left|\frac{E_{k\ell}}{N_{k\ell}}-P_{k\ell}\right|
+ \le C\left\{\frac1n+p\Mis(\widehat z,z)\right\}.
 \]
+After decreasing $c$ if necessary, this error is a sufficiently small
+fixed multiple of $p$ for all large $np$. The ratio is then positive,
+comparable to $p$, and strictly inside the algorithm's clipping
+interval. This uses the stipulated sufficiently small $c_0$ and
+$p\to0$, a consequence of $np^2\le C_1$.
+The criterion $E_{k\ell}\log q+(N_{k\ell}-E_{k\ell})\log(1-q)$
+has the unique interior maximizer $q=E_{k\ell}/N_{k\ell}$,
+proving \eqref{restore:fit-ordinary-parameter}.
 
-The Bernoulli contrast is exactly a log-odds action plus a nonedge
-intercept. On the positive compact profile class, the fitted
-log-odds error is $O_M(1/d)$ per coefficient. Its row action costs
-$O_M(1)$ by \eqref{restore:fit-local-mass-bounds}. Replacing the
-wrong neighbor labels changes bounded coefficients on at most
-$Mn/d$ coordinates, again at cost $O_M(1)$.
-For the intercept, bounded derivatives of $\log(1-q)$ give
-parameter cost $n\,O_M(1/n)=O_M(1)$. Wrong neighbor labels change
-each nonedge log-ratio by at most $Cp^*$, for an additional cost
-$C_M(n/d)p^*=O_M(1)$. All bounds hold simultaneously for every
-partition in the basin; fitted coefficients need not be independent
-of the tested row.
+On the positive comparable-probability class, the resulting log-odds
+coefficient error is at most
+$C\{(np)^{-1}+\Mis(\widehat z,z)\}$.
+Multiplication by the absolute row mass $Cnp$ costs at most
+$C\{1+np\Mis(\widehat z,z)\}$.
+Changing the incorrectly assigned neighbor labels alters bounded
+coefficients on $E$, at cost at most $C(1+p|E|)$ by
+\cref{restore:fit-local-mass}.
+For the nonedge intercept, bounded derivatives of $\log(1-q)$ give
+parameter cost at most $C\{1+np\Mis(\widehat z,z)\}$;
+wrong neighbor labels add at most $Cp|E|$.
+As $|E|=n\Mis(\widehat z,z)$, these bounds prove
+\eqref{restore:fit-ordinary-score}. They hold simultaneously over
+all stated input labels; no independence of the fitted quantities
+from the tested row is used.
 \end{proof}
 
-\begin{lemma}[Uniform basin for finite hard refits]
+\begin{lemma}[Uniform misclassification control for finite hard refits]
 \label{restore:fit-invariant-basin}
 \label{restore:fit-invariant}
-There is a fixed $M$ such that, on the aggregate event and for large
-$n$, each block-fit and Bernoulli-assignment update maps the
-$Mn/d$ error basin into itself under the same label matching.
-At every target satisfying \eqref{restore:fit-local-row}, an error
-at any updated iterate implies
+There are fixed constants $c>0$ and $C<\infty$ such that, on the
+aggregate event and for all sufficiently large $n$, every input
+satisfying $\Mis(\widehat z,z)\le c$ yields, after one block fit and
+Bernoulli assignment,
+\[
+ \Mis\!\left(\mathcal L(\widehat A^{\mathrm{c}},\widehat P,\widehat z),z\right)
+       \le\frac{C}{np}.
+\]
+Starting from the prescribed initializer, all iterates satisfy a
+single bound $C/(np)$ under the same label matching.
+For this initialized sequence, at every target satisfying
+\eqref{restore:fit-local-row}, an error at any updated iterate implies
 \begin{equation}\label{restore:fit-canonical-error}
- [\widehat A w_{z_i b}]_i+b_{i,z_i b}\le C_M
- \quad\text{for some }b\ne z_i.
+ [\widehat A^{\mathrm{c}} w_{z_i\ell}]_i+
+ \sum_{j\ne i}\log\frac{1-P_{z_i z_j}}{1-P_{\ell z_j}}\le C
+ \quad\text{for some }\ell\ne z_i.
 \end{equation}
-The same event controls any finite, possibly data-dependent stopping
-rule after at least one update.
+The threshold is the same for all such iterates and for any finite,
+possibly data-dependent stopping rule after at least one update.
 \end{lemma}
 
 \begin{proof}
-Choose large fixed $b,R$, with $b$ larger than twice the uniform
-upper bounds on $D_{0,i}/d$ and $\tau/d$. The degree energy bounds
-$|\{i:D_i>bd\}|\le Cn/d$. Also
-$\norm{V_{i\cdot}}_2\le C/\sqrt n$, so
+Choose large fixed $L_D,R$, with $L_D$ larger than twice the uniform
+upper bounds on $\sum_jP_{z_i z_j}/(np)$ and $\tau/(np)$.
+The degree energy bounds $|\{i:D_i>L_Dnp\}|\le C/p$.
+Also $\norm{V_{i\cdot}}_2\le C/\sqrt n$, so
 \eqref{restore:fit-basis} gives
-$|\{i:\sqrt n\norm{U_{i\cdot}}_2>R\}|\le Cn/d$.
-Every other target satisfies \eqref{restore:fit-local-row} for
-fixed $L$, because $G_i\le C_bd$ there. This exceptional set and
-its bound are independent of the input partition and of $M$.
+$|\{i:\sqrt n\norm{U_{i\cdot}}_2>R\}|\le C/p$.
+Every other target satisfies \eqref{restore:fit-local-row} for a
+fixed $L_U$, because $G_i\le Cnp$ there. These counting exceptions
+are independent of the input labels.
 
-Let $Q_0=G^{-1/2}\Omega G^{-1/2}$. Best rank-$K$
-approximation gives $\norm{Q_K-Q_0}_{\op}\le C/\sqrt d$;
-consequently
+Best rank-$K$ approximation gives
+$\norm{Q_K-G^{-1/2}ZPZ^\top G^{-1/2}}_{\op}\le C/\sqrt{np}$,
+whence
 \[
- \norm{G^{-1/2}(F-\Omega)Z}_F^2
- \le (C/d)\norm{G^{1/2}Z}_F^2\le Cn.
+ \norm{G^{-1/2}(\widehat A-ZPZ^\top)Z}_F^2
+ \le \frac{C}{np}\norm{G^{1/2}Z}_F^2\le Cn.
 \]
-Since $\norm{G^{-1/2}v}_2^2\le Cn/d$, the degree correction
-preserves this bound:
+The earlier expression for $v$ implies
+$\norm{G^{-1/2}v}_2^2\le C/p$.
+Since $\norm{\one^\top Z/n}_2\le1$, the degree correction
+preserves the bound:
 \begin{equation}\label{restore:fit-basin-action}
- \norm{G^{-1/2}(R_1-\Omega)Z}_F^2\le Cn.
+ \norm{G^{-1/2}(R_1-ZPZ^\top)Z}_F^2\le Cn.
 \end{equation}
-Hollowing changes the action of any bounded block-constant vector
-at row $i$ by at most $C|(R_1)_{ii}|$. As
-$\sum_i|(R_1)_{ii}|\le Cn$, this change exceeds a prescribed
-small multiple of $d$ on at most $Cn/d$ rows. This auxiliary set
-is used only to count basin errors, and is not paid as a probability
-exception in the sharp risk argument.
+Hollowing changes the action of a bounded block-constant vector
+at row $i$ by at most $C|(R_1)_{ii}|$.
+Because $\sum_i|(R_1)_{ii}|\le Cn$, it changes that action by more
+than a prescribed small multiple of $np$ on at most $C/p$ rows.
+This auxiliary set is used only for counting misclassifications;
+it is not charged as a probability exception in the sharp risk proof.
 
-For $a=z_i$, the population contrast
-$[\Omega w_{ab}]_i+b_{i,ab}$ is the sum of the incident Bernoulli
-Kullback--Leibler divergences, with an $O(p^*)$ completed-diagonal
-term. Row separation and positive group proportions therefore give
-a uniform lower bound $c_{\rm gap}d$. The block coefficients of
-$w_{ab}$ are bounded. At a regular target,
-\cref{restore:fit-ordinary} bounds the fitted discrepancy by $C_M$,
-which is at most $c_{\rm gap}d/4$ for sufficiently large $n$.
-Outside the auxiliary hollowing set, any new error thus forces
+For $k=z_i$, the true population contrast is
 \[
- \norm{[(R_1-\Omega)Z]_{i\cdot}}_2\ge cd.
+ [ZPZ^\top w_{k\ell}]_i+
+       \sum_{j\ne i}\log\frac{1-P_{kz_j}}{1-P_{\ell z_j}}.
 \]
-For these targets $G_i\le C_bd$. Summing the squared requirement
-divided by $G_i$ and applying \eqref{restore:fit-basin-action}
-bounds their number by $C_0n/d$. Including both counting exceptions
-still gives this form with $C_0$ independent of $M$.
+It is a sum of incident Bernoulli Kullback--Leibler divergences plus
+an $O(p)$ completed-diagonal term. Row separation and community-size
+bounds give a lower bound $c_{\rm gap}np$.
+At a regular target, \cref{restore:fit-ordinary} bounds the fitted
+remainder by $C\{1+np\Mis(\widehat z,z)\}$, with $C$ independent
+of the input labels. First choose the fixed $c$ in the hypothesis
+sufficiently small compared with this population margin, then take
+$np$ sufficiently large. The remainder is at most $c_{\rm gap}np/4$.
+Outside the auxiliary hollowing set, a new error therefore requires
+\[
+ \norm{[(R_1-ZPZ^\top)Z]_{i\cdot}}_2\ge c'np
+\]
+for a fixed $c'>0$. Summing the squared requirements divided by
+$G_i\le Cnp$ and using \eqref{restore:fit-basin-action} bounds the
+number of such errors by $C/p$. Including the counting exceptions
+and dividing by $n$ proves the asserted output rate. Its constant
+does not depend on the input misclassification rate within the
+specified small interval.
 
-Choose $M$ at least $C_0$ and the initializer constant. The basin
-is invariant for all sufficiently large $n$; only that threshold
-may depend on $M$. On each regular target,
-\eqref{restore:fit-canonical-error} follows directly from
-\eqref{restore:fit-ordinary-score}. It is the same event for every
-partition in the basin. Induction proves the assertion for finite
-hard refits and adaptive finite stopping, with no probability union
-over iterations.
+The initializer has rate at most $C/(np)$ by
+\cref{restore:fit-initializer}. Choose a single fixed upper constant
+for this initializer bound and the one-update output bound, then
+choose $n$ large enough that its ratio to $np$ is below the fixed
+$c$ just chosen. Induction now controls every iterate without
+introducing another radius parameter. The estimates use the same
+true community numbering at every step, so the initial common
+matching is retained.
+
+Along this sequence $np\Mis(\widehat z,z)$ is uniformly bounded.
+Equation~\eqref{restore:fit-ordinary-score} thus has a single bounded
+remainder for all input iterates. A wrong assignment implies
+\eqref{restore:fit-canonical-error}. The same event covers finite
+adaptive stopping, with no probability union over iterations.
 \end{proof}

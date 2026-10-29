@@ -4,26 +4,42 @@
 \usepackage{lmodern,microtype}
 \usepackage{amsmath,amssymb,amsthm,mathtools,bm}
 \usepackage{booktabs,array,enumitem}
-\usepackage{xcolor}
+\usepackage{xcolor,graphicx}
+\usepackage[numbers,square,sort&compress]{natbib}
+\usepackage{xurl}
 \usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{aliascnt}
 \usepackage{cleveref}
 \hypersetup{
- pdftitle={Adjacency spectral likelihood classification in stochastic block models},
- pdfsubject={Constant oracle-risk bounds at every diverging expected-degree scale},
- pdfkeywords={stochastic block model, adjacency spectrum, Bernoulli likelihood, oracle risk}
+ pdftitle={Rate-Optimal Spectral Likelihood-Ratio Clustering in Stochastic Block Models},
+ pdfauthor={Zhixin Zhou},
+ pdfsubject={Constant oracle-risk bounds for spectral likelihood-ratio clustering},
+ pdfkeywords={stochastic block model, spectral likelihood-ratio clustering, community detection, oracle risk}
 }
 \setlist{itemsep=3pt,topsep=5pt,leftmargin=2em}
 \setlength{\emergencystretch}{2em}
 \allowdisplaybreaks[2]
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lemma}
+\aliascntresetthe{lemma}
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposition}
+\aliascntresetthe{proposition}
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corollary}
+\aliascntresetthe{corollary}
 \theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{assumption}[theorem]{Assumption}
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definition}
+\aliascntresetthe{definition}
+\newaliascnt{assumption}{theorem}
+\newtheorem{assumption}[assumption]{Assumption}
+\aliascntresetthe{assumption}
 \theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
+\newaliascnt{remark}{theorem}
+\newtheorem{remark}[remark]{Remark}
+\aliascntresetthe{remark}
 \newcommand{\R}{\mathbb R}
 \newcommand{\E}{\mathbb E}
 \newcommand{\PP}{\mathbb P}
@@ -44,30 +60,35 @@
 \newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
 \newcommand{\ind}[1]{\mathbf1\{#1\}}
 \newcommand{\Mis}{\operatorname{Mis}}
-\title{Adjacency spectral likelihood classification\\in stochastic block models}
-\author{}
-\date{26 October 2026}
+\title{Rate-Optimal Spectral Likelihood-Ratio\\Clustering in Stochastic Block Models}
+\author{Zhixin Zhou}
+\date{October 28, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-We study community recovery by applying a Bernoulli likelihood criterion
-to spectral reconstructions of a stochastic block model. We first
-explain a spectrum-only version: reconstructed incident block counts
-replace raw edge counts in parameter fitting and likelihood-based label
-updates. We then give the complete sparse classifier, which retains
-original degrees, regularizes high-degree vertices before the spectral
-calculation, and corrects the reconstructed rows to have exactly their
-observed degree totals. For any fixed number of communities, comparable
-community sizes and a positive full-rank block profile, this complete
-classifier has expected misclassification proportion at most a constant
-times the true-parameter incident-row oracle risk whenever
-\(np^*\to\infty\) and \(n(p^*)^2\) is bounded. The guarantee concerns the
-complete classifier, not the preliminary spectrum-only version.
-Truncated spectral-row energy, a local leave-one-out comparison and
-uniform fitted-score bounds yield the result without a logarithmic
-lower bound on expected degree.
+Spectral clustering commonly assigns communities by clustering a
+low-dimensional representation, whereas likelihood refinement can
+improve an initial assignment using the observed edges. We ask whether
+sharp community-recovery accuracy can be retained when the refinement
+no longer accesses individual edges. We develop spectral likelihood-ratio
+clustering for stochastic block models using one regularized adjacency
+eigensystem and the original vertex degrees. The method estimates connection
+probabilities and updates each vertex's label by a likelihood-ratio
+classifier on reconstructed rows. Its expected misclassification proportion
+is at most a constant times the error of a raw-edge oracle classifier
+that knows the model parameters and the other labels.
+The guarantee holds for a fixed number of communities, comparable
+positive block probabilities and community sizes, and a nondegenerate
+normalized block matrix. It allows arbitrarily slowly diverging expected
+degrees under the stated upper sparsity condition. We explain the
+likelihood-ratio construction first, then the regularization and exact-degree
+correction required by the general result. The proof combines sharp
+local testing, truncated spectral-row estimates and leave-one-out
+comparisons.
 \end{abstract}
 \input{article}
+\input{experiments}
+\clearpage
 \appendix
 \input{sharp_tail}
 \input{geometry}
@@ -76,7 +97,7 @@ lower bound on expected degree.
 \input{fitting}
 \input{high_range}
 \input{risk_proof}
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{references}
 \end{document}
 

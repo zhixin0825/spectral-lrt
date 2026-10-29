@@ -6,7 +6,7 @@ uses a recurrence at a single truncation threshold, together with
 concentration of independent deleted-row innovations.
 
 Work under the fixed structural assumptions of
-\cref{prop:sparse-floor}, with $d=np^*\to\infty$ and $n(p^*)^2\le C_1$.
+\cref{prop:sparse-floor}, with $np\to\infty$ and $np^2\le C_1$.
 For the high-degree cap in \cref{restore:algorithm}, recall
 \[
  \tau=b_0\bar D,\qquad
@@ -18,8 +18,8 @@ eigenspace and write $\widetilde AU=U\Lambda$.
 All bounds below are uniform in the fixed compact structural class.
 In particular,
 \begin{equation}
- 0\le\Omega_{ij}\le Cd/n,\qquad
- \norm{\Omega_{i\cdot}}_2\le Cd/\sqrt n.
+ 0\le{P_{z_i z_j}}\le Cp,\qquad
+ \norm{{(ZPZ^\top)_{i\cdot}}}_2\le C{np}/\sqrt n.
  \label{restore:tail-population-rows}
 \end{equation}
 
@@ -35,10 +35,10 @@ Thus
  \label{restore:tail-geometry-probability}
 \end{equation}
 On this event, for every graph in the deletion family, its recomputed
-threshold is comparable to $d$, its total degree is at most $C_rnd$,
-its centered weighted noise has norm at most $C_r\sqrt d$, its
-informative eigenvalues have absolute values at least $c_rd$, and its
-remaining eigenvalues have absolute values at most $C_r\sqrt d$.
+threshold is comparable to ${np}$, its total degree is at most $C_r{n^2p}$,
+its centered weighted noise has norm at most $C_r\sqrt {np}$, its
+informative eigenvalues have absolute values at least $c_r{np}$, and its
+remaining eigenvalues have absolute values at most $C_r\sqrt {np}$.
 For a deleted training graph, use the analogous event formed from
 that graph and its further deletions. This event is measurable from
 the training graph alone and has the same probability bound.
@@ -62,7 +62,7 @@ $R\ge R_0$ and all sufficiently large $n$,
  \E\!\left[\ind{\mathcal E_r}
        \sum_{j=1}^n\norm{U_{j\cdot}}_2^2
                   \ind{\sqrt n\norm{U_{j\cdot}}_2>R}\right]
- \le CR^2e^{-cd\log R}.
+ \le CR^2e^{-c{np}\log R}.
  \label{restore:tail-energy}
 \end{equation}
 The constants $R_0,C,c$ depend on the fixed structural bounds,
@@ -93,18 +93,18 @@ The exact threshold difference is
  =b_0\frac{\bar D-2D_i}{n-1}.
 \]
 Comparing the two square-root caps, using the comparability of the
-thresholds to $d$, gives on $\mathcal E_r$
+thresholds to ${np}$, gives on $\mathcal E_r$
 \begin{equation}
  |(\Gamma_i)_{jj}|
  \le C\left\{\frac{A_{ij}}{G_j}
-             +\frac{d+D_i}{nd}\right\},
- \qquad \norm{\Gamma_i}_{\op}\le C/d.
+             +\frac{{np}+D_i}{{n^2p}}\right\},
+ \qquad \norm{\Gamma_i}_{\op}\le C/(np).
  \label{restore:tail-weight-change}
 \end{equation}
 This also covers a crossing of the cap threshold. It follows either
 by splitting the cases in the two maxima or by comparing the logarithms
 of $\sqrt{\tau/\max(D_j,\tau)}$; the relative threshold change is
-$O((d+D_i)/(nd))$.  The last bound uses $D_i\le n$ and $d\le Cn$.
+$O(({np}+D_i)/({n^2p}))$.  The last bound uses $D_i\le n$ and ${np}\le Cn$.
 
 There is an orthogonal matrix $O_i$ such that
 \begin{equation}
@@ -121,9 +121,9 @@ The lower block of the recomputed deleted matrix is
 $(I+\Gamma_i)B_i(I+\Gamma_i)$.
 Subtracting the full matrix and applying the difference to $U$ gives
 a Frobenius residual bounded by
-$Cd(\norm{U_{i\cdot}}_2+\norm{\Gamma_iU}_F)$.
+$C{np}(\norm{U_{i\cdot}}_2+\norm{\Gamma_iU}_F)$.
 The full informative spectrum is separated from the deleted
-noninformative spectrum by $cd$.
+noninformative spectrum by $c{np}$.
 The complementary-space Sylvester equation and orthogonal Procrustes
 alignment give \eqref{restore:tail-loo-residual}.
 Only separation from the complementary spectrum is used; the
@@ -133,111 +133,111 @@ informative eigenvalues can repeat or have either sign.
 Set $t=R/\sqrt n$.  Let $f_t$ be radial projection onto the Euclidean
 ball of radius $t$, applied to each row, and put
 \[
- V=f_t(U),\qquad T=U-V,\qquad
- H_R(U)=\sum_j\norm{U_{j\cdot}}_2^2
+ \bar U=f_t(U),\qquad E_U=U-\bar U,\qquad
+ \mathcal T_R(U)=\sum_j\norm{U_{j\cdot}}_2^2
                          \ind{\norm{U_{j\cdot}}_2>t}.
 \]
 The radial projection is $1$-Lipschitz and commutes with orthogonal
-rotations.  Moreover $\norm T_F^2\le H_R(U)$,
-$\max_j\norm{V_{j\cdot}}_2\le t$, and $\norm V_F\le\sqrt K$.
+rotations.  Moreover $\norm{E_U}_F^2\le \mathcal T_R(U)$,
+$\max_j\norm{\bar U_{j\cdot}}_2\le t$, and $\norm{\bar U}_F\le\sqrt K$.
 Define
 \[
- \xi_i=W_i\left(\sqrt{D_i}+Cd/\sqrt n\right).
+ \xi_i=W_i\left(\sqrt{D_i}+C{np}/\sqrt n\right).
 \]
-By \eqref{restore:tail-floor-operator}, $\xi_i^2\le Cd$.
+By \eqref{restore:tail-floor-operator}, $\xi_i^2\le C{np}$.
 Equation \eqref{restore:tail-weight-change} yields
 \[
- \norm{\Gamma_iV}_F
- \le Ct\frac{\sqrt{D_i}}d+C\frac{d+D_i}{nd},
+ \norm{\Gamma_i\bar U}_F
+ \le Ct\frac{\sqrt{D_i}}{np}+C\frac{{np}+D_i}{{n^2p}},
 \]
 and therefore
 \begin{equation}
- \frac{C\xi_i}d\norm{\Gamma_iV}_F
- \le Ct\left\{\frac1d+\frac{\sqrt{D_i}}{d^{3/2}}\right\}.
+ \frac{C\xi_i}{np}\norm{\Gamma_i\bar U}_F
+ \le Ct\left\{\frac1{np}+\frac{\sqrt{D_i}}{{(np)}^{3/2}}\right\}.
  \label{restore:tail-bounded-weight}
 \end{equation}
 For the global term, use $t\ge n^{-1/2}$, $D_i\le n$, and
-$d\le Cn$: $D_i/(nd^{3/2})\le t\sqrt{D_i}/d^{3/2}$ and
-$1/(n\sqrt d)\le Ct/d$.
-The square-root cap does not give $W_iD_i\le Cd$. The
+${np}\le Cn$: $D_i/(n{(np)}^{3/2})\le t\sqrt{D_i}/{(np)}^{3/2}$ and
+$1/(n\sqrt {np})\le Ct/(np)$.
+The square-root cap does not give $W_iD_i\le C{np}$. The
 right side of \eqref{restore:tail-bounded-weight} can exceed a
-sufficiently small fixed multiple of $t$, for large $d$, only if
-$D_i\ge c_*d^3$.
+sufficiently small fixed multiple of $t$, for large ${np}$, only if
+$D_i\ge c_*{(np)}^3$.
 
 The unbounded part satisfies the summable estimate
 \begin{equation}
- \sum_i\xi_i^2\norm{\Gamma_iT}_F^2\le C\norm T_F^2.
+ \sum_i\xi_i^2\norm{\Gamma_iE_U}_F^2\le C\norm{E_U}_F^2.
  \label{restore:tail-summable-weight}
 \end{equation}
 Indeed, after interchanging $i,j$, the local coefficient of
-$\norm{T_{j\cdot}}_2^2$ is at most
-$CdD_j/G_j^2\le C$.
+$\norm{(E_U)_{j\cdot}}_2^2$ is at most
+$C{np}D_j/G_j^2\le C$.
 The global coefficient is bounded by
 \[
- \frac{C}{n^2d}\sum_i(d+D_i)^2\le C,
+ \frac{C}{n^2{np}}\sum_i({np}+D_i)^2\le C,
 \]
-because $\sum_iD_i\le Cnd$ and
+because $\sum_iD_i\le C{n^2p}$ and
 $\sum_iD_i^2\le n\sum_iD_i$.
 These estimates do not use a maximum-degree event.
 
 \medskip\noindent\textbf{Independent innovations and the recurrence.}
 Define the unrotated, training-measurable-coefficient innovation
 \begin{equation}
- K_i=(A_{iJ}-\Omega_{iJ})W^{(-i)}f_t(U_J^{(-i)}).
+ K_i=(A_{iJ}-{(ZPZ^\top)_{iJ}})W^{(-i)}f_t(U_J^{(-i)}).
  \label{restore:tail-innovation}
 \end{equation}
-Let $E_0=W(A-\Omega)W$.
+Let $E_0=W(A-{ZPZ^\top})W$.
 The eigenvector equation is
 \[
- U=W\Omega WU\Lambda^{-1}+E_0V\Lambda^{-1}+E_0T\Lambda^{-1}.
+ U=W{ZPZ^\top} WU\Lambda^{-1}+E_0\bar U\Lambda^{-1}+E_0E_U\Lambda^{-1}.
 \]
 The first term has every row bounded by $C/\sqrt n$, by
 \eqref{restore:tail-population-rows}.
-For the second, compare $W_JV_J$ to
+For the second, compare $W_J\bar U_J$ to
 $W^{(-i)}f_t(U_J^{(-i)})O_i$ and use radial Lipschitzness,
 \eqref{restore:tail-loo-residual}, and
 \eqref{restore:tail-weight-change}.  This gives
 \begin{align}
  \norm{U_{i\cdot}}_2\le{}&
- C/\sqrt n+(C/d)\norm{K_i}_2
- +(C\xi_i/d)\norm{U_{i\cdot}}_2\nonumber\\
- &+(C\xi_i/d)\norm{\Gamma_iV}_F
- +(C\xi_i/d)\norm{\Gamma_iT}_F
- +(C/d)\norm{(E_0T)_{i\cdot}}_2.
+ C/\sqrt n+(C/(np))\norm{K_i}_2
+ +(C\xi_i/(np))\norm{U_{i\cdot}}_2\nonumber\\
+ &+(C\xi_i/(np))\norm{\Gamma_i\bar U}_F
+ +(C\xi_i/(np))\norm{\Gamma_iE_U}_F
+ +(C/(np))\norm{(E_0E_U)_{i\cdot}}_2.
  \label{restore:tail-row-recursion}
 \end{align}
-The completed-mean diagonal contributes at most $Cp^*t/d\le Ct/n$
+The completed-mean diagonal contributes at most $Cpt/(np)\le Ct/n$
 and is absorbed in the bounded terms; it is not treated as an
 observed self-loop.
 Although $O_i$ may depend on the tested row, the argument only uses
 $\norm{K_iO_i}_2=\norm{K_i}_2$.
 No conditional concentration is applied to rotated coordinates.
 
-Take $R$ sufficiently large and then $d$ sufficiently large to absorb
+Take $R$ sufficiently large and then ${np}$ sufficiently large to absorb
 the baseline and self terms.  Retain from
 \eqref{restore:tail-bounded-weight} the excess
-$Ct\sqrt{D_i/d^3}\ind{D_i\ge c_*d^3}$.
+$Ct\sqrt{D_i/{(np)}^3}\ind{D_i\ge c_*{(np)}^3}$.
 For $\norm{U_{i\cdot}}_2>t$, separate the cases
-$\norm{K_i}_2>c'dt$ and $\norm{K_i}_2\le c'dt$ and square.
+$\norm{K_i}_2>c'{np}t$ and $\norm{K_i}_2\le c'{np}t$ and square.
 The resulting bound is
 \begin{align}
  \norm{U_{i\cdot}}_2^2\ind{\norm{U_{i\cdot}}_2>t}
- \le{}&\frac C{d^2}\norm{K_i}_2^2
-                         \ind{\norm{K_i}_2>c'dt}\nonumber\\
- &+\frac C{d^2}\norm{(E_0T)_{i\cdot}}_2^2
- +\frac{C\xi_i^2}{d^2}\norm{\Gamma_iT}_F^2
- +\frac{Ct^2}{d^3}D_i\ind{D_i\ge c_*d^3}.
+ \le{}&\frac C{{(np)}^2}\norm{K_i}_2^2
+                         \ind{\norm{K_i}_2>c'{np}t}\nonumber\\
+ &+\frac C{{(np)}^2}\norm{(E_0E_U)_{i\cdot}}_2^2
+ +\frac{C\xi_i^2}{{(np)}^2}\norm{\Gamma_iE_U}_F^2
+ +\frac{Ct^2}{{(np)}^3}D_i\ind{D_i\ge c_*{(np)}^3}.
  \label{restore:tail-pointwise-recursion}
 \end{align}
-Summing, using $\norm{E_0}_{\op}^2\le Cd$ and
+Summing, using $\norm{E_0}_{\op}^2\le C{np}$ and
 \eqref{restore:tail-summable-weight}, and multiplying by
 $\ind{\mathcal E_r}$ gives
 \begin{align}
- H_R(U)\ind{\mathcal E_r}
- \le{}&\frac C{d^2}\sum_i\norm{K_i}_2^2
-                         \ind{\norm{K_i}_2>c'dt}
- +\frac CdH_R(U)\ind{\mathcal E_r}\nonumber\\
- &+\frac{Ct^2}{d^3}\sum_iD_i\ind{D_i\ge c_*d^3}.
+ \mathcal T_R(U)\ind{\mathcal E_r}
+ \le{}&\frac C{{(np)}^2}\sum_i\norm{K_i}_2^2
+                         \ind{\norm{K_i}_2>c'{np}t}
+ +\frac C{np}\mathcal T_R(U)\ind{\mathcal E_r}\nonumber\\
+ &+\frac{Ct^2}{{(np)}^3}\sum_iD_i\ind{D_i\ge c_*{(np)}^3}.
  \label{restore:tail-energy-recursion}
 \end{align}
 Both energy terms use the same threshold $R$.
@@ -247,38 +247,38 @@ Conditional on $A_{JJ}$, \eqref{restore:tail-innovation} is a sum
 of independent centered vectors.  In each coordinate its summands
 are bounded by $t$, and its total variance is at most
 \[
- Cp^*\norm{W^{(-i)}f_t(U^{(-i)})}_F^2\le Cd/n.
+ Cp\norm{W^{(-i)}f_t(U^{(-i)})}_F^2\le Cp.
 \]
 These bounds hold for every training graph, without conditioning on
 $\mathcal E_r$.  Bennett's inequality in the fixed $K$ coordinates,
 followed by integration of the squared-norm tail, gives
 \begin{equation}
  \E\!\left[\norm{K_i}_2^2
-                        \ind{\norm{K_i}_2>c'dt}\right]
- \le Cd^2t^2e^{-c_1d\log R}.
+                        \ind{\norm{K_i}_2>c'{np}t}\right]
+ \le C{(np)}^2t^2e^{-c_1{np}\log R}.
  \label{restore:tail-innovation-moment}
 \end{equation}
-To see the exponent, set $v=Cd/n$ and
+To see the exponent, set $v=Cp$ and
 $h(u)=(1+u)\log(1+u)-u$.
-At $x=c'dt$, the Bennett exponent
-$(v/t^2)h(tx/v)$ is at least $c_1d\log R$, since
+At $x=c'{np}t$, the Bennett exponent
+$(v/t^2)h(tx/v)$ is at least $c_1{np}\log R$, since
 $tx/v$ is proportional to $R^2$.
 Beyond that point the derivative of the exponent is at least
 $c\log R/t$, which gives the same bound upon tail integration.
 
-Every $D_i$ is a Bernoulli sum with mean at most $Cd$.
+Every $D_i$ is a Bernoulli sum with mean at most $C{np}$.
 Its Chernoff bound and tail integration yield
 \begin{equation}
- \E[D_i\ind{D_i\ge c_*d^3}]
- \le Cd^3e^{-c_2d^3\log d}.
+ \E[D_i\ind{D_i\ge c_*{(np)}^3}]
+ \le C{(np)}^3e^{-c_2{(np)}^3\log {np}}.
  \label{restore:tail-large-degree-moment}
 \end{equation}
-The left side is zero if $c_*d^3>n$.
+The left side is zero if $c_*{(np)}^3>n$.
 Taking expectations in \eqref{restore:tail-energy-recursion},
-absorbing $C/d$, and using $nt^2=R^2$ now gives
+absorbing $C/(np)$, and using $nt^2=R^2$ now gives
 \[
- \E[H_R(U)\ind{\mathcal E_r}]
- \le CR^2\{e^{-c_1d\log R}+e^{-c_2d^3\log d}\}.
+ \E[\mathcal T_R(U)\ind{\mathcal E_r}]
+ \le CR^2\{e^{-c_1{np}\log R}+e^{-c_2{(np)}^3\log {np}}\}.
 \]
 For each fixed $R$, the second exponential is eventually bounded by
 the first after reducing $c_1$.  This proves
@@ -296,41 +296,41 @@ are unconditional before restriction to that event.
 On a training graph with the preceding cap, put
 $H=G^{-1/2}UU^\top G^{1/2}$.
 Let $f$ be any training-measurable vector satisfying
-$\norm f_\infty\le F_0$, and let $e=(H-I)f$.
-For every prescribed fixed $H_0>0$, there is a fixed $M<\infty$
+$\norm f_\infty\le C_f$, and let $\varepsilon=(H-I)f$.
+For every prescribed fixed $s_0>0$, there is a fixed $L_\varepsilon<\infty$
 such that, for any independent tested Bernoulli row with probabilities
-$p_j\le Cd/n$,
+$p_j\le Cp$,
 \begin{equation}
  \E\!\left[\ind{\mathcal E_r}
-                 \sum_{j:|e_j|>M}p_j\right]
- \le C_{H_0}e^{-H_0d}.
+                 \sum_{j:|\varepsilon_j|>L_\varepsilon}p_j\right]
+ \le C_{s_0}e^{-s_0{np}}.
  \label{restore:tail-hit-mass}
 \end{equation}
 Here $\mathcal E_r$ is the training-measurable geometry event.
 \end{corollary}
 
 \begin{proof}
-On that event, $G_j\ge a_-d$ and $\sum_jG_j\le C_Gnd$.
-Consequently
+On that event, $G_j\ge c{np}$ and $\sum_jG_j\le C{n^2p}$.
+For a fixed constant $C$ determined by these two bounds,
 \[
- |e_j|
- \le F_0+\frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
+ |\varepsilon_j|
+ \le C_f+\frac{\norm{U_{j\cdot}}_2}{\sqrt{G_j}}
                   \norm{U^\top G^{1/2}f}_2
- \le F_0+F_0\sqrt{C_G/a_-}\sqrt n\norm{U_{j\cdot}}_2.
+ \le C_f+CC_f\sqrt n\norm{U_{j\cdot}}_2.
 \]
-For $M_R=F_0+F_0\sqrt{C_G/a_-}R$, the event
-$|e_j|>M_R$ implies $\sqrt n\norm{U_{j\cdot}}_2>R$.
+For $L_\varepsilon=C_f+CC_fR$, the event
+$|\varepsilon_j|>L_\varepsilon$ implies $\sqrt n\norm{U_{j\cdot}}_2>R$.
 Thus \cref{restore:tail-energy-lemma} gives
 \begin{equation}
  \E\!\left[\ind{\mathcal E_r}
-                    \sum_j\ind{|e_j|>M_R}\right]
- \le\frac n{R^2}\E[H_R(U)\ind{\mathcal E_r}]
- \le Cne^{-cd\log R}.
+                    \sum_j\ind{|\varepsilon_j|>L_\varepsilon}\right]
+ \le\frac n{R^2}\E[\mathcal T_R(U)\ind{\mathcal E_r}]
+ \le Cne^{-c{np}\log R}.
  \label{restore:tail-coefficient-count}
 \end{equation}
-Multiplication by $Cd/n$ bounds the expected hit mass by
-$Cd e^{-cd\log R}$.
-Choose a fixed $R$ with $c\log R>H_0+1$ and absorb the factor $d$.
+Multiplication by $Cp$ bounds the expected hit mass by
+$C{np} e^{-c{np}\log R}$.
+Choose a fixed $R$ with $c\log R>s_0+1$ and absorb the factor ${np}$.
 Independence is required only to interpret the conditional probability
 that the tested row hits the training exceptional set; no independence
 between the training geometry event and its eigenvectors is asserted.
@@ -338,20 +338,20 @@ between the training geometry event and its eigenvectors is asserted.
 
 \begin{corollary}[Average exceptional target-row mass]
 \label{restore:tail-target-corollary}
-For every fixed degree cutoff $L$ and every fixed $H_0>0$, there is
+For every fixed degree cutoff $L_D$ and every fixed $s_0>0$, there is
 a fixed $L_0$ such that
 \begin{equation}
  \frac1n\sum_i\PP\!\left\{
-    \sqrt{G_i}\norm{U_{i\cdot}}_2>L_0\sqrt{d/n},\quad
-    D_i\le Ld,\quad \mathcal E_r\right\}
- \le C_{H_0,L}e^{-H_0d}.
+    \sqrt{G_i}\norm{U_{i\cdot}}_2>L_0\sqrt{p},\quad
+    D_i\le L_D{np},\quad \mathcal E_r\right\}
+ \le C_{s_0,L_D}e^{-s_0{np}}.
  \label{restore:tail-target-mass}
 \end{equation}
 \end{corollary}
 
 \begin{proof}
-On the displayed event, $G_i\le C_Ld$.
-Choose $L_0=R\sqrt{C_L}$.
+On the displayed event, $G_i\le C_{L_D}{np}$.
+Choose $L_0=R\sqrt{C_{L_D}}$.
 The target-row exception then implies
 $\sqrt n\norm{U_{i\cdot}}_2>R$.
 Apply \eqref{restore:tail-energy} and divide its corresponding
